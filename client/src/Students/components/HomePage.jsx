@@ -5,28 +5,49 @@ import App from './../../App';
 import img1 from '../../assets/img1.jpeg';
 import img2 from '../../assets/img2.jpeg';
 import img3 from '../../assets/img3.jpg';
-import img4 from '../../assets/img4.jpg'
+import img4 from '../../assets/img4.jpg';
+import studentsImg from '../assets/studentsImg.png';
+
 
 function HomePage() {
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Hero Section */}
-            <section className="container mx-auto pt-36 pb-16 py-16 text-center bg-gradient-to-b from-blue-50 to-gray-50 animate-fade-in">
-                <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-800 tracking-tight">Welcome to Your Learning Journey</h2>
-                <p className="text-lg md:text-xl mb-8 text-gray-600 max-w-2xl mx-auto">Access a wide range of courses, track your progress, and earn certifications.</p>
-                <div className="flex justify-center gap-4">
-                    <Link
-                        to="/register"
-                        className="bg-blue-500 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 transform hover:scale-105"
-                    >
-                        Get Started
-                    </Link>
-                    <Link
-                        to="/courses"
-                        className="bg-white text-blue-500 font-semibold py-3 px-8 rounded-lg shadow-lg border border-blue-500 hover:bg-blue-50 transition duration-300 transform hover:scale-105"
-                    >
-                        Explore Courses
-                    </Link>
+
+            <section className="container mx-auto pt-36 pb-16 py-16 bg-gradient-to-b from-blue-50 to-gray-50 animate-fade-in">
+                <div className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto px-4">
+
+                    {/* Left Side: Image */}
+                    <div className="w-full md:w-1/2 mb-8 md:mb-0 flex justify-start -ml-6 md:-ml-14 mt-6 md:mt-14">
+                        <img
+                            src={studentsImg}
+                            alt="Group of students learning"
+                            className="w-full h-auto rounded-lg shadow-lg object-cover max-h-[400px]"
+                        />
+                    </div>
+
+                    {/* Right Side: Content */}
+                    <div className="w-full md:w-1/2 text-center md:text-left">
+                        <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-800 tracking-tight">
+                            Welcome to Your Learning Journey
+                        </h2>
+                        <p className="text-lg md:text-xl mb-8 text-gray-600 max-w-lg">
+                            Access a wide range of courses, track your progress, and earn certifications.
+                        </p>
+                        <div className="flex justify-center md:justify-start gap-4">
+                            <Link
+                                to="/register"
+                                className="bg-blue-500 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 transform hover:scale-105"
+                            >
+                                Get Started
+                            </Link>
+                            <Link
+                                to="/courses"
+                                className="bg-white text-blue-500 font-semibold py-3 px-8 rounded-lg shadow-lg border border-blue-500 hover:bg-blue-50 transition duration-300 transform hover:scale-105"
+                            >
+                                Explore Courses
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -36,22 +57,22 @@ function HomePage() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {[
                         {
-                            icon: <FaBook className="text-4xl text-blue-600 mx-auto mb-4" />,
+                            icon: <FaBook className="text-4xl text-gray-600 mx-auto mb-4" />,
                             title: "Online & Offline Learning",
                             desc: "Learn anytime, anywhere with flexible access to courses.",
                         },
                         {
-                            icon: <FaVideo className="text-4xl text-blue-600 mx-auto mb-4" />,
+                            icon: <FaVideo className="text-4xl text-gray-600 mx-auto mb-4" />,
                             title: "Live & Recorded Classes",
                             desc: "Join live sessions or watch recorded lectures at your convenience.",
                         },
                         {
-                            icon: <FaChartLine className="text-4xl text-blue-600 mx-auto mb-4" />,
+                            icon: <FaChartLine className="text-4xl text-gray-600 mx-auto mb-4" />,
                             title: "Progress Tracking",
                             desc: "Monitor your learning progress with detailed dashboards.",
                         },
                         {
-                            icon: <FaCertificate className="text-4xl text-blue-600 mx-auto mb-4" />,
+                            icon: <FaCertificate className="text-4xl text-gray-600 mx-auto mb-4" />,
                             title: "Earn Certifications",
                             desc: "Get certified upon course completion with verifiable certificates.",
                         },
@@ -68,7 +89,6 @@ function HomePage() {
                 </div>
             </section>
 
-            {/* Popular Courses Section */}
             <section className="container mx-auto py-16 bg-gray-100">
                 <h3 className="text-3xl font-semibold text-center mb-12 text-gray-800">Explore Popular Courses</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -76,19 +96,19 @@ function HomePage() {
                         {
                             title: "Python for Data Science",
                             desc: "Master Python programming and data analysis with hands-on projects.",
-                            img: "https://via.placeholder.com/300x200?text=Python+Course",
+                            img: img1,
                             category: "Data Science",
                         },
                         {
                             title: "Web Development Bootcamp",
                             desc: "Learn full-stack web development with React, Node.js, and more.",
-                            img: "https://via.placeholder.com/300x200?text=Web+Dev+Course",
+                            img: img2,
                             category: "Web Development",
                         },
                         {
                             title: "Digital Marketing Essentials",
                             desc: "Boost your career with SEO, social media, and advertising skills.",
-                            img: "https://via.placeholder.com/300x200?text=Marketing+Course",
+                            img: img3,
                             category: "Marketing",
                         },
                     ].map((course, index) => (
@@ -97,8 +117,14 @@ function HomePage() {
                             className="bg-white rounded-xl shadow-sm overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-2"
                         >
                             <div className="relative">
-                                <img src={course.img} alt={course.title} className="w-full h-48 object-cover transform hover:scale-105 transition duration-300" />
-                                <span className="absolute top-4 left-4 bg-blue-500 text-white text-sm font-semibold px-3 py-1 rounded-full">{course.category}</span>
+                                <img
+                                    src={course.img}
+                                    alt={course.title}
+                                    className="w-full h-48 object-cover transform hover:scale-105 transition duration-300"
+                                />
+                                <span className="absolute top-4 left-4 bg-blue-500 text-white text-sm font-semibold px-3 py-1 rounded-full">
+                                    {course.category}
+                                </span>
                             </div>
                             <div className="p-6">
                                 <h4 className="text-xl font-medium mb-2 text-gray-700">{course.title}</h4>
@@ -128,9 +154,9 @@ function HomePage() {
                 <h3 className="text-3xl font-semibold mb-12 text-gray-800">Our Impact</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {[
-                        { value: "10,000+", label: "Active Students" },
-                        { value: "500+", label: "Courses Available" },
-                        { value: "8,000+", label: "Certificates Issued" },
+                        { value: "1,000+", label: "Active Students" },
+                        { value: "100+", label: "Courses Available" },
+                        { value: "500+", label: "Certificates Issued" },
                     ].map((stat, index) => (
                         <div
                             key={index}
@@ -143,7 +169,7 @@ function HomePage() {
                 </div>
             </section>
 
-            {/* Enhanced Testimonials Section (Carousel-like) */}
+            {/* Enhanced Testimonials Section */}
             <section className="container mx-auto py-16 bg-gradient-to-r from-blue-50 to-gray-100">
                 <h3 className="text-3xl font-semibold text-center mb-12 text-gray-800">What Our Learners Say</h3>
                 <div className="relative overflow-hidden">
@@ -215,22 +241,22 @@ function HomePage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {[
                         {
-                            name: "Dr. Lisa Brown",
-                            role: "Data Science Expert",
-                            desc: "PhD in Computer Science with 10+ years of teaching experience.",
-                            img: "https://via.placeholder.com/150?text=Lisa",
+                            name: "AAAAAAAAAA",
+                            role: "REact Native Developer",
+                            desc: "MCA in Computer Science with years of teaching experience.",
+                            img: "",
                         },
                         {
-                            name: "James Carter",
+                            name: "AAAAAA",
                             role: "Web Development Guru",
-                            desc: "Built 50+ web applications and mentors aspiring developers.",
-                            img: "https://via.placeholder.com/150?text=James",
+                            desc: "Built web applications and mentors aspiring developers.",
+                            img: "",
                         },
                         {
-                            name: "Anita Patel",
-                            role: "Marketing Strategist",
-                            desc: "Led campaigns for Fortune 500 companies and shares practical insights.",
-                            img: "https://via.placeholder.com/150?text=Anita",
+                            name: "AAAAAAAAA",
+                            role: "Python Developer",
+                            desc: ".",
+                            img: "",
                         },
                     ].map((instructor, index) => (
                         <div
