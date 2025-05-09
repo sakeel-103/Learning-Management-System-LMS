@@ -436,9 +436,6 @@ function HomePage() {
                     </Link>
                 </div>
             </section>
-
-            {/* Footer Section */}
-            <UserFooter />
         </div>
     )
 }
