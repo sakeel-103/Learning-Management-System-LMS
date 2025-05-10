@@ -6,29 +6,37 @@ import img1 from '../../assets/img1.jpeg';
 import img2 from '../../assets/img2.jpeg';
 import img3 from '../../assets/img3.jpg';
 import img4 from '../../assets/img4.jpg';
-import studentsImg from '../assets/studentsImg.png';
-
+import homeImage from '../assets/homeImage.jpeg';
+import user2 from '../assets/user2.jpeg';
+import user3 from '../assets/user3.webp';
+import user1 from '../assets/user1.jpeg';
+import { Monitor, User, GraduationCap, BadgeCheck } from "lucide-react";
+import CountUp from "react-countup";
+import { useState } from "react";
 
 function HomePage() {
     return (
-        <div className="min-h-screen bg-gray-50">
+        <>
 
-            <section className="container mx-auto pt-36 pb-16 py-16 bg-gradient-to-b from-blue-50 to-gray-50 animate-fade-in">
+            {/* Header Section */}
+            <section className="container mx-auto pt-36 pb-16 py-16 bg-gradient-to-b from-blue-500 to-gray-50 animate-fade-in">
                 <div className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto px-4">
 
-                    {/* Left Side: Image */}
                     <div className="w-full md:w-1/2 mb-8 md:mb-0 flex justify-start -ml-6 md:-ml-14 mt-6 md:mt-14">
                         <img
-                            src={studentsImg}
+                            src={homeImage}
                             alt="Group of students learning"
-                            className="w-full h-auto rounded-lg shadow-lg object-cover max-h-[400px]"
+                            className="w-full h-auto rounded-lg shadow-lg object-cover max-h-[400px] transition-transform duration-300 hover:scale-105"
                         />
                     </div>
 
-                    {/* Right Side: Content */}
-                    <div className="w-full md:w-1/2 text-center md:text-left">
+                    <div className="w-full md:w-1/2 text-center md:text-left md:ml-14">
                         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-800 tracking-tight">
-                            Welcome to Your Learning Journey
+                            <span className="inline-block animate-text-reveal[animation-delay:0ms]">Welcom</span>{' '}
+                            <span className="inline-block animate-text-reveal [animation-delay:200ms]">to</span>{' '}
+                            <span className="inline-block animate-text-reveal [animation-delay:400ms]">Your</span>{' '}
+                            <span className="inline-block animate-text-reveal [animation-delay:600ms]">Learning</span>{' '}
+                            <span className="inline-block animate-text-reveal[animation-delay:800ms]">Journey</span>
                         </h2>
                         <p className="text-lg md:text-xl mb-8 text-gray-600 max-w-lg">
                             Access a wide range of courses, track your progress, and earn certifications.
@@ -57,22 +65,22 @@ function HomePage() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {[
                         {
-                            icon: <FaBook className="text-4xl text-gray-600 mx-auto mb-4" />,
+                            icon: <FaBook className="text-4xl text-gray-800 mx-auto mb-4" />,
                             title: "Online & Offline Learning",
                             desc: "Learn anytime, anywhere with flexible access to courses.",
                         },
                         {
-                            icon: <FaVideo className="text-4xl text-gray-600 mx-auto mb-4" />,
+                            icon: <FaVideo className="text-4xl text-gray-800 mx-auto mb-4" />,
                             title: "Live & Recorded Classes",
                             desc: "Join live sessions or watch recorded lectures at your convenience.",
                         },
                         {
-                            icon: <FaChartLine className="text-4xl text-gray-600 mx-auto mb-4" />,
+                            icon: <FaChartLine className="text-4xl text-gray-800 mx-auto mb-4" />,
                             title: "Progress Tracking",
                             desc: "Monitor your learning progress with detailed dashboards.",
                         },
                         {
-                            icon: <FaCertificate className="text-4xl text-gray-600 mx-auto mb-4" />,
+                            icon: <FaCertificate className="text-4xl text-gray-800 mx-auto mb-4" />,
                             title: "Earn Certifications",
                             desc: "Get certified upon course completion with verifiable certificates.",
                         },
@@ -89,7 +97,7 @@ function HomePage() {
                 </div>
             </section>
 
-            <section className="container mx-auto py-16 bg-gray-100">
+            <section className="container mx-auto py-16 bg-white">
                 <h3 className="text-3xl font-semibold text-center mb-12 text-gray-800">Explore Popular Courses</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {[
@@ -151,27 +159,67 @@ function HomePage() {
 
             {/* Statistics Section */}
             <section className="container mx-auto py-16 text-center">
-                <h3 className="text-3xl font-semibold mb-12 text-gray-800">Our Impact</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <h2 className="text-3xl font-bold mb-12 text-gray-800">Our Impact</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {[
-                        { value: "1,000+", label: "Active Students" },
-                        { value: "100+", label: "Courses Available" },
-                        { value: "500+", label: "Certificates Issued" },
-                    ].map((stat, index) => (
-                        <div
-                            key={index}
-                            className="p-6 bg-gradient-to-br from-blue-50 to-gray-100 rounded-full shadow-sm transform transition-all duration-300 hover:shadow-lg"
-                        >
-                            <h4 className="text-4xl font-bold text-blue-600 mb-2">{stat.value}</h4>
-                            <p className="text-gray-600 text-lg">{stat.label}</p>
-                        </div>
-                    ))}
+                        {
+                            icon: <Monitor className="text-yellow-500 w-10 h-10" />,
+                            value: 1000,
+                            suffix: "K",
+                            label: "Online Courses",
+                            bg: "bg-yellow-100",
+                        },
+                        {
+                            icon: <User className="text-blue-900 w-10 h-10" />,
+                            value: 200,
+                            suffix: "+",
+                            label: "Expert Tutors",
+                            bg: "bg-gray-200",
+                        },
+                        {
+                            icon: <GraduationCap className="text-purple-600 w-10 h-10" />,
+                            value: 5000,
+                            suffix: "K+",
+                            label: "Online Students",
+                            bg: "bg-purple-100",
+                        },
+                        {
+                            icon: <BadgeCheck className="text-cyan-600 w-10 h-10" />,
+                            value: 1000,
+                            suffix: "K+",
+                            label: "Certified Courses",
+                            bg: "bg-cyan-100",
+                        },
+                    ].map((stat, index) => {
+                        const [startCount, setStartCount] = useState(false);
+                        return (
+                            <div
+                                key={index}
+                                onMouseEnter={() => setStartCount(true)}
+                                onMouseLeave={() => setStartCount(false)}
+                                className={`${stat.bg} flex items-center gap-4 p-6 rounded-lg shadow-sm`}
+                            >
+                                {stat.icon}
+                                <div className="text-left">
+                                    <h4 className="text-2xl font-bold text-black">
+                                        {startCount ? (
+                                            <CountUp end={stat.value} duration={2} separator="," suffix={stat.suffix} />
+                                        ) : (
+                                            `${stat.value}${stat.suffix}`
+                                        )}
+                                    </h4>
+                                    <p className="text-gray-600 text-sm">{stat.label}</p>
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
             </section>
 
+
             {/* Enhanced Testimonials Section */}
-            <section className="container mx-auto py-16 bg-gradient-to-r from-blue-50 to-gray-100">
-                <h3 className="text-3xl font-semibold text-center mb-12 text-gray-800">What Our Learners Say</h3>
+            <section className="container mx-auto py-16 bg-gradient-to-r from-blue-50 to-gray-100 mt-24">
+                <h3 className="text-3xl font-bold text-center mb-12 text-gray-800">What Our Learners Say</h3>
                 <div className="relative overflow-hidden">
                     <div className="flex space-x-6 animate-slide">
                         {[
@@ -241,22 +289,22 @@ function HomePage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {[
                         {
-                            name: "AAAAAAAAAA",
-                            role: "REact Native Developer",
+                            name: "Rishav Paul",
+                            role: "React Native Developer",
                             desc: "MCA in Computer Science with years of teaching experience.",
-                            img: "",
+                            img: user2,
                         },
                         {
-                            name: "AAAAAA",
-                            role: "Web Development Guru",
+                            name: "Subhajit Karmakr",
+                            role: "Senior Software Engineer",
                             desc: "Built web applications and mentors aspiring developers.",
-                            img: "",
+                            img: user3,
                         },
                         {
-                            name: "AAAAAAAAA",
+                            name: "Aditya Jamwai",
                             role: "Python Developer",
-                            desc: ".",
-                            img: "",
+                            desc: "BTech in Computer Science with a passion for developing innovative solutions.",
+                            img: user1,
                         },
                     ].map((instructor, index) => (
                         <div
@@ -267,8 +315,8 @@ function HomePage() {
                                 <img src={instructor.img} alt={instructor.name} className="w-full h-48 object-cover" />
                                 <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-40 transition duration-300 flex items-center justify-center opacity-0 hover:opacity-100">
                                     <div className="flex gap-4">
-                                        <FaTwitter className="text-white text-2xl hover:text-blue-400 cursor-pointer" />
-                                        <FaLinkedin className="text-white text-2xl hover:text-blue-600 cursor-pointer" />
+                                        <a href="https://www.twitter.com/example" target="_blank" rel="noopener noreferrer"><FaTwitter className="text-white text-2xl hover:text-blue-400 cursor-pointer" /></a>
+                                        <a href="https://www.linkedin.com/in/example" target="_blank" rel="noopener noreferrer"><FaLinkedin className="text-white text-2xl hover:text-blue-600 cursor-pointer" /></a>
                                     </div>
                                 </div>
                             </div>
@@ -283,7 +331,7 @@ function HomePage() {
             </section>
 
             {/* FAQ Section (Collapsible) */}
-            <section className="container mx-auto py-16">
+            <section className="container mx-auto py-16 bg-blue-200 mb-12">
                 <h3 className="text-3xl font-semibold text-center mb-12 text-gray-800">Frequently Asked Questions</h3>
                 <div className="max-w-3xl mx-auto space-y-4">
                     {[
@@ -311,12 +359,12 @@ function HomePage() {
                             <details className="group">
                                 <summary className="flex items-center justify-between cursor-pointer">
                                     <h4 className="text-lg font-medium text-gray-700 flex items-center">
-                                        <FaQuestionCircle className="text-blue-600 mr-2" />
+                                        <FaQuestionCircle className="text-gray-800 mr-2" />
                                         {faq.question}
                                     </h4>
-                                    <FaChevronDown className="text-blue-600 group-open:rotate-180 transition-transform" />
+                                    <FaChevronDown className="text-gray-600 group-open:rotate-180 transition-transform" />
                                 </summary>
-                                <p className="text-gray-600 mt-4">{faq.answer}</p>
+                                <p className="text-gray-800 mt-4">{faq.answer}</p>
                             </details>
                         </div>
                     ))}
@@ -324,7 +372,7 @@ function HomePage() {
             </section>
 
             {/* Newsletter Subscription Section */}
-            <section className="container mx-auto py-16 bg-gradient-to-r from-blue-500 to-purple-900 text-white text-center relative overflow-hidden animate-fade-in transition-all duration-500 hover:scale-[1.01] hover:shadow-[0_0_30px_rgba(59,130,246,0.7)] border-4 border-gradient-to-r from-blue-400 to-purple-500 box-border">
+            <section className="container mx-auto py-16 bg-gradient-to-r from-blue-200 to-purple-100 text-white text-center relative overflow-hidden animate-fade-in transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_30px_rgba(59,130,246,0.7)] border-4 border-gradient-to-r from-blue-400 to-purple-500 box-border mb-12">
                 <div className="absolute inset-0 bg-opacity-20 bg-[url('https://via.placeholder.com/1200x400?text=Newsletter+Pattern')] opacity-30"></div>
                 <div className="relative z-10">
                     <h3 className="text-3xl font-semibold mb-4 tracking-tight">Stay Updated with Our Newsletter</h3>
@@ -349,7 +397,7 @@ function HomePage() {
             </section>
 
             {/* Mini Contact Form Section */}
-            <section className="container mx-auto py-16 bg-gray-50 relative overflow-hidden animate-fade-in">
+            <section className="container mx-auto py-16 bg-gray-300 relative overflow-hidden animate-fade-in w-full">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/subtle-white-feathers.png')] opacity-10 bg-repeat"></div>
                 <h3 className="text-4xl font-extrabold text-center mb-12 text-gray-800 tracking-tight text-shadow-sm">Get in Touch</h3>
                 <div className="max-w-2xl mx-auto bg-white p-10 rounded-2xl shadow-xl border-2 border-gradient-to-r from-blue-300 to-indigo-400 bg-gradient-to-br from-blue-50 to-gray-100 transform transition-all duration-500 hover:shadow-2xl hover:scale-[1.02]">
@@ -391,7 +439,7 @@ function HomePage() {
                                 className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400/50 bg-white/80 text-gray-700 placeholder-gray-400 placeholder-opacity-75 transition-all duration-300 hover:border-blue-500 hover:bg-blue-50/20"
                             ></textarea>
                         </div>
-                        <button className="w-full bg-gradient-to-r from-gray-500 to-indigo-600 text-white font-semibold py-4 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 transition duration-300 transform hover:scale-105  flex items-center justify-center relative overflow-hidden">
+                        <button className="w-full bg-gradient-to-r from-gray-500 to-indigo-600 text-white font-semibold py-4 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 transition duration-300 transform hover:scale-105 flex items-center justify-center relative overflow-hidden">
                             <span className="relative z-10">Send Message</span>
                             <FaEnvelope className="ml-2 relative z-10" />
                             <span className="absolute inset-0 bg-white opacity-0 hover:opacity-20 transition-opacity duration-300"></span>
@@ -402,8 +450,9 @@ function HomePage() {
             </section>
 
             {/* Quick Links Section */}
-            <section className="container mx-auto py-16 bg-gray-100 text-center">
+            <section className="container mx-auto py-16 bg-white text-center">
                 <h3 className="text-3xl font-semibold mb-12 text-gray-800">Quick Links</h3>
+                <p className='text-lg mb-6 max-w-xl mx-auto'>Access key resources and pages to enhance your learning experience.</p>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {[
                         { title: "Browse Courses", path: "/courses" },
@@ -436,7 +485,7 @@ function HomePage() {
                     </Link>
                 </div>
             </section>
-        </div>
+        </>
     )
 }
 

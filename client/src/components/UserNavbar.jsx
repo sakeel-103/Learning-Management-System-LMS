@@ -56,14 +56,13 @@ function UserNavbar() {
         <nav className="fixed top-0 left-0 right-0 bg-white text-gray-800 shadow-lg z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
+
                     {/* Brand/Logo */}
                     <div className="flex items-center">
                         <Link to="/" className="text-2xl font-extrabold text-gray-600 tracking-tight">
                             TrackAdemy
                         </Link>
                     </div>
-
-                    {/* Navigation Links and Search Bar */}
                     <div className="flex items-center">
                         {/* Desktop Search Bar */}
                         <div className="hidden md:flex items-center mr-6">
@@ -83,7 +82,13 @@ function UserNavbar() {
                         <div className="hidden md:block">
                             <div className="ml-10 flex items-baseline space-x-4">
                                 <Link
-                                    to="/courses"
+                                    to="/"
+                                    className="text-gray-600 hover:text-blue-400 px-4 py-2 text-base font-semibold transition-colors duration-200"
+                                >
+                                    Home
+                                </Link>
+                                <Link
+                                    to="/coursePage"
                                     className="text-gray-600 hover:text-blue-400 px-4 py-2 text-base font-semibold transition-colors duration-200"
                                 >
                                     Courses
@@ -98,7 +103,7 @@ function UserNavbar() {
                                     to="/my-learning"
                                     className="text-gray-600 hover:text-blue-400 px-4 py-2 text-base font-semibold transition-colors duration-200"
                                 >
-                                    My Learning
+                                    Learning
                                 </Link>
                                 <Link
                                     to="/certificates"
@@ -178,12 +183,6 @@ function UserNavbar() {
                                                 className="text-gray-600 hover:text-blue-400 hover:underline px-4 py-2 text-base font-semibold transition-colors duration-200"
                                             >
                                                 Login
-                                            </Link>
-                                            <Link
-                                                to="/register"
-                                                className="text-gray-600 hover:text-blue-400 hover:underline px-4 py-2 text-base font-semibold transition-colors duration-200"
-                                            >
-                                                Register
                                             </Link>
                                         </>
                                     )}
