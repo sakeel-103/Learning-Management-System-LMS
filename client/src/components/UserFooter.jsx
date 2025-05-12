@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
-import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa'
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa'
 
 function UserFooter() {
     return (
         <footer className="bg-gray-700 text-white py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
                 {/* Navigation Links */}
                 <div className="flex justify-center space-x-8 mb-6">
                     <Link to="/about" className="text-white text-base font-bold hover:text-blue-600 hover:underline">
@@ -21,7 +22,15 @@ function UserFooter() {
                 {/* Social Media Icons (Placeholder in case the image includes them) */}
                 <div className="flex justify-center space-x-6 mb-6">
                     <a
-                        href="https://facebook.com"
+                        href="https://www.LinkedIn.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white hover:text-blue-500 transform transition-transform duration-300 hover:scale-110 animate-blink"
+                    >
+                        <FaLinkedin className="text-2xl" />
+                    </a>
+                    <a
+                        href="https://www.facebook.com"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-white hover:text-blue-500 transform transition-transform duration-300 hover:scale-110 animate-blink"
@@ -29,7 +38,7 @@ function UserFooter() {
                         <FaFacebook className="text-2xl" />
                     </a>
                     <a
-                        href="https://twitter.com"
+                        href="https://www.twitter.com"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-white hover:text-blue-500 transform transition-transform duration-300 hover:scale-110 animate-blink"
@@ -37,7 +46,7 @@ function UserFooter() {
                         <FaTwitter className="text-2xl" />
                     </a>
                     <a
-                        href="https://instagram.com"
+                        href="https://www.instagram.com"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-white hover:text-blue-500 transform transition-transform duration-300 hover:scale-110 animate-blink"
@@ -48,7 +57,7 @@ function UserFooter() {
 
 
                 {/* Copyright */}
-                <p className="text-white">© 2025 TrackAdemy. All rights reserved.</p>
+                <p className="text-white">© 2025 TrackAdemy. | Design Esthetics | All rights reserved.</p>
             </div>
         </footer>
     )
