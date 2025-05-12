@@ -12,6 +12,8 @@ import AdminDashboard from './Admin/components/AdminDashboard'
 import InstructorDashboard from './Instructors/components/InstructorDashboard'
 import StudentDashboard from './Students/components/StudentDashboard'
 import './index.css'
+import CoursePage from './Students/pages/CoursePage';
+
 
 function App() {
   return (
@@ -25,10 +27,12 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
+
         {/* Role-based Protected Routes */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
         <Route path="/student/dashboard" element={<StudentDashboard />} />
+        <Route path="/courses" element={<CoursePage />} />
       </Routes>
       <UserFooter />
       <ToastContainer

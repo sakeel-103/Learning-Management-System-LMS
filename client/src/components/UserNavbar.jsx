@@ -9,7 +9,7 @@ function UserNavbar() {
     const navigate = useNavigate();
     const dropdownRef = useRef(null);
 
-    // Authentication state using localStorage
+    // /* Authentication state and storing in local storage */
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     const username = localStorage.getItem("username");
 
@@ -57,7 +57,7 @@ function UserNavbar() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
 
-                    {/* Brand/Logo */}
+                    {/* BrandLogo */}
                     <div className="flex items-center">
                         <Link to="/" className="text-2xl font-extrabold text-gray-600 tracking-tight">
                             TrackAdemy
@@ -88,7 +88,7 @@ function UserNavbar() {
                                     Home
                                 </Link>
                                 <Link
-                                    to="/coursePage"
+                                    to="/courses"
                                     className="text-gray-600 hover:text-blue-400 px-4 py-2 text-base font-semibold transition-colors duration-200"
                                 >
                                     Courses
@@ -158,7 +158,7 @@ function UserNavbar() {
                                                         className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-800"
                                                         onClick={() => setShowDropdown(false)}
                                                     >
-                                                        My Learning
+                                                        Learning
                                                     </Link>
                                                     <Link
                                                         to="/certificates"

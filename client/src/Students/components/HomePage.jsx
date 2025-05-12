@@ -6,7 +6,7 @@ import img1 from '../../assets/img1.jpeg';
 import img2 from '../../assets/img2.jpeg';
 import img3 from '../../assets/img3.jpg';
 import img4 from '../../assets/img4.jpg';
-import homeImage from '../assets/homeImage.jpeg';
+import HomeImage from '../assets/HomeImage.jpg';
 import user2 from '../assets/user2.jpeg';
 import user3 from '../assets/user3.webp';
 import user1 from '../assets/user1.jpeg';
@@ -24,7 +24,7 @@ function HomePage() {
 
                     <div className="w-full md:w-1/2 mb-8 md:mb-0 flex justify-start -ml-6 md:-ml-14 mt-6 md:mt-14">
                         <img
-                            src={homeImage}
+                            src={HomeImage}
                             alt="Group of students learning"
                             className="w-full h-auto rounded-lg shadow-lg object-cover max-h-[400px] transition-transform duration-300 hover:scale-105"
                         />
