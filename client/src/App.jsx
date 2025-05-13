@@ -13,6 +13,8 @@ import InstructorDashboard from './Instructors/components/InstructorDashboard'
 import StudentDashboard from './Students/components/StudentDashboard'
 import './index.css'
 import CoursePage from './Students/pages/CoursePage';
+// import AdminPanel from './Admin/components/AdminPanel';
+
 
 
 function App() {
