@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios'; // Uncomment when making actual API calls
 
 // Define API base URL - update with your actual backend URL when available
 const API_URL = 'http://localhost:8000/api/auth/';
@@ -7,8 +7,21 @@ const API_URL = 'http://localhost:8000/api/auth/';
 const register = async (userData) => {
   try {
     // For development/demo purposes, simulate a successful API call
-    // In production, uncomment the actual API call
-    // const response = await axios.post(API_URL + 'register', userData);
+    // In production, uncomment the code below
+    /*
+    // Format the data for the backend
+    const formattedData = {
+      name: `${userData.userFirstName} ${userData.userLastName}`,
+      email: userData.userEmail,
+      password: userData.userPassword,
+      role: userData.accountType,
+      profilePicture: userData.profileImage
+    };
+    const response = await axios.post(API_URL + 'register', formattedData);
+    */
+    
+    // Log the userData for debugging
+    console.log('Register with:', userData);
     
     // Simulated response for now
     const response = {
@@ -29,15 +42,25 @@ const login = async (credentials) => {
   try {
     // For development/demo purposes, simulate a successful API call
     // In production, uncomment the actual API call
-    // const response = await axios.post(API_URL + 'login', credentials);
+    /*
+    // Format the credentials to match backend expectations
+    const formattedCredentials = {
+      email: credentials.userEmail,
+      password: credentials.userPassword
+    };
+    const response = await axios.post(API_URL + 'login', formattedCredentials);
+    */
+    
+    // Log for debugging
+    console.log('Login attempt with:', credentials.userEmail);
     
     // Simulate API response based on email for testing different roles
     const user = {
       id: 1,
       name: 'Test User',
-      email: credentials.email,
-      role: credentials.email.includes('admin') ? 'Admin' : 
-            credentials.email.includes('instructor') ? 'Instructor' : 'Student',
+      email: credentials.userEmail,
+      role: credentials.userEmail.includes('admin') ? 'Admin' : 
+            credentials.userEmail.includes('instructor') ? 'Instructor' : 'Student',
     };
     
     const token = 'mock-jwt-token-' + Math.random().toString(36).substring(2);
@@ -78,11 +101,14 @@ const getCurrentUser = () => {
 };
 
 // Request password reset
-const forgotPassword = async (email) => {
+const forgotPassword = async (userEmail) => {
   try {
     // For development/demo purposes, simulate a successful API call
     // In production, uncomment the actual API call
-    // const response = await axios.post(API_URL + 'forgot-password', { email });
+    // const response = await axios.post(API_URL + 'forgot-password', { email: userEmail });
+    
+    // Log for debugging
+    console.log('Requesting password reset for:', userEmail);
     
     // Simulated response
     const response = {
@@ -99,11 +125,19 @@ const forgotPassword = async (email) => {
 };
 
 // Reset password with token
-const resetPassword = async (token, password) => {
+const resetPassword = async (resetToken, newPasswordValue) => {
   try {
     // For development/demo purposes, simulate a successful API call
     // In production, uncomment the actual API call
-    // const response = await axios.post(API_URL + 'reset-password', { token, password });
+    /*
+    const response = await axios.post(API_URL + 'reset-password', { 
+      token: resetToken, 
+      password: newPasswordValue 
+    });
+    */
+    
+    // Log for debugging
+    console.log('Resetting password with token:', resetToken, 'New password length:', newPasswordValue.length);
     
     // Simulated response
     const response = {
