@@ -13,7 +13,7 @@ import InstructorDashboard from './Instructors/components/InstructorDashboard'
 import StudentDashboard from './Students/components/StudentDashboard'
 import './index.css'
 import CoursePage from './Students/pages/CoursePage';
-
+import CertificatesList from './Certificate';
 
 function App() {
   return (
@@ -26,7 +26,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-
+        <Route path="/api/certificates" element={<CertificatesList />} />
 
         {/* Role-based Protected Routes */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
