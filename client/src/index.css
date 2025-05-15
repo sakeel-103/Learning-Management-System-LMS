@@ -7,6 +7,15 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes pulse-slow {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.4; }
+}
+@keyframes slide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
 .animate-text-reveal {
   animation: text-reveal 0.5s ease-in-out forwards;
 }

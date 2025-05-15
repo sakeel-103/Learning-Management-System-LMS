@@ -2,6 +2,12 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+// === import images ===
+import pic1 from '../assets/pic1.jpg';
+import pic2 from '../assets/pic2.jpg';
+import pic3 from '../assets/pic3.jpg';
+import banner from '../assets/banner.png';
+
 const CourseCard = ({ course }) => {
     const [showDetails, setShowDetails] = useState(false);
     const navigate = useNavigate();
@@ -12,7 +18,7 @@ const CourseCard = ({ course }) => {
             role="article"
             aria-labelledby={`course-title-${course.id}`}
         >
-            <div className="h-40 rounded-t-lg overflow-hidden relative bg-gradient-to-r from-blue-500 to-blue-600">
+            <div className="h-40 rounded-t-lg overflow-hidden relative bg-gradient-to-r from-green-800 to-gray-600">
                 <div className="absolute inset-0 flex items-center justify-center">
                     <h2
                         id={`course-title-${course.id}`}
@@ -142,7 +148,7 @@ const CourseCard = ({ course }) => {
 
                 <button
                     onClick={() => navigate(`/course/${course.id}`)}
-                    className="w-full bg-blue-600 text-white py-2 rounded-md font-medium hover:bg-blue-700 transition-colors duration-200"
+                    className="w-full bg-gray-600 text-white py-2 rounded-md font-medium hover:bg-blue-700 transition-colors duration-200"
                     aria-label={`Enroll in ${course.title}`}
                 >
                     Explore Course
@@ -335,28 +341,33 @@ const CoursePage = () => {
         );
     }, [filteredCourses]);
 
+
+
     // === Testimonials Section ===
     const testimonials = [
         {
             initials: "JS",
-            name: "John Smith",
+            name: "A k Singh",
             role: "Software Engineer at Tech Co.",
             quote: "The DSA course helped me crack interviews at top tech companies. The structured approach and practice problems were exactly what I needed.",
-            color: "blue"
+            color: "blue",
+            img: pic1
         },
         {
             initials: "AP",
             name: "Anjali Patel",
             role: "Full Stack Developer",
             quote: "I transitioned from a non-tech role to development after completing the Web Development course. The hands-on projects were invaluable.",
-            color: "purple"
+            color: "purple",
+            img: pic2
         },
         {
             initials: "RK",
             name: "Raj Kumar",
             role: "Data Scientist",
             quote: "The Machine Learning course provided a perfect balance of theory and practical implementation. I'm now confidently building ML models for my company.",
-            color: "green"
+            color: "green",
+            img: pic3
         }
     ];
 
@@ -367,16 +378,16 @@ const CoursePage = () => {
             <div
                 className={`py-12 px-6 text-center relative shadow-sm ${isInstructorView ? 'bg-blue-50' : 'bg-white'}`}
             >
-                {/* Main content body starts*/}
+                {/* Main body content starts*/}
                 <div className="relative max-w-7xl mx-auto">
                     <div className="flex flex-col items-center gap-6">
-                        <h1 className="text-4xl font-bold tracking-tight text-gray-800">
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-800">
                             {isInstructorView
                                 ? 'Course Management Dashboard'
                                 : 'Discover TrackAdemy Courses'}
                         </h1>
                     </div>
-                    <p className="text-md mt-3 text-gray-600 max-w-2xl mx-auto transition-opacity duration-1000">
+                    <p className="text-sm sm:text-md mt-3 text-gray-600 max-w-2xl mx-auto transition-opacity duration-1000">
                         {taglines[currentTagline]}
                     </p>
 
@@ -487,17 +498,16 @@ const CoursePage = () => {
                 {/* Instructor toggle button */}
                 <button
                     onClick={() => setIsInstructorView(!isInstructorView)}
-                    className="absolute top-12 right-6 px-4 py-2 bg-white text-black rounded-md shadow hover:bg-blue-50 transition-colors flex items-center gap-2"
+                    className="absolute top-6 sm:top-12 right-4 sm:right-6 px-3 py-1 sm:px-4 sm:py-2 bg-gray-600 text-white rounded-md shadow hover:bg-gray-500 transition-colors flex items-center gap-2 text-sm sm:text-base"
                     aria-label={
                         isInstructorView ? 'Switch to Student View' : 'Switch to Instructor View'
                     }
                 >
                     <svg
-                        className="w-5 h-5"
+                        className="w-4 sm:w-5 h-4 sm:h-5"
                         fill="none"
                         stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
+                        viewBox="0 0 24 24">
                         <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -514,12 +524,12 @@ const CoursePage = () => {
             </div>
 
             {/* Main Content body starts */}
-            <div className="px-6 py-8 max-w-7xl mx-auto">
+            <div className="px-4 sm:px-6 py-8 max-w-7xl mx-auto">
                 {isInstructorView ? (
                     <div>
                         {/* Instructor Tabs */}
                         <div className="bg-white rounded-lg p-4 shadow-sm mb-8">
-                            <div className="flex border-b">
+                            <div className="flex flex-wrap border-b">
                                 {[
                                     { tab: 'browse', label: 'Browse Courses' },
                                     { tab: 'create', label: 'Create/Edit' },
@@ -528,20 +538,13 @@ const CoursePage = () => {
                                 ].map(({ tab, label }) => (
                                     <button
                                         key={tab}
-                                        className={`px-4 py-2 font-medium flex items-center gap-2 ${activeTab === tab
-                                            ? 'text-blue-600 border-b-2 border-blue-600'
-                                            : 'text-gray-600 hover:text-blue-500'
+                                        className={`px-3 py-2 font-medium flex items-center gap-2 text-sm sm:text-base ${activeTab === tab ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-blue-500'
                                             }`}
                                         onClick={() => setActiveTab(tab)}
                                         aria-current={activeTab === tab ? 'true' : 'false'}
                                     >
                                         {tab === 'browse' && (
-                                            <svg
-                                                className="w-4 h-4"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
@@ -551,27 +554,12 @@ const CoursePage = () => {
                                             </svg>
                                         )}
                                         {tab === 'create' && (
-                                            <svg
-                                                className="w-4 h-4"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    d="M12 4v16m8-8H4"
-                                                />
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
                                             </svg>
                                         )}
                                         {tab === 'upload' && (
-                                            <svg
-                                                className="w-4 h-4"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
@@ -581,12 +569,7 @@ const CoursePage = () => {
                                             </svg>
                                         )}
                                         {tab === 'schedule' && (
-                                            <svg
-                                                className="w-4 h-4"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
@@ -604,15 +587,15 @@ const CoursePage = () => {
                             {activeTab === 'browse' && (
                                 <div className="py-4">
                                     <h3 className="text-lg font-medium mb-4">Your Current Courses</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                         {courses.map((course) => (
                                             <div
                                                 key={course.id}
-                                                className="border rounded-lg p-4 flex justify-between items-center hover:bg-blue-50 transition-colors"
+                                                className="border rounded-lg p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center hover:bg-blue-50 transition-colors"
                                             >
-                                                <div>
-                                                    <h4 className="font-medium">{course.title}</h4>
-                                                    <p className="text-sm text-gray-500">
+                                                <div className="mb-2 sm:mb-0">
+                                                    <h4 className="font-medium text-sm sm:text-base">{course.title}</h4>
+                                                    <p className="text-xs sm:text-sm text-gray-500">
                                                         {course.duration} • {course.category}
                                                     </p>
                                                 </div>
@@ -623,12 +606,7 @@ const CoursePage = () => {
                                                         aria-label={`Edit ${course.title}`}
                                                         title="Edit Course"
                                                     >
-                                                        <svg
-                                                            className="w-5 h-5"
-                                                            fill="none"
-                                                            stroke="currentColor"
-                                                            viewBox="0 0 24 24"
-                                                        >
+                                                        <svg className="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path
                                                                 strokeLinecap="round"
                                                                 strokeLinejoin="round"
@@ -643,12 +621,7 @@ const CoursePage = () => {
                                                         aria-label={`Delete ${course.title}`}
                                                         title="Delete Course"
                                                     >
-                                                        <svg
-                                                            className="w-5 h-5"
-                                                            fill="none"
-                                                            stroke="currentColor"
-                                                            viewBox="0 0 24 24"
-                                                        >
+                                                        <svg className="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path
                                                                 strokeLinecap="round"
                                                                 strokeLinejoin="round"
@@ -670,9 +643,7 @@ const CoursePage = () => {
                                     <h3 className="text-lg font-medium mb-4">Create or Edit Course</h3>
                                     <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                Course Title
-                                            </label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Course Title</label>
                                             <input
                                                 type="text"
                                                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
@@ -680,11 +651,9 @@ const CoursePage = () => {
                                                 required
                                             />
                                         </div>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                    Category
-                                                </label>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
                                                 <select
                                                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                                                     required
@@ -699,9 +668,7 @@ const CoursePage = () => {
                                                 </select>
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                    Difficulty Level
-                                                </label>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Difficulty Level</label>
                                                 <select
                                                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                                                     required
@@ -715,11 +682,9 @@ const CoursePage = () => {
                                                 </select>
                                             </div>
                                         </div>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                    Duration
-                                                </label>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Duration</label>
                                                 <input
                                                     type="text"
                                                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
@@ -728,9 +693,7 @@ const CoursePage = () => {
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                    Instructor
-                                                </label>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">Instructor</label>
                                                 <input
                                                     type="text"
                                                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
@@ -740,25 +703,23 @@ const CoursePage = () => {
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                Course Description
-                                            </label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Course Description</label>
                                             <textarea
                                                 className="w-full p-2 border border-gray-300 rounded-md h-32 focus:ring-2 focus:ring-blue-500"
                                                 placeholder="Enter detailed course description"
                                                 required
                                             ></textarea>
                                         </div>
-                                        <div className="flex justify-end gap-2">
+                                        <div className="flex flex-col sm:flex-row justify-end gap-2">
                                             <button
                                                 type="button"
-                                                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                                                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 w-full sm:w-auto"
                                             >
                                                 Cancel
                                             </button>
                                             <button
                                                 type="submit"
-                                                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 w-full sm:w-auto"
                                             >
                                                 Save Course
                                             </button>
@@ -772,9 +733,7 @@ const CoursePage = () => {
                                 <div className="py-4">
                                     <h3 className="text-lg font-medium mb-4">Upload Course Materials</h3>
                                     <div className="mb-4">
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                                            Select Course
-                                        </label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Select Course</label>
                                         <select
                                             className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                                             required
@@ -786,16 +745,11 @@ const CoursePage = () => {
                                             ))}
                                         </select>
                                     </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                                         <label className="text-center p-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 cursor-pointer transition-colors">
                                             <input type="file" className="hidden" accept="video/*" />
                                             <div className="text-blue-600 mb-1">
-                                                <svg
-                                                    className="w-8 h-8 mx-auto"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                >
+                                                <svg className="w-6 sm:w-8 h-6 sm:h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path
                                                         strokeLinecap="round"
                                                         strokeLinejoin="round"
@@ -804,18 +758,13 @@ const CoursePage = () => {
                                                     />
                                                 </svg>
                                             </div>
-                                            <p className="font-medium">Video Lectures</p>
+                                            <p className="font-medium text-sm sm:text-base">Video Lectures</p>
                                             <p className="text-xs text-gray-500">MP4, MOV, Max 2GB</p>
                                         </label>
                                         <label className="text-center p-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 cursor-pointer transition-colors">
                                             <input type="file" className="hidden" accept=".pdf" />
                                             <div className="text-red-600 mb-1">
-                                                <svg
-                                                    className="w-8 h-8 mx-auto"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                >
+                                                <svg className="w-6 sm:w-8 h-6 sm:h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path
                                                         strokeLinecap="round"
                                                         strokeLinejoin="round"
@@ -824,18 +773,13 @@ const CoursePage = () => {
                                                     />
                                                 </svg>
                                             </div>
-                                            <p className="font-medium">PDF Documents</p>
+                                            <p className="font-medium text-sm sm:text-base">PDF Documents</p>
                                             <p className="text-xs text-gray-500">PDF, Max 50MB</p>
                                         </label>
                                         <label className="text-center p-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 cursor-pointer transition-colors">
                                             <input type="file" className="hidden" accept=".ppt,.pptx" />
                                             <div className="text-green-600 mb-1">
-                                                <svg
-                                                    className="w-8 h-8 mx-auto"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                >
+                                                <svg className="w-6 sm:w-8 h-6 sm:h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path
                                                         strokeLinecap="round"
                                                         strokeLinejoin="round"
@@ -844,22 +788,13 @@ const CoursePage = () => {
                                                     />
                                                 </svg>
                                             </div>
-                                            <p className="font-medium">Presentations</p>
+                                            <p className="font-medium text-sm sm:text-base">Presentations</p>
                                             <p className="text-xs text-gray-500">PPT, PPTX, Max 50MB</p>
                                         </label>
                                         <label className="text-center p-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 cursor-pointer transition-colors">
-                                            <input
-                                                type="file"
-                                                className="hidden"
-                                                accept=".doc,.docx,.txt"
-                                            />
+                                            <input type="file" className="hidden" accept=".doc,.docx,.txt" />
                                             <div className="text-yellow-600 mb-1">
-                                                <svg
-                                                    className="w-8 h-8 mx-auto"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                >
+                                                <svg className="w-6 sm:w-8 h-6 sm:h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path
                                                         strokeLinecap="round"
                                                         strokeLinejoin="round"
@@ -868,7 +803,7 @@ const CoursePage = () => {
                                                     />
                                                 </svg>
                                             </div>
-                                            <p className="font-medium">Notes</p>
+                                            <p className="font-medium text-sm sm:text-base">Notes</p>
                                             <p className="text-xs text-gray-500">DOC, DOCX, TXT, Max 20MB</p>
                                         </label>
                                     </div>
@@ -881,13 +816,9 @@ const CoursePage = () => {
                             {/* Part-4 */}
                             {activeTab === 'schedule' && (
                                 <div className="py-4">
-                                    <h3 className="text-lg font-medium mb-4">
-                                        Course Schedule & Prerequisites
-                                    </h3>
+                                    <h3 className="text-lg font-medium mb-4">Course Schedule & Prerequisites</h3>
                                     <div className="mb-4">
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                                            Select Course
-                                        </label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Select Course</label>
                                         <select
                                             className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                                             required
@@ -904,10 +835,8 @@ const CoursePage = () => {
                                             <h4 className="font-medium mb-2">Schedule Settings</h4>
                                             <div className="space-y-3">
                                                 <div>
-                                                    <label className="block text-sm text-gray-700 mb-1">
-                                                        Course Type
-                                                    </label>
-                                                    <div className="flex gap-4">
+                                                    <label className="block text-sm text-gray-700 mb-1">Course Type</label>
+                                                    <div className="flex flex-wrap gap-4">
                                                         <label className="flex items-center">
                                                             <input
                                                                 type="radio"
@@ -918,29 +847,21 @@ const CoursePage = () => {
                                                             <span>Live Sessions</span>
                                                         </label>
                                                         <label className="flex items-center">
-                                                            <input
-                                                                type="radio"
-                                                                name="courseType"
-                                                                className="mr-1 focus:ring-blue-500"
-                                                            />
+                                                            <input type="radio" name="courseType" className="mr-1 focus:ring-blue-500" />
                                                             <span>Self-paced</span>
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div className="grid grid-cols-2 gap-3">
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                                     <div>
-                                                        <label className="block text-sm text-gray-700 mb-1">
-                                                            Start Date
-                                                        </label>
+                                                        <label className="block text-sm text-gray-700 mb-1">Start Date</label>
                                                         <input
                                                             type="date"
                                                             className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                                                         />
                                                     </div>
                                                     <div>
-                                                        <label className="block text-sm text-gray-700 mb-1">
-                                                            End Date
-                                                        </label>
+                                                        <label className="block text-sm text-gray-700 mb-1">End Date</label>
                                                         <input
                                                             type="date"
                                                             className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
@@ -948,9 +869,7 @@ const CoursePage = () => {
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <label className="block text-sm text-gray-700 mb-1">
-                                                        Session Days & Time
-                                                    </label>
+                                                    <label className="block text-sm text-gray-700 mb-1">Session Days & Time</label>
                                                     <input
                                                         type="text"
                                                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
@@ -958,9 +877,7 @@ const CoursePage = () => {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <label className="block text-sm text-gray-700 mb-1">
-                                                        Duration
-                                                    </label>
+                                                    <label className="block text-sm text-gray-700 mb-1">Duration</label>
                                                     <input
                                                         type="text"
                                                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
@@ -973,16 +890,14 @@ const CoursePage = () => {
                                             <h4 className="font-medium mb-2">Prerequisites</h4>
                                             <div className="space-y-3">
                                                 <div>
-                                                    <label className="block text-sm text-gray-700 mb-1">
-                                                        Add Prerequisite
-                                                    </label>
-                                                    <div className="flex gap-2">
+                                                    <label className="block text-sm text-gray-700 mb-1">Add Prerequisite</label>
+                                                    <div className="flex flex-col sm:flex-row gap-2">
                                                         <input
                                                             type="text"
                                                             className="flex-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                                                             placeholder="e.g. Basic Programming"
                                                         />
-                                                        <button className="p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                                                        <button className="p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 w-full sm:w-auto">
                                                             Add
                                                         </button>
                                                     </div>
@@ -991,7 +906,7 @@ const CoursePage = () => {
                                         </div>
                                     </div>
                                     <div className="flex justify-end mt-6">
-                                        <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                                        <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 w-full sm:w-auto">
                                             Save Settings
                                         </button>
                                     </div>
@@ -1012,7 +927,7 @@ const CoursePage = () => {
                                         key={category}
                                         onClick={() => setSelectedCategory(category)}
                                         className={`px-5 py-2 rounded-md text-sm font-medium transition-all duration-200 hover:scale-105 ${selectedCategory === category
-                                            ? 'bg-blue-600 text-white shadow-md'
+                                            ? 'bg-gray-600 text-white shadow-md'
                                             : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-50'
                                             }`}
                                         aria-current={selectedCategory === category ? 'true' : 'false'}
@@ -1030,7 +945,7 @@ const CoursePage = () => {
                                     </h2>
                                     <button
                                         onClick={() => navigate('/courses')}
-                                        className="text-blue-600 hover:text-blue-700 font-medium"
+                                        className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200"
                                     >
                                         See All Courses ➔
                                     </button>
@@ -1053,7 +968,7 @@ const CoursePage = () => {
                                         <p className="text-lg">No courses found for this category.</p>
                                         <button
                                             onClick={() => setSelectedCategory('All')}
-                                            className="mt-4 text-blue-600 hover:text-blue-700 underline"
+                                            className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200"
                                         >
                                             View All Courses
                                         </button>
@@ -1075,7 +990,7 @@ const CoursePage = () => {
                                     </h2>
                                     <button
                                         onClick={() => navigate('/courses')}
-                                        className="text-blue-600 hover:text-blue-700 font-medium"
+                                        className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200"
                                     >
                                         See All Courses ➔
                                     </button>
@@ -1087,7 +1002,7 @@ const CoursePage = () => {
                                         </p>
                                         <button
                                             onClick={() => setSelectedCategory('All')}
-                                            className="mt-4 text-blue-600 hover:text-blue-700 underline"
+                                            className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200"
                                         >
                                             View All Courses
                                         </button>
@@ -1109,7 +1024,7 @@ const CoursePage = () => {
                                     </h2>
                                     <button
                                         onClick={() => navigate('/courses')}
-                                        className="text-blue-600 hover:text-blue-700 font-medium"
+                                        className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200"
                                     >
                                         See All Courses ➔
                                     </button>
@@ -1121,7 +1036,7 @@ const CoursePage = () => {
                                         </p>
                                         <button
                                             onClick={() => setSelectedCategory('All')}
-                                            className="mt-4 text-blue-600 hover:text-blue-700 underline"
+                                            className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200"
                                         >
                                             View All Courses
                                         </button>
@@ -1133,6 +1048,104 @@ const CoursePage = () => {
                                         ))}
                                     </div>
                                 )}
+                            </div>
+                        </div>
+
+                        {/* Banner Section */}
+                        <div className="mt-16 mb-8">
+                            <div
+                                className="relative bg-gradient-to-br from-blue-800 to-indigo-700 text-white p-8 rounded-2xl shadow-2xl overflow-hidden bg-cover bg-center"
+                                style={{
+                                    backgroundImage: 'url(${banner.png})',
+                                }}
+                            >
+                                <div className="absolute inset-0 bg-black/40"></div>
+                                <div className="relative z-10 text-center">
+                                    <h2
+                                        className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight animate-[fadeInUp_0.6s_ease-out]"
+                                    >
+                                        Join Our Community of Learners
+                                    </h2>
+                                    <p
+                                        className="text-lg md:text-xl mb-6 max-w-md mx-auto font-light animate-[fadeInUp_0.6s_ease-out_0.2s] animate-delay-200"
+                                    >
+                                        Enroll in our courses and start your learning journey today!
+                                    </p>
+                                    <button
+                                        onClick={() => navigate('/courses')}
+                                        className="bg-gradient-to-r from-teal-400 to-cyan-500 text-white px-6 py-3 rounded-full font-semibold hover:from-teal-500 hover:to-cyan-600 hover:scale-105 transition-all duration-300 shadow-lg animate-[fadeInUp_0.6s_ease-out_0.4s]"
+                                    >
+                                        Explore Courses ➔
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Development Sections */}
+                        <div className="mb-16 mt-16">
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-xl font-semibold">Development/Data Science</h2>
+                                <a href="#" className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200">See All</a>
+                            </div>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    JavaScript <span>→</span>
+                                </button>
+                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    HTML <span>→</span>
+                                </button>
+                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    CSS <span>→</span>
+                                </button>
+                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    ReactJS <span>→</span>
+                                </button>
+                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    Node.js <span>→</span>
+                                </button>
+                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    Django <span>→</span>
+                                </button>
+                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    Frontend Develop... <span>→</span>
+                                </button>
+                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    Backend Developm... <span>→</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* AI, ML & Data Science Section */}
+                        <div>
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-xl font-semibold">AI, ML & Data Science</h2>
+                                <a href="#" className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200">See All</a>
+                            </div>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    Machine Learning <span>→</span>
+                                </button>
+                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    Data Science <span>→</span>
+                                </button>
+                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    Data Analysis <span>→</span>
+                                </button>
+                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    Data Visualization <span>→</span>
+                                </button>
+                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    Deep Learning <span>→</span>
+                                </button>
+                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    Natural Language (NLP) <span>→</span>
+                                </button>
+                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    Computer Vission <span>→</span>
+                                </button>
+                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    Artificial Intelligence (AI) <span>→</span>
+                                </button>
                             </div>
                         </div>
 
@@ -1148,30 +1161,17 @@ const CoursePage = () => {
                                         className="bg-white p-6 rounded-xl shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out hover:shadow-lg border border-gray-100 relative overflow-hidden"
                                     >
                                         <div className={`absolute -top-10 -right-10 w-24 h-24 rounded-full bg-${testimonial.color}-50 opacity-70`}></div>
-                                        <div className="absolute top-4 right-4">
-                                            <svg
-                                                className={`w-6 h-6 text-${testimonial.color}-300 opacity-50`}
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    d="M9 12h.01M9 16h.01M9 8h.01M15 12h.01M15 16h.01M15 8h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
+                                        <div className="flex flex-col sm:flex-row items-center mb-6">
+                                            <div className="w-full sm:w-1/2 flex items-center justify-center">
+                                                <img
+                                                    src={testimonial.img}
+                                                    alt={`${testimonial.name}'s avatar`}
+                                                    className={`w-20 h-20 sm:w-28 sm:h-28 rounded-full object-cover border-2 border-${testimonial.color}-200 shadow-sm`}
                                                 />
-                                            </svg>
-                                        </div>
-                                        <div className="flex items-center mb-6">
-                                            <div className={`w-14 h-14 rounded-full bg-${testimonial.color}-100 flex items-center justify-center text-${testimonial.color}-600 font-bold text-lg shadow-sm`}>
-                                                {testimonial.initials}
                                             </div>
-                                            <div className="ml-4">
-                                                <h3 className="font-semibold text-lg">{testimonial.name}</h3>
-                                                <p className="text-sm text-gray-500">
-                                                    {testimonial.role}
-                                                </p>
+                                            <div className="w-full sm:w-1/2 flex flex-col justify-center sm:ml-4 mt-4 sm:mt-0">
+                                                <h3 className="font-semibold text-lg text-center sm:text-left">{testimonial.name}</h3>
+                                                <p className="text-sm text-gray-500 text-center sm:text-left">{testimonial.role}</p>
                                             </div>
                                         </div>
                                         <p className="text-gray-600 italic relative z-10 mb-4">

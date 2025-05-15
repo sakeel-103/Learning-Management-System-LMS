@@ -268,7 +268,7 @@ function UserNavbar() {
                             className="text-blue-600 hover:text-blue-800 hover:underline block px-4 py-2 text-base font-semibold"
                             onClick={() => setIsOpen(false)}
                         >
-                            My Learning
+                            Learning
                         </Link>
                         <Link
                             to="/certificates"
