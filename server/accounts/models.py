@@ -11,6 +11,8 @@ class User(AbstractUser):
         ('STUDENT', 'Student'),
     )
     
+    email = models.EmailField(unique=True, verbose_name='email address')
+    
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='STUDENT')
     phone = models.CharField(max_length=20, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', null=True)

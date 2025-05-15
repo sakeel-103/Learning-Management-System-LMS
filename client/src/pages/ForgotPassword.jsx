@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { MailIcon, EyeIcon, EyeOffIcon, KeyIcon, RefreshCwIcon } from 'lucide-react';
+import api from '../api';
 
 function ForgotPassword() {
   const [currentStep, setCurrentStep] = useState('requestOTP'); // requestOTP, verifyOTP, resetPassword
@@ -28,17 +29,16 @@ function ForgotPassword() {
     setIsLoading(true);
 
     try {
-      // This would be replaced with actual API call in production
-      console.log('Requesting OTP for:', formData.email);
-      
-      // Simulate API delay
-      setTimeout(() => {
-        toast.success('OTP sent to your email address');
+      const res = await api.post('api/v1/accounts/generate-otp/', {
+        email: formData.email
+      })
+      if (res.status === 200) {
+        toast.success(res.data.message);
         setCurrentStep('verifyOTP');
         setIsLoading(false);
-      }, 1000);
+      }
     } catch (error) {
-      toast.error(error.message || 'Failed to send OTP');
+      toast.error(error.response.data.error || 'Failed to send OTP');
       setIsLoading(false);
     }
   };
@@ -47,48 +47,55 @@ function ForgotPassword() {
     e.preventDefault();
     setIsLoading(true);
 
+    // validations
+    if (!formData.otp || formData.otp.length !== 6) {
+      toast.error('Enter a valid otp.')
+      setIsLoading(false)
+      return
+    }
     try {
-      // This would be replaced with actual API call in production
-      console.log('Verifying OTP:', formData.otp);
-      
-      // Simulate API delay
-      setTimeout(() => {
-        toast.success('OTP verified successfully');
+      const res = await api.post('api/v1/accounts/verify-otp/', {
+        email: formData.email,
+        otp: formData.otp
+      })
+      if (res.status === 200) {
         setCurrentStep('resetPassword');
-        setIsLoading(false);
-      }, 1000);
+        toast.success('OTP verified successfully.');
+      }
+      setIsLoading(false);
     } catch (error) {
-      toast.error(error.message || 'Invalid OTP');
+      console.log(error)
+      toast.error(error.response.data.error || 'Invalid OTP');
       setIsLoading(false);
     }
   };
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
-    
+
     if (formData.new_password !== formData.confirmPassword) {
       toast.error('Passwords do not match');
       return;
     }
-    
+
     setIsLoading(true);
 
     try {
-      // This would be replaced with actual API call in production
-      console.log('Resetting password:', {
+      const res = await api.post('api/v1/accounts/reset-password/', {
         email: formData.email,
         otp: formData.otp,
         new_password: formData.new_password
-      });
-      
-      // Simulate API delay
-      setTimeout(() => {
-        toast.success('Password reset successfully');
+      })
+      if (res.status === 200) {
+        toast.success('Password reset successfull.');
         navigate('/login');
-        setIsLoading(false);
-      }, 1000);
+      } else {
+        toast.error('Failed to reset password.');
+      }
+      setIsLoading(false);
     } catch (error) {
-      toast.error(error.message || 'Failed to reset password');
+      console.log(error)
+      toast.error(error.response.data.message || 'Failed to reset password');
       setIsLoading(false);
     }
   };
@@ -315,11 +322,11 @@ function ForgotPassword() {
             <p className="mt-2 text-indigo-200">We'll help you get back into your account</p>
           </div>
         </div>
-        
+
         <div className="p-8">
           {renderStepIndicator()}
           {renderCurrentStep()}
-          
+
           <div className="mt-6 text-center">
             <Link to="/login" className="flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500">
               <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

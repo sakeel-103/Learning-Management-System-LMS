@@ -119,7 +119,7 @@ class SetNewPasswordView(generics.GenericAPIView):
     
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
-        serialzier.is_valid(raise_exception=True)
+        serializer.is_valid(raise_exception=True)
         
         email = serializer.validated_data['email']
         otp = serializer.validated_data['otp']
@@ -133,7 +133,7 @@ class SetNewPasswordView(generics.GenericAPIView):
         otp_obj = PasswordResetOTP.objects.filter(
             user=user,
             otp=otp,
-            is_user=False
+            is_used=False
         ).first()
         
         if not otp_obj or not otp_obj.is_valid():

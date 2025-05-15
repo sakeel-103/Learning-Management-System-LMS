@@ -13,7 +13,7 @@ const useAuthStore = create((set) => ({
     isAuthenticated: false,
     login: (userData) => set({
         user: userData,
-        role: userData.role || userRoles.student, // Default to Student for now
+        role: userData.role || userRoles.student,
         isAuthenticated: true,
     }),
     logout: () => set({

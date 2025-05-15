@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { EyeIcon, EyeOffIcon, LogInIcon } from 'lucide-react';
 import useAuthStore from '../stores/authStore';
+import authService from '../services/authService';
+import { jwtDecode } from 'jwt-decode';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -14,7 +15,6 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { login } = useAuthStore();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -26,47 +26,28 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);    try {
-      // This would be replaced with actual API call in production
-      console.log('Login attempt with:', formData);
-      
-      // Simulate API delay
-      setTimeout(() => {
-        // Create a user object based on the login response
-        const user = {
-          id: 1,
-          name: 'Test User',
-          username: formData.username,
-          role: formData.username.includes('admin') ? 'Admin' : 
-                formData.username.includes('instructor') ? 'Instructor' : 'Student',
-        };
-        
-        // Update authentication state
-        login(user);
-        
-        toast.success('Login successful!');
-        
-        // Redirect based on role
-        switch(user.role) {
-          case 'Admin':
-            navigate('/admin/dashboard');
-            break;
-          case 'Instructor':
-            navigate('/instructor/dashboard');
-            break;
-          case 'Student':
-          default:
-            navigate('/student/dashboard');
-            break;
-        }
-        
-        setIsLoading(false);
-      }, 1000);
-    } catch (error) {
-      console.error('Login error:', error);
-      toast.error(error.message || 'Invalid credentials');
-      setIsLoading(false);
+    setIsLoading(true);
+
+    const loginRes = await authService.login(formData);
+    if (!loginRes) {
+      setIsLoading(false)
+      return
     }
+
+    const decoded = jwtDecode(localStorage.getItem('ACCESS_TOKEN'));
+    switch (decoded.role) {
+      case 'ADMIN':
+        navigate('/admin/dashboard');
+        break;
+      case 'INSTRUCTOR':
+        navigate('/instructor/dashboard');
+        break;
+      case 'STUDENT':
+        navigate('/student/dashboard')
+        break;
+    }
+
+    setIsLoading(false);
   };
 
   return (
@@ -78,7 +59,7 @@ function Login() {
             <p className="mt-2 text-indigo-200">Sign in to access your learning journey</p>
           </div>
         </div>
-        
+
         <div className="p-8">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
@@ -163,10 +144,10 @@ function Login() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                ) : (                  <>
-                    <LogInIcon className="mr-2 h-5 w-5" />
-                    Sign in
-                  </>
+                ) : (<>
+                  <LogInIcon className="mr-2 h-5 w-5" />
+                  Sign in
+                </>
                 )}
               </button>
             </div>
