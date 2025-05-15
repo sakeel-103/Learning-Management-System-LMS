@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { EyeIcon, EyeOffIcon, Upload, UserIcon, MailIcon, PhoneIcon } from 'lucide-react';
+import authService from '../services/authService';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -12,11 +12,11 @@ function Register() {
     first_name: '',
     last_name: '',
     phone: '',
-    role: 'Student',
+    role: 'STUDENT',
     profile_picture: null,
     agreeToTerms: false
   });
-  
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +31,7 @@ function Register() {
           ...formData,
           [name]: files[0]
         });
-        
+
         // Create preview URL
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -49,34 +49,14 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate form
-    if (formData.password !== formData.password2) {
-      toast.error('Passwords do not match');
-      return;
-    }
-    
-    if (!formData.agreeToTerms) {
-      toast.error('You must agree to the terms and conditions');
-      return;
-    }
 
     setIsLoading(true);
-    
-    try {
-      // This would be replaced with actual API call in production
-      console.log('Register with:', formData);
-      
-      // Simulate API delay
-      setTimeout(() => {
-        toast.success('Registration successful! Please check your email to verify your account.');
-        navigate('/login');
-        setIsLoading(false);
-      }, 1500);
-    } catch (error) {
-      toast.error(error.message || 'Registration failed');
-      setIsLoading(false);
+    const registerRes = await authService.register(formData);
+    if (registerRes) {
+      navigate('/login');
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -86,7 +66,7 @@ function Register() {
           <h2 className="text-3xl font-extrabold text-center text-white">Create your account</h2>
           <p className="mt-2 text-center text-indigo-200">Join our learning platform today</p>
         </div>
-        
+
         <div className="p-8">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -109,7 +89,7 @@ function Register() {
                   </div>
                 </div>
               </div>
-              
+
               <div>
                 <label htmlFor="last_name" className="block text-sm font-medium text-gray-700">
                   Last Name
@@ -130,7 +110,7 @@ function Register() {
                 </div>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label htmlFor="username" className="block text-sm font-medium text-gray-700">
@@ -146,7 +126,7 @@ function Register() {
                   onChange={handleChange}
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                   Phone Number
@@ -166,7 +146,7 @@ function Register() {
                 </div>
               </div>
             </div>
-            
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email Address
@@ -186,7 +166,7 @@ function Register() {
                 </div>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -218,7 +198,7 @@ function Register() {
                   Must be at least 8 characters with mixed case, numbers, and symbols
                 </p>
               </div>
-              
+
               <div>
                 <label htmlFor="password2" className="block text-sm font-medium text-gray-700">
                   Confirm Password
@@ -247,7 +227,7 @@ function Register() {
                 </div>
               </div>
             </div>
-              <div>
+            <div>
               <label htmlFor="role" className="block text-sm font-medium text-gray-700">
                 Account Type
               </label>
@@ -258,12 +238,12 @@ function Register() {
                 value={formData.role}
                 onChange={handleChange}
               >
-                <option value="Student">Student</option>
-                <option value="Instructor">Instructor</option>
-                <option value="Admin">Admin</option>
+                <option value="STUDENT">Student</option>
+                <option value="INSTRUCTOR">Instructor</option>
+                <option value="ADMIN">Admin</option>
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Profile Picture
@@ -272,17 +252,17 @@ function Register() {
                 <div className="space-y-1 text-center">
                   {profilePreview ? (
                     <div className="flex flex-col items-center">
-                      <img 
-                        src={profilePreview} 
-                        alt="Profile preview" 
-                        className="h-24 w-24 rounded-full object-cover mb-3" 
+                      <img
+                        src={profilePreview}
+                        alt="Profile preview"
+                        className="h-24 w-24 rounded-full object-cover mb-3"
                       />
                       <button
                         type="button"
                         className="text-sm text-indigo-600 hover:text-indigo-500"
                         onClick={() => {
                           setProfilePreview(null);
-                          setFormData({...formData, profile_picture: null});
+                          setFormData({ ...formData, profile_picture: null });
                         }}
                       >
                         Remove
@@ -316,7 +296,7 @@ function Register() {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex items-start">
               <div className="flex items-center h-5">
                 <input
@@ -335,7 +315,7 @@ function Register() {
                 </label>
               </div>
             </div>
-            
+
             <div>
               <button
                 type="submit"
@@ -351,7 +331,7 @@ function Register() {
               </button>
             </div>
           </form>
-          
+
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{' '}

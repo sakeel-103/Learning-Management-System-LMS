@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../../stores/authStore';
+import { jwtDecode } from 'jwt-decode';
 
 function AdminDashboard() {
-  const { user, isAuthenticated, role } = useAuthStore();
+  const [user, setUser] = useState('');
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalStudents: 145,
@@ -16,10 +16,18 @@ function AdminDashboard() {
 
   useEffect(() => {
     // Check if user is authenticated and has Admin role
-    if (!isAuthenticated || role !== 'Admin') {
-      navigate('/login');
+    const token = localStorage.getItem('ACCESS_TOKEN');
+    if (!token) {
+      navigate('/login')
     }
-  }, [isAuthenticated, role, navigate]);
+    if (token) {
+      const decoded = jwtDecode(token);
+      if (decoded.role !== 'ADMIN') {
+        navigate('/login')
+      }
+      setUser(decoded.username)
+    }
+  }, [navigate]);
 
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
@@ -27,7 +35,7 @@ function AdminDashboard() {
         <div className="bg-white overflow-hidden shadow-lg rounded-lg mb-8">
           <div className="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-8">
             <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
-            <p className="mt-2 text-indigo-100">Welcome back, {user?.name || 'Administrator'}</p>
+            <p className="mt-2 text-indigo-100">Welcome back, {user || 'Administrator'}</p>
           </div>
           
           <div className="px-6 py-6">

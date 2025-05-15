@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../../stores/authStore';
+import { jwtDecode } from 'jwt-decode';
 
 function StudentDashboard() {
-  const { user, isAuthenticated, role } = useAuthStore();
+  const [user, setUser] = useState('');
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     enrolledCourses: 3,
@@ -15,11 +15,19 @@ function StudentDashboard() {
   });
 
   useEffect(() => {
-    // Check if user is authenticated and has Student role
-    if (!isAuthenticated || role !== 'Student') {
-      navigate('/login');
+    // Check if user is authenticated and has Admin role
+    const token = localStorage.getItem('ACCESS_TOKEN');
+    if (!token) {
+      navigate('/login')
     }
-  }, [isAuthenticated, role, navigate]);
+    if (token) {
+      const decoded = jwtDecode(token);
+      if (decoded.role !== 'STUDENT') {
+        navigate('/login')
+      }
+      setUser(decoded.username)
+    }
+  }, [navigate]);
 
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
@@ -27,9 +35,9 @@ function StudentDashboard() {
         <div className="bg-white overflow-hidden shadow-lg rounded-lg mb-8">
           <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-8">
             <h1 className="text-3xl font-bold text-white">Student Dashboard</h1>
-            <p className="mt-2 text-indigo-100">Welcome back, {user?.name || 'Student'}</p>
+            <p className="mt-2 text-indigo-100">Welcome back, {user || 'Student'}</p>
           </div>
-          
+
           <div className="px-6 py-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Stats Cards */}
@@ -38,20 +46,20 @@ function StudentDashboard() {
                 <p className="text-3xl font-bold text-blue-600 mt-2">{stats.enrolledCourses}</p>
                 <p className="text-sm text-blue-500 mt-1">{stats.completedCourses} completed, {stats.inProgressCourses} in progress</p>
               </div>
-              
+
               <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg shadow">
                 <h2 className="text-xl font-semibold text-green-800">Average Grade</h2>
                 <p className="text-3xl font-bold text-green-600 mt-2">{stats.averageGrade}%</p>
                 <p className="text-sm text-green-500 mt-1">Across all courses</p>
               </div>
-              
+
               <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg shadow">
                 <h2 className="text-xl font-semibold text-purple-800">Certificates</h2>
                 <p className="text-3xl font-bold text-purple-600 mt-2">{stats.certificates}</p>
                 <p className="text-sm text-purple-500 mt-1">Earned so far</p>
               </div>
             </div>
-            
+
             <div className="mt-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">Quick Actions</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -71,7 +79,7 @@ function StudentDashboard() {
             </div>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="bg-white overflow-hidden shadow-lg rounded-lg">
             <div className="px-6 py-5 border-b border-gray-200">
@@ -163,7 +171,7 @@ function StudentDashboard() {
               </ul>
             </div>
           </div>
-          
+
           <div className="bg-white overflow-hidden shadow-lg rounded-lg">
             <div className="px-6 py-5 border-b border-gray-200">
               <h2 className="text-xl font-semibold text-gray-800">Upcoming Assignments</h2>
