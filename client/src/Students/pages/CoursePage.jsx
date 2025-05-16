@@ -8,7 +8,7 @@ import pic2 from '../assets/pic2.jpg';
 import pic3 from '../assets/pic3.jpg';
 import banner from '../assets/banner.png';
 
-const CourseCard = ({ course }) => {
+const CourseCard = ({ course, section }) => {
     const [showDetails, setShowDetails] = useState(false);
     const navigate = useNavigate();
 
@@ -147,12 +147,64 @@ const CourseCard = ({ course }) => {
                 )}
 
                 <button
-                    onClick={() => navigate(`/course/${course.id}`)}
+                    onClick={() => {
+                        // if (course.id === '1' && section === 'top-picks') {
+                        //     console.log('Navigating to DSA Page for Top Picks');
+                        //     navigate('/courses/dsa-to-development');
+                        // } else if (course.id === '2' && section === 'live-courses') {
+                        //     console.log('Navigating to Backend with Java Page for Live Courses');
+                        //     navigate('/courses/backend-with-java');
+                        // } else if (course.id === '3' && section === 'self-paced') {
+                        //     console.log('Navigating to Machine Learning Page for Self Paced');
+                        //     navigate('/courses/machine-learning');
+                        // } else if (course.id === '4' && section === 'self-paced') {
+                        //     console.log('Navigating to DSA Page for Self Paced');
+                        //     navigate('/courses/data-structure-algorithm');
+                        // }
+                        // else {
+                        //     console.log(`Navigating to default course page: /course/${course.id}`);
+                        //     navigate(`/course/${course.id}`);
+                        // }
+                        if (section === 'top-picks') {
+                            if (course.id === '1') {
+                                console.log('Navigating to DSA Page for Top Picks');
+                                navigate('/courses/dsa-to-development');
+                            } else if (course.id === '2') {
+                                console.log('Navigating to Java Backend Development Page for Top Picks');
+                                navigate('/courses/backend-with-java');
+                            } else if (course.id === '3') {
+                                console.log('Navigating to Machine Learning & Data Science Page for Top Picks');
+                                navigate('/courses/machine-learning');
+                            } else if (course.id === '4') {
+                                console.log('Navigating to Data Structures Self-Paced Page for Top Picks');
+                                navigate('/courses/data-structure-algorithms');
+                            }
+                        } else if (section === 'live-classes') {
+                            if (course.id === '1') {
+                                console.log('Navigating to DSA Page for Top Picks');
+                                navigate('/courses/dsa-to-development');
+                            } else if (course.id === '2') {
+                                console.log('Navigating to Java Backend Development Page for Live Classes');
+                                navigate('/courses/backend-with-java');
+                            } else if (course.id === '3') {
+                                console.log('Navigating to Machine Learning & Data Science Page for Live Classes');
+                                navigate('/courses/machine-learning');
+                            }
+                        } else if (section === 'self-paced') {
+                            if (course.id === '4') {
+                                console.log('Navigating to Data Structures Self-Paced Page for Self-paced Learning');
+                                navigate('/courses/data-structure-algorithms');
+                            }
+                        } else {
+                            console.log(`Navigating to default course page: /course/${course.id}`);
+                            navigate(`/course/${course.id}`);
+                        }
+                    }}
                     className="w-full bg-gray-600 text-white py-2 rounded-md font-medium hover:bg-blue-700 transition-colors duration-200"
                     aria-label={`Enroll in ${course.title}`}
                 >
                     Explore Course
-                </button>
+                </button>  --- here correct in the live-classes, so navigate to the pages correctly
             </div>
         </div>
     );
@@ -176,6 +228,7 @@ CourseCard.propTypes = {
             notes: PropTypes.number,
         }),
     }).isRequired,
+    section: PropTypes.string,
 };
 
 const CoursePage = () => {
@@ -976,7 +1029,7 @@ const CoursePage = () => {
                                 ) : (
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                                         {filteredCourses.map((course) => (
-                                            <CourseCard key={course.id} course={course} />
+                                            <CourseCard key={course.id} course={course} section="top-picks" />
                                         ))}
                                     </div>
                                 )}
@@ -1010,7 +1063,7 @@ const CoursePage = () => {
                                 ) : (
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                                         {liveCourses.map((course) => (
-                                            <CourseCard key={course.id} course={course} />
+                                            <CourseCard key={course.id} course={course} section="live-classes" />
                                         ))}
                                     </div>
                                 )}
@@ -1044,7 +1097,7 @@ const CoursePage = () => {
                                 ) : (
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                                         {selfPacedCourses.map((course) => (
-                                            <CourseCard key={course.id} course={course} />
+                                            <CourseCard key={course.id} course={course} section="self-paced" />
                                         ))}
                                     </div>
                                 )}
