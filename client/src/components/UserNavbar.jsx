@@ -250,6 +250,12 @@ function UserNavbar() {
                         </form>
 
                         <Link
+                            to="/"
+                            className="text-gray-600 hover:text-blue-400 px-4 py-2 text-base font-semibold transition-colors duration-200"
+                        >
+                            Home
+                        </Link>
+                        <Link
                             to="/courses"
                             className="text-gray-600 hover:text-blue-400 hover:underline block px-4 py-2 text-base font-semibold"
                             onClick={() => setIsOpen(false)}

@@ -13,6 +13,10 @@ import InstructorDashboard from './Instructors/components/InstructorDashboard'
 import StudentDashboard from './Students/components/StudentDashboard'
 import './index.css'
 import CoursePage from './Students/pages/CoursePage';
+import DSAPage from './Students/CorseDetails/dsaPage'
+import MLAndDS from './Students/CorseDetails/MLAndDS'
+import BackendWithJava from './Students/CorseDetails/BackendWithJava'
+import DataStructuresAlgorithm from './Students/CorseDetails/DataStructureAlgorithm'
 
 
 function App() {
@@ -33,6 +37,10 @@ function App() {
         <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
         <Route path="/student/dashboard" element={<StudentDashboard />} />
         <Route path="/courses" element={<CoursePage />} />
+        <Route path="/courses/dsa-to-development" element={<DSAPage />} />
+        <Route path="/courses/machine-learning" element={<MLAndDS />} />
+        <Route path="/courses/backend-with-java" element={<BackendWithJava />} />
+        <Route path="/courses/data-structure-algorithms" element={<DataStructuresAlgorithm />} />
       </Routes>
       <UserFooter />
       <ToastContainer
