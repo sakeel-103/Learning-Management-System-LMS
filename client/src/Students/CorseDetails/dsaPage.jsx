@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import banner1 from '../images/banner1.jpg';
+import fullstack from '../images/fullstack.jpg';
 import lov from '../images/lov.jpg';
 import harry from '../images/harry.jpg';
 import aman from '../images/aman.jpg';
@@ -690,7 +690,7 @@ const DSAPage = () => {
                         <div className="md:w-1/2">
                             <div className="relative">
                                 <img
-                                    src={banner1}
+                                    src={fullstack}
                                     alt="Full Stack Development"
                                     className="w-full h-auto rounded-lg shadow-xl"
                                 />
