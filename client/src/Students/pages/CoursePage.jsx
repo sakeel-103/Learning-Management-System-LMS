@@ -1092,7 +1092,7 @@ const CoursePage = () => {
                             <div
                                 className="relative bg-gradient-to-br from-blue-800 to-indigo-700 text-white p-8 rounded-2xl shadow-2xl overflow-hidden bg-cover bg-center"
                                 style={{
-                                    backgroundImage: 'url(${banner.png})',
+                                    backgroundImage: `url(${banner})`,
                                 }}
                             >
                                 <div className="absolute inset-0 bg-black/40"></div>
