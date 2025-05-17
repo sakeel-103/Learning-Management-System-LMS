@@ -148,23 +148,6 @@ const CourseCard = ({ course, section }) => {
 
                 <button
                     onClick={() => {
-                        // if (course.id === '1' && section === 'top-picks') {
-                        //     console.log('Navigating to DSA Page for Top Picks');
-                        //     navigate('/courses/dsa-to-development');
-                        // } else if (course.id === '2' && section === 'live-courses') {
-                        //     console.log('Navigating to Backend with Java Page for Live Courses');
-                        //     navigate('/courses/backend-with-java');
-                        // } else if (course.id === '3' && section === 'self-paced') {
-                        //     console.log('Navigating to Machine Learning Page for Self Paced');
-                        //     navigate('/courses/machine-learning');
-                        // } else if (course.id === '4' && section === 'self-paced') {
-                        //     console.log('Navigating to DSA Page for Self Paced');
-                        //     navigate('/courses/data-structure-algorithm');
-                        // }
-                        // else {
-                        //     console.log(`Navigating to default course page: /course/${course.id}`);
-                        //     navigate(`/course/${course.id}`);
-                        // }
                         if (section === 'top-picks') {
                             if (course.id === '1') {
                                 console.log('Navigating to DSA Page for Top Picks');
@@ -204,7 +187,7 @@ const CourseCard = ({ course, section }) => {
                     aria-label={`Enroll in ${course.title}`}
                 >
                     Explore Course
-                </button>  --- here correct in the live-classes, so navigate to the pages correctly
+                </button>
             </div>
         </div>
     );
@@ -263,7 +246,7 @@ const CoursePage = () => {
     const courses = useMemo(() => [
         {
             id: '1',
-            title: 'DSA to Development: A Complete Guide',
+            title: 'Full Stack Development: A Complete Guide',
             stats: '1k+ Interested Users',
             rating: '4.4',
             level: 'Beginner to Advanced',
