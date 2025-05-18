@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import fullstack from '../assets/fullstack.jpg';
 import lov from '../images/lov.jpg';
 import harry from '../images/harry.jpg';
 import aman from '../images/aman.jpg';
 import assist1 from '../images/assist1.jpg';
 import assist2 from '../images/assist2.jpg';
-// import assist3 from '../images/assist3.jpg';
-// import assist2 from '../images/assist2.avif';
-// import assist3 from '../images/assist3.avif';
+
 
 const DSAPage = () => {
     const [showBooks, setShowBooks] = useState(false);
@@ -637,7 +634,7 @@ const DSAPage = () => {
                         {/* Left Content */}
                         <div className="md:w-1/2 space-y-6">
                             <h2 className="text-4xl font-bold leading-tight">
-                                Master Full Stack Development in 2024
+                                Master Full Stack Development in 2025
                             </h2>
                             <p className="text-lg text-blue-100">
                                 Build complete web applications from frontend to backend with our comprehensive program.
@@ -690,7 +687,7 @@ const DSAPage = () => {
                         <div className="md:w-1/2">
                             <div className="relative">
                                 <img
-                                    src={fullstack}
+                                    src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
                                     alt="Full Stack Development"
                                     className="w-full h-auto rounded-lg shadow-xl"
                                 />
