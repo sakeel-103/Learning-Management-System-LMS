@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import fullstack from '../images/fullstack.jpg';
+import fullstack from '../assets/fullstack.jpg';
 import lov from '../images/lov.jpg';
 import harry from '../images/harry.jpg';
 import aman from '../images/aman.jpg';
