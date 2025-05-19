@@ -511,6 +511,7 @@ const DSAPage = () => {
                                     <li>JavaScript: ES6+, async/await, DOM manipulation</li>
                                     <li>React: Components, props, state, hooks</li>
                                     <li>Project: Build a responsive portfolio website</li>
+                                    <li><a href="https://medium.com/@pantamilan2021/the-essential-guide-to-frontend-technical-documentation-232ea187919a" className="text-blue-400 hover:underline">See Detail</a></li>
                                 </ul>
                             )}
                         </div>
@@ -531,6 +532,7 @@ const DSAPage = () => {
                                     <li>Databases: MongoDB (CRUD), MySQL (joins, transactions)</li>
                                     <li>Authentication: JWT, OAuth, session management</li>
                                     <li>Project: Build a CRUD API for a todo app</li>
+                                    <li><a href="https://www.upwork.com/resources/beginners-guide-back-end-development" className="text-blue-400 hover:underline">See Detail</a></li>
                                 </ul>
                             )}
                         </div>
@@ -551,6 +553,7 @@ const DSAPage = () => {
                                     <li>GraphQL: Schema design, resolvers, Apollo Client</li>
                                     <li>Testing: Unit testing with Jest, integration testing</li>
                                     <li>Project: Build an e-commerce platform frontend</li>
+                                    <li><a href="https://www.atlassian.com/devops" className="text-blue-400 hover:underline">See Detail</a></li>
                                 </ul>
                             )}
                         </div>
@@ -571,6 +574,7 @@ const DSAPage = () => {
                                     <li>Security: XSS, CSRF, SQL injection prevention</li>
                                     <li>Capstone Project: Full stack social media app</li>
                                     <li>Mock Interviews: Technical and behavioral</li>
+                                    <li><a href="https://www.google.com/search?q=full+stack" className="text-blue-400 hover:underline">See Detail</a></li>
                                 </ul>
                             )}
                         </div>

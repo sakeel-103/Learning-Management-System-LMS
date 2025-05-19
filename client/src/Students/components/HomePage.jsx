@@ -53,7 +53,7 @@ function HomePage() {
                             </Link>
                             <Link
                                 to="/courses"
-                                className="bg-white text-blue-500 font-semibold py-3 px-8 rounded-lg shadow-lg border border-blue-500 hover:bg-blue-50 transition duration-300 transform hover:scale-105"
+                                className="bg-white text-black-500 font-semibold py-3 px-8 rounded-lg shadow-lg border border-blue-500 hover:bg-blue-50 transition duration-300 transform hover:scale-105"
                             >
                                 Explore Courses
                             </Link>
@@ -194,7 +194,6 @@ function HomePage() {
                             bg: "bg-cyan-100",
                         },
                     ].map((stat, index) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
                         const [startCount, setStartCount] = useState(false);
                         return (
                             <div
@@ -335,7 +334,7 @@ function HomePage() {
             </section>
 
             {/* FAQ Section (Collapsible) */}
-            <section className="container mx-auto py-16 bg-blue-200 mb-12">
+            <section className="container mx-auto py-16 bg-gray-200 mb-12">
                 <h3 className="text-3xl font-semibold text-center mb-12 text-gray-800">Frequently Asked Questions</h3>
                 <div className="max-w-3xl mx-auto space-y-4">
                     {[
@@ -375,27 +374,26 @@ function HomePage() {
                 </div>
             </section>
 
-            {/* Newsletter Subscription Section */}
-            <section className="container mx-auto py-16 bg-gradient-to-r from-blue-200 to-purple-100 text-white text-center relative overflow-hidden animate-fade-in transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_30px_rgba(59,130,246,0.7)] border-4 border-gradient-to-r from-blue-400 to-purple-500 box-border mb-12">
+            <section className="container mx-auto py-8 sm:py-12 md:py-16 bg-gradient-to-r from-blue-200 to-purple-100 text-white text-center relative overflow-hidden animate-fade-in transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_30px_rgba(59,130,246,0.7)] border-4 border-gradient-to-r from-blue-400 to-purple-500 box-border mb-8 sm:mb-10 md:mb-12">
                 <div className="absolute inset-0 bg-opacity-20 bg-[url('https://via.placeholder.com/1200x400?text=Newsletter+Pattern')] opacity-30"></div>
-                <div className="relative z-10">
-                    <h3 className="text-3xl font-semibold mb-4 tracking-tight">Stay Updated with Our Newsletter</h3>
-                    <p className="text-lg mb-8 max-w-xl mx-auto">Subscribe to receive the latest course updates, tips, and exclusive offers.</p>
-                    <div className="max-w-md mx-auto">
-                        <div className="flex items-center bg-white rounded-full shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl">
-                            <div className="p-3">
-                                <FaEnvelope className="text-blue-600 text-xl" />
+                <div className="relative z-10 px-4 sm:px-6">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-3 sm:mb-4 tracking-tight">Stay Updated with Our Newsletter</h3>
+                    <p className="text-sm sm:text-base md:text-lg mb-4 sm:mb-6 md:mb-8 max-w-xs sm:max-w-sm md:max-w-xl mx-auto">Subscribe to receive the latest course updates, tips, and exclusive offers.</p>
+                    <div className="max-w-xs sm:max-w-sm md:max-w-md mx-auto">
+                        <div className="flex flex-col sm:flex-row items-center bg-white rounded-3xl sm:rounded-full shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl">
+                            <div className="p-2 sm:p-3 flex justify-center sm:justify-start">
+                                <FaEnvelope className="text-blue-600 text-lg sm:text-xl" />
                             </div>
                             <input
                                 type="email"
                                 placeholder="Enter your email"
-                                className="flex-1 p-3 text-gray-700 focus:outline-none placeholder-gray-400 placeholder-opacity-75 transition-all duration-300"
+                                className="flex-1 p-2 sm:p-3 text-gray-700 focus:outline-none placeholder-gray-400 placeholder-opacity-75 transition-all duration-300 text-sm sm:text-base w-full sm:w-auto"
                             />
-                            <button className="bg-blue-500 text-white font-semibold py-3 px-6 hover:bg-blue-600 transition duration-300 transform hover:scale-105">
+                            <button className="bg-blue-500 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 hover:bg-blue-600 transition duration-300 transform hover:scale-105 w-full sm:w-auto mt-2 sm:mt-0 rounded-3xl sm:rounded-r-full">
                                 Subscribe
                             </button>
                         </div>
-                        <p className="text-sm mt-4 opacity-80">We respect your privacy and won’t share your information.</p>
+                        <p className="text-xs sm:text-sm mt-3 sm:mt-4 opacity-80">We respect your privacy and won’t share your information.</p>
                     </div>
                 </div>
             </section>
@@ -453,7 +451,7 @@ function HomePage() {
                 </div>
             </section>
 
-            {/* Quick Links Section */}
+            {/* Quick Links Section
             <section className="container mx-auto py-16 bg-white text-center">
                 <h3 className="text-3xl font-semibold mb-12 text-gray-800">Quick Links</h3>
                 <p className='text-lg mb-6 max-w-xl mx-auto'>Access key resources and pages to enhance your learning experience.</p>
@@ -473,7 +471,7 @@ function HomePage() {
                         </Link>
                     ))}
                 </div>
-            </section>
+            </section> */}
 
             {/* Call-to-Action Section */}
             <section className="bg-gray-600 text-white py-16 text-center relative overflow-hidden">
