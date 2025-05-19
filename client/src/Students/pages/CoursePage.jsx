@@ -269,7 +269,7 @@ const CoursePage = () => {
         },
         {
             id: '2',
-            title: 'JAVA Backend Development - LIVE',
+            title: 'JAVA Backend Development: Complete Course',
             stats: '3k+ Interested Users',
             rating: '4.7',
             level: 'Intermediate to Advanced',
