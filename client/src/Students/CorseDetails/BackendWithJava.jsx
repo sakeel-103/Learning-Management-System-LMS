@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const BackendWithJava = () => {
+    const navigate = useNavigate();
     const [openSections, setOpenSections] = useState({
         week1: false,
         week2: false,
@@ -32,34 +33,24 @@ const BackendWithJava = () => {
                 <div className="max-w-6xl mx-auto">
                     <div className="flex flex-col lg:flex-row gap-8">
                         <div className="lg:w-2/3">
-                            <div className="relative pb-[56.25%] bg-black rounded-xl overflow-hidden">
-                                {/* Video Player with Local File */}
-                                <video
-                                    className="absolute inset-0 w-full h-full object-cover"
-                                    controls
-                                    poster="../assets/java_binary.jpg"
-                                >
-                                    <source
-                                        src=""
-                                        type="video/mp4"
-                                    />
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <div className="text-center text-white">
-                                            <svg className="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            <p className="text-xl font-medium">Demo Video</p>
-                                        </div>
-                                    </div>
-                                </video>
-                                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                            <div className="max-w-6xl mx-auto text-center">
+                                <h2 className="text-3xl md:text-4xl font-bold text-green-900 mb-8">Learn From Our Experts</h2>
+                                <p className="text-lg text-gray-700 mb-6">Watch this introductory video to understand the program structure and what you’ll achieve.</p>
+                                <div className="aspect-w-16 aspect-h-9 max-w-4xl mx-auto">
+                                    <iframe
+                                        className="w-full h-64 md:h-96 rounded-lg"
+                                        src="https://www.youtube.com/embed/UmnCZ7-9yDY"
+                                        title="Java Backend Development Course"
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    ></iframe>
                                 </div>
                             </div>
 
                             {/* Video part */}
                             <div className="mt-6">
-                                <h1 className="text-3xl font-bold text-gray-900">JAVA Backend Development - Live</h1>
+                                <h1 className="text-3xl font-bold text-gray-900">JAVA Backend Development</h1>
                                 <div className="flex items-center mt-2 space-x-4">
                                     <div className="flex items-center text-yellow-500">
                                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -74,7 +65,7 @@ const BackendWithJava = () => {
                         </div>
 
                         {/* Course Sidebar */}
-                        <div className="lg:w-1/3">
+                        <div className="lg:w-1/3 self-center pt-6">
                             <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
                                 <div className="space-y-4">
                                     <div>
@@ -98,12 +89,14 @@ const BackendWithJava = () => {
                                     </div>
 
                                     <div className="space-y-3 pt-4 border-t border-gray-200">
-                                        <button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition">
-                                            Sign Up Now
-                                        </button>
-                                        <button className="w-full border border-green-600 text-green-600 hover:bg-green-50 py-3 px-4 rounded-lg font-medium transition">
-                                            Access Demo
-                                        </button>
+                                        <div className="space-y-3 pt-4 border-t border-gray-200 ">
+                                            <button
+                                                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition"
+                                                onClick={() => navigate('/register')}
+                                            >
+                                                Sign Up Now
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -637,7 +630,7 @@ const BackendWithJava = () => {
                     <p className="text-lg mb-6">Enroll now to master Java Backend Development and become a top-tier developer.</p>
                     <button
                         className="bg-white text-green-900 font-semibold py-3 px-8 rounded-lg hover:bg-gray-200"
-                    // onClick={() => navigate('/enroll')}
+                        onClick={() => navigate('/register')}
                     >
                         Enroll Now
                     </button>

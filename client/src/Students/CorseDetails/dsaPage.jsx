@@ -5,9 +5,7 @@ import harry from '../images/harry.jpg';
 import aman from '../images/aman.jpg';
 import assist1 from '../images/assist1.jpg';
 import assist2 from '../images/assist2.jpg';
-// import assist3 from '../images/assist3.jpg';
-// import assist2 from '../images/assist2.avif';
-// import assist3 from '../images/assist3.avif';
+
 
 const DSAPage = () => {
     const [showBooks, setShowBooks] = useState(false);
