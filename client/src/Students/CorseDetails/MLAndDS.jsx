@@ -9,7 +9,7 @@ const MLAndDS = () => {
             <section className="bg-gradient-to-r from-green-900 to-teal-800 text-white py-16 px-6 pt-36">
                 <div className="max-w-6xl mx-auto text-center">
                     <h1 className="text-4xl md:text-5xl font-bold mb-4">Complete Machine Learning & Data Science Program</h1>
-                    <p className="text-lg md:text-xl mb-6">Master data structures and Algorithms to excel in coding interviews and development in 3 months!</p>
+                    <p className="text-lg md:text-xl mb-6">Gain hands-on experience in machine learning and data science to build industry-ready skills in just 4 months!</p>
                 </div>
             </section>
 
