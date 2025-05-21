@@ -17,6 +17,7 @@ import DSAPage from './Students/CorseDetails/dsaPage'
 import MLAndDS from './Students/CorseDetails/MLAndDS'
 import BackendWithJava from './Students/CorseDetails/BackendWithJava'
 import DataStructuresAlgorithm from './Students/CorseDetails/DataStructureAlgorithm'
+import ScrollToTop from './components/ScrollToTop';
 
 
 function App() {
@@ -42,6 +43,8 @@ function App() {
         <Route path="/courses/backend-with-java" element={<BackendWithJava />} />
         <Route path="/courses/data-structure-algorithms" element={<DataStructuresAlgorithm />} />
       </Routes>
+
+      <ScrollToTop />
       <UserFooter />
       <ToastContainer
         position="top-right"
