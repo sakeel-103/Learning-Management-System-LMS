@@ -10,7 +10,6 @@ const DataStructuresAlgorithm = () => {
                 <div className="max-w-6xl mx-auto text-center">
                     <h1 className="text-4xl md:text-5xl font-bold mb-4">Data Structure And Algorithms</h1>
                     <p className="text-lg md:text-xl mb-6">Master Data Structures and Algorithms to excel in coding interviews and development in 3 months!</p>
-                    <span className="bg-blue-500 text-white text-sm font-semibold px-4 py-2 rounded-full">LIVE</span>
                 </div>
             </section>
 
