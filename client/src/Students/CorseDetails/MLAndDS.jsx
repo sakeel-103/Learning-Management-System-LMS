@@ -414,6 +414,20 @@ const MLAndDS = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Call to Action Section */}
+            < section className="py-12 px-6 bg-green-900 text-white" >
+                <div className="max-w-6xl mx-auto text-center">
+                    <h2 className="text-3xl font-bold mb-4">Start Your AI & ML Journey Today!</h2>
+                    <p className="text-lg mb-6">Enroll now to master Ai & ML and become a top-tier developer.</p>
+                    <button
+                        className="bg-white text-green-900 font-semibold py-3 px-8 rounded-lg hover:bg-gray-200"
+                        onClick={() => navigate('/login')}
+                    >
+                        Enroll Now
+                    </button>
+                </div>
+            </section>
         </>
     );
 };

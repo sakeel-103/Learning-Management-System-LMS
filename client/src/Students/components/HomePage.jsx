@@ -13,11 +13,10 @@ import user1 from '../assets/user1.jpeg';
 import { Monitor, User, GraduationCap, BadgeCheck } from "lucide-react";
 import CountUp from "react-countup";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    const navigate = useNavigate();
     return (
         <>
 
@@ -451,63 +450,21 @@ function HomePage() {
                 </div>
             </section>
 
-            {/* Quick Links Section
-            <section className="container mx-auto py-16 bg-white text-center">
-                <h3 className="text-3xl font-semibold mb-12 text-gray-800">Quick Links</h3>
-                <p className='text-lg mb-6 max-w-xl mx-auto'>Access key resources and pages to enhance your learning experience.</p>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    {[
-                        { title: "Browse Courses", path: "/courses" },
-                        { title: "About Us", path: "/about" },
-                        { title: "Support", path: "/support" },
-                        { title: "Blog", path: "/blog" },
-                    ].map((link, index) => (
-                        <Link
-                            key={index}
-                            to={link.path}
-                            className="bg-gradient-to-r from-gray-500 to-blue-700 text-white p-6 rounded-xl shadow-sm hover:shadow-md font-semibold transition-all duration-300 transform hover:scale-105"
-                        >
-                            {link.title}
-                        </Link>
-                    ))}
-                </div>
-            </section> */}
-
-            {/* Call-to-Action Section */}
-            <section className="bg-gray-600 text-white py-16 text-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-[url('https://via.placeholder.com/1200x400?text=CTA+Pattern')] opacity-20 parallax"></div>
-                <div className="container mx-auto relative z-10">
-                    <h3 className="text-3xl font-semibold mb-4 tracking-tight">Ready to Start Learning?</h3>
-                    <p className="text-lg mb-8 max-w-xl mx-auto">Join thousands of learners and explore courses tailored for you.</p>
-                    <Link
-                        to="/register"
-                        className="bg-white text-blue-500 font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-50 transition duration-300 transform hover:scale-105"
+            {/* Call to Action Section */}
+            < section className="py-12 px-6 bg-gray-400 text-white" >
+                <div className="max-w-6xl mx-auto text-center">
+                    <h2 className="text-3xl font-bold mb-4">Start Learning Journey Today!</h2>
+                    <p className="text-lg mb-6">Enroll now and become a top-tier developer with expert-led courses.</p>
+                    <button
+                        className="bg-white text-green-900 font-semibold py-3 px-8 rounded-lg hover:bg-gray-200"
+                        onClick={() => navigate('/login')}
                     >
-                        Sign Up Now
-                    </Link>
+                        Enroll Now
+                    </button>
                 </div>
             </section>
 
-            {/* Back to Top Button */}
-            <button
-                onClick={scrollToTop}
-                className="fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
-                aria-label="Scroll to top"
-            >
-                <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 10l7-7m0 0l7 7m-7-7v18"
-                    />
-                </svg>
-            </button>
+
         </>
     )
 }
