@@ -7,6 +7,8 @@ import pic1 from '../assets/pic1.jpg';
 import pic2 from '../assets/pic2.jpg';
 import pic3 from '../assets/pic3.jpg';
 import banner from '../assets/banner.png';
+import AdminDashboard from './../../Admin/components/AdminDashboard';
+import JavaScriptPage from './../DevelopmentAndDS/JavaScriptPage';
 
 const CourseCard = ({ course, section }) => {
     const [showDetails, setShowDetails] = useState(false);
@@ -1124,30 +1126,30 @@ const CoursePage = () => {
                                 <a href="#" className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200">See All</a>
                             </div>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                <a href="/dvelopmentAndDS/javascriptPage" className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
                                     JavaScript <span>→</span>
-                                </button>
-                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="/DevelopmentAndDS/htmlPage" className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
                                     HTML <span>→</span>
-                                </button>
-                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="/devlopmentAndDS/cssPage" className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
                                     CSS <span>→</span>
-                                </button>
-                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="/DevelopmentAndDS/reactJsPage" className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
                                     ReactJS <span>→</span>
-                                </button>
-                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="/DevelopmentAndDS/nodeJsPage" className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
                                     Node.js <span>→</span>
-                                </button>
-                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="/DevelopmentAndDS/djangoPage" className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
                                     Django <span>→</span>
-                                </button>
-                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="/DevelopmentAndDS/frontendPage" className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
                                     Frontend Develop... <span>→</span>
-                                </button>
-                                <button className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="/dvelopmentAndDS/backendPage" className="bg-gray-500 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-400 hover:scale-105 transition-all duration-300 ease-in-out">
                                     Backend Developm... <span>→</span>
-                                </button>
+                                </a>
                             </div>
                         </div>
 
@@ -1158,30 +1160,30 @@ const CoursePage = () => {
                                 <a href="#" className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200">See All</a>
                             </div>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                <a href="../AIMLDS/MachineLearningPage" className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
                                     Machine Learning <span>→</span>
-                                </button>
-                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="../AIMLDS/DataSciencePage" className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
                                     Data Science <span>→</span>
-                                </button>
-                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="../AIMLDS/DataAnalysisPage" className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
                                     Data Analysis <span>→</span>
-                                </button>
-                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="../AIMLDS/DataVisualizationPage" className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
                                     Data Visualization <span>→</span>
-                                </button>
-                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="../AIMLDS/DeepLearningPage" className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
                                     Deep Learning <span>→</span>
-                                </button>
-                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="../AIMLDS/NaturalLanguagePage" className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
                                     Natural Language (NLP) <span>→</span>
-                                </button>
-                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="../AIMLDS/ComputerVisionPage" className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
                                     Computer Vission <span>→</span>
-                                </button>
-                                <button className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
+                                </a>
+                                <a href="../AIMLDS/AIPage" className="bg-gray-700 text-white py-3 px-6 rounded-lg flex justify-between items-center hover:bg-gray-600 hover:scale-105 transition-all duration-300 ease-in-out">
                                     Artificial Intelligence (AI) <span>→</span>
-                                </button>
+                                </a>
                             </div>
                         </div>
 
