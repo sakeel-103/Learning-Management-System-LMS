@@ -219,7 +219,7 @@ function HomePage() {
             </section>
 
 
-            {/* Enhanced Testimonials Section */}
+            {/* Testimonials Section */}
             <section className="container mx-auto py-16 bg-gradient-to-r from-blue-50 to-gray-100 mt-24">
                 <h3 className="text-3xl font-bold text-center mb-12 text-gray-800">What Our Learners Say</h3>
                 <div className="relative overflow-hidden">
@@ -397,7 +397,7 @@ function HomePage() {
                 </div>
             </section>
 
-            {/* Mini Contact Form Section */}
+            {/* Contact Form Section */}
             <section className="container mx-auto py-16 bg-gray-300 relative overflow-hidden animate-fade-in w-full">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/subtle-white-feathers.png')] opacity-10 bg-repeat"></div>
                 <h3 className="text-4xl font-extrabold text-center mb-12 text-gray-800 tracking-tight text-shadow-sm">Get in Touch</h3>
