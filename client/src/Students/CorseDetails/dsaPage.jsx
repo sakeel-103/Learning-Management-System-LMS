@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import fullstack from '../images/fullstack.jpg';
 import lov from '../images/lov.jpg';
 import harry from '../images/harry.jpg';
 import aman from '../images/aman.jpg';
@@ -734,43 +733,69 @@ const DSAPage = () => {
                 </section>
 
                 {/* Banner Section */}
-                <section className="py-16 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white">
+                <section className="py-16 px-4 bg-gradient-to-r from-green-700 to-purple-800 text-white">
                     <div className="max-w-7xl mx-auto">
                         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+
                             {/* Left Content */}
                             <div className="md:w-1/2 space-y-6">
-                                <h2 className="text-4xl font-extrabold leading-tight">
-                                    Master Full Stack Development in 2024
+                                <h2 className="text-4xl font-bold leading-tight">
+                                    Master Full Stack Development in 2025
                                 </h2>
-                                <p className="text-lg text-gray-200">
+                                <p className="text-lg text-blue-100">
                                     Build complete web applications from frontend to backend with our comprehensive program.
                                     Learn the most in-demand technologies used by top tech companies.
                                 </p>
                                 <div className="flex flex-wrap gap-3">
-                                    {['React.js', 'Node.js', 'MongoDB', 'Express', 'Next.js', 'TypeScript'].map((tech, index) => (
-                                        <button
-                                            key={index}
-                                            className="px-4 py-2 bg-white/10 rounded-full text-sm font-medium hover:bg-white/20 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white/50"
-                                            onClick={() => { }}
-                                        >
-                                            {tech}
-                                        </button>
-                                    ))}
+                                    <button
+                                        className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
+                                        onClick={() => { }}
+                                    >
+                                        React.js
+                                    </button>
+                                    <button
+                                        className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl"
+                                        onClick={() => { }}
+                                    >
+                                        Node.js
+                                    </button>
+                                    <button
+                                        className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
+                                        onClick={() => { }}
+                                    >
+                                        MongoDB
+                                    </button>
+                                    <button
+                                        className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
+                                        onClick={() => { }}
+                                    >
+                                        Express
+                                    </button>
+                                    <button
+                                        className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
+                                        onClick={() => { }}
+                                    >
+                                        Next.js
+                                    </button>
+                                    <button
+                                        className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
+                                        onClick={() => { }}
+                                    >
+                                        TypeScript
+                                    </button>
                                 </div>
-                                <button
-                                    className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl"
-                                    onClick={() => { }}
-                                >
+                                <button className="px-8 py-3 bg-white text-blue-900 font-bold rounded-lg hover:bg-gray-100 transition-colors shadow-lg">
                                     Enroll Now
                                 </button>
                             </div>
+
                             {/* Right Image */}
                             <div className="md:w-1/2">
                                 <div className="relative">
                                     <img
                                         src={fullstack}
-                                        alt="Full Stack Development Illustration"
-                                        className="w-full h-auto rounded-xl shadow-xl max-w-full"
+                                        alt="Full Stack Development"
+                                        className="w-full h-auto rounded-lg shadow-xl"
                                     />
                                     <div className="absolute -bottom-4 -right-4 bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-bold shadow-lg">
                                         <span className="text-sm">Most Popular</span>
@@ -779,19 +804,25 @@ const DSAPage = () => {
                                 </div>
                             </div>
                         </div>
+
                         {/* Stats Bar */}
                         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                            {[
-                                { value: '12+', label: 'Weeks Program' },
-                                { value: '100+', label: 'Hands-on Projects' },
-                                { value: '24/7', label: 'Mentor Support' },
-                                { value: '1000+', label: 'Students Enrolled' }
-                            ].map((stat, index) => (
-                                <div key={index} className="bg-white bg-opacity-10 p-4 rounded-xl backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-lg">
-                                    <p className="text-3xl font-bold">{stat.value}</p>
-                                    <p className="text-sm text-gray-200">{stat.label}</p>
-                                </div>
-                            ))}
+                            <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm">
+                                <p className="text-3xl font-bold">12+</p>
+                                <p className="text-sm text-blue-100">Weeks Program</p>
+                            </div>
+                            <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm">
+                                <p className="text-3xl font-bold">100+</p>
+                                <p className="text-sm text-blue-100">Hands-on Projects</p>
+                            </div>
+                            <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm">
+                                <p className="text-3xl font-bold">24/7</p>
+                                <p className="text-sm text-blue-100">Mentor Support</p>
+                            </div>
+                            <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm">
+                                <p className="text-3xl font-bold">1000+</p>
+                                <p className="text-sm text-blue-100">Students Enrolled</p>
+                            </div>
                         </div>
                     </div>
                 </section>
