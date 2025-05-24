@@ -28,7 +28,7 @@ const BackendWithJava = () => {
                 </div>
             </section>
 
-            {/* Course Header with Video Section */}
+            {/* Course Header Section */}
             <section className="py-12 px-6 bg-white">
                 <div className="max-w-6xl mx-auto">
                     <div className="flex flex-col lg:flex-row gap-8">

@@ -1,18 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const DataStructuresAlgorithm = () => {
     const [activeSection, setActiveSection] = useState('intro');
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const navigate = useNavigate();
+
     const handleScroll = (sectionId) => {
         setActiveSection(sectionId);
         const element = document.getElementById(sectionId);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+        if (isSidebarOpen) {
+            setIsSidebarOpen(false);
+        }
+    };
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
     };
 
-    // This is functionality for the syllabus section to display the contents after clicking the points.
+    //for click outside to close sidebar
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (isSidebarOpen && sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+                setIsSidebarOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isSidebarOpen]);
     const InteractiveBullet = ({ title, content }) => {
         const [isExpanded, setIsExpanded] = React.useState(false);
 
@@ -37,19 +56,44 @@ const DataStructuresAlgorithm = () => {
     };
 
     return (
-        <div className="flex flex-col md:flex-row min-h-screen pt-20">
-            <aside className="w-full md:w-72 bg-gradient-to-b from-gray-800 to-gray-900 text-white p-6 shadow-xl">
+        <div className="flex flex-col min-h-screen pt-20 bg-gray-50">
 
-                {/* Sidebar */}
+            {/* Menu Button for Mobile */}
+            <button
+                className="md:hidden fixed top-24 left-4 z-40 p-2 bg-teal-600 text-white rounded-lg focus:outline-none"
+                onClick={toggleSidebar}
+            >
+                <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d={isSidebarOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
+                    />
+                </svg>
+            </button>
+
+            {/* Sidebar */}
+            <aside
+                className={`fixed inset-y-0 left-0 w-72 bg-gradient-to-b from-teal-800 to-green-900 text-white p-6 shadow-xl transform 
+                    ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 z-40 
+                    md:static md:w-72 md:flex md:flex-col md:min-h-screen pt-20`}
+            >
                 <nav>
-                    <h2 className="text-2xl font-bold mb-6 pb-3 border-b border-gray-700 text-teal-400">DSA Tutorial</h2>
+                    <h2 className="text-2xl font-bold mb-6 pb-3 border-b border-teal-600 text-teal-300">DSA Tutorial</h2>
                     <ul className="space-y-3">
                         <li>
                             <Link
                                 to="#intro"
-                                className={`flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:shadow-md ${activeSection === 'intro'
-                                    ? 'bg-teal-600 shadow-md text-white'
-                                    : 'text-gray-300'
+                                className={`flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'intro'
+                                    ? 'bg-teal-500 shadow-md text-white'
+                                    : 'text-teal-100'
                                     }`}
                                 onClick={() => handleScroll('intro')}
                             >
@@ -62,9 +106,9 @@ const DataStructuresAlgorithm = () => {
                         <li>
                             <Link
                                 to="#what-is-dsa"
-                                className={`flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:shadow-md ${activeSection === 'what-is-dsa'
-                                    ? 'bg-teal-600 shadow-md text-white'
-                                    : 'text-gray-300'
+                                className={`flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'what-is-dsa'
+                                    ? 'bg-teal-500 shadow-md text-white'
+                                    : 'text-teal-100'
                                     }`}
                                 onClick={() => handleScroll('what-is-dsa')}
                             >
@@ -77,9 +121,9 @@ const DataStructuresAlgorithm = () => {
                         <li>
                             <Link
                                 to="#algorithms"
-                                className={`flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:shadow-md ${activeSection === 'algorithms'
-                                    ? 'bg-teal-600 shadow-md text-white'
-                                    : 'text-gray-300'
+                                className={`flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'algorithms'
+                                    ? 'bg-teal-500 shadow-md text-white'
+                                    : 'text-teal-100'
                                     }`}
                                 onClick={() => handleScroll('algorithms')}
                             >
@@ -92,7 +136,7 @@ const DataStructuresAlgorithm = () => {
 
                         {/* Arrays Section */}
                         <li className="mt-6">
-                            <div className="flex items-center text-teal-300 font-semibold p-3 border-b border-gray-700">
+                            <div className="flex items-center text-teal-300 font-semibold p-3 border-b border-teal-600">
                                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                                 </svg>
@@ -102,9 +146,9 @@ const DataStructuresAlgorithm = () => {
                                 <li>
                                     <Link
                                         to="#arrays"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:shadow-md ${activeSection === 'arrays'
-                                            ? 'bg-teal-600/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-gray-400'
+                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'arrays'
+                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
+                                            : 'text-teal-200'
                                             }`}
                                         onClick={() => handleScroll('arrays')}
                                     >
@@ -114,9 +158,9 @@ const DataStructuresAlgorithm = () => {
                                 <li>
                                     <Link
                                         to="#sorting"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:shadow-md ${activeSection === 'sorting'
-                                            ? 'bg-teal-600/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-gray-400'
+                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'sorting'
+                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
+                                            : 'text-teal-200'
                                             }`}
                                         onClick={() => handleScroll('sorting')}
                                     >
@@ -126,9 +170,9 @@ const DataStructuresAlgorithm = () => {
                                 <li>
                                     <Link
                                         to="#searching"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:shadow-md ${activeSection === 'searching'
-                                            ? 'bg-teal-600/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-gray-400'
+                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'searching'
+                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
+                                            : 'text-teal-200'
                                             }`}
                                         onClick={() => handleScroll('searching')}
                                     >
@@ -140,7 +184,7 @@ const DataStructuresAlgorithm = () => {
 
                         {/* Linked Lists Section */}
                         <li className="mt-6">
-                            <div className="flex items-center text-teal-300 font-semibold p-3 border Disord: border-b border-gray-700">
+                            <div className="flex items-center text-teal-300 font-semibold p-3 border-b border-teal-600">
                                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                 </svg>
@@ -150,9 +194,9 @@ const DataStructuresAlgorithm = () => {
                                 <li>
                                     <Link
                                         to="#linked-lists"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:shadow-md ${activeSection === 'linked-lists'
-                                            ? 'bg-teal-600/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-gray-400'
+                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'linked-lists'
+                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
+                                            : 'text-teal-200'
                                             }`}
                                         onClick={() => handleScroll('linked-lists')}
                                     >
@@ -162,9 +206,9 @@ const DataStructuresAlgorithm = () => {
                                 <li>
                                     <Link
                                         to="#ll-operations"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:shadow-md ${activeSection === 'll-operations'
-                                            ? 'bg-teal-600/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-gray-400'
+                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'll-operations'
+                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
+                                            : 'text-teal-200'
                                             }`}
                                         onClick={() => handleScroll('ll-operations')}
                                     >
@@ -176,7 +220,7 @@ const DataStructuresAlgorithm = () => {
 
                         {/* Stacks & Queues Section */}
                         <li className="mt-6">
-                            <div className="flex items-center text-teal-300 font-semibold p-3 border-b border-gray-700">
+                            <div className="flex items-center text-teal-300 font-semibold p-3 border-b border-teal-600">
                                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 6h12v12H6V6z" />
                                 </svg>
@@ -186,9 +230,9 @@ const DataStructuresAlgorithm = () => {
                                 <li>
                                     <Link
                                         to="#stacks"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:shadow-md ${activeSection === 'stacks'
-                                            ? 'bg-teal-600/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-gray-400'
+                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'stacks'
+                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
+                                            : 'text-teal-200'
                                             }`}
                                         onClick={() => handleScroll('stacks')}
                                     >
@@ -198,9 +242,9 @@ const DataStructuresAlgorithm = () => {
                                 <li>
                                     <Link
                                         to="#queues"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:shadow-md ${activeSection === 'queues'
-                                            ? 'bg-teal-600/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-gray-400'
+                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'queues'
+                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
+                                            : 'text-teal-200'
                                             }`}
                                         onClick={() => handleScroll('queues')}
                                     >
@@ -212,7 +256,7 @@ const DataStructuresAlgorithm = () => {
 
                         {/* Hash Table Section */}
                         <li className="mt-6">
-                            <div className="flex items-center text-teal-300 font-semibold p-3 border-b border-gray-700">
+                            <div className="flex items-center text-teal-300 font-semibold p-3 border-b border-teal-600">
                                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
                                 </svg>
@@ -222,9 +266,9 @@ const DataStructuresAlgorithm = () => {
                                 <li>
                                     <Link
                                         to="#hash-table"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:shadow-md ${activeSection === 'hash-table'
-                                            ? 'bg-teal-600/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-gray-400'
+                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'hash-table'
+                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
+                                            : 'text-teal-200'
                                             }`}
                                         onClick={() => handleScroll('hash-table')}
                                     >
@@ -234,9 +278,9 @@ const DataStructuresAlgorithm = () => {
                                 <li>
                                     <Link
                                         to="#hash-sets"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:shadow-md ${activeSection === 'hash-sets'
-                                            ? 'bg-teal-600/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-gray-400'
+                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'hash-sets'
+                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
+                                            : 'text-teal-200'
                                             }`}
                                         onClick={() => handleScroll('hash-sets')}
                                     >
@@ -246,9 +290,9 @@ const DataStructuresAlgorithm = () => {
                                 <li>
                                     <Link
                                         to="#hash-maps"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:shadow-md ${activeSection === 'hash-maps'
-                                            ? 'bg-teal-600/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-gray-400'
+                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'hash-maps'
+                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
+                                            : 'text-teal-200'
                                             }`}
                                         onClick={() => handleScroll('hash-maps')}
                                     >
@@ -262,19 +306,19 @@ const DataStructuresAlgorithm = () => {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 p-6">
-                <section id="intro" className="bg-gradient-to-r from-green-900 to-teal-800 text-white py-16 px-6 rounded-lg mb-8">
+            <main className="flex-1 p-4 sm:p-6 md:ml-72">
+                <section id="intro" className="bg-gradient-to-r from-green-900 to-teal-800 text-white py-16 px-4 sm:px-6 rounded-lg mb-8">
                     <div className="max-w-6xl mx-auto text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-4">Data Structure And Algorithms</h1>
-                        <p className="text-lg md:text-xl mb-6">Master Data Structures and Algorithms to excel in coding interviews and development in 3 months!</p>
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Data Structure And Algorithms</h1>
+                        <p className="text-base sm:text-lg md:text-xl mb-6">Master Data Structures and Algorithms to excel in coding interviews and development in 3 months!</p>
                     </div>
                 </section>
 
                 {/* Course Overview Section */}
-                <section id="overview" className="py-12 px-6 bg-gray-100 rounded-lg mb-8">
+                <section id="overview" className="py-12 px-4 sm:px-6 bg-gray-100 rounded-lg mb-8">
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-6">Course Overview</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">Course Overview</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                             <div className="bg-white p-6 rounded-lg shadow-md">
                                 <h3 className="text-xl font-semibold mb-2">Rating & Popularity</h3>
                                 <p className="text-yellow-400">★ 4.4 <span className="text-gray-600">(1K+ Interested Users)</span></p>
@@ -296,9 +340,9 @@ const DataStructuresAlgorithm = () => {
                 </section>
 
                 {/* Introduction Section */}
-                <section id="what-is-dsa" className="py-12 px-6 bg-white rounded-lg shadow-md mb-8">
+                <section id="what-is-dsa" className="py-12 px-4 sm:px-6 bg-white rounded-lg shadow-md mb-8">
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-6">What are Data Structures?</h2>
+                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">What are Data Structures?</h2>
                         <p className="text-gray-600 mb-4">
                             Data structures are specialized formats for organizing, processing, retrieving and storing data. They provide a way to manage large amounts of data efficiently for uses such as large databases and internet indexing services.
                         </p>
@@ -311,10 +355,10 @@ const DataStructuresAlgorithm = () => {
                     </div>
                 </section>
 
-                {/* Algorithms Defiation Section */}
-                <section id="algorithms" className="py-12 px-6 bg-gray-100 rounded-lg mb-8">
+                {/* Algorithms Definition Section */}
+                <section id="algorithms" className="py-12 px-4 sm:px-6 bg-gray-100 rounded-lg mb-8">
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-6">What are Algorithms?</h2>
+                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">What are Algorithms?</h2>
                         <p className="text-gray-600 mb-4">
                             An algorithm is a finite sequence of well-defined, computer-implementable instructions, typically to solve a class of problems or to perform a computation. Algorithms are unambiguous specifications for performing calculation, data processing, automated reasoning, and other tasks.
                         </p>
@@ -328,9 +372,9 @@ const DataStructuresAlgorithm = () => {
                 </section>
 
                 {/* Technologies Section */}
-                <section id="technologies" className="py-16 px-6 bg-gradient-to-br from-gray-50 to-white">
+                <section id="technologies" className="py-16 px-4 sm:px-6 bg-gradient-to-br from-gray-50 to-white">
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">
+                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">
                             <span className="relative inline-block">
                                 <span className="absolute inset-x-0 bottom-2 h-3 bg-blue-100 opacity-75"></span>
                                 <span className="relative">Technologies Covered</span>
@@ -418,9 +462,9 @@ const DataStructuresAlgorithm = () => {
                 </section>
 
                 {/* Syllabus Section */}
-                <section id="syllabus" className="py-16 px-6 bg-gradient-to-b from-gray-50 to-gray-100">
+                <section id="syllabus" className="py-16 px-4 sm:px-6 bg-gradient-to-b from-gray-50 to-gray-100">
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">
+                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">
                             <span className="relative inline-block">
                                 <span className="absolute inset-x-0 bottom-2 h-3 bg-purple-100 opacity-75"></span>
                                 <span className="relative">Structured Learning Path</span>
@@ -438,7 +482,7 @@ const DataStructuresAlgorithm = () => {
                                         <h3 className="text-2xl font-bold text-gray-800">Foundational Concepts</h3>
                                     </div>
 
-                                    <div className="pl-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="pl-4 sm:pl-16 grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {/* Key Topics Column */}
                                         <div>
                                             <h4 className="font-semibold text-lg text-blue-800 mb-3 border-b pb-2">Key Topics</h4>
@@ -498,7 +542,7 @@ const DataStructuresAlgorithm = () => {
                                         <h3 className="text-2xl font-bold text-gray-800">Sorting & Searching Algorithms</h3>
                                     </div>
 
-                                    <div className="pl-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="pl-4 sm:pl-16 grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {/* Key Topics Column */}
                                         <div>
                                             <h4 className="font-semibold text-lg text-green-800 mb-3 border-b pb-2">Key Topics</h4>
@@ -558,7 +602,7 @@ const DataStructuresAlgorithm = () => {
                                         <h3 className="text-2xl font-bold text-gray-800">Tree & Graph Structures</h3>
                                     </div>
 
-                                    <div className="pl-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="pl-4 sm:pl-16 grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {/* Key Topics Column */}
                                         <div>
                                             <h4 className="font-semibold text-lg text-orange-800 mb-3 border-b pb-2">Key Topics</h4>
@@ -618,7 +662,7 @@ const DataStructuresAlgorithm = () => {
                                         <h3 className="text-2xl font-bold text-gray-800">Advanced Problem Solving</h3>
                                     </div>
 
-                                    <div className="pl-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="pl-4 sm:pl-16 grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {/* Key Topics Column */}
                                         <div>
                                             <h4 className="font-semibold text-lg text-purple-800 mb-3 border-b pb-2">Key Topics</h4>
@@ -671,13 +715,12 @@ const DataStructuresAlgorithm = () => {
                     </div>
                 </section>
 
-
                 {/* Arrays Section */}
                 <section id="arrays" className="py-16 px-4 sm:px-6 bg-white">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
-                            <h2 className="text-4xl font-bold text-gray-800">Array Data Structure</h2>
-                            <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+                            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800">Array Data Structure</h2>
+                            <p className="mt-4 text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
                                 A foundational data structure that stores elements in contiguous memory locations
                             </p>
                         </div>
@@ -807,13 +850,13 @@ const DataStructuresAlgorithm = () => {
                 <section id="sorting" className="py-8 px-4 sm:px-6 bg-gray-50">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-8">
-                            <h2 className="text-3xl font-semibold text-gray-800">Sorting Algorithms</h2>
-                            <p className="mt-2 text-gray-600">
+                            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800">Sorting Algorithms</h2>
+                            <p className="mt-2 text-base sm:text-lg text-gray-600">
                                 Methods to arrange data in ascending or descending order.
                             </p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Bubble Sort</h3>
                                 <p className="text-gray-700">
@@ -896,11 +939,11 @@ const DataStructuresAlgorithm = () => {
                 <section id="searching" className="py-16 px-4 sm:px-6 bg-gradient-to-br from-gray-50 to-white">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
-                            <h2 className="text-4xl font-bold text-gray-800 inline-block relative">
+                            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 inline-block relative">
                                 <span className="relative z-10">Searching Algorithms</span>
                                 <span className="absolute bottom-1 left-0 right-0 h-3 bg-green-200 opacity-50 z-0"></span>
                             </h2>
-                            <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+                            <p className="mt-4 text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
                                 Techniques for finding elements within data structures efficiently
                             </p>
                         </div>
@@ -1018,16 +1061,16 @@ const DataStructuresAlgorithm = () => {
                 <section id="linked-lists" className="py-16 px-4 sm:px-6 bg-gradient-to-br from-purple-50 to-white">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
-                            <h2 className="text-4xl font-bold text-gray-800 inline-block relative">
+                            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 inline-block relative">
                                 <span className="relative z-10">Linked Lists</span>
                                 <span className="absolute bottom-1 left-0 right-0 h-3 bg-purple-200 opacity-50 z-0"></span>
                             </h2>
-                            <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+                            <p className="mt-4 text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
                                 Linear data structures where elements are linked using pointers
                             </p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12">
                             {[
                                 {
                                     type: "Singly Linked List",
@@ -1167,10 +1210,10 @@ class LinkedList {
                 <section id="hash-tables" className="py-8 px-4 sm:px-6">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-8">
-                            <h2 className="text-3xl font-semibold text-gray-800">Hash Tables</h2>
+                            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800">Hash Tables</h2>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Hash Table</h3>
                                 <p className="text-gray-700">
@@ -1242,36 +1285,30 @@ class LinkedList {
                 </section>
 
                 {/* Call to Action Section */}
-                <section className="py-16 px-6 bg-gradient-to-r from-green-800 to-teal-800 text-white">
+                <section className="py-16 px-4 sm:px-6 bg-gradient-to-r from-green-800 to-teal-800 text-white">
                     <div className="max-w-4xl mx-auto text-center">
                         <div className="inline-block bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 mb-4">
                             <span className="font-medium text-green-200">Limited Seats Available</span>
                         </div>
-                        <h2 className="text-4xl font-bold mb-6 leading-tight">
+                        <h2 className="text-3xl sm:text-4xl font-bold mb-6 leading-tight">
                             Ready to Master <span className="text-teal-300">Data Structure & Algorithms</span>?
                         </h2>
-                        <p className="text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
-                            Join thousands of students who've transformed their careers with our comprehensive AI & ML program.
-                            Start building intelligent systems today!
+                        <p className="text-base sm:text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
+                            Join thousands of students who've transformed their careers with our comprehensive DSA course. Learn from industry experts, solve real-world problems, and land your dream tech job in just 3 months!
                         </p>
                         <div className="flex flex-col sm:flex-row justify-center gap-4">
                             <button
-                                className="bg-white text-green-900 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
-                                onClick={() => navigate('/login')}
+                                onClick={() => navigate('/enroll')}
+                                className="bg-teal-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-teal-600 transition-all duration-200 shadow-md hover:shadow-lg"
                             >
                                 Enroll Now
                             </button>
                             <button
-                                className="border-2 border-white text-white font-semibold py-3 px-8 rounded-lg hover:bg-white/10 transition-all duration-300"
-                                onClick={() => navigate('/curriculum')}
+                                onClick={() => navigate('/contact')}
+                                className="bg-transparent border-2 border-teal-300 text-teal-300 font-semibold py-3 px-6 rounded-lg hover:bg-teal-300 hover:text-green-900 transition-all duration-200"
                             >
-                                View Curriculum
+                                Contact Us
                             </button>
-                        </div>
-                        <div className="mt-6 text-green-200 text-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                            </svg>
                         </div>
                     </div>
                 </section>

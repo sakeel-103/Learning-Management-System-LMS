@@ -56,15 +56,12 @@ function UserNavbar() {
         <nav className="fixed top-0 left-0 right-0 bg-white text-gray-800 shadow-lg z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
-
-                    {/* BrandLogo */}
                     <div className="flex items-center">
                         <Link to="/" className="text-2xl font-extrabold text-gray-600 tracking-tight">
                             TrackAdemy
                         </Link>
                     </div>
                     <div className="flex items-center">
-                        {/* Desktop Search Bar */}
                         <div className="hidden md:flex items-center mr-6">
                             <form onSubmit={handleSearch} className="relative">
                                 <input
@@ -235,7 +232,6 @@ function UserNavbar() {
             {isOpen && (
                 <div className="md:hidden bg-white shadow-lg">
                     <div className="px-4 pt-4 pb-3 space-y-2">
-                        {/* Mobile Search Bar */}
                         <form onSubmit={handleSearch} className="mb-4">
                             <div className="relative">
                                 <input
