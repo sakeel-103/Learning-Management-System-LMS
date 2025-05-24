@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const DataStructuresAlgorithm = () => {
     const [activeSection, setActiveSection] = useState('intro');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const navigate = useNavigate();
+    const sidebarRef = useRef(null);
 
     const handleScroll = (sectionId) => {
         setActiveSection(sectionId);
@@ -16,11 +17,12 @@ const DataStructuresAlgorithm = () => {
             setIsSidebarOpen(false);
         }
     };
+
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
-    //for click outside to close sidebar
+    // Click outside to close sidebar
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (isSidebarOpen && sidebarRef.current && !sidebarRef.current.contains(event.target)) {
@@ -32,6 +34,7 @@ const DataStructuresAlgorithm = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isSidebarOpen]);
+
     const InteractiveBullet = ({ title, content }) => {
         const [isExpanded, setIsExpanded] = React.useState(false);
 
@@ -56,11 +59,10 @@ const DataStructuresAlgorithm = () => {
     };
 
     return (
-        <div className="flex flex-col min-h-screen pt-20 bg-gray-50">
-
+        <div className="flex min-h-screen bg-gray-50">
             {/* Menu Button for Mobile */}
             <button
-                className="md:hidden fixed top-24 left-4 z-40 p-2 bg-teal-600 text-white rounded-lg focus:outline-none"
+                className="lg:hidden fixed top-24 left-4 z-50 p-2 bg-blue-400 text-white rounded-md focus:outline-none"
                 onClick={toggleSidebar}
             >
                 <svg
@@ -81,313 +83,339 @@ const DataStructuresAlgorithm = () => {
 
             {/* Sidebar */}
             <aside
-                className={`fixed inset-y-0 left-0 w-72 bg-gradient-to-b from-teal-800 to-green-900 text-white p-6 shadow-xl transform 
-                    ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 z-40 
-                    md:static md:w-72 md:flex md:flex-col md:min-h-screen pt-20`}
+                ref={sidebarRef}
+                className={`w-64 bg-white shadow-md fixed h-[calc(100vh-5rem)] transition-transform duration-300 ease-in-out z-40 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                    } lg:sticky lg:top-0 lg:h-screen lg:translate-x-0`}
+                style={{ top: '5rem' }}
             >
-                <nav>
-                    <h2 className="text-2xl font-bold mb-6 pb-3 border-b border-teal-600 text-teal-300">DSA Tutorial</h2>
-                    <ul className="space-y-3">
-                        <li>
-                            <Link
-                                to="#intro"
-                                className={`flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'intro'
-                                    ? 'bg-teal-500 shadow-md text-white'
-                                    : 'text-teal-100'
-                                    }`}
-                                onClick={() => handleScroll('intro')}
-                            >
-                                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                DSA Intro
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="#what-is-dsa"
-                                className={`flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'what-is-dsa'
-                                    ? 'bg-teal-500 shadow-md text-white'
-                                    : 'text-teal-100'
-                                    }`}
-                                onClick={() => handleScroll('what-is-dsa')}
-                            >
-                                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                                What is DSA?
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="#algorithms"
-                                className={`flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'algorithms'
-                                    ? 'bg-teal-500 shadow-md text-white'
-                                    : 'text-teal-100'
-                                    }`}
-                                onClick={() => handleScroll('algorithms')}
-                            >
-                                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                                </svg>
-                                What are Algorithms?
-                            </Link>
-                        </li>
+                <div className="p-4 border-b">
+                    <h2 className="text-xl font-bold text-gray-800">DSA Tutorial</h2>
+                </div>
+                <div className="h-[calc(100%-4rem)] overflow-y-auto">
+                    <nav className="p-4">
+                        <ul className="space-y-2">
+                            <li>
+                                <Link
+                                    to="#intro"
+                                    className={`flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeSection === 'intro' ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700'
+                                        }`}
+                                    onClick={() => handleScroll('intro')}
+                                >
+                                    <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    DSA Intro
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    to="#what-is-dsa"
+                                    className={`flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeSection === 'what-is-dsa' ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700'
+                                        }`}
+                                    onClick={() => handleScroll('what-is-dsa')}
+                                >
+                                    <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                    What is DSA?
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    to="#algorithms"
+                                    className={`flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeSection === 'algorithms' ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700'
+                                        }`}
+                                    onClick={() => handleScroll('algorithms')}
+                                >
+                                    <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                    </svg>
+                                    What are Algorithms?
+                                </Link>
+                            </li>
 
-                        {/* Arrays Section */}
-                        <li className="mt-6">
-                            <div className="flex items-center text-teal-300 font-semibold p-3 border-b border-teal-600">
-                                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-                                Arrays
-                            </div>
-                            <ul className="ml-8 mt-2 space-y-2">
-                                <li>
-                                    <Link
-                                        to="#arrays"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'arrays'
-                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-teal-200'
-                                            }`}
-                                        onClick={() => handleScroll('arrays')}
-                                    >
-                                        DSA Arrays
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="#sorting"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'sorting'
-                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-teal-200'
-                                            }`}
-                                        onClick={() => handleScroll('sorting')}
-                                    >
-                                        Sorting Algorithms
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="#searching"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'searching'
-                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-teal-200'
-                                            }`}
-                                        onClick={() => handleScroll('searching')}
-                                    >
-                                        Searching Algorithms
-                                    </Link>
-                                </li>
-                            </ul>
-                        </li>
+                            {/* Arrays Section */}
+                            <li className="mt-4">
+                                <div className="flex items-center text-gray-800 font-semibold p-3 border-b border-gray-200">
+                                    <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                    </svg>
+                                    Arrays
+                                </div>
+                                <ul className="ml-6 mt-2 space-y-1">
+                                    <li>
+                                        <Link
+                                            to="#arrays"
+                                            className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeSection === 'arrays' ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700'
+                                                }`}
+                                            onClick={() => handleScroll('arrays')}
+                                        >
+                                            DSA Arrays
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="#sorting"
+                                            className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeSection === 'sorting' ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700'
+                                                }`}
+                                            onClick={() => handleScroll('sorting')}
+                                        >
+                                            Sorting Algorithms
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="#searching"
+                                            className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeSection === 'searching' ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700'
+                                                }`}
+                                            onClick={() => handleScroll('searching')}
+                                        >
+                                            Searching Algorithms
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        {/* Linked Lists Section */}
-                        <li className="mt-6">
-                            <div className="flex items-center text-teal-300 font-semibold p-3 border-b border-teal-600">
-                                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                </svg>
-                                Linked Lists
-                            </div>
-                            <ul className="ml-8 mt-2 space-y-2">
-                                <li>
-                                    <Link
-                                        to="#linked-lists"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'linked-lists'
-                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-teal-200'
-                                            }`}
-                                        onClick={() => handleScroll('linked-lists')}
-                                    >
-                                        DSA Linked Lists
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="#ll-operations"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'll-operations'
-                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-teal-200'
-                                            }`}
-                                        onClick={() => handleScroll('ll-operations')}
-                                    >
-                                        Linked List Operations
-                                    </Link>
-                                </li>
-                            </ul>
-                        </li>
+                            {/* Linked Lists Section */}
+                            <li className="mt-4">
+                                <div className="flex items-center text-gray-800 font-semibold p-3 border-b border-gray-200">
+                                    <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                    Linked Lists
+                                </div>
+                                <ul className="ml-6 mt-2 space-y-1">
+                                    <li>
+                                        <Link
+                                            to="#linked-lists"
+                                            className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeSection === 'linked-lists' ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700'
+                                                }`}
+                                            onClick={() => handleScroll('linked-lists')}
+                                        >
+                                            DSA Linked Lists
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="#ll-operations"
+                                            className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeSection === 'll-operations' ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700'
+                                                }`}
+                                            onClick={() => handleScroll('ll-operations')}
+                                        >
+                                            Linked List Operations
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        {/* Stacks & Queues Section */}
-                        <li className="mt-6">
-                            <div className="flex items-center text-teal-300 font-semibold p-3 border-b border-teal-600">
-                                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 6h12v12H6V6z" />
-                                </svg>
-                                Stacks & Queues
-                            </div>
-                            <ul className="ml-8 mt-2 space-y-2">
-                                <li>
-                                    <Link
-                                        to="#stacks"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'stacks'
-                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-teal-200'
-                                            }`}
-                                        onClick={() => handleScroll('stacks')}
-                                    >
-                                        DSA Stacks
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="#queues"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'queues'
-                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-teal-200'
-                                            }`}
-                                        onClick={() => handleScroll('queues')}
-                                    >
-                                        DSA Queues
-                                    </Link>
-                                </li>
-                            </ul>
-                        </li>
+                            {/* Stacks & Queues Section */}
+                            <li className="mt-4">
+                                <div className="flex items-center text-gray-800 font-semibold p-3 border-b border-gray-200">
+                                    <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 6h12v12H6V6z" />
+                                    </svg>
+                                    Stacks & Queues
+                                </div>
+                                <ul className="ml-6 mt-2 space-y-1">
+                                    <li>
+                                        <Link
+                                            to="#stacks"
+                                            className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeSection === 'stacks' ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700'
+                                                }`}
+                                            onClick={() => handleScroll('stacks')}
+                                        >
+                                            DSA Stacks
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="#queues"
+                                            className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeSection === 'queues' ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700'
+                                                }`}
+                                            onClick={() => handleScroll('queues')}
+                                        >
+                                            DSA Queues
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </li>
 
-                        {/* Hash Table Section */}
-                        <li className="mt-6">
-                            <div className="flex items-center text-teal-300 font-semibold p-3 border-b border-teal-600">
-                                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-                                </svg>
-                                Hash Table
-                            </div>
-                            <ul className="ml-8 mt-2 space-y-2">
-                                <li>
-                                    <Link
-                                        to="#hash-table"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'hash-table'
-                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-teal-200'
-                                            }`}
-                                        onClick={() => handleScroll('hash-table')}
-                                    >
-                                        DSA Hash Table
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="#hash-sets"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'hash-sets'
-                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-teal-200'
-                                            }`}
-                                        onClick={() => handleScroll('hash-sets')}
-                                    >
-                                        DSA Hash Sets
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="#hash-maps"
-                                        className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-teal-700 hover:shadow-md ${activeSection === 'hash-maps'
-                                            ? 'bg-teal-500/20 shadow-md text-teal-300 border-l-4 border-teal-400'
-                                            : 'text-teal-200'
-                                            }`}
-                                        onClick={() => handleScroll('hash-maps')}
-                                    >
-                                        DSA Hash Maps
-                                    </Link>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
+                            {/* Hash Table Section */}
+                            <li className="mt-4">
+                                <div className="flex items-center text-gray-800 font-semibold p-3 border-b border-gray-200">
+                                    <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                                    </svg>
+                                    Hash Table
+                                </div>
+                                <ul className="ml-6 mt-2 space-y-1">
+                                    <li>
+                                        <Link
+                                            to="#hash-table"
+                                            className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeSection === 'hash-table' ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700'
+                                                }`}
+                                            onClick={() => handleScroll('hash-table')}
+                                        >
+                                            DSA Hash Table
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="#hash-sets"
+                                            className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeSection === 'hash-sets' ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700'
+                                                }`}
+                                            onClick={() => handleScroll('hash-sets')}
+                                        >
+                                            DSA Hash Sets
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="#hash-maps"
+                                            className={`block p-2 pl-4 rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeSection === 'hash-maps' ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-700'
+                                                }`}
+                                            onClick={() => handleScroll('hash-maps')}
+                                        >
+                                            DSA Hash Maps
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 p-4 sm:p-6 md:ml-72">
-                <section id="intro" className="bg-gradient-to-r from-green-900 to-teal-800 text-white py-16 px-4 sm:px-6 rounded-lg mb-8">
-                    <div className="max-w-6xl mx-auto text-center">
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Data Structure And Algorithms</h1>
-                        <p className="text-base sm:text-lg md:text-xl mb-6">Master Data Structures and Algorithms to excel in coding interviews and development in 3 months!</p>
-                    </div>
-                </section>
+            <div className="flex-1 w-full overflow-x-hidden lg:ml-0 lg:px-6">
+                <div className="p-4 sm:p-8 pt-20 sm:pt-36 pb-8">
+                    {/* Intro Section */}
+                    <section id="intro" className="mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm text-center">
+                        <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
+                                Data Structure And Algorithms
+                            </span>
+                        </h1>
+                        <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                            Master Data Structures and Algorithms to excel in coding interviews and development in 3 months!
+                        </p>
+                    </section>
 
-                {/* Course Overview Section */}
-                <section id="overview" className="py-12 px-4 sm:px-6 bg-gray-100 rounded-lg mb-8">
-                    <div className="max-w-6xl mx-auto">
-                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">Course Overview</h2>
+                    {/* Hero Banner */}
+                    <div className="mb-16 bg-gradient-to-r from-blue-400 to-green-800 rounded-2xl shadow-xl overflow-hidden border border-white/10">
+                        <div className="relative p-4 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
+                            {/* Glow effect */}
+                            <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
+                            <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
+
+                            {/* Content */}
+                            <div className="relative z-10 mb-6 md:mb-0 md:mr-8">
+                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3">
+                                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
+                                        Master DSA
+                                    </span>{" "}
+                                    in 2025
+                                </h2>
+                                <p className="text-base sm:text-lg text-white/90 max-w-lg">
+                                    Unlock the power of efficient coding with the core concepts of Data Structures and Algorithms
+                                </p>
+                                <div className="mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                                    <button className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg">
+                                        Start Learning Now
+                                    </button>
+                                    <button className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all">
+                                        Explore Projects
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Code snippet with animation */}
+                            <div className="relative z-10 bg-green-900/80 backdrop-blur-sm p-5 rounded-xl border border-white/10 shadow-lg hover:shadow-purple-500/20 transition-shadow duration-300 w-full md:w-auto">
+                                <div className="flex space-x-2 mb-3">
+                                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                </div>
+                                <pre className="text-yellow-400 font-mono text-xs sm:text-sm md:text-base overflow-x-auto">
+                                    <code>
+                                        {`// Simple array example\n`}
+                                        {`int arr[] = {5, 2, 9, 1, 7};\n`}
+                                        {`for(int i = 0; i < 5; i++) {\n`}
+                                        {`    cout << arr[i] << " ";\n`}
+                                        {`}`}
+                                    </code>
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Course Overview Section */}
+                    <section id="overview" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 border-b pb-2">Course Overview</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                            <div className="bg-white p-6 rounded-lg shadow-md">
+                            <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
                                 <h3 className="text-xl font-semibold mb-2">Rating & Popularity</h3>
                                 <p className="text-yellow-400">★ 4.4 <span className="text-gray-600">(1K+ Interested Users)</span></p>
                             </div>
-                            <div className="bg-white p-6 rounded-lg shadow-md">
+                            <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
                                 <h3 className="text-xl font-semibold mb-2">Level & Duration</h3>
                                 <p>Beginner to Advanced | 3 Months</p>
                             </div>
-                            <div className="bg-white p-6 rounded-lg shadow-md">
+                            <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
                                 <h3 className="text-xl font-semibold mb-2">Schedule</h3>
                                 <p>Mon, Wed (7PM-9PM IST)</p>
                             </div>
                         </div>
-                        <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
+                        <div className="mt-8 bg-gray-50 p-6 rounded-lg shadow-sm">
                             <h3 className="text-xl font-semibold mb-2">Why Learn DSA?</h3>
                             <p className="text-gray-600">Data Structures and Algorithms are the backbone of efficient coding. Mastering DSA helps you solve complex problems, ace coding interviews, and build scalable applications. This course bridges the gap from beginner to advanced, preparing you for real-world development.</p>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                {/* Introduction Section */}
-                <section id="what-is-dsa" className="py-12 px-4 sm:px-6 bg-white rounded-lg shadow-md mb-8">
-                    <div className="max-w-6xl mx-auto">
-                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">What are Data Structures?</h2>
-                        <p className="text-gray-600 mb-4">
-                            Data structures are specialized formats for organizing, processing, retrieving and storing data. They provide a way to manage large amounts of data efficiently for uses such as large databases and internet indexing services.
-                        </p>
-                        <p className="text-gray-600 mb-4">
-                            In computer science, a data structure is a data organization, management, and storage format that enables efficient access and modification. More precisely, a data structure is a collection of data values, the relationships among them, and the functions or operations that can be applied to the data.
-                        </p>
-                        <p className="text-gray-600">
-                            Common data structures include arrays, linked lists, stacks, queues, trees, and graphs. Each structure has different strengths and weaknesses that make it suitable for specific types of applications. Choosing the right data structure can significantly impact the performance and efficiency of an algorithm.
-                        </p>
-                    </div>
-                </section>
+                    {/* Introduction Section */}
+                    <section id="what-is-dsa" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 border-b pb-2">What are Data Structures?</h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-600">
+                                Data structures are specialized formats for organizing, processing, retrieving and storing data. They provide a way to manage large amounts of data efficiently for uses such as large databases and internet indexing services.
+                            </p>
+                            <p className="text-gray-600">
+                                In computer science, a data structure is a data organization, management, and storage format that enables efficient access and modification. More precisely, a data structure is a collection of data values, the relationships among them, and the functions or operations that can be applied to the data.
+                            </p>
+                            <p className="text-gray-600">
+                                Common data structures include arrays, linked lists, stacks, queues, trees, and graphs. Each structure has different strengths and weaknesses that make it suitable for specific types of applications. Choosing the right data structure can significantly impact the performance and efficiency of an algorithm.
+                            </p>
+                        </div>
+                    </section>
 
-                {/* Algorithms Definition Section */}
-                <section id="algorithms" className="py-12 px-4 sm:px-6 bg-gray-100 rounded-lg mb-8">
-                    <div className="max-w-6xl mx-auto">
-                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">What are Algorithms?</h2>
-                        <p className="text-gray-600 mb-4">
-                            An algorithm is a finite sequence of well-defined, computer-implementable instructions, typically to solve a class of problems or to perform a computation. Algorithms are unambiguous specifications for performing calculation, data processing, automated reasoning, and other tasks.
-                        </p>
-                        <p className="text-gray-600 mb-4">
-                            In mathematics and computer science, an algorithm is a finite sequence of rigorous instructions, typically used to solve a class of specific problems or to perform a computation. Algorithms are used as specifications for performing calculations and data processing.
-                        </p>
-                        <p className="text-gray-600">
-                            Good algorithms are crucial to the performance of all software systems. Algorithmic efficiency can be analyzed through formal methods and is an important consideration in software development. Common algorithm categories include sorting, searching, graph traversal, and dynamic programming.
-                        </p>
-                    </div>
-                </section>
+                    {/* Algorithms Definition Section */}
+                    <section id="algorithms" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 border-b pb-2">What are Algorithms?</h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-600">
+                                An algorithm is a finite sequence of well-defined, computer-implementable instructions, typically to solve a class of problems or to perform a computation. Algorithms are unambiguous specifications for performing calculation, data processing, automated reasoning, and other tasks.
+                            </p>
+                            <p className="text-gray-600">
+                                In mathematics and computer science, an algorithm is a finite sequence of rigorous instructions, typically used to solve a class of specific problems or to perform a computation. Algorithms are used as specifications for performing calculations and data processing.
+                            </p>
+                            <p className="text-gray-600">
+                                Good algorithms are crucial to the performance of all software systems. Algorithmic efficiency can be analyzed through formal methods and is an important consideration in software development. Common algorithm categories include sorting, searching, graph traversal, and dynamic programming.
+                            </p>
+                        </div>
+                    </section>
 
-                {/* Technologies Section */}
-                <section id="technologies" className="py-16 px-4 sm:px-6 bg-gradient-to-br from-gray-50 to-white">
-                    <div className="max-w-6xl mx-auto">
-                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">
-                            <span className="relative inline-block">
-                                <span className="absolute inset-x-0 bottom-2 h-3 bg-blue-100 opacity-75"></span>
-                                <span className="relative">Technologies Covered</span>
-                            </span>
+                    {/* Technologies Section */}
+                    <section id="technologies" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-12 text-center border-b pb-2">
+                            Technologies Covered
                         </h2>
-
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                             {/* C++ Card */}
                             <a
                                 href="https://isocpp.org/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group relative bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100"
+                                className="group relative bg-gray-50 rounded-xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-gray-100"
                             >
                                 <div className="p-6">
                                     <div className="flex items-center justify-center w-14 h-14 bg-blue-50 rounded-lg mb-4">
@@ -406,7 +434,7 @@ const DataStructuresAlgorithm = () => {
                                 href="https://www.python.org/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group relative bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100"
+                                className="group relative bg-gray-50 rounded-xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-gray-100"
                             >
                                 <div className="p-6">
                                     <div className="flex items-center justify-center w-14 h-14 bg-yellow-50 rounded-lg mb-4">
@@ -425,7 +453,7 @@ const DataStructuresAlgorithm = () => {
                                 href="https://en.wikipedia.org/wiki/Big_O_notation"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group relative bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100"
+                                className="group relative bg-gray-50 rounded-xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-gray-100"
                             >
                                 <div className="p-6">
                                     <div className="flex items-center justify-center w-14 h-14 bg-green-50 rounded-lg mb-4">
@@ -444,7 +472,7 @@ const DataStructuresAlgorithm = () => {
                                 href="https://leetcode.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group relative bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100"
+                                className="group relative bg-gray-50 rounded-xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-gray-100"
                             >
                                 <div className="p-6">
                                     <div className="flex items-center justify-center w-14 h-14 bg-orange-50 rounded-lg mb-4">
@@ -458,31 +486,24 @@ const DataStructuresAlgorithm = () => {
                                 </div>
                             </a>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                {/* Syllabus Section */}
-                <section id="syllabus" className="py-16 px-4 sm:px-6 bg-gradient-to-b from-gray-50 to-gray-100">
-                    <div className="max-w-6xl mx-auto">
-                        <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">
-                            <span className="relative inline-block">
-                                <span className="absolute inset-x-0 bottom-2 h-3 bg-purple-100 opacity-75"></span>
-                                <span className="relative">Structured Learning Path</span>
-                            </span>
+                    {/* Syllabus Section */}
+                    <section id="syllabus" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-12 text-center border-b pb-2">
+                            Structured Learning Path
                         </h2>
-
                         <div className="space-y-8">
                             {/* Module 1: Foundations */}
-                            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-xl">
-                                <div className="p-8">
+                            <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-lg">
+                                <div className="p-6 sm:p-8">
                                     <div className="flex items-center mb-6">
                                         <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg mr-4">
                                             <span className="text-blue-600 font-bold text-xl">1</span>
                                         </div>
                                         <h3 className="text-2xl font-bold text-gray-800">Foundational Concepts</h3>
                                     </div>
-
-                                    <div className="pl-4 sm:pl-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {/* Key Topics Column */}
                                         <div>
                                             <h4 className="font-semibold text-lg text-blue-800 mb-3 border-b pb-2">Key Topics</h4>
@@ -505,7 +526,6 @@ const DataStructuresAlgorithm = () => {
                                                 />
                                             </ul>
                                         </div>
-
                                         {/* Learning Approach Column */}
                                         <div>
                                             <h4 className="font-semibold text-lg text-purple-800 mb-3 border-b pb-2">Learning Approach</h4>
@@ -533,16 +553,15 @@ const DataStructuresAlgorithm = () => {
                             </div>
 
                             {/* Module 2: Sorting & Searching */}
-                            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-xl">
-                                <div className="p-8">
+                            <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-lg">
+                                <div className="p-6 sm:p-8">
                                     <div className="flex items-center mb-6">
                                         <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg mr-4">
                                             <span className="text-green-600 font-bold text-xl">2</span>
                                         </div>
                                         <h3 className="text-2xl font-bold text-gray-800">Sorting & Searching Algorithms</h3>
                                     </div>
-
-                                    <div className="pl-4 sm:pl-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {/* Key Topics Column */}
                                         <div>
                                             <h4 className="font-semibold text-lg text-green-800 mb-3 border-b pb-2">Key Topics</h4>
@@ -565,7 +584,6 @@ const DataStructuresAlgorithm = () => {
                                                 />
                                             </ul>
                                         </div>
-
                                         {/* Learning Approach Column */}
                                         <div>
                                             <h4 className="font-semibold text-lg text-yellow-800 mb-3 border-b pb-2">Learning Approach</h4>
@@ -593,16 +611,15 @@ const DataStructuresAlgorithm = () => {
                             </div>
 
                             {/* Module 3: Trees & Graphs */}
-                            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-xl">
-                                <div className="p-8">
+                            <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-lg">
+                                <div className="p-6 sm:p-8">
                                     <div className="flex items-center mb-6">
                                         <div className="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg mr-4">
                                             <span className="text-orange-600 font-bold text-xl">3</span>
                                         </div>
                                         <h3 className="text-2xl font-bold text-gray-800">Tree & Graph Structures</h3>
                                     </div>
-
-                                    <div className="pl-4 sm:pl-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {/* Key Topics Column */}
                                         <div>
                                             <h4 className="font-semibold text-lg text-orange-800 mb-3 border-b pb-2">Key Topics</h4>
@@ -625,7 +642,6 @@ const DataStructuresAlgorithm = () => {
                                                 />
                                             </ul>
                                         </div>
-
                                         {/* Learning Approach Column */}
                                         <div>
                                             <h4 className="font-semibold text-lg text-red-800 mb-3 border-b pb-2">Learning Approach</h4>
@@ -653,16 +669,15 @@ const DataStructuresAlgorithm = () => {
                             </div>
 
                             {/* Module 4: Advanced Concepts */}
-                            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-xl">
-                                <div className="p-8">
+                            <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-lg">
+                                <div className="p-6 sm:p-8">
                                     <div className="flex items-center mb-6">
                                         <div className="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-lg mr-4">
                                             <span className="text-purple-600 font-bold text-xl">4</span>
                                         </div>
                                         <h3 className="text-2xl font-bold text-gray-800">Advanced Problem Solving</h3>
                                     </div>
-
-                                    <div className="pl-4 sm:pl-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {/* Key Topics Column */}
                                         <div>
                                             <h4 className="font-semibold text-lg text-purple-800 mb-3 border-b pb-2">Key Topics</h4>
@@ -685,7 +700,6 @@ const DataStructuresAlgorithm = () => {
                                                 />
                                             </ul>
                                         </div>
-
                                         {/* Learning Approach Column */}
                                         <div>
                                             <h4 className="font-semibold text-lg text-indigo-800 mb-3 border-b pb-2">Learning Approach</h4>
@@ -695,7 +709,7 @@ const DataStructuresAlgorithm = () => {
                                                     content="Identify when problems involve: 1) Choices at each step 2) Repeating subproblems. Start with 1D then 2D DP tables. Practice state transition formulation."
                                                 />
                                                 <InteractiveBullet
-                                                    title="Prove Greedy Correctness"
+                                                    title=" Prove Greedy Correctness"
                                                     content="Don't assume greedy works - prove it for each problem. Start with obvious greedy approaches, then test edge cases."
                                                 />
                                                 <InteractiveBullet
@@ -712,25 +726,21 @@ const DataStructuresAlgorithm = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                {/* Arrays Section */}
-                <section id="arrays" className="py-16 px-4 sm:px-6 bg-white">
-                    <div className="max-w-6xl mx-auto">
+                    {/* Arrays Section */}
+                    <section id="arrays" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800">Array Data Structure</h2>
-                            <p className="mt-4 text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+                            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Array Data Structure</h2>
+                            <p className="mt-4 text-base sm:text-lg text-gray-600">
                                 A foundational data structure that stores elements in contiguous memory locations
                             </p>
                         </div>
-
-                        <div className="max-w-4xl mx-auto">
+                        <div>
                             <h3 className="text-2xl font-semibold text-gray-800 mb-4">What is an Array?</h3>
                             <p className="text-gray-700 mb-6">
                                 An array is a collection of items stored at contiguous memory locations. It allows storing multiple items of the same type together, making it efficient to access elements using numerical indices.
                             </p>
-
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
                                 <div>
                                     <h4 className="text-xl font-medium text-gray-800 mb-3">Key Features</h4>
@@ -767,7 +777,6 @@ const DataStructuresAlgorithm = () => {
                                     </div>
                                 </div>
                             </div>
-
                             <h3 className="text-2xl font-semibold text-gray-800 mb-4">Array Operations</h3>
                             <div className="overflow-x-auto mb-10">
                                 <table className="min-w-full border border-gray-200">
@@ -802,7 +811,6 @@ const DataStructuresAlgorithm = () => {
                                     </tbody>
                                 </table>
                             </div>
-
                             <h3 className="text-2xl font-semibold text-gray-800 mb-4">Key Array Concepts</h3>
                             <div className="space-y-6">
                                 <div>
@@ -813,7 +821,6 @@ const DataStructuresAlgorithm = () => {
                                         that holds multiple values of the same type in sequential memory locations.
                                     </p>
                                 </div>
-
                                 <div>
                                     <h4 className="text-lg font-medium text-gray-800 mb-2">Element Access</h4>
                                     <p className="text-gray-700">
@@ -823,7 +830,6 @@ const DataStructuresAlgorithm = () => {
                                         The first element is typically at index 0.
                                     </p>
                                 </div>
-
                                 <div>
                                     <h4 className="text-lg font-medium text-gray-800 mb-2">Modification</h4>
                                     <p className="text-gray-700">
@@ -832,7 +838,6 @@ const DataStructuresAlgorithm = () => {
                                         because it may involve shifting all subsequent elements to maintain continuity.
                                     </p>
                                 </div>
-
                                 <div>
                                     <h4 className="text-lg font-medium text-gray-800 mb-2">Traversal</h4>
                                     <p className="text-gray-700">
@@ -843,21 +848,18 @@ const DataStructuresAlgorithm = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                {/* Sorting Algorithms Section */}
-                <section id="sorting" className="py-8 px-4 sm:px-6 bg-gray-50">
-                    <div className="max-w-6xl mx-auto">
+                    {/* Sorting Algorithms Section */}
+                    <section id="sorting" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <div className="text-center mb-8">
-                            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800">Sorting Algorithms</h2>
+                            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Sorting Algorithms</h2>
                             <p className="mt-2 text-base sm:text-lg text-gray-600">
                                 Methods to arrange data in ascending or descending order.
                             </p>
                         </div>
-
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div>
+                            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
                                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Bubble Sort</h3>
                                 <p className="text-gray-700">
                                     Compares and swaps adjacent elements if out of order.
@@ -870,7 +872,7 @@ const DataStructuresAlgorithm = () => {
                                     <li>Slow due to O(n²) time.</li>
                                 </ul>
                             </div>
-                            <div>
+                            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
                                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Selection Sort</h3>
                                 <p className="text-gray-700">
                                     Selects smallest element from unsorted part and adds to sorted part.
@@ -883,7 +885,7 @@ const DataStructuresAlgorithm = () => {
                                     <li>Not stable.</li>
                                 </ul>
                             </div>
-                            <div>
+                            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
                                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Insertion Sort</h3>
                                 <p className="text-gray-700">
                                     Builds sorted array one element at a time via comparisons.
@@ -895,7 +897,7 @@ const DataStructuresAlgorithm = () => {
                                     <li>Inefficient for large lists.</li>
                                 </ul>
                             </div>
-                            <div>
+                            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
                                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Merge Sort</h3>
                                 <p className="text-gray-700">
                                     Divides array, sorts halves, and merges them.
@@ -907,7 +909,7 @@ const DataStructuresAlgorithm = () => {
                                     <li>Slower for small datasets.</li>
                                 </ul>
                             </div>
-                            <div>
+                            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
                                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Quick Sort</h3>
                                 <p className="text-gray-700">
                                     Partitions array around a pivot and recursively sorts sub-arrays.
@@ -919,7 +921,7 @@ const DataStructuresAlgorithm = () => {
                                     <li>Not stable.</li>
                                 </ul>
                             </div>
-                            <div>
+                            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
                                 <h3 className="text-lg font-semibold text-gray-800 mb-2">Heap Sort</h3>
                                 <p className="text-gray-700">
                                     Uses a binary heap to sort, similar to selection sort.
@@ -932,24 +934,18 @@ const DataStructuresAlgorithm = () => {
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                {/* Searching Algorithms Section */}
-                <section id="searching" className="py-16 px-4 sm:px-6 bg-gradient-to-br from-gray-50 to-white">
-                    <div className="max-w-6xl mx-auto">
+                    {/* Searching Algorithms Section */}
+                    <section id="searching" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 inline-block relative">
-                                <span className="relative z-10">Searching Algorithms</span>
-                                <span className="absolute bottom-1 left-0 right-0 h-3 bg-green-200 opacity-50 z-0"></span>
-                            </h2>
-                            <p className="mt-4 text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+                            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Searching Algorithms</h2>
+                            <p className="mt-4 text-base sm:text-lg text-gray-600">
                                 Techniques for finding elements within data structures efficiently
                             </p>
                         </div>
-
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                            <div className="bg-gray-50 rounded-xl shadow-sm border border-gray-200 p-6">
                                 <div className="flex items-center mb-6">
                                     <div className="bg-blue-100 p-2 rounded-lg mr-4">
                                         <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -958,12 +954,10 @@ const DataStructuresAlgorithm = () => {
                                     </div>
                                     <h3 className="text-2xl font-semibold text-gray-800">Linear Search</h3>
                                 </div>
-
                                 <div className="space-y-4">
                                     <p className="text-gray-700">
                                         Sequentially checks each element of the list until a match is found or the whole list has been searched.
                                     </p>
-
                                     <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
                                         <h4 className="font-medium text-blue-800 mb-2">Characteristics:</h4>
                                         <ul className="space-y-2">
@@ -981,10 +975,9 @@ const DataStructuresAlgorithm = () => {
                                             </li>
                                         </ul>
                                     </div>
-
                                     <div>
                                         <h4 className="font-medium text-gray-800 mb-2">Implementation:</h4>
-                                        <pre className="bg-white p-4 rounded-lg overflow-x-auto text-sm border-2 border-gray-600">
+                                        <pre className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto text-sm">
                                             <code>
                                                 {`function linearSearch(arr, target) {
   for(let i = 0; i < arr.length; i++) {
@@ -997,9 +990,8 @@ const DataStructuresAlgorithm = () => {
                                     </div>
                                 </div>
                             </div>
-
                             {/* Binary Search */}
-                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                            <div className="bg-gray-50 rounded-xl shadow-sm border border-gray-200 p-6">
                                 <div className="flex items-center mb-6">
                                     <div className="bg-green-100 p-2 rounded-lg mr-4">
                                         <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1008,12 +1000,10 @@ const DataStructuresAlgorithm = () => {
                                     </div>
                                     <h3 className="text-2xl font-semibold text-gray-800">Binary Search</h3>
                                 </div>
-
                                 <div className="space-y-4">
                                     <p className="text-gray-700">
                                         Efficient algorithm for finding an item from a sorted list by repeatedly dividing the search interval in half.
                                     </p>
-
                                     <div className="bg-green-50 p-4 rounded-lg border border-green-100">
                                         <h4 className="font-medium text-green-800 mb-2">Characteristics:</h4>
                                         <ul className="space-y-2">
@@ -1031,10 +1021,9 @@ const DataStructuresAlgorithm = () => {
                                             </li>
                                         </ul>
                                     </div>
-
                                     <div>
                                         <h4 className="font-medium text-gray-800 mb-2">Implementation:</h4>
-                                        <pre className="bg-white p-4 rounded-lg overflow-x-auto text-sm border-2 border-gray-600">
+                                        <pre className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto text-sm">
                                             <code>
                                                 {`function binarySearch(arr, target) {
   let left = 0;
@@ -1054,22 +1043,16 @@ const DataStructuresAlgorithm = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                {/* Linked Lists Section */}
-                <section id="linked-lists" className="py-16 px-4 sm:px-6 bg-gradient-to-br from-purple-50 to-white">
-                    <div className="max-w-6xl mx-auto">
+                    {/* Linked Lists Section */}
+                    <section id="linked-lists" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 inline-block relative">
-                                <span className="relative z-10">Linked Lists</span>
-                                <span className="absolute bottom-1 left-0 right-0 h-3 bg-purple-200 opacity-50 z-0"></span>
-                            </h2>
-                            <p className="mt-4 text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+                            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Linked Lists</h2>
+                            <p className="mt-4 text-base sm:text-lg text-gray-600">
                                 Linear data structures where elements are linked using pointers
                             </p>
                         </div>
-
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12">
                             {[
                                 {
@@ -1091,41 +1074,43 @@ const DataStructuresAlgorithm = () => {
                                     cons: ["Risk of infinite loops", "More complex implementation"]
                                 }
                             ].map((list, index) => (
-                                <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                                <div key={index} className="bg-gray-50 rounded-xl shadow-sm border border-gray-200 p-6">
                                     <h3 className="text-xl font-bold text-gray-800 mb-3">{list.type}</h3>
                                     <p className="text-gray-700 mb-4">{list.desc}</p>
                                     <div className="space-y-3">
                                         <div className="bg-purple-50 p-3 rounded-lg">
                                             <h4 className="text-sm font-medium text-purple-800 mb-1">Advantages</h4>
                                             <ul className="text-xs text-gray-700 space-y-1">
-                                                {list.pros.map((pro, i) => <li key={i} className="flex items-start">
-                                                    <svg className="w-3 h-3 text-purple-500 mr-1 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                                                    </svg>
-                                                    {pro}
-                                                </li>)}
+                                                {list.pros.map((pro, i) => (
+                                                    <li key={i} className="flex items-start">
+                                                        <svg className="w-3 h-3 text-purple-500 mr-1 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                                                        </svg>
+                                                        {pro}
+                                                    </li>
+                                                ))}
                                             </ul>
                                         </div>
                                         <div className="bg-pink-50 p-3 rounded-lg">
                                             <h4 className="text-sm font-medium text-pink-800 mb-1">Limitations</h4>
                                             <ul className="text-xs text-gray-700 space-y-1">
-                                                {list.cons.map((con, i) => <li key={i} className="flex items-start">
-                                                    <svg className="w-3 h-3 text-pink-500 mr-1 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                                                    </svg>
-                                                    {con}
-                                                </li>)}
+                                                {list.cons.map((con, i) => (
+                                                    <li key={i} className="flex items-start">
+                                                        <svg className="w-3 h-3 text-pink-500 mr-1 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                        </svg>
+                                                        {con}
+                                                    </li>
+                                                ))}
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
-
                         {/* Linked List Operations */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                        <div id="ll-operations" className="bg-gray-50 rounded-xl shadow-sm border border-gray-200 p-6">
                             <h3 className="text-2xl font-semibold text-gray-800 mb-6">Linked List Operations</h3>
-
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div>
                                     <h4 className="text-lg font-medium text-gray-800 mb-4">Common Operations</h4>
@@ -1160,10 +1145,9 @@ const DataStructuresAlgorithm = () => {
                                         ))}
                                     </div>
                                 </div>
-
                                 <div>
                                     <h4 className="text-lg font-medium text-gray-800 mb-4">Implementation Example</h4>
-                                    <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
+                                    <pre className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto text-sm">
                                         <code>
                                             {`class Node {
   constructor(data) {
@@ -1203,116 +1187,231 @@ class LinkedList {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                {/* Stacks and Queues Section */}
-                <section id="hash-tables" className="py-8 px-4 sm:px-6">
-                    <div className="max-w-6xl mx-auto">
+                    {/* Stacks and Queues Section */}
+                    <section id="stacks" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <div className="text-center mb-8">
-                            <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800">Hash Tables</h2>
+                            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Stacks</h2>
+                            <p className="mt-2 text-base sm:text-lg text-gray-600">
+                                A linear data structure following the Last In, First Out (LIFO) principle.
+                            </p>
+                        </div>
+                        <div className="bg-gray-50 p-6 rounded-lg">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-2">What is a Stack?</h3>
+                            <p className="text-gray-700">
+                                A stack is a collection of elements with two main operations: push (add to the top) and pop (remove from the top). It follows the Last In, First Out (LIFO) principle, meaning the last element added is the first one to be removed.
+                            </p>
+                            <ul className="list-disc pl-5 mt-2 text-gray-700">
+                                <li>Complexity: O(1) for push and pop operations.</li>
+                                <li>Useful for: Undo mechanisms, function call stack, DFS.</li>
+                                <li>Can be implemented using arrays or linked lists.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="queues" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <div className="text-center mb-8">
+                            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Queues</h2>
+                            <p className="mt-2 text-base sm:text-lg text-gray-600">
+                                A linear data structure following the First In, First Out (FIFO) principle.
+                            </p>
+                        </div>
+                        <div className="bg-gray-50 p-6 rounded-lg">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-2">What is a Queue?</h3>
+                            <p className="text-gray-700">
+                                A queue is a collection of elements with two main operations: enqueue (add to the rear) and dequeue (remove from the front). It follows the First In, First Out (FIFO) principle, meaning the first element added is the first one to be removed.
+                            </p>
+                            <ul className="list-disc pl-5 mt-2 text-gray-700">
+                                <li>Complexity: O(1) for enqueue and dequeue operations.</li>
+                                <li>Useful for: Task scheduling, BFS, buffering.</li>
+                                <li>Can be implemented using arrays, linked lists, or circular arrays.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    {/* Hash Tables Section (Continued) */}
+                    <section id="hash-table" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <div className="text-center mb-8">
+                            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Hash Tables</h2>
+                            <p className="mt-2 text-base sm:text-lg text-gray-600">
+                                A data structure that maps keys to values for efficient lookup
+                            </p>
+                        </div>
+                        <div className="bg-gray-50 p-6 rounded-lg">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-2">What is a Hash Table?</h3>
+                            <p className="text-gray-700 mb-4">
+                                A hash table is a data structure that implements an associative array abstract data type, a structure that can map keys to values. It uses a hash function to compute an index into an array where an element will be stored or searched.
+                            </p>
+                            <ul className="list-disc pl-5 text-gray-700 space-y-2">
+                                <li>Complexity: O(1) average case for lookup, insertion, and deletion.</li>
+                                <li>Useful for: Dictionaries, caching, indexing databases.</li>
+                                <li>Challenges: Collision handling (e.g., chaining, open addressing).</li>
+                            </ul>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-                            <div>
-                                <h3 className="text-lg font-semibold text-gray-800 mb-2">Hash Table</h3>
+                        {/* Hash Sets Section */}
+                        <div id="hash-sets" className="mt-12 bg-gray-50 rounded-xl shadow-sm border border-gray-200 p-6">
+                            <h3 className="text-2xl font-semibold text-gray-800 mb-6">Hash Sets</h3>
+                            <div className="space-y-4">
                                 <p className="text-gray-700">
-                                    A data structure that maps keys to values using a hash function for efficient lookups.
+                                    A hash set is a collection of unique elements implemented using a hash table. It does not allow duplicate values and provides efficient operations for checking the existence of an element.
                                 </p>
-                                <ul className="list-disc pl-5 mt-2 text-gray-700">
-                                    <li>Hash function: Computes index from key.</li>
-                                    <li>Array: Stores values in buckets.</li>
-                                    <li>Collision resolution: Handles multiple keys mapping to the same index.</li>
-                                    <li>Complexity: O(1) average, O(n) worst for insert, search, delete.</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-semibold text-gray-800 mb-2">Hash Set</h3>
-                                <p className="text-gray-700">
-                                    A collection of unique elements for efficient membership testing.
-                                </p>
-                                <ul className="list-disc pl-5 mt-2 text-gray-700">
-                                    <li>Stores only keys, no values.</li>
-                                    <li>No duplicates allowed.</li>
-                                    <li>Unordered elements.</li>
-                                    <li>Use cases: Duplicate detection, membership testing, set operations.</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-semibold text-gray-800 mb-2">Hash Map</h3>
-                                <p className="text-gray-700">
-                                    A collection of key-value pairs with unique keys.
-                                </p>
-                                <ul className="list-disc pl-5 mt-2 text-gray-700">
-                                    <li>Keys are unique; values can be duplicated.</li>
-                                    <li>Average O(1) access time.</li>
-                                    <li>Use cases: Caching, database indexing, frequency counting.</li>
-                                </ul>
-                            </div>
-                        </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h4 className="text-lg font-medium text-gray-800 mb-3">Key Features</h4>
+                                        <ul className="space-y-2 text-gray-700">
+                                            <li className="flex items-start">
+                                                <span className="text-blue-600 mr-2">•</span>
+                                                <span>Ensures uniqueness of elements</span>
+                                            </li>
+                                            <li className="flex items-start">
+                                                <span className="text-blue-600 mr-2">•</span>
+                                                <span>O(1) average time for add, remove, and contains</span>
+                                            </li>
+                                            <li className="flex items-start">
+                                                <span className="text-blue-600 mr-2">•</span>
+                                                <span>No order preservation</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 className="text-lg font-medium text-gray-800 mb-3">Example Implementation</h4>
+                                        <pre className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto text-sm">
+                                            <code>
+                                                {`class HashSet {
+  constructor() {
+    this.table = new Array(100);
+  }
 
-                        <div className="bg-white p-6">
-                            <h3 className="text-xl font-semibold text-gray-800 mb-4">Hash Table Implementation Details</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <h4 className="text-lg font-medium text-gray-800 mb-2">Collision Resolution</h4>
-                                    <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                                        <li>
-                                            <strong>Separate Chaining:</strong> Each bucket contains a linked list of entries with the same hash. Simple and handles many collisions, but uses extra memory and is less cache-efficient.
-                                        </li>
-                                        <li>
-                                            <strong>Open Addressing:</strong> Stores entries directly in the bucket array. Better cache performance with no extra memory, but more complex and performance drops as the table fills.
-                                        </li>
-                                    </ul>
+  hash(key) {
+    let hash = 0;
+    for (let i = 0; i < key.length; i++) {
+      hash += key.charCodeAt(i);
+    }
+    return hash % this.table.length;
+  }
+
+  add(key) {
+    const index = this.hash(key);
+    if (!this.table[index]) {
+      this.table[index] = [];
+    }
+    if (!this.table[index].includes(key)) {
+      this.table[index].push(key);
+    }
+  }
+
+  contains(key) {
+    const index = this.hash(key);
+    return this.table[index] && this.table[index].includes(key);
+  }
+}`}
+                                            </code>
+                                        </pre>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h4 className="text-lg font-medium text-gray-800 mb-2">Hash Functions</h4>
-                                    <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                                        <li>
-                                            <strong>Division Method:</strong> h(k) = k mod m. Simple, but m should be prime and not a power of 2 for better distribution.
-                                        </li>
-                                        <li>
-                                            <strong>Multiplication Method:</strong> h(k) = floor(m * (k*A mod 1)), where A is a constant (0 &lt; A &lt; 1). Good distribution when m is a power of 2.
-                                        </li>
-                                        <li>
-                                            <strong>Universal Hashing:</strong> Randomly selects from a family of hash functions for good average-case performance.
-                                        </li>
-                                    </ul>
+                            </div>
+                        </div>
+
+                        {/* Hash Maps Section */}
+                        <div id="hash-maps" className="mt-12 bg-gray-50 rounded-xl shadow-sm border border-gray-200 p-6">
+                            <h3 className="text-2xl font-semibold text-gray-800 mb-6">Hash Maps</h3>
+                            <div className="space-y-4">
+                                <p className="text-gray-700">
+                                    A hash map is a data structure that maps keys to values, allowing efficient retrieval of values based on their keys. It extends the concept of a hash set by associating each key with a specific value.
+                                </p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h4 className="text-lg font-medium text-gray-800 mb-3">Key Features</h4>
+                                        <ul className="space-y-2 text-gray-700">
+                                            <li className="flex items-start">
+                                                <span className="text-blue-600 mr-2">•</span>
+                                                <span>Key-value pair storage</span>
+                                            </li>
+                                            <li className="flex items-start">
+                                                <span className="text-blue-600 mr-2">•</span>
+                                                <span>O(1) average time for get, put, and remove</span>
+                                            </li>
+                                            <li className="flex items-start">
+                                                <span className="text-blue-600 mr-2">•</span>
+                                                <span>Handles collisions via chaining or probing</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 className="text-lg font-medium text-gray-800 mb-3">Example Implementation</h4>
+                                        <pre className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto text-sm">
+                                            <code>
+                                                {`class HashMap {
+  constructor() {
+    this.table = new Array(100);
+  }
+
+  hash(key) {
+    let hash = 0;
+    for (let i = 0; i < key.length; i++) {
+      hash += key.charCodeAt(i);
+    }
+    return hash % this.table.length;
+  }
+
+  put(key, value) {
+    const index = this.hash(key);
+    if (!this.table[index]) {
+      this.table[index] = [];
+    }
+    const entry = this.table[index].find(item => item[0] === key);
+    if (entry) {
+      entry[1] = value;
+    } else {
+      this.table[index].push([key, value]);
+    }
+  }
+
+  get(key) {
+    const index = this.hash(key);
+    const bucket = this.table[index];
+    if (bucket) {
+      const entry = bucket.find(item => item[0] === key);
+      return entry ? entry[1] : undefined;
+    }
+    return undefined;
+  }
+}`}
+                                            </code>
+                                        </pre>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                {/* Call to Action Section */}
-                <section className="py-16 px-4 sm:px-6 bg-gradient-to-r from-green-800 to-teal-800 text-white">
-                    <div className="max-w-4xl mx-auto text-center">
-                        <div className="inline-block bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 mb-4">
-                            <span className="font-medium text-green-200">Limited Seats Available</span>
-                        </div>
-                        <h2 className="text-3xl sm:text-4xl font-bold mb-6 leading-tight">
-                            Ready to Master <span className="text-teal-300">Data Structure & Algorithms</span>?
+                    {/* Call to Action Section (Footer) */}
+                    <section className="py-12 px-4 sm:px-8 bg-gradient-to-r from-blue-600 to-green-600 rounded-xl shadow-lg text-center text-white">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+                            Ready to Master Data Structures & Algorithms?
                         </h2>
-                        <p className="text-base sm:text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
-                            Join thousands of students who've transformed their careers with our comprehensive DSA course. Learn from industry experts, solve real-world problems, and land your dream tech job in just 3 months!
+                        <p className="text-base sm:text-lg mb-6 max-w-2xl mx-auto">
+                            Join thousands of learners in 2025 and take your coding skills to the next level with our comprehensive DSA course!
                         </p>
-                        <div className="flex flex-col sm:flex-row justify-center gap-4">
+                        <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                             <button
-                                onClick={() => navigate('/enroll')}
-                                className="bg-teal-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-teal-600 transition-all duration-200 shadow-md hover:shadow-lg"
+                                className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
+                                onClick={() => navigate('/signup')}
                             >
                                 Enroll Now
                             </button>
                             <button
+                                className="px-6 py-3 border-2 border-white/50 text-white font-medium rounded-lg hover:bg-white/20 transition-all"
                                 onClick={() => navigate('/contact')}
-                                className="bg-transparent border-2 border-teal-300 text-teal-300 font-semibold py-3 px-6 rounded-lg hover:bg-teal-300 hover:text-green-900 transition-all duration-200"
                             >
                                 Contact Us
                             </button>
                         </div>
-                    </div>
-                </section>
-            </main>
+                    </section>
+                </div>
+            </div>
         </div>
     );
 };

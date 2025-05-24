@@ -63,4 +63,4 @@ function UserFooter() {
     )
 }
 
-export default UserFooter
+export default UserFooter;
