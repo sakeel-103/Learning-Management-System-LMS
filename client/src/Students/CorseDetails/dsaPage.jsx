@@ -671,73 +671,9 @@ const DSAPage = () => {
                     </div>
                 </section>
 
-                {/* Full Stack Roadmap Section */}
-                <section id="roadmap" className="py-12 px-6 bg-gradient-to-br from-gray-50 to-white">
-                    <div className="max-w-6xl mx-auto">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center border-b pb-2">
-                            Full Stack Development Roadmap
-                            <span className="block mt-2 text-lg font-normal text-indigo-600">A structured path to mastery</span>
-                        </h2>
-                        <p className="text-gray-600 mb-8 text-center">Follow this step-by-step roadmap to master Full Stack Development and become job-ready.</p>
-                        <div className="relative">
-                            <div className="absolute left-8 top-0 h-full w-1 bg-indigo-200 transform -translate-x-1/2 md:left-1/2"></div>
-                            {[
-                                {
-                                    title: "Master Front-End Basics",
-                                    description: "Learn HTML, CSS, JavaScript, and React. Build responsive UIs and understand component-based architecture.",
-                                    icon: "👨‍💻",
-                                    color: "bg-blue-100 text-blue-800"
-                                },
-                                {
-                                    title: "Build Back-End Skills",
-                                    description: "Master Node.js, Express, and databases (MongoDB, MySQL). Create REST APIs and implement authentication.",
-                                    icon: "💾",
-                                    color: "bg-green-100 text-green-800"
-                                },
-                                {
-                                    title: "Advance with Modern Tools",
-                                    description: "Learn Next.js, GraphQL, and state management. Write tests and optimize application performance.",
-                                    icon: "🌱",
-                                    color: "bg-purple-100 text-purple-800"
-                                },
-                                {
-                                    title: "Embrace DevOps",
-                                    description: "Use Git, Docker, and AWS for version control, containerization, and cloud deployment.",
-                                    icon: "🚀",
-                                    color: "bg-teal-100 text-teal-800"
-                                },
-                                {
-                                    title: "Build Projects & Prepare",
-                                    description: "Develop portfolio projects (e.g., e-commerce, social apps). Practice mock interviews and refine your resume.",
-                                    icon: "🎯",
-                                    color: "bg-orange-100 text-orange-800"
-                                }
-                            ].map((step, index) => (
-                                <div
-                                    key={index}
-                                    className={`relative mb-12 flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center`}
-                                >
-                                    <div className={`absolute left-8 w-6 h-6 rounded-full ${step.color.replace('bg-', 'bg-').replace('100', '500')} border-4 border-white z-10 transform -translate-x-1/2 md:left-1/2`}></div>
-                                    <div className={`w-full md:w-5/12 p-6 rounded-xl shadow-md ${step.color} transition-all duration-300 hover:shadow-lg hover:-translate-y-1`}>
-                                        <div className="flex items-start mb-4">
-                                            <span className="text-2xl mr-3">{step.icon}</span>
-                                            <h3 className="text-xl font-bold">{step.title}</h3>
-                                        </div>
-                                        <p className="text-gray-600">{step.description}</p>
-                                    </div>
-                                    <div className="w-1/12 hidden md:block"></div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* Banner Section */}
                 <section className="py-16 px-4 bg-gradient-to-r from-green-700 to-purple-800 text-white">
                     <div className="max-w-7xl mx-auto">
                         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-
-                            {/* Left Content */}
                             <div className="md:w-1/2 space-y-6">
                                 <h2 className="text-4xl font-bold leading-tight">
                                     Master Full Stack Development in 2025
@@ -747,40 +683,22 @@ const DSAPage = () => {
                                     Learn the most in-demand technologies used by top tech companies.
                                 </p>
                                 <div className="flex flex-wrap gap-3">
-                                    <button
-                                        className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
-                                    >
+                                    <button className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50">
                                         React.js
                                     </button>
-                                    <button
-                                        className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl"
-                                        onClick={() => { }}
-                                    >
+                                    <button className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50">
                                         Node.js
                                     </button>
-                                    <button
-                                        className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
-                                    >
+                                    <button className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50">
                                         MongoDB
                                     </button>
-                                    <button
-                                        className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
-                                    >
+                                    <button className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50">
                                         Express
                                     </button>
-                                    <button
-                                        className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
-                                    >
+                                    <button className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50">
                                         Next.js
                                     </button>
-                                    <button
-                                        className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
-                                    >
+                                    <button className="px-4 py-2 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50">
                                         TypeScript
                                     </button>
                                 </div>
@@ -788,12 +706,10 @@ const DSAPage = () => {
                                     Enroll Now
                                 </button>
                             </div>
-
-                            {/* Right Image */}
                             <div className="md:w-1/2">
                                 <div className="relative">
                                     <img
-                                        src={fullstack}
+                                        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3"
                                         alt="Full Stack Development"
                                         className="w-full h-auto rounded-lg shadow-xl"
                                     />
@@ -804,8 +720,6 @@ const DSAPage = () => {
                                 </div>
                             </div>
                         </div>
-
-                        {/* Stats Bar */}
                         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                             <div className="bg-white/10 p-4 rounded-lg backdrop-blur-sm">
                                 <p className="text-3xl font-bold">12+</p>
