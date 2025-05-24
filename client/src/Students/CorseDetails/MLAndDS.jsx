@@ -1,26 +1,37 @@
 import React from 'react';
 import { FaVideo } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+
 const MLAndDS = () => {
     const navigate = useNavigate();
     return (
         <>
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-green-900 to-teal-800 text-white py-16 px-6 pt-36">
+            <section className="bg-gradient-to-r from-blue-400 to-green-800 text-white py-16 px-6 pt-36">
                 <div className="max-w-6xl mx-auto text-center">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4">Complete Machine Learning & Data Science Program</h1>
-                    <p className="text-lg md:text-xl mb-6">Gain hands-on experience in machine learning and data science to build industry-ready skills in just 4 months!</p>
+                    <div className="relative">
+                        <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
+                        <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
+                        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
+                                Complete Machine Learning & Data Science Program
+                            </span>
+                        </h1>
+                        <p className="text-lg md:text-xl mb-6">
+                            Gain hands-on experience in machine learning and data science to build industry-ready skills in just 4 months!
+                        </p>
+                    </div>
                 </div>
             </section>
 
             {/* Syllabus Section */}
-            <section className="py-16 px-6 bg-gray-100">
+            <section className="py-16 px-6 bg-gray-50">
                 <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center text-green-900 mb-8">Detailed Syllabus</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">Detailed Syllabus</h2>
                     <div className="grid md:grid-cols-2 gap-8">
-                        <div className="bg-white p-6 rounded-lg shadow-md transition hover:shadow-lg hover:scale-105">
-                            <h3 className="text-xl font-semibold text-teal-800 mb-4">Core Data Science Concepts</h3>
-                            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                        <div className="bg-white p-6 rounded-xl shadow-sm transition hover:shadow-md hover:-translate-y-1 border border-gray-100">
+                            <h3 className="text-xl font-semibold text-indigo-700 mb-4">Core Data Science Concepts</h3>
+                            <ul className="list-disc pl-5 space-y-2 text-gray-600">
                                 <li>Introduction to Data Science and Machine Learning</li>
                                 <li>Data Preprocessing and Cleaning</li>
                                 <li>Exploratory Data Analysis (EDA)</li>
@@ -28,9 +39,9 @@ const MLAndDS = () => {
                                 <li>Data Visualization Techniques</li>
                             </ul>
                         </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md transition hover:shadow-lg hover:scale-105">
-                            <h3 className="text-xl font-semibold text-teal-800 mb-4">Machine Learning & Algorithms</h3>
-                            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                        <div className="bg-white p-6 rounded-xl shadow-sm transition hover:shadow-md hover:-translate-y-1 border border-gray-100">
+                            <h3 className="text-xl font-semibold text-indigo-700 mb-4">Machine Learning & Algorithms</h3>
+                            <ul className="list-disc pl-5 space-y-2 text-gray-600">
                                 <li>Supervised Learning (Regression, Classification)</li>
                                 <li>Unsupervised Learning (Clustering, Dimensionality Reduction)</li>
                                 <li>Ensemble Methods and Boosting</li>
@@ -38,9 +49,9 @@ const MLAndDS = () => {
                                 <li>Model Evaluation and Hyperparameter Tuning</li>
                             </ul>
                         </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md transition hover:shadow-lg hover:scale-105">
-                            <h3 className="text-xl font-semibold text-teal-800 mb-4">Advanced Topics</h3>
-                            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                        <div className="bg-white p-6 rounded-xl shadow-sm transition hover:shadow-md hover:-translate-y-1 border border-gray-100">
+                            <h3 className="text-xl font-semibold text-indigo-700 mb-4">Advanced Topics</h3>
+                            <ul className="list-disc pl-5 space-y-2 text-gray-600">
                                 <li>Natural Language Processing (NLP)</li>
                                 <li>Computer Vision with CNNs</li>
                                 <li>Time Series Analysis and Forecasting</li>
@@ -48,9 +59,9 @@ const MLAndDS = () => {
                                 <li>Big Data with Spark and Hadoop</li>
                             </ul>
                         </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md transition hover:shadow-lg hover:scale-105">
-                            <h3 className="text-xl font-semibold text-teal-800 mb-4">Projects & Capstone</h3>
-                            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                        <div className="bg-white p-6 rounded-xl shadow-sm transition hover:shadow-md hover:-translate-y-1 border border-gray-100">
+                            <h3 className="text-xl font-semibold text-indigo-700 mb-4">Projects & Capstone</h3>
+                            <ul className="list-disc pl-5 space-y-2 text-gray-600">
                                 <li>Real-world Data Science Projects</li>
                                 <li>End-to-End ML Pipeline Development</li>
                                 <li>Capstone Project with Industry Mentorship</li>
@@ -63,19 +74,19 @@ const MLAndDS = () => {
             </section>
 
             {/* Technologies Section */}
-            <section className="py-16 px-6 bg-gray-400">
+            <section className="py-16 px-6 bg-gray-50">
                 <div className="max-w-6xl mx-auto text-center">
-                    <h2 className="text-3xl md:text-4xl font-bold text-green-900 mb-8">Technologies You'll Master</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">Technologies You'll Master</h2>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                         {[
-                            { name: 'Python', icon: '🐍', url: 'https://docs.python.org/3/' },
-                            { name: 'Pandas & NumPy', icon: '📊', url: 'https://pandas.pydata.org/docs/' },
-                            { name: 'Scikit-learn', icon: '🤖', url: 'https://scikit-learn.org/stable/documentation.html' },
-                            { name: 'TensorFlow', icon: '🧠', url: 'https://www.tensorflow.org/api_docs' },
-                            { name: 'SQL', icon: '🗄️', url: 'https://dev.mysql.com/doc/refman/8.0/en/' },
-                            { name: 'Matplotlib & Seaborn', icon: '📈', url: 'https://matplotlib.org/stable/contents.html' },
-                            { name: 'PyTorch', icon: '🔥', url: 'https://pytorch.org/docs/stable/' },
-                            { name: 'Jupyter', icon: '📓', url: 'https://docs.jupyter.org/en/latest/' },
+                            { name: 'Python', icon: '🐍', url: 'https://docs.python.org/3/', color: 'bg-green-100 text-green-800 hover:bg-green-50' },
+                            { name: 'Pandas & NumPy', icon: '📊', url: 'https://pandas.pydata.org/docs/', color: 'bg-blue-100 text-blue-800 hover:bg-blue-50' },
+                            { name: 'Scikit-learn', icon: '🤖', url: 'https://scikit-learn.org/stable/documentation.html', color: 'bg-purple-100 text-purple-800 hover:bg-purple-50' },
+                            { name: 'TensorFlow', icon: '🧠', url: 'https://www.tensorflow.org/api_docs', color: 'bg-yellow-100 text-yellow-800 hover:bg-yellow-50' },
+                            { name: 'SQL', icon: '🗄️', url: 'https://dev.mysql.com/doc/refman/8.0/en/', color: 'bg-red-100 text-red-800 hover:bg-red-50' },
+                            { name: 'Matplotlib & Seaborn', icon: '📈', url: 'https://matplotlib.org/stable/contents.html', color: 'bg-indigo-100 text-indigo-800 hover:bg-indigo-50' },
+                            { name: 'PyTorch', icon: '🔥', url: 'https://pytorch.org/docs/stable/', color: 'bg-teal-100 text-teal-800 hover:bg-teal-50' },
+                            { name: 'Jupyter', icon: '📓', url: 'https://docs.jupyter.org/en/latest/', color: 'bg-orange-100 text-orange-800 hover:bg-orange-50' },
                         ].map((tech, index) => (
                             <a
                                 key={index}
@@ -84,9 +95,9 @@ const MLAndDS = () => {
                                 rel="noopener noreferrer"
                                 className="block"
                             >
-                                <div className="bg-teal-50 p-4 rounded-lg shadow-md hover:bg-teal-100 transition hover:scale-105">
+                                <div className={`p-4 rounded-xl shadow-sm transition hover:shadow-md hover:-translate-y-1 border border-gray-100 ${tech.color}`}>
                                     <span className="text-4xl">{tech.icon}</span>
-                                    <p className="mt-2 text-gray-700 font-semibold">{tech.name}</p>
+                                    <p className="mt-2 font-semibold">{tech.name}</p>
                                 </div>
                             </a>
                         ))}
@@ -95,9 +106,9 @@ const MLAndDS = () => {
             </section>
 
             {/* Technology Details Section */}
-            <section className="py-16 px-6 bg-gray-100">
+            <section className="py-16 px-6 bg-gray-50">
                 <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center text-green-900 mb-8">Understanding Key Technologies</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">Understanding Key Technologies</h2>
                     <div className="space-y-8">
                         {[
                             {
@@ -157,16 +168,16 @@ const MLAndDS = () => {
                                 SeeMore: 'https://docs.jupyter.org/en/latest/',
                             },
                         ].map((tech, index) => (
-                            <div key={index} className="bg-white p-6 rounded-lg shadow-md transition hover:shadow-lg hover:scale-105">
-                                <h3 className="text-xl font-semibold text-teal-800 mb-2">{tech.name}</h3>
-                                <p className="text-gray-700 mb-2"><strong>What is it?</strong> {tech.definition}</p>
-                                <p className="text-gray-700 mb-2"><strong>Types/Applications:</strong> {tech.types}</p>
-                                <p className="text-gray-700 mb-4"><strong>How it Works:</strong> {tech.howItWorks}</p>
+                            <div key={index} className="bg-white p-6 rounded-xl shadow-sm transition hover:shadow-md hover:-translate-y-1 border border-gray-100">
+                                <h3 className="text-xl font-semibold text-indigo-700 mb-2">{tech.name}</h3>
+                                <p className="text-gray-600 mb-2"><strong>What is it?</strong> {tech.definition}</p>
+                                <p className="text-gray-600 mb-2"><strong>Types/Applications:</strong> {tech.types}</p>
+                                <p className="text-gray-600 mb-4"><strong>How it Works:</strong> {tech.howItWorks}</p>
                                 <a
                                     href={tech.SeeMore}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-teal-600 hover:text-teal-800 text-sm font-medium"
+                                    className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
                                 >
                                     See More
                                 </a>
@@ -177,43 +188,43 @@ const MLAndDS = () => {
             </section>
 
             {/* Schedule Section */}
-            <section className="py-16 px-6 bg-gray-200">
+            <section className="py-16 px-6 bg-gray-50">
                 <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center text-green-900 mb-8">Program Schedule</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">Program Schedule</h2>
                     <div className="space-y-6">
-                        <div className="bg-white p-6 rounded-lg shadow-md">
-                            <h3 className="text-xl font-semibold text-teal-800 mb-4">3-Month Intensive Program</h3>
-                            <p className="text-gray-700 mb-4">Duration: 12 weeks, starting every quarter</p>
-                            <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <h3 className="text-xl font-semibold text-indigo-700 mb-4">3-Month Intensive Program</h3>
+                            <p className="text-gray-600 mb-4">Duration: 12 weeks, starting every quarter</p>
+                            <ul className="list-disc pl-5 space-y-2 text-gray-600">
                                 <li>Week 1-4: Foundations of Data Science and Python</li>
                                 <li>Week 5-8: Machine Learning and Deep Learning</li>
                                 <li>Week 9-10: Advanced Topics and Specializations</li>
                                 <li>Week 11-12: Capstone Project and Career Prep</li>
                             </ul>
-                            <p className="mt-4 text-gray-700">Live Classes: 3 sessions/week (2 hours each)</p>
-                            <p className="text-gray-700">Office Hours: Weekly with instructors and TAs</p>
+                            <p className="mt-4 text-gray-600">Live Classes: 3 sessions/week (2 hours each)</p>
+                            <p className="text-gray-600">Office Hours: Weekly with instructors and TAs</p>
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* Video Section - Banner Style */}
-            <section className="py-16 px-6 bg-gradient-to-r from-green-400 to-white">
+            <section className="py-16 px-6 bg-gradient-to-r from-blue-400 to-green-800">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex flex-col lg:flex-row items-center gap-12">
                         <div className="lg:w-1/2 space-y-8">
-                            <div className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                            <div className="inline-block bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
                                 Featured Program
                             </div>
 
-                            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-                                Master Machine Learning with <span className="text-green-600">Industry Experts</span>
+                            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
+                                Master Machine Learning with <span className="text-indigo-600">Industry Experts</span>
                             </h2>
 
                             <div className="space-y-6">
                                 <div className="flex items-start gap-4">
                                     <div className="flex-shrink-0 mt-1">
-                                        <svg className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                         </svg>
                                     </div>
@@ -225,7 +236,7 @@ const MLAndDS = () => {
 
                                 <div className="flex items-start gap-4">
                                     <div className="flex-shrink-0 mt-1">
-                                        <svg className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                         </svg>
                                     </div>
@@ -237,7 +248,7 @@ const MLAndDS = () => {
 
                                 <div className="flex items-start gap-4">
                                     <div className="flex-shrink-0 mt-1">
-                                        <svg className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                         </svg>
                                     </div>
@@ -250,7 +261,7 @@ const MLAndDS = () => {
 
                             <div className="pt-4">
                                 <button
-                                    className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg shadow-md transition duration-300"
+                                    className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white font-semibold px-8 py-3 rounded-lg shadow-md transition-all"
                                     onClick={() => navigate('/register')}
                                 >
                                     Enroll Now
@@ -260,7 +271,7 @@ const MLAndDS = () => {
 
                         {/* Right side - Video */}
                         <div className="lg:w-1/2 w-full">
-                            <div className="relative rounded-xl overflow-hidden shadow-xl border-4 border-white transform hover:scale-[1.02] transition duration-300">
+                            <div className="relative rounded-xl overflow-hidden shadow-xl border-4 border-gray-100 transform hover:-translate-y-1 transition-all">
                                 <div
                                     className="relative cursor-pointer bg-gray-900 aspect-w-16 aspect-h-9"
                                     onClick={() => {
@@ -278,7 +289,7 @@ const MLAndDS = () => {
                                     />
                                     <div className="absolute inset-0 flex items-center justify-center play-button">
                                         <div className="w-16 h-16 bg-white bg-opacity-80 rounded-full flex items-center justify-center hover:bg-opacity-100 transition">
-                                            <svg className="h-8 w-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg className="h-8 w-8 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
                                             </svg>
                                         </div>
@@ -297,7 +308,7 @@ const MLAndDS = () => {
                                 ></iframe>
                             </div>
 
-                            <p className="mt-4 text-center text-gray-500 italic">
+                            <p className="mt-4 text-center text-gray-600 italic text-white">
                                 "This program transformed my career in just 6 months" - Abhishek Thakur, Data Scientist
                             </p>
                         </div>
@@ -306,26 +317,26 @@ const MLAndDS = () => {
             </section>
 
             {/* Additional Details Section */}
-            <section className="py-16 px-6 bg-gray-100">
+            <section className="py-16 px-6 bg-gray-50">
                 <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center text-green-900 mb-8">Why Choose Our Program?</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">Why Choose Our Program?</h2>
                     <div className="grid md:grid-cols-3 gap-8">
-                        <div className="bg-white p-6 rounded-lg shadow-md transition hover:shadow-lg hover:scale-105">
-                            <h3 className="text-xl font-semibold text-teal-800 mb-4">Industry-Relevant Curriculum</h3>
-                            <p className="text-gray-700">Designed by industry experts to align with current job market demands.</p>
+                        <div className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-xl shadow-sm transition hover:shadow-md hover:-translate-y-1 border border-gray-100">
+                            <h3 className="text-xl font-semibold text-indigo-700 mb-4">Industry-Relevant Curriculum</h3>
+                            <p className="text-gray-600">Designed by industry experts to align with current job market demands.</p>
                         </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md transition hover:shadow-lg hover:scale-105">
-                            <h3 className="text-xl font-semibold text-teal-800 mb-4">Hands-On Projects</h3>
-                            <p className="text-gray-700">Build a portfolio with real-world projects to showcase your skills.</p>
+                        <div className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-xl shadow-sm transition hover:shadow-md hover:-translate-y-1 border border-gray-100">
+                            <h3 className="text-xl font-semibold text-indigo-700 mb-4">Hands-On Projects</h3>
+                            <p className="text-gray-600">Build a portfolio with real-world projects to showcase your skills.</p>
                         </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md transition hover:shadow-lg hover:scale-105">
-                            <h3 className="text-xl font-semibold text-teal-800 mb-4">Career Support</h3>
-                            <p className="text-gray-700">Resume reviews, mock interviews, and job placement assistance.</p>
+                        <div className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-xl shadow-sm transition hover:shadow-md hover:-translate-y-1 border border-gray-100">
+                            <h3 className="text-xl font-semibold text-indigo-700 mb-4">Career Support</h3>
+                            <p className="text-gray-600">Resume reviews, mock interviews, and job placement assistance.</p>
                         </div>
                     </div>
                     <div className="text-center mt-8">
                         <button
-                            className="bg-yellow-500 text-green-900 px-6 py-3 rounded-full font-semibold hover:bg-yellow-400 transition"
+                            className="border-2 border-white/30 text-white px-6 py-3 rounded-lg font-medium hover:bg-white/10 transition-all"
                             onClick={() => navigate('/login')}
                         >
                             Enroll Now
@@ -338,7 +349,7 @@ const MLAndDS = () => {
             <section className="py-16 px-6 bg-gray-50">
                 <div className="max-w-4xl mx-auto">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
                         <p className="text-lg text-gray-600 max-w-2xl mx-auto">Find answers to common questions about our program</p>
                     </div>
 
@@ -377,7 +388,7 @@ const MLAndDS = () => {
                                 a: "We offer flexible payment plans including monthly installments. Some candidates may qualify for income share agreements or employer sponsorship - contact our admissions team for details."
                             }
                         ].map((faq, index) => (
-                            <div key={index} className="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-md hover:scale-105">
+                            <div key={index} className="group bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md hover:-translate-y-1">
                                 <button
                                     className="w-full flex justify-between items-center p-6 text-left focus:outline-none"
                                     onClick={(e) => {
@@ -389,7 +400,7 @@ const MLAndDS = () => {
                                 >
                                     <h3 className="text-lg md:text-xl font-semibold text-gray-800">{faq.q}</h3>
                                     <svg
-                                        className="w-6 h-6 text-green-600 transition-transform duration-200"
+                                        className="w-6 h-6 text-indigo-600 transition-transform duration-200"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -398,7 +409,7 @@ const MLAndDS = () => {
                                     </svg>
                                 </button>
                                 <div className="hidden px-6 pb-6">
-                                    <div className="prose prose-green text-gray-600">
+                                    <div className="prose text-gray-600">
                                         <p>{faq.a}</p>
                                     </div>
                                 </div>
@@ -408,7 +419,7 @@ const MLAndDS = () => {
 
                     <div className="mt-12 text-center">
                         <p className="text-gray-600 mb-6">Still have questions?</p>
-                        <button className="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-8 rounded-lg shadow-sm transition-colors duration-200">
+                        <button className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white font-medium py-3 px-8 rounded-lg shadow-md transition-all">
                             Contact Our Admissions Team
                         </button>
                     </div>
@@ -416,12 +427,12 @@ const MLAndDS = () => {
             </section>
 
             {/* Call to Action Section */}
-            < section className="py-12 px-6 bg-green-900 text-white" >
+            <section className="py-12 px-6 bg-gradient-to-r from-blue-600 to-green-600 text-white">
                 <div className="max-w-6xl mx-auto text-center">
                     <h2 className="text-3xl font-bold mb-4">Start Your AI & ML Journey Today!</h2>
-                    <p className="text-lg mb-6">Enroll now to master Ai & ML and become a top-tier developer.</p>
+                    <p className="text-lg mb-6">Enroll now to master AI & ML and become a top-tier developer.</p>
                     <button
-                        className="bg-white text-green-900 font-semibold py-3 px-8 rounded-lg hover:bg-gray-200"
+                        className="bg-white text-indigo-700 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition-all"
                         onClick={() => navigate('/login')}
                     >
                         Enroll Now

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 const BackendWithJava = () => {
     const navigate = useNavigate();
     const [openSections, setOpenSections] = useState({
@@ -16,29 +17,53 @@ const BackendWithJava = () => {
         }));
     };
 
-
     return (
-        <>
-
+        <div className="min-h-screen overflow-x-hidden g-gray-50">
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-green-900 to-teal-800 text-white py-16 px-6 pt-36">
-                <div className="max-w-6xl mx-auto text-center">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4">JAVA Backend Development</h1>
-                    <p className="text-lg md:text-xl mb-6">Master Java Backend Development to excel in professional software development!</p>
+            <section className="bg-gradient-to-r from-blue-400 to-green-800 text-white py-16 px-4 sm:px-8 pt-36">
+                <div className="relative text-center">
+                    {/* Glow effect */}
+                    <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
+                    <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
+
+                    <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
+                            Java Backend Development
+                        </span>
+                    </h1>
+                    <p className="text-lg md:text-xl mb-6 max-w-3xl mx-auto">
+                        Master Java Backend Development to excel in professional software development!
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <button
+                            className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
+                            onClick={() => navigate('/register')}
+                        >
+                            Start Learning Now
+                        </button>
+                        <button
+                            className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all"
+                            onClick={() => navigate('/projects')}
+                        >
+                            Explore Projects
+                        </button>
+                    </div>
                 </div>
             </section>
 
             {/* Course Header Section */}
-            <section className="py-12 px-6 bg-white">
-                <div className="max-w-6xl mx-auto">
+            <section className="py-12 px-4 sm:px-8 bg-white">
+                <div className="w-full">
                     <div className="flex flex-col lg:flex-row gap-8">
                         <div className="lg:w-2/3">
-                            <div className="max-w-6xl mx-auto text-center">
-                                <h2 className="text-3xl md:text-4xl font-bold text-green-900 mb-8">Learn From Our Experts</h2>
-                                <p className="text-lg text-gray-700 mb-6">Watch this introductory video to understand the program structure and what you’ll achieve.</p>
+                            <div className="text-center">
+                                <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8">Learn From Our Experts</h2>
+                                <p className="text-lg text-gray-700 mb-6 max-w-3xl mx-auto">
+                                    Watch this introductory video to understand the program structure and what you’ll achieve.
+                                </p>
                                 <div className="aspect-w-16 aspect-h-9 max-w-4xl mx-auto">
                                     <iframe
-                                        className="w-full h-64 md:h-96 rounded-lg"
+                                        className="w-full h-64 md:h-96 rounded-lg shadow-md"
                                         src="https://www.youtube.com/embed/UmnCZ7-9yDY"
                                         title="Java Backend Development Course"
                                         frameBorder="0"
@@ -50,9 +75,9 @@ const BackendWithJava = () => {
 
                             {/* Video part */}
                             <div className="mt-6">
-                                <h1 className="text-3xl font-bold text-gray-900">JAVA Backend Development</h1>
+                                <h1 className="text-3xl font-bold text-gray-900">Java Backend Development</h1>
                                 <div className="flex items-center mt-2 space-x-4">
-                                    <div className="flex items-center text-yellow-500">
+                                    <div className="flex items-center text-yellow-400">
                                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                                         </svg>
@@ -66,7 +91,7 @@ const BackendWithJava = () => {
 
                         {/* Course Sidebar */}
                         <div className="lg:w-1/3 self-center pt-6">
-                            <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                            <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 shadow-sm">
                                 <div className="space-y-4">
                                     <div>
                                         <h3 className="text-lg font-medium text-gray-900">Course Details</h3>
@@ -89,14 +114,12 @@ const BackendWithJava = () => {
                                     </div>
 
                                     <div className="space-y-3 pt-4 border-t border-gray-200">
-                                        <div className="space-y-3 pt-4 border-t border-gray-200 ">
-                                            <button
-                                                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition"
-                                                onClick={() => navigate('/register')}
-                                            >
-                                                Sign Up Now
-                                            </button>
-                                        </div>
+                                        <button
+                                            className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white py-3 px-4 rounded-lg font-medium transition-all shadow-md hover:shadow-lg"
+                                            onClick={() => navigate('/register')}
+                                        >
+                                            Sign Up Now
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -106,9 +129,9 @@ const BackendWithJava = () => {
             </section>
 
             {/* Course Features Section */}
-            <section className="py-12 px-6 bg-gray-50">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-2xl font-bold text-center mb-8 text-gray-800">What You'll Get</h2>
+            <section className="py-12 px-4 sm:px-8 bg-gray-50">
+                <div className="w-full">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 text-gray-800">What You'll Get</h2>
                     <div className="grid md:grid-cols-3 gap-6">
                         {[
                             {
@@ -166,7 +189,7 @@ const BackendWithJava = () => {
                                 description: "Join 300k+ learners community"
                             }
                         ].map((feature, index) => (
-                            <div key={index} className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                            <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all hover:-translate-y-1 border border-gray-100">
                                 <div className="flex items-center mb-4">
                                     {feature.icon}
                                     <h3 className="ml-3 text-lg font-medium text-gray-900">{feature.title}</h3>
@@ -179,20 +202,20 @@ const BackendWithJava = () => {
             </section>
 
             {/* Overview Section */}
-            <section className="py-16 px-6 bg-white">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Why Choose Java for Backend Development?</h2>
+            <section className="py-16 px-4 sm:px-8 bg-white">
+                <div className="w-full">
+                    <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 border-b pb-2">Why Choose Java for Backend Development?</h2>
                     <div className="grid md:grid-cols-3 gap-8">
-                        <div className="bg-gray-50 p-6 rounded-lg shadow-sm transition-transform duration-300 transform hover:scale-80 hover:shadow-lg">
-                            <h3 className="text-xl font-semibold mb-3 text-teal-700">Performance</h3>
+                        <div className="bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-gray-100">
+                            <h3 className="text-xl font-semibold mb-3 text-indigo-700">Performance</h3>
                             <p className="text-gray-600">Java's Just-In-Time (JIT) compilation and optimized bytecode execution deliver high performance for backend systems.</p>
                         </div>
-                        <div className="bg-gray-50 p-6 rounded-lg shadow-sm transition-transform duration-300 transform hover:scale-80 hover:shadow-lg">
-                            <h3 className="text-xl font-semibold mb-3 text-teal-700">Scalability</h3>
+                        <div className="bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-gray-100">
+                            <h3 className="text-xl font-semibold mb-3 text-indigo-700">Scalability</h3>
                             <p className="text-gray-600">Java's multithreading capabilities and robust memory management make it ideal for scalable applications.</p>
                         </div>
-                        <div className="bg-gray-50 p-6 rounded-lg shadow-sm transition-transform duration-300 transform hover:scale-80 hover:shadow-lg">
-                            <h3 className="text-xl font-semibold mb-3 text-teal-700">Ecosystem</h3>
+                        <div className="bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-gray-100">
+                            <h3 className="text-xl font-semibold mb-3 text-indigo-700">Ecosystem</h3>
                             <p className="text-gray-600">Rich ecosystem with frameworks like Spring Boot, Hibernate, and extensive libraries for all backend needs.</p>
                         </div>
                     </div>
@@ -200,9 +223,9 @@ const BackendWithJava = () => {
             </section>
 
             {/* Key Technologies Section */}
-            <section className="py-16 px-6 bg-gray-50">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Key Java Backend Technologies</h2>
+            <section className="py-16 px-4 sm:px-8 bg-gray-50">
+                <div className="w-full">
+                    <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 border-b pb-2">Key Java Backend Technologies</h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[
                             {
@@ -265,7 +288,7 @@ const BackendWithJava = () => {
                                 href={tech.link || (tech.links ? Object.values(tech.links)[0] : '#')}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className={`block p-5 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 ${tech.color}`}
+                                className={`group relative block p-5 rounded-xl shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-gray-100 ${tech.color}`}
                                 onClick={(e) => {
                                     if (tech.links) {
                                         e.preventDefault();
@@ -273,8 +296,9 @@ const BackendWithJava = () => {
                                     }
                                 }}
                             >
-                                <h3 className="text-lg font-semibold mb-2">{tech.name}</h3>
-                                <p className="text-sm tex-black">{tech.desc}</p>
+                                <h3 className="text-lg font-semibold mb-2 group-hover:text-indigo-600 transition-colors">{tech.name}</h3>
+                                <p className="text-sm text-gray-600">{tech.desc}</p>
+                                <div className="absolute bottom-0 left-0 right-0 h-1 bg-indigo-600 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                             </a>
                         ))}
                     </div>
@@ -282,10 +306,16 @@ const BackendWithJava = () => {
             </section>
 
             {/* Syllabus Section */}
-            <section className="bg-gradient-to-r from-green-900 to-teal-800 text-white py-16 px-6 pt-36">
-                <div className="max-w-6xl mx-auto text-center">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4">JAVA Backend Development</h1>
-                    <p className="text-lg md:text-xl mb-6">Master Java Backend Development to excel in professional software development!</p>
+            <section className="bg-gradient-to-r from-blue-400 to-green-800 text-white py-16 px-4 sm:px-8 pt-36">
+                <div className="w-full text-center">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
+                            Java Backend Development
+                        </span>
+                    </h1>
+                    <p className="text-lg md:text-xl mb-6 max-w-3xl mx-auto">
+                        Master Java Backend Development to excel in professional software development!
+                    </p>
 
                     {/* Detailed Syllabus */}
                     <div className="text-left mt-8">
@@ -306,7 +336,7 @@ const BackendWithJava = () => {
                                 <li>
                                     <span
                                         onClick={() => toggleSection('week1')}
-                                        className="text-teal-300 underline font-medium flex items-center gap-1 cursor-pointer"
+                                        className="text-indigo-300 underline font-medium flex items-center gap-1 cursor-pointer hover:text-indigo-200"
                                     >
                                         Read more
                                         <span className="text-sm">{openSections.week1 ? '▲' : '▼'}</span>
@@ -330,7 +360,7 @@ const BackendWithJava = () => {
                                     <li>
                                         <span
                                             onClick={() => toggleSection('week1')}
-                                            className="text-teal-300 underline font-medium flex items-center gap-1 cursor-pointer"
+                                            className="text-indigo-300 underline font-medium flex items-center gap-1 cursor-pointer hover:text-indigo-200"
                                         >
                                             Show less
                                             <span className="text-sm">▲</span>
@@ -355,7 +385,7 @@ const BackendWithJava = () => {
                                 <li>
                                     <span
                                         onClick={() => toggleSection('week2')}
-                                        className="text-teal-300 underline font-medium flex items-center gap-1 cursor-pointer"
+                                        className="text-indigo-300 underline font-medium flex items-center gap-1 cursor-pointer hover:text-indigo-200"
                                     >
                                         Read more
                                         <span className="text-sm">{openSections.week2 ? '▲' : '▼'}</span>
@@ -379,7 +409,7 @@ const BackendWithJava = () => {
                                     <li>
                                         <span
                                             onClick={() => toggleSection('week2')}
-                                            className="text-teal-300 underline font-medium flex items-center gap-1 cursor-pointer"
+                                            className="text-indigo-300 underline font-medium flex items-center gap-1 cursor-pointer hover:text-indigo-200"
                                         >
                                             Show less
                                             <span className="text-sm">▲</span>
@@ -404,7 +434,7 @@ const BackendWithJava = () => {
                                 <li>
                                     <span
                                         onClick={() => toggleSection('week3')}
-                                        className="text-teal-300 underline font-medium flex items-center gap-1 cursor-pointer"
+                                        className="text-indigo-300 underline font-medium flex items-center gap-1 cursor-pointer hover:text-indigo-200"
                                     >
                                         Read more
                                         <span className="text-sm">{openSections.week3 ? '▲' : '▼'}</span>
@@ -428,7 +458,7 @@ const BackendWithJava = () => {
                                     <li>
                                         <span
                                             onClick={() => toggleSection('week3')}
-                                            className="text-teal-300 underline font-medium flex items-center gap-1 cursor-pointer"
+                                            className="text-indigo-300 underline font-medium flex items-center gap-1 cursor-pointer hover:text-indigo-200"
                                         >
                                             Show less
                                             <span className="text-sm">▲</span>
@@ -453,7 +483,7 @@ const BackendWithJava = () => {
                                 <li>
                                     <span
                                         onClick={() => toggleSection('week4')}
-                                        className="text-teal-300 underline font-medium flex items-center gap-1 cursor-pointer"
+                                        className="text-indigo-300 underline font-medium flex items-center gap-1 cursor-pointer hover:text-indigo-200"
                                     >
                                         Read more
                                         <span className="text-sm">{openSections.week4 ? '▲' : '▼'}</span>
@@ -477,7 +507,7 @@ const BackendWithJava = () => {
                                     <li>
                                         <span
                                             onClick={() => toggleSection('week4')}
-                                            className="text-teal-300 underline font-medium flex items-center gap-1 cursor-pointer"
+                                            className="text-indigo-300 underline font-medium flex items-center gap-1 cursor-pointer hover:text-indigo-200"
                                         >
                                             Show less
                                             <span className="text-sm">▲</span>
@@ -490,18 +520,16 @@ const BackendWithJava = () => {
                 </div>
             </section>
 
-
-
             {/* Learning Path Section - Modern Design */}
-            <section className="py-16 px-6 bg-gradient-to-br from-gray-50 to-white">
-                <div className="max-w-6xl mx-auto">
+            <section className="py-16 px-4 sm:px-8 bg-gradient-to-br from-gray-50 to-white">
+                <div className="w-full">
                     <h2 className="text-3xl font-bold text-center mb-16 text-gray-800">
                         Java Backend Learning Journey
-                        <span className="block mt-2 text-lg font-normal text-teal-600">A structured path to mastery</span>
+                        <span className="block mt-2 text-lg font-normal text-indigo-600">A structured path to mastery</span>
                     </h2>
 
                     <div className="relative">
-                        <div className="absolute left-8 top-0 h-full w-1 bg-teal-200 transform -translate-x-1/2 md:left-1/2"></div>
+                        <div className="absolute left-8 top-0 h-full w-1 bg-indigo-200 transform -translate-x-1/2 md:left-1/2"></div>
 
                         {[
                             {
@@ -568,7 +596,7 @@ const BackendWithJava = () => {
                             href="https://cdn.boardinfinity.com/bi-website-v3/syllabus-pdf/java-backend-bootcamp-ppt.pdf"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-8 py-3 bg-gradient-to-r from-teal-600 to-green-600 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
+                            className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
                         >
                             Download Full Curriculum
                         </a>
@@ -577,21 +605,21 @@ const BackendWithJava = () => {
             </section>
 
             {/* Career Opportunities Section */}
-            <section className="py-16 px-6 bg-gradient-to-r from-teal-800 to-green-900 text-white">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl font-bold text-center mb-12">Career Opportunities</h2>
+            <section className="py-16 px-4 sm:px-8 bg-gradient-to-r from-blue-400 to-green-800 text-white">
+                <div className="w-full">
+                    <h2 className="text-3xl font-bold text-center mb-12 border-b pb-2">Career Opportunities</h2>
                     <div className="grid md:grid-cols-3 gap-8">
-                        <div className="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
+                        <div className="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                             <h3 className="text-xl font-semibold mb-3">Backend Developer</h3>
                             <p className="mb-4">Build and maintain server-side logic, databases, and APIs for web applications.</p>
                             <p className="font-medium">Avg. Salary: $90,000 - $120,000</p>
                         </div>
-                        <div className="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
+                        <div className="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                             <h3 className="text-xl font-semibold mb-3">Java Full Stack Developer</h3>
                             <p className="mb-4">Work on both frontend and backend components using Java-based technologies.</p>
                             <p className="font-medium">Avg. Salary: $95,000 - $130,000</p>
                         </div>
-                        <div className="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
+                        <div className="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                             <h3 className="text-xl font-semibold mb-3">Cloud Solutions Architect</h3>
                             <p className="mb-4">Design and implement cloud-native Java applications on AWS, Azure, or GCP.</p>
                             <p className="font-medium">Avg. Salary: $120,000 - $160,000</p>
@@ -601,9 +629,9 @@ const BackendWithJava = () => {
             </section>
 
             {/* Resources Section */}
-            <section className="py-16 px-6 bg-gray-50">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">Recommended Resources</h2>
+            <section className="py-16 px-4 sm:px-8 bg-gray-50">
+                <div className="w-full">
+                    <h2 className="text-3xl font-bold text-center mb-12 text-gray-800 border-b pb-2">Recommended Resources</h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[
                             { title: "Spring Initializr", desc: "Bootstrap your Spring projects quickly", link: "https://start.spring.io" },
@@ -613,10 +641,16 @@ const BackendWithJava = () => {
                             { title: "Java Code Geeks", desc: "Community-driven Java resources", link: "https://www.javacodegeeks.com" },
                             { title: "DZone Java", desc: "Articles and guides on Java technologies", link: "https://dzone.com/java" },
                         ].map((resource, index) => (
-                            <a key={index} href={resource.link} target="_blank" rel="noopener noreferrer" className="block bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition group">
-                                <h3 className="text-lg font-semibold mb-2 text-teal-700 group-hover:text-teal-800">{resource.title}</h3>
+                            <a
+                                key={index}
+                                href={resource.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all hover:-translate-y-1 border border-gray-100 group"
+                            >
+                                <h3 className="text-lg font-semibold mb-2 text-indigo-700 group-hover:text-indigo-800">{resource.title}</h3>
                                 <p className="text-gray-600 mb-3">{resource.desc}</p>
-                                <span className="text-teal-600 text-sm font-medium">Visit Resource →</span>
+                                <span className="text-indigo-600 text-sm font-medium group-hover:text-indigo-700">Visit Resource →</span>
                             </a>
                         ))}
                     </div>
@@ -624,19 +658,29 @@ const BackendWithJava = () => {
             </section>
 
             {/* Call to Action Section */}
-            < section className="py-12 px-6 bg-green-900 text-white" >
-                <div className="max-w-6xl mx-auto text-center">
-                    <h2 className="text-3xl font-bold mb-4">Start Your Java Backend Development Journey Today!</h2>
-                    <p className="text-lg mb-6">Enroll now to master Java Backend Development and become a top-tier developer.</p>
+            <section className="py-12 px-4 sm:px-8 bg-gradient-to-r from-blue-600 to-green-600 rounded-xl shadow-lg text-center text-white">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+                    Start Your Java Backend Development Journey Today!
+                </h2>
+                <p className="text-base sm:text-lg mb-6 max-w-2xl mx-auto">
+                    Enroll now to master Java Backend Development and become a top-tier developer in 2025!
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <button
-                        className="bg-white text-green-900 font-semibold py-3 px-8 rounded-lg hover:bg-gray-200"
+                        className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
                         onClick={() => navigate('/register')}
                     >
                         Enroll Now
                     </button>
+                    <button
+                        className="px-6 py-3 border-2 border-white/50 text-white font-medium rounded-lg hover:bg-white/20 transition-all"
+                        onClick={() => navigate('/contact')}
+                    >
+                        Contact Us
+                    </button>
                 </div>
             </section>
-        </>
+        </div>
     );
 };
 
