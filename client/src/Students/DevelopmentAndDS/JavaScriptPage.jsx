@@ -525,6 +525,38 @@ const JavaScriptPage = () => {
                             ))}
                         </div>
                     </section>
+
+                    {/* Call-to-Action Section */}
+                    <section className="py-16 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white">
+                        <div className="max-w-6xl mx-auto text-center">
+                            <div className="relative">
+                                <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
+                                <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
+                                <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
+                                    Explore the Documents to Learn JavaScript?
+                                </h2>
+                                <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
+                                    Join thousands of learners and start building real-world projects today. Enroll now to unlock your potential!
+                                </p>
+                                <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                                    <button
+                                        className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
+                                        onClick={() => { }}
+                                        aria-label="Enroll now in the course"
+                                    >
+                                        Enroll Now
+                                    </button>
+                                    <button
+                                        className="px-8 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
+                                        onClick={() => { }}
+                                        aria-label="Contact us for more information"
+                                    >
+                                        Contact Us
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
