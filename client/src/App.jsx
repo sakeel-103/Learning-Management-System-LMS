@@ -26,6 +26,7 @@ import FrontendPage from './Students/DevelopmentAndDS/FrontendPage'
 import HTMLPage from './Students/DevelopmentAndDS/HTMLPage'
 import NodejsPage from './Students/DevelopmentAndDS/NodeJsPage'
 import ReactJSPage from './Students/DevelopmentAndDS/ReactPage'
+import MachineLearning from './Students/AI&ML/MachineLearning'
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
         <Route path="/DevelopmentAndDS/htmlPage" element={<HTMLPage />} />
         <Route path="/DevelopmentAndDS/nodeJsPage" element={<NodejsPage />} />
         <Route path="/DevelopmentAndDS/reactJsPage" element={<ReactJSPage />} />
+        <Route path="/AIMLDS/MachineLearningPage" element={<MachineLearning />} />
       </Routes>
 
       <ScrollToTop />

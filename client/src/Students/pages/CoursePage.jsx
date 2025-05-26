@@ -1179,7 +1179,7 @@ const CoursePage = () => {
                                     <a href="#" className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200">See All</a>
                                 </div>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    <a href="../AIMLDS/MachineLearningPage" className="bg-green-100 text-green-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-green-50 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    <a href="/AIMLDS/MachineLearningPage" className="bg-green-100 text-green-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-green-50 hover:scale-105 transition-all duration-300 ease-in-out">
                                         Machine Learning <span>→</span>
                                     </a>
                                     <a href="../AIMLDS/DataSciencePage" className="bg-blue-100 text-blue-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-blue-50 hover:scale-105 transition-all duration-300 ease-in-out">
