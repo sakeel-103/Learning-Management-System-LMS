@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const CSSPage = () => {
-    // State to manage which section after "CSS Colors" is visible
+    const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState(null);
-    // State to manage sidebar toggle on mobile
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-    // List of sections after "CSS Colors" that will be conditionally displayed
     const conditionalSections = [
         "css-backgrounds",
         "css-borders",
@@ -119,8 +116,8 @@ const CSSPage = () => {
                                             setIsSidebarOpen(false);
                                         }}
                                         className={`block px-4 py-2 rounded-md transition-colors ${activeSection === section.id
-                                                ? "bg-blue-100 text-blue-700 font-medium"
-                                                : "text-gray-700 hover:bg-gray-100"
+                                            ? "bg-blue-100 text-blue-700 font-medium"
+                                            : "text-gray-700 hover:bg-gray-100"
                                             }`}
                                     >
                                         {section.label}
@@ -853,7 +850,7 @@ div {
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
                                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
+                                        onClick={() => navigate('/Login')} // Corrected navigation
                                         aria-label="Enroll now in the course"
                                     >
                                         Enroll Now

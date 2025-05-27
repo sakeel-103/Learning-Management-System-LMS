@@ -27,6 +27,7 @@ import HTMLPage from './Students/DevelopmentAndDS/HTMLPage'
 import NodejsPage from './Students/DevelopmentAndDS/NodeJsPage'
 import ReactJSPage from './Students/DevelopmentAndDS/ReactPage'
 import MachineLearning from './Students/AI&ML/MachineLearning'
+import ContactUs from './Students/components/ContanUs';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
     <Router>
       <UserNavbar />
       <Routes>
+
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
@@ -60,6 +62,8 @@ function App() {
         <Route path="/DevelopmentAndDS/nodeJsPage" element={<NodejsPage />} />
         <Route path="/DevelopmentAndDS/reactJsPage" element={<ReactJSPage />} />
         <Route path="/AIMLDS/MachineLearningPage" element={<MachineLearning />} />
+        <Route path="/components/contact-us" element={<ContactUs />} />
+
       </Routes>
 
       <ScrollToTop />

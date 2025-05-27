@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const MachineLearning = () => {
+    const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState("introduction");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [showMore, setShowMore] = useState(false); // State to toggle visibility of sections after Reinforcement Learning
+    const [showMore, setShowMore] = useState(false);
 
     const faqs = [
         {
@@ -126,8 +127,8 @@ const MachineLearning = () => {
                                             handleSectionClick(section.id);
                                         }}
                                         className={`block px-4 py-2 rounded-md transition-colors ${activeSection === section.id
-                                                ? "bg-blue-100 text-blue-700 font-medium"
-                                                : "text-gray-700 hover:bg-gray-100"
+                                            ? "bg-blue-100 text-blue-700 font-medium"
+                                            : "text-gray-700 hover:bg-gray-100"
                                             }`}
                                     >
                                         {section.title}
@@ -394,7 +395,8 @@ const MachineLearning = () => {
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
                                             <code>{`# Flask Deployment Example\nfrom flask import Flask, request\napp = Flask(__name__)\n\n@app.route('/predict', methods=['POST'])\ndef predict():\n    data = request.json\n    prediction = model.predict(data['input'])\n    return {'prediction': prediction.tolist()}\n\napp.run()`}</code>
-                                        </pre>
+                                        </pre>import Login from './../../pages/Login';
+
                                     </div>
                                     <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Methods:</h3>
                                     <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
@@ -592,7 +594,7 @@ const MachineLearning = () => {
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
                                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
+                                        onClick={() => navigate('/Login')} // Corrected navigation
                                         aria-label="Enroll now in the course"
                                     >
                                         Enroll Now
@@ -609,10 +611,10 @@ const MachineLearning = () => {
                         </div>
                     </section>
 
-                    {/* GeeksforGeeks Footer Links */}
+                    {/* Footer Links */}
                     <section className="py-8 px-4 bg-gray-100 text-gray-700 text-sm">
                         <div className="max-w-6xl mx-auto">
-                            <h3 className="text-lg font-bold mb-4 text-gray-800">Explore More from GeeksforGeeks</h3>
+                            <h3 className="text-lg font-bold mb-4 text-gray-800">Explore More from Online Resources</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                 <div>
                                     <h4 className="font-semibold mb-2">Courses</h4>
@@ -638,19 +640,6 @@ const MachineLearning = () => {
                                         <li><a href="https://www.geeksforgeeks.org/computer-vision/" className="text-blue-600 hover:underline">Computer Vision</a></li>
                                     </ul>
                                 </div>
-                                <div>
-                                    <h4 className="font-semibold mb-2">GeeksforGeeks Resources</h4>
-                                    <ul className="space-y-1">
-                                        <li><a href="https://www.geeksforgeeks.org/about/" className="text-blue-600 hover:underline">About Us</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/advertise-with-us/" className="text-blue-600 hover:underline">Advertise with Us</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/careers/" className="text-blue-600 hover:underline">Careers</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="mt-6 text-center">
-                                <p>Corporate & Communications Address: A-143, 7th Floor, Sovereign Corporate Tower, Sector-136, Noida, Uttar Pradesh (201305)</p>
-                                <p>Registered Address: K 061, Tower K, Gulshan Vivante Apartment, Sector 137, Noida, Gautam Buddh Nagar, Uttar Pradesh, 201305</p>
-                                <p className="mt-2">© GeeksforGeeks, Sanchhaya Education Private Limited, All rights reserved</p>
                             </div>
                         </div>
                     </section>

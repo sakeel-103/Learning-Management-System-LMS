@@ -41,7 +41,7 @@ function HomePage() {
                             <span className="inline-block animate-text-reveal [animation-delay:600ms] bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">Learning</span>{' '}
                             <span className="inline-block animate-text-reveal[animation-delay:800ms] bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">Journey</span>
                         </h2>
-                        <p className="text-lg md:text-xl mb-8 text-gray-600 max-w-lg">
+                        <p className="text-lg md:text-xl mb-8 text-gray-200 max-w-lg">
                             Access a wide range of courses, track your progress, and earn certifications.
                         </p>
                         <div className="flex justify-center md:justify-start gap-4">

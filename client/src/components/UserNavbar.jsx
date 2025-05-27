@@ -9,7 +9,7 @@ function UserNavbar() {
     const navigate = useNavigate();
     const dropdownRef = useRef(null);
 
-    // /* Authentication state and storing in local storage */
+    // Authentication state and storing in local storage
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     const username = localStorage.getItem("username");
 
@@ -20,6 +20,8 @@ function UserNavbar() {
         if (confirmed) {
             localStorage.setItem("isLoggedIn", false);
             localStorage.removeItem("username");
+            localStorage.removeItem("ACCESS_TOKEN");
+            localStorage.removeItem("role");
             alert("Logout Successful.");
             navigate("/login");
         }
@@ -91,10 +93,10 @@ function UserNavbar() {
                                     Courses
                                 </Link>
                                 <Link
-                                    to="/dashboard"
+                                    to="/components/contact-us"
                                     className="text-gray-600 hover:text-blue-800 px-4 py-2 text-base font-semibold transition-colors duration-200"
                                 >
-                                    Dashboard
+                                    Contact Us
                                 </Link>
                                 <Link
                                     to="/my-learning"
@@ -132,41 +134,27 @@ function UserNavbar() {
                             <div className="md:block hidden">
                                 <div className="ml-6 flex items-center gap-6">
                                     {isLoggedIn ? (
-                                        <div className="relative flex gap-3 items-center">
+                                        <div className="relative flex flex-col items-center">
                                             <FaUserCircle
                                                 onClick={handleDropdownToggle}
-                                                className="text-3xl cursor-pointer text-blue-600 hover:text-blue-800 transition-colors duration-200"
+                                                className="text-3xl cursor-pointer text-green-800"
                                             />
-                                            <span className="text-blue-700 font-semibold">{username || "User"}</span>
+                                            <span className="text-blue-700 font-semibold text-sm mt-1">{username || "User"}</span>
                                             {showDropdown && (
                                                 <div
                                                     ref={dropdownRef}
-                                                    className="absolute right-0 top-12 w-48 bg-white rounded-lg shadow-xl py-2 z-10 border border-gray-100"
+                                                    className="absolute right-0 top-16 w-48 bg-white rounded-md shadow-lg py-1 z-10"
                                                 >
                                                     <Link
                                                         to="/dashboard"
-                                                        className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-400"
+                                                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
                                                         onClick={() => setShowDropdown(false)}
                                                     >
                                                         Dashboard
                                                     </Link>
-                                                    <Link
-                                                        to="/my-learning"
-                                                        className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-800"
-                                                        onClick={() => setShowDropdown(false)}
-                                                    >
-                                                        Learning
-                                                    </Link>
-                                                    <Link
-                                                        to="/certificates"
-                                                        className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-800"
-                                                        onClick={() => setShowDropdown(false)}
-                                                    >
-                                                        Certificates
-                                                    </Link>
                                                     <button
                                                         onClick={handleLogout}
-                                                        className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-400 w-full text-left"
+                                                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
                                                     >
                                                         Logout
                                                     </button>
@@ -259,13 +247,6 @@ function UserNavbar() {
                             Courses
                         </Link>
                         <Link
-                            to="/dashboard"
-                            className="text-gray-600 hover:text-blue-400 hover:underline block px-4 py-2 text-base font-semibold"
-                            onClick={() => setIsOpen(false)}
-                        >
-                            Dashboard
-                        </Link>
-                        <Link
                             to="/my-learning"
                             className="text-blue-600 hover:text-blue-800 hover:underline block px-4 py-2 text-base font-semibold"
                             onClick={() => setIsOpen(false)}
@@ -300,21 +281,45 @@ function UserNavbar() {
                         {isLoggedIn ? (
                             <>
                                 <Link
-                                    to="/dashboard"
+                                    to="/DevelopmentAnsDS/contact-us"
                                     className="text-blue-600 hover:text-blue-800 hover:underline block px-4 py-2 text-base font-semibold"
                                     onClick={() => setIsOpen(false)}
                                 >
-                                    Dashboard
+                                    Contact Us
                                 </Link>
-                                <button
-                                    onClick={() => {
-                                        handleLogout();
-                                        setIsOpen(false);
-                                    }}
-                                    className="text-blue-600 hover:text-blue-800 hover:underline block px-4 py-2 text-base font-semibold w-full text-left"
-                                >
-                                    Logout
-                                </button>
+                                <div className="relative flex flex-col items-start">
+                                    <FaUserCircle
+                                        onClick={handleDropdownToggle}
+                                        className="text-3xl cursor-pointer text-green-800"
+                                    />
+                                    <span className="text-blue-700 font-semibold text-sm mt-1">{username || "User"}</span>
+                                    {showDropdown && (
+                                        <div
+                                            ref={dropdownRef}
+                                            className="absolute left-0 top-16 w-48 bg-white rounded-md shadow-lg py-1 z-10"
+                                        >
+                                            <Link
+                                                to="/dashboard"
+                                                className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                                                onClick={() => {
+                                                    setShowDropdown(false);
+                                                    setIsOpen(false);
+                                                }}
+                                            >
+                                                Dashboard
+                                            </Link>
+                                            <button
+                                                onClick={() => {
+                                                    handleLogout();
+                                                    setIsOpen(false);
+                                                }}
+                                                className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"
+                                            >
+                                                Logout
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                             </>
                         ) : (
                             <>
