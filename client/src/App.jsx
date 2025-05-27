@@ -1,6 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+
 import UserNavbar from './components/UserNavbar'
 import UserFooter from './components/UserFooter'
 import HomePage from './Students/components/HomePage'
@@ -8,14 +9,17 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
-import AdminDashboard from './Admin/components/AdminDashboard'
 import InstructorDashboard from './Instructors/components/InstructorDashboard'
 import StudentDashboard from './Students/components/StudentDashboard'
+import CoursePage from './Students/pages/CoursePage'
+
+// Admin Component Imports
+import AdminDashboard from './Admin/Dashboard'
+import UserManagement from './Admin/components/UserManagement'
+import CourseManagement from './Admin/components/CourseManagement'
+import AssessmentManagement from './Admin/components/AssessmentManagement'
+
 import './index.css'
-import CoursePage from './Students/pages/CoursePage';
-// import AdminPanel from './Admin/components/AdminPanel';
-
-
 
 function App() {
   return (
@@ -29,12 +33,19 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-
         {/* Role-based Protected Routes */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
         <Route path="/student/dashboard" element={<StudentDashboard />} />
         <Route path="/courses" element={<CoursePage />} />
+
+        {/* Admin Nested Routes */}
+        <Route path="/admin" element={<AdminDashboard />}>
+          <Route index element={<Navigate to="users" replace />} />
+          <Route path="users" element={<UserManagement />} />
+          <Route path="courses" element={<CourseManagement />} />
+          <Route path="assessments" element={<AssessmentManagement />} />
+        </Route>
       </Routes>
       <UserFooter />
       <ToastContainer
