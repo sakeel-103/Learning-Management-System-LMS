@@ -103,7 +103,7 @@ function AdminDashboard() {
                       <p className="text-sm font-medium text-gray-900">Student enrollment spike</p>
                       <p className="text-sm text-gray-500">23 new students enrolled in Web Development</p>
                     </div>
-                    <div className="ml-4 text-sm text-gray-500">1d ago</div>
+                    <div className="ml-4 text-sm text-gray-500">1d agoo</div>
                   </div>
                 </li>
               </ul>
