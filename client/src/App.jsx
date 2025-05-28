@@ -28,21 +28,20 @@ import NodejsPage from './Students/DevelopmentAndDS/NodeJsPage'
 import ReactJSPage from './Students/DevelopmentAndDS/ReactPage'
 import MachineLearning from './Students/AI&ML/MachineLearning'
 import ContactUs from './Students/components/ContanUs';
-
+import DataScience from './Students/AI&ML/DataScience';
+import DataAnalysis from './Students/AI&ML/DataAnalysis'
 
 function App() {
   return (
     <Router>
       <UserNavbar />
       <Routes>
-
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-
 
         {/* Role-based Protected Routes */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
@@ -63,7 +62,8 @@ function App() {
         <Route path="/DevelopmentAndDS/reactJsPage" element={<ReactJSPage />} />
         <Route path="/AIMLDS/MachineLearningPage" element={<MachineLearning />} />
         <Route path="/components/contact-us" element={<ContactUs />} />
-
+        <Route path="/AIMLDS/DataSciencePage" element={<DataScience />} />
+        <Route path="/AIMLDS/DataAnalysisPage" element={<DataAnalysis />} />
       </Routes>
 
       <ScrollToTop />

@@ -1182,10 +1182,11 @@ const CoursePage = () => {
                                     <a href="/AIMLDS/MachineLearningPage" className="bg-green-100 text-green-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-green-50 hover:scale-105 transition-all duration-300 ease-in-out">
                                         Machine Learning <span>→</span>
                                     </a>
-                                    <a href="../AIMLDS/DataSciencePage" className="bg-blue-100 text-blue-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-blue-50 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    <a href="/AIMLDS/DataSciencePage"
+                                        className="bg-blue-100 text-blue-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-blue-50 hover:scale-105 transition-all duration-300 ease-in-out">
                                         Data Science <span>→</span>
                                     </a>
-                                    <a href="../AIMLDS/DataAnalysisPage" className="bg-purple-100 text-purple-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-purple-50 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    <a href="/AIMLDS/DataAnalysisPage" className="bg-purple-100 text-purple-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-purple-50 hover:scale-105 transition-all duration-300 ease-in-out">
                                         Data Analysis <span>→</span>
                                     </a>
                                     <a href="../AIMLDS/DataVisualizationPage" className="bg-yellow-100 text-yellow-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-yellow-50 hover:scale-105 transition-all duration-300 ease-in-out">
