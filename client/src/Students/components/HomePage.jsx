@@ -13,47 +13,47 @@ import user1 from '../assets/user1.jpeg';
 import { Monitor, User, GraduationCap, BadgeCheck } from "lucide-react";
 import CountUp from "react-countup";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    const navigate = useNavigate();
     return (
         <>
 
             {/* Header Section */}
-            <section className="container mx-auto pt-36 pb-16 py-16 bg-gradient-to-b from-blue-500 to-gray-50 animate-fade-in">
+            <section className="container mx-auto pt-36 pb-16 py-16 bg-gradient-to-r from-blue-400 to-green-800 animate-fade-in relative">
+                <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
+                <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
                 <div className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto px-4">
-
                     <div className="w-full md:w-1/2 mb-8 md:mb-0 flex justify-start -ml-6 md:-ml-14 mt-6 md:mt-14">
                         <img
                             src={HomeImage}
                             alt="Group of students learning"
-                            className="w-full h-auto rounded-lg shadow-lg object-cover max-h-[400px] transition-transform duration-300 hover:scale-105"
+                            className="w-full h-auto rounded-xl shadow-md object-cover max-h-[400px] transition-transform duration-300 hover:-translate-y-1"
                         />
                     </div>
 
                     <div className="w-full md:w-1/2 text-center md:text-left md:ml-14">
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-800 tracking-tight">
-                            <span className="inline-block animate-text-reveal[animation-delay:0ms]">Welcom</span>{' '}
-                            <span className="inline-block animate-text-reveal [animation-delay:200ms]">to</span>{' '}
-                            <span className="inline-block animate-text-reveal [animation-delay:400ms]">Your</span>{' '}
-                            <span className="inline-block animate-text-reveal [animation-delay:600ms]">Learning</span>{' '}
-                            <span className="inline-block animate-text-reveal[animation-delay:800ms]">Journey</span>
+                        <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-gray-800 tracking-tight">
+                            <span className="inline-block animate-text-reveal[animation-delay:0ms] bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">Welcom</span>{' '}
+                            <span className="inline-block animate-text-reveal [animation-delay:200ms] bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">to</span>{' '}
+                            <span className="inline-block animate-text-reveal [animation-delay:400ms] bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">Your</span>{' '}
+                            <span className="inline-block animate-text-reveal [animation-delay:600ms] bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">Learning</span>{' '}
+                            <span className="inline-block animate-text-reveal[animation-delay:800ms] bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">Journey</span>
                         </h2>
-                        <p className="text-lg md:text-xl mb-8 text-gray-600 max-w-lg">
+                        <p className="text-lg md:text-xl mb-8 text-gray-200 max-w-lg">
                             Access a wide range of courses, track your progress, and earn certifications.
                         </p>
                         <div className="flex justify-center md:justify-start gap-4">
                             <Link
                                 to="/register"
-                                className="bg-blue-500 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 transform hover:scale-105"
+                                className="bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:from-blue-700 hover:to-green-700 transition duration-300 transform hover:-translate-y-1"
                             >
                                 Get Started
                             </Link>
                             <Link
                                 to="/courses"
-                                className="bg-white text-blue-500 font-semibold py-3 px-8 rounded-lg shadow-lg border border-blue-500 hover:bg-blue-50 transition duration-300 transform hover:scale-105"
+                                className="bg-white text-indigo-700 font-semibold py-3 px-8 rounded-lg shadow-md border border-gray-100 hover:bg-gray-100 transition duration-300 transform hover:-translate-y-1"
                             >
                                 Explore Courses
                             </Link>
@@ -63,34 +63,34 @@ function HomePage() {
             </section>
 
             {/* Features Section */}
-            <section className="container mx-auto py-16">
-                <h3 className="text-3xl font-semibold text-center mb-12 text-gray-800">Why Choose Us?</h3>
+            <section className="container mx-auto py-16 bg-gray-50">
+                <h3 className="text-3xl font-bold text-center mb-12 text-gray-800">Why Choose Us?</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {[
                         {
-                            icon: <FaBook className="text-4xl text-gray-800 mx-auto mb-4" />,
+                            icon: <FaBook className="text-4xl text-indigo-600 mx-auto mb-4" />,
                             title: "Online & Offline Learning",
                             desc: "Learn anytime, anywhere with flexible access to courses.",
                         },
                         {
-                            icon: <FaVideo className="text-4xl text-gray-800 mx-auto mb-4" />,
+                            icon: <FaVideo className="text-4xl text-indigo-600 mx-auto mb-4" />,
                             title: "Live & Recorded Classes",
                             desc: "Join live sessions or watch recorded lectures at your convenience.",
                         },
                         {
-                            icon: <FaChartLine className="text-4xl text-gray-800 mx-auto mb-4" />,
+                            icon: <FaChartLine className="text-4xl text-indigo-600 mx-auto mb-4" />,
                             title: "Progress Tracking",
                             desc: "Monitor your learning progress with detailed dashboards.",
                         },
                         {
-                            icon: <FaCertificate className="text-4xl text-gray-800 mx-auto mb-4" />,
+                            icon: <FaCertificate className="text-4xl text-indigo-600 mx-auto mb-4" />,
                             title: "Earn Certifications",
                             desc: "Get certified upon course completion with verifiable certificates.",
                         },
                     ].map((feature, index) => (
                         <div
                             key={index}
-                            className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-xl hover:border-blue-200 text-center transform transition-all duration-300 hover:scale-105"
+                            className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md hover:border-gray-200 text-center transform transition-all duration-300 hover:-translate-y-1"
                         >
                             {feature.icon}
                             <h4 className="text-xl font-medium mb-2 text-gray-700">{feature.title}</h4>
@@ -100,8 +100,8 @@ function HomePage() {
                 </div>
             </section>
 
-            <section className="container mx-auto py-16 bg-white">
-                <h3 className="text-3xl font-semibold text-center mb-12 text-gray-800">Explore Popular Courses</h3>
+            <section className="container mx-auto py-16 bg-gray-50">
+                <h3 className="text-3xl font-bold text-center mb-12 text-gray-800">Explore Popular Courses</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {[
                         {
@@ -125,15 +125,15 @@ function HomePage() {
                     ].map((course, index) => (
                         <div
                             key={index}
-                            className="bg-white rounded-xl shadow-sm overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-2"
+                            className="bg-white rounded-xl shadow-sm overflow-hidden transform transition-all duration-300 hover:shadow-md hover:-translate-y-1 border border-gray-100"
                         >
                             <div className="relative">
                                 <img
                                     src={course.img}
                                     alt={course.title}
-                                    className="w-full h-48 object-cover transform hover:scale-105 transition duration-300"
+                                    className="w-full h-48 object-cover transform hover:-translate-y-1 transition duration-300"
                                 />
-                                <span className="absolute top-4 left-4 bg-blue-500 text-white text-sm font-semibold px-3 py-1 rounded-full">
+                                <span className="absolute top-4 left-4 bg-indigo-600 text-white text-sm font-semibold px-3 py-1 rounded-full">
                                     {course.category}
                                 </span>
                             </div>
@@ -142,7 +142,7 @@ function HomePage() {
                                 <p className="text-gray-600 mb-4">{course.desc}</p>
                                 <Link
                                     to="/courses"
-                                    className="text-blue-500 font-semibold hover:underline"
+                                    className="text-indigo-600 font-semibold hover:underline"
                                 >
                                     Learn More
                                 </Link>
@@ -153,7 +153,7 @@ function HomePage() {
                 <div className="text-center mt-12">
                     <Link
                         to="/courses"
-                        className="bg-blue-500 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 transform hover:scale-105"
+                        className="bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:from-blue-700 hover:to-green-700 transition duration-300 transform hover:-translate-y-1"
                     >
                         View All Courses
                     </Link>
@@ -161,51 +161,50 @@ function HomePage() {
             </section>
 
             {/* Statistics Section */}
-            <section className="container mx-auto py-16 text-center">
+            <section className="container mx-auto py-16 text-center bg-gray-50">
                 <h2 className="text-3xl font-bold mb-12 text-gray-800">Our Impact</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {[
                         {
-                            icon: <Monitor className="text-yellow-500 w-10 h-10" />,
+                            icon: <Monitor className="text-indigo-600 w-10 h-10" />,
                             value: 1000,
                             suffix: "K",
                             label: "Online Courses",
-                            bg: "bg-yellow-100",
+                            bg: "bg-green-100",
                         },
                         {
-                            icon: <User className="text-blue-900 w-10 h-10" />,
+                            icon: <User className="text-indigo-600 w-10 h-10" />,
                             value: 200,
                             suffix: "+",
                             label: "Expert Tutors",
-                            bg: "bg-gray-200",
+                            bg: "bg-blue-100",
                         },
                         {
-                            icon: <GraduationCap className="text-purple-600 w-10 h-10" />,
+                            icon: <GraduationCap className="text-indigo-600 w-10 h-10" />,
                             value: 5000,
                             suffix: "K+",
                             label: "Online Students",
                             bg: "bg-purple-100",
                         },
                         {
-                            icon: <BadgeCheck className="text-cyan-600 w-10 h-10" />,
+                            icon: <BadgeCheck className="text-indigo-600 w-10 h-10" />,
                             value: 1000,
                             suffix: "K+",
                             label: "Certified Courses",
-                            bg: "bg-cyan-100",
+                            bg: "bg-teal-100",
                         },
                     ].map((stat, index) => {
-                        // eslint-disable-next-line react-hooks/rules-of-hooks
                         const [startCount, setStartCount] = useState(false);
                         return (
                             <div
                                 key={index}
                                 onMouseEnter={() => setStartCount(true)}
                                 onMouseLeave={() => setStartCount(false)}
-                                className={`${stat.bg} flex items-center gap-4 p-6 rounded-lg shadow-sm`}
+                                className={`${stat.bg} flex items-center gap-4 p-6 rounded-lg shadow-sm transform transition-all duration-300 hover:-translate-y-1`}
                             >
                                 {stat.icon}
                                 <div className="text-left">
-                                    <h4 className="text-2xl font-bold text-black">
+                                    <h4 className="text-2xl font-bold text-gray-800">
                                         {startCount ? (
                                             <CountUp end={stat.value} duration={2} separator="," suffix={stat.suffix} />
                                         ) : (
@@ -220,9 +219,8 @@ function HomePage() {
                 </div>
             </section>
 
-
-            {/* Enhanced Testimonials Section */}
-            <section className="container mx-auto py-16 bg-gradient-to-r from-blue-50 to-gray-100 mt-24">
+            {/* Testimonials Section */}
+            <section className="container mx-auto py-16 bg-gradient-to-br from-gray-50 to-white mt-24">
                 <h3 className="text-3xl font-bold text-center mb-12 text-gray-800">What Our Learners Say</h3>
                 <div className="relative overflow-hidden">
                     <div className="flex space-x-6 animate-slide">
@@ -258,7 +256,7 @@ function HomePage() {
                         ].map((testimonial, index) => (
                             <div
                                 key={index}
-                                className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 w-80 flex-shrink-0 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
+                                className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-gray-100 w-80 flex-shrink-0 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
                             >
                                 <img
                                     src={testimonial.img}
@@ -272,7 +270,7 @@ function HomePage() {
                                 </div>
                                 <p className="text-gray-600 mb-4 italic">"{testimonial.quote}"</p>
                                 <h4 className="text-lg font-medium text-gray-700">{testimonial.name}</h4>
-                                <p className="text-gray-500">{testimonial.role}</p>
+                                <p className="text-gray-600">{testimonial.role}</p>
                             </div>
                         ))}
                     </div>
@@ -280,7 +278,7 @@ function HomePage() {
                         {[...Array(4)].map((_, i) => (
                             <span
                                 key={i}
-                                className="w-3 h-3 bg-blue-500 rounded-full opacity-50 hover:opacity-100 cursor-pointer transition"
+                                className="w-3 h-3 bg-indigo-600 rounded-full opacity-50 hover:opacity-100 cursor-pointer transition"
                             ></span>
                         ))}
                     </div>
@@ -288,8 +286,8 @@ function HomePage() {
             </section>
 
             {/* Featured Instructors Section */}
-            <section className="container mx-auto py-16">
-                <h3 className="text-3xl font-semibold text-center mb-12 text-gray-800">Meet Our Expert Instructors</h3>
+            <section className="container mx-auto py-16 bg-gray-50">
+                <h3 className="text-3xl font-bold text-center mb-12 text-gray-800">Meet Our Expert Instructors</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {[
                         {
@@ -313,7 +311,7 @@ function HomePage() {
                     ].map((instructor, index) => (
                         <div
                             key={index}
-                            className="bg-white rounded-xl shadow-sm overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:-translate-y-2"
+                            className="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl shadow-sm overflow-hidden transform transition-all duration-300 hover:shadow-md hover:-translate-y-1 border border-gray-100"
                         >
                             <div className="relative">
                                 <img src={instructor.img} alt={instructor.name} className="w-full h-48 object-cover" />
@@ -327,7 +325,7 @@ function HomePage() {
                             <div className="p-6 text-center">
                                 <h4 className="text-xl font-medium mb-2 text-gray-700">{instructor.name}</h4>
                                 <p className="text-gray-600 mb-2">{instructor.role}</p>
-                                <p className="text-gray-500">{instructor.desc}</p>
+                                <p className="text-gray-600">{instructor.desc}</p>
                             </div>
                         </div>
                     ))}
@@ -335,8 +333,8 @@ function HomePage() {
             </section>
 
             {/* FAQ Section (Collapsible) */}
-            <section className="container mx-auto py-16 bg-blue-200 mb-12">
-                <h3 className="text-3xl font-semibold text-center mb-12 text-gray-800">Frequently Asked Questions</h3>
+            <section className="container mx-auto py-16 bg-gray-50 mb-12">
+                <h3 className="text-3xl font-bold text-center mb-12 text-gray-800">Frequently Asked Questions</h3>
                 <div className="max-w-3xl mx-auto space-y-4">
                     {[
                         {
@@ -358,55 +356,54 @@ function HomePage() {
                     ].map((faq, index) => (
                         <div
                             key={index}
-                            className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 transition-all duration-300 hover:shadow-md"
+                            className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-md"
                         >
                             <details className="group">
                                 <summary className="flex items-center justify-between cursor-pointer">
                                     <h4 className="text-lg font-medium text-gray-700 flex items-center">
-                                        <FaQuestionCircle className="text-gray-800 mr-2" />
+                                        <FaQuestionCircle className="text-indigo-600 mr-2" />
                                         {faq.question}
                                     </h4>
                                     <FaChevronDown className="text-gray-600 group-open:rotate-180 transition-transform" />
                                 </summary>
-                                <p className="text-gray-800 mt-4">{faq.answer}</p>
+                                <p className="text-gray-600 mt-4">{faq.answer}</p>
                             </details>
                         </div>
                     ))}
                 </div>
             </section>
 
-            {/* Newsletter Subscription Section */}
-            <section className="container mx-auto py-16 bg-gradient-to-r from-blue-200 to-purple-100 text-white text-center relative overflow-hidden animate-fade-in transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_30px_rgba(59,130,246,0.7)] border-4 border-gradient-to-r from-blue-400 to-purple-500 box-border mb-12">
+            <section className="container mx-auto py-8 sm:py-12 md:py-16 bg-gradient-to-r from-blue-600 to-green-600 text-white text-center relative overflow-hidden animate-fade-in transition-all duration-300 hover:shadow-md border-4 border-gray-100 box-border mb-8 sm:mb-10 md:mb-12">
                 <div className="absolute inset-0 bg-opacity-20 bg-[url('https://via.placeholder.com/1200x400?text=Newsletter+Pattern')] opacity-30"></div>
-                <div className="relative z-10">
-                    <h3 className="text-3xl font-semibold mb-4 tracking-tight">Stay Updated with Our Newsletter</h3>
-                    <p className="text-lg mb-8 max-w-xl mx-auto">Subscribe to receive the latest course updates, tips, and exclusive offers.</p>
-                    <div className="max-w-md mx-auto">
-                        <div className="flex items-center bg-white rounded-full shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl">
-                            <div className="p-3">
-                                <FaEnvelope className="text-blue-600 text-xl" />
+                <div className="relative z-10 px-4 sm:px-6">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-3 sm:mb-4 tracking-tight">Stay Updated with Our Newsletter</h3>
+                    <p className="text-sm sm:text-base md:text-lg mb-4 sm:mb-6 md:mb-8 max-w-xs sm:max-w-sm md:max-w-xl mx-auto">Subscribe to receive the latest course updates, tips, and exclusive offers.</p>
+                    <div className="max-w-xs sm:max-w-sm md:max-w-md mx-auto">
+                        <div className="flex flex-col sm:flex-row items-center bg-white rounded-3xl sm:rounded-full shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-lg">
+                            <div className="p-2 sm:p-3 flex justify-center sm:justify-start">
+                                <FaEnvelope className="text-indigo-600 text-lg sm:text-xl" />
                             </div>
                             <input
                                 type="email"
                                 placeholder="Enter your email"
-                                className="flex-1 p-3 text-gray-700 focus:outline-none placeholder-gray-400 placeholder-opacity-75 transition-all duration-300"
+                                className="flex-1 p-2 sm:p-3 text-gray-700 focus:outline-none placeholder-gray-400 placeholder-opacity-75 transition-all duration-300 text-sm sm:text-base w-full sm:w-auto"
                             />
-                            <button className="bg-blue-500 text-white font-semibold py-3 px-6 hover:bg-blue-600 transition duration-300 transform hover:scale-105">
+                            <button className="bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 hover:from-blue-700 hover:to-green-700 transition duration-300 transform hover:-translate-y-1 w-full sm:w-auto mt-2 sm:mt-0 rounded-3xl sm:rounded-r-full">
                                 Subscribe
                             </button>
                         </div>
-                        <p className="text-sm mt-4 opacity-80">We respect your privacy and won’t share your information.</p>
+                        <p className="text-xs sm:text-sm mt-3 sm:mt-4 opacity-80">We respect your privacy and won’t share your information.</p>
                     </div>
                 </div>
             </section>
 
-            {/* Mini Contact Form Section */}
-            <section className="container mx-auto py-16 bg-gray-300 relative overflow-hidden animate-fade-in w-full">
+            {/* Contact Form Section */}
+            <section className="container mx-auto py-16 bg-gray-50 relative overflow-hidden animate-fade-in w-full">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/subtle-white-feathers.png')] opacity-10 bg-repeat"></div>
                 <h3 className="text-4xl font-extrabold text-center mb-12 text-gray-800 tracking-tight text-shadow-sm">Get in Touch</h3>
-                <div className="max-w-2xl mx-auto bg-white p-10 rounded-2xl shadow-xl border-2 border-gradient-to-r from-blue-300 to-indigo-400 bg-gradient-to-br from-blue-50 to-gray-100 transform transition-all duration-500 hover:shadow-2xl hover:scale-[1.02]">
+                <div className="max-w-2xl mx-auto bg-white bg-opacity-10 backdrop-blur-sm p-10 rounded-2xl shadow-md border border-gray-100 transform transition-all duration-500 hover:shadow-lg hover:-translate-y-1">
                     <div className="flex items-center justify-center mb-8">
-                        <FaEnvelope className="text-blue-600 text-4xl mr-3 transform hover:scale-110 transition duration-300" />
+                        <FaEnvelope className="text-indigo-600 text-4xl mr-3 transform hover:-translate-y-1 transition duration-300" />
                         <h4 className="text-3xl font-semibold text-gray-800">We’d Love to Hear from You</h4>
                     </div>
                     <div className="space-y-8">
@@ -418,7 +415,7 @@ function HomePage() {
                                 type="text"
                                 id="name"
                                 placeholder="Your name"
-                                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400/50 bg-white/80 text-gray-700 placeholder-gray-400 placeholder-opacity-75 transition-all duration-300 hover:border-blue-500 hover:bg-blue-50/20"
+                                className="w-full p-4 border border-gray-100 rounded-lg focus:outline-none focus:ring-4 focus:ring-indigo-400/50 bg-white/80 text-gray-700 placeholder-gray-400 placeholder-opacity-75 transition-all duration-300 hover:border-indigo-500 hover:bg-indigo-50/20"
                             />
                         </div>
                         <div>
@@ -429,7 +426,7 @@ function HomePage() {
                                 type="email"
                                 id="email"
                                 placeholder="Your email"
-                                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400/50 bg-white/80 text-gray-700 placeholder-gray-400 placeholder-opacity-75 transition-all duration-300 hover:border-blue-500 hover:bg-blue-50/20"
+                                className="w-full p-4 border border-gray-100 rounded-lg focus:outline-none focus:ring-4 focus:ring-indigo-400/50 bg-white/80 text-gray-700 placeholder-gray-400 placeholder-opacity-75 transition-all duration-300 hover:border-indigo-500 hover:bg-indigo-50/20"
                             />
                         </div>
                         <div>
@@ -440,76 +437,33 @@ function HomePage() {
                                 id="message"
                                 placeholder="Your message"
                                 rows="5"
-                                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400/50 bg-white/80 text-gray-700 placeholder-gray-400 placeholder-opacity-75 transition-all duration-300 hover:border-blue-500 hover:bg-blue-50/20"
+                                className="w-full p-4 border border-gray-100 rounded-lg focus:outline-none focus:ring-4 focus:ring-indigo-400/50 bg-white/80 text-gray-700 placeholder-gray-400 placeholder-opacity-75 transition-all duration-300 hover:border-indigo-500 hover:bg-indigo-50/20"
                             ></textarea>
                         </div>
-                        <button className="w-full bg-gradient-to-r from-gray-500 to-indigo-600 text-white font-semibold py-4 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 transition duration-300 transform hover:scale-105 flex items-center justify-center relative overflow-hidden">
+                        <button className="w-full bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold py-4 rounded-lg shadow-md hover:from-blue-700 hover:to-green-700 transition duration-300 transform hover:-translate-y-1 flex items-center justify-center relative overflow-hidden">
                             <span className="relative z-10">Send Message</span>
                             <FaEnvelope className="ml-2 relative z-10" />
                             <span className="absolute inset-0 bg-white opacity-0 hover:opacity-20 transition-opacity duration-300"></span>
                         </button>
-                        <p className="text-sm text-gray-500 text-center mt-4 opacity-80">We’ll get back to you within 24 hours.</p>
+                        <p className="text-sm text-gray-600 text-center mt-4 opacity-80">We’ll get back to you within 24 hours.</p>
                     </div>
                 </div>
             </section>
 
-            {/* Quick Links Section */}
-            <section className="container mx-auto py-16 bg-white text-center">
-                <h3 className="text-3xl font-semibold mb-12 text-gray-800">Quick Links</h3>
-                <p className='text-lg mb-6 max-w-xl mx-auto'>Access key resources and pages to enhance your learning experience.</p>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    {[
-                        { title: "Browse Courses", path: "/courses" },
-                        { title: "About Us", path: "/about" },
-                        { title: "Support", path: "/support" },
-                        { title: "Blog", path: "/blog" },
-                    ].map((link, index) => (
-                        <Link
-                            key={index}
-                            to={link.path}
-                            className="bg-gradient-to-r from-gray-500 to-blue-700 text-white p-6 rounded-xl shadow-sm hover:shadow-md font-semibold transition-all duration-300 transform hover:scale-105"
-                        >
-                            {link.title}
-                        </Link>
-                    ))}
-                </div>
-            </section>
-
-            {/* Call-to-Action Section */}
-            <section className="bg-gray-600 text-white py-16 text-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-[url('https://via.placeholder.com/1200x400?text=CTA+Pattern')] opacity-20 parallax"></div>
-                <div className="container mx-auto relative z-10">
-                    <h3 className="text-3xl font-semibold mb-4 tracking-tight">Ready to Start Learning?</h3>
-                    <p className="text-lg mb-8 max-w-xl mx-auto">Join thousands of learners and explore courses tailored for you.</p>
-                    <Link
-                        to="/register"
-                        className="bg-white text-blue-500 font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-50 transition duration-300 transform hover:scale-105"
+            {/* Call to Action Section */}
+            <section className="py-12 px-6 bg-gradient-to-r from-blue-600 to-green-600 text-white">
+                <div className="max-w-6xl mx-auto text-center">
+                    <h2 className="text-3xl font-bold mb-4">Start Learning Journey Today!</h2>
+                    <p className="text-lg mb-6">Enroll now and become a top-tier developer with expert-led courses.</p>
+                    <button
+                        className="bg-white text-indigo-700 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 shadow-md transform transition-all duration-300 hover:-translate-y-1"
+                        onClick={() => navigate('/login')}
                     >
-                        Sign Up Now
-                    </Link>
+                        Enroll Now
+                    </button>
                 </div>
             </section>
 
-            {/* Back to Top Button */}
-            <button
-                onClick={scrollToTop}
-                className="fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
-                aria-label="Scroll to top"
-            >
-                <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 10l7-7m0 0l7 7m-7-7v18"
-                    />
-                </svg>
-            </button>
         </>
     )
 }
