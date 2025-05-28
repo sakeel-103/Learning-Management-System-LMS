@@ -1,54 +1,44 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const DataScience = () => {
-    const [activeSection, setActiveSection] = useState("ds-home");
+const DataVisualization = () => {
+    const navigate = useNavigate();
+    const [activeSection, setActiveSection] = useState("what-is-data-visualization");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [showMore, setShowMore] = useState(false);
 
     const faqs = [
         {
-            question: "What is data science?",
-            answer: "Data science is an interdisciplinary field that uses scientific methods, processes, algorithms, and systems to extract knowledge and insights from structured and unstructured data.",
+            question: "What is the difference between Matplotlib and Seaborn?",
+            answer: "Matplotlib is a foundational plotting library offering extensive customization, while Seaborn builds on Matplotlib to provide a higher-level interface with more aesthetically pleasing and statistical plots.",
         },
         {
-            question: "What is a DataFrame in Python?",
-            answer: "A DataFrame is a two-dimensional, size-mutable, and potentially heterogeneous tabular data structure with labeled axes (rows and columns) in the Pandas library.",
+            question: "Can I use Plotly for interactive visualizations?",
+            answer: "Yes, Plotly is excellent for creating interactive visualizations, allowing users to hover, zoom, and interact with plots, which is ideal for web-based applications.",
         },
         {
-            question: "What is the difference between correlation and causation?",
-            answer: "Correlation indicates a statistical relationship between two variables, while causation implies that one variable directly affects the other. Correlation does not imply causation.",
+            question: "What is Altair best suited for?",
+            answer: "Altair is best suited for creating declarative visualizations in Python, especially for users who prefer a simple syntax and integration with Pandas for quick, interactive charts.",
         },
         {
-            question: "What are percentiles in statistics?",
-            answer: "Percentiles are measures that divide a dataset into 100 equal parts, indicating the value below which a given percentage of observations fall.",
+            question: "How does ggplot2 compare to Python libraries?",
+            answer: "ggplot2, originally from R, follows a grammar of graphics approach, offering a structured way to build plots. Its Python port (via plotnine) provides similar functionality but integrates with Python's ecosystem.",
         },
         {
-            question: "What is a correlation matrix?",
-            answer: "A correlation matrix is a table showing correlation coefficients between multiple variables, typically used to understand relationships in a dataset.",
+            question: "Why is data visualization important in data analysis?",
+            answer: "Data visualization is crucial in data analysis as it helps uncover patterns, trends, and insights, making complex data more understandable and actionable for decision-making.",
         },
     ];
     const [openFaqIndexes, setOpenFaqIndexes] = useState(Array(faqs.length).fill(false));
 
     const sections = [
-        { id: "ds-home", title: "DS HOME" },
-        { id: "ds-introduction", title: "DS Introduction" },
-        { id: "ds-what-is-data", title: "DS What is Data" },
-        { id: "ds-python", title: "DS Python" },
-        { id: "ds-dataframe", title: "DS DataFrame" },
-        { id: "ds-functions", title: "DS Functions" },
-        { id: "ds-data-prep", title: "DS Data Preparation" },
-        { id: "ds-math", title: "DS Math" },
-        { id: "ds-linear-functions", title: "DS Linear Functions" },
-        { id: "ds-plotting-functions", title: "DS Plotting Functions" },
-        { id: "ds-slope-intercept", title: "DS Slope and Intercept" },
-        { id: "ds-statistics", title: "DS Statistics" },
-        { id: "stat-introduction", title: "Stat Introduction" },
-        { id: "stat-percentiles", title: "Stat Percentiles" },
-        { id: "stat-standard-deviation", title: "Stat Standard Deviation" },
-        { id: "stat-variance", title: "Stat Variance" },
-        { id: "stat-correlation", title: "Stat Correlation" },
-        { id: "stat-correlation-matrix", title: "Stat Correlation Matrix" },
-        { id: "stat-correlation-vs-causality", title: "Stat Correlation vs Causality" },
+        { id: "what-is-data-visualization", title: "What is Data Visualization and Why is it Important?" },
+        { id: "matplotlib", title: "Data Visualization using Matplotlib in Python" },
+        { id: "seaborn", title: "Data Visualization with Seaborn - Python" },
+        { id: "pandas", title: "Data Visualization with Pandas" },
+        { id: "plotly", title: "Plotly for Data Visualization in Python" },
+        { id: "plotnine-ggplot2", title: "Data Visualization using Plotnine and ggplot2 in Python" },
+        { id: "altair", title: "Introduction to Altair in Python" },
     ];
 
     const toggleSidebar = () => {
@@ -59,7 +49,7 @@ const DataScience = () => {
         setActiveSection(sectionId);
         setIsSidebarOpen(false);
 
-        const hiddenSections = ["ds-statistics", "stat-introduction", "stat-percentiles", "stat-standard-deviation", "stat-variance", "stat-correlation", "stat-correlation-matrix", "stat-correlation-vs-causality"];
+        const hiddenSections = ["plotly", "plotnine-ggplot2", "altair"];
         if (hiddenSections.includes(sectionId) && !showMore) {
             setShowMore(true);
         }
@@ -101,7 +91,7 @@ const DataScience = () => {
                 style={{ top: "5rem" }}
             >
                 <div className="p-4 border-b">
-                    <h2 className="text-xl font-bold text-gray-800">Data Science Tutorial</h2>
+                    <h2 className="text-xl font-bold text-gray-800">Data Visualization Tutorial</h2>
                 </div>
                 <div className="h-[calc(100%-4rem)] overflow-y-auto">
                     <nav className="p-4">
@@ -135,15 +125,15 @@ const DataScience = () => {
                     <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
-                                Fundamentals of Data Science
+                                Data Visualization in Python
                             </span>
                         </h1>
                         <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                            Explore data science with this in-depth tutorial covering Python, statistics, data preparation, and more. Build the skills to analyze and interpret data effectively.
+                            Learn data visualization with this comprehensive tutorial covering key Python libraries and techniques for creating impactful visualizations.
                         </p>
                     </div>
 
-                    {/* Data Science Hero Banner */}
+                    {/* Data Visualization Hero Banner */}
                     <div className="mb-16 bg-gradient-to-r from-blue-400 to-green-800 rounded-2xl shadow-xl overflow-hidden border border-white/10">
                         <div className="relative p-4 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
                             <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
@@ -153,15 +143,19 @@ const DataScience = () => {
                             <div className="relative z-10 mb-6 md:mb-0 md:mr-8">
                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3">
                                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
-                                        Master Data Science
+                                        Visualize Data
                                     </span>{" "}
-                                    in 2025
+                                    Like a Pro in 2025
                                 </h2>
                                 <p className="text-base sm:text-lg text-white/90 max-w-lg">
-                                    Analyze and interpret data with modern data science techniques.
+                                    Create stunning visualizations using Python's top libraries and techniques.
                                 </p>
                                 <div className="mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                                    <button className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg">
+                                    <button
+                                        className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
+                                        onClick={() => navigate("/login")}
+                                        aria-label="Start learning now"
+                                    >
                                         Start Learning Now
                                     </button>
                                     <button className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all">
@@ -179,165 +173,140 @@ const DataScience = () => {
                                 </div>
                                 <pre className="text-yellow-400 font-mono text-xs sm:text-sm md:text-base overflow-x-auto">
                                     <code>
-                                        {`# Data Science Example\n`}
-                                        {`import pandas as pd\n`}
-                                        {`df = pd.read_csv('data.csv')\n`}
-                                        {`print(df.head())\n`}
+                                        {`# Data Visualization Example\n`}
+                                        {`import matplotlib.pyplot as plt\n`}
+                                        {`plt.plot([1, 2, 3], [4, 5, 6])\n`}
+                                        {`plt.show()\n`}
                                     </code>
                                 </pre>
                             </div>
                         </div>
                     </div>
 
-                    {/* DS HOME Section */}
-                    <section id="ds-home" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* What is Data Visualization Section */}
+                    <section id="what-is-data-visualization" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Data Science Home
+                            What is Data Visualization and Why is it Important?
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Welcome to the Data Science tutorial! This guide will walk you through the essential concepts and techniques in data science, from data preparation to advanced statistical analysis.
+                                Data visualization is the graphical representation of data and information using visual elements like charts, graphs, maps, and plots. It transforms complex datasets into intuitive, visual formats that make patterns, trends, and insights easier to understand. The primary goal is to communicate information clearly and efficiently to users, enabling better decision-making.
                             </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Why is it Important?</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li><strong>Simplifies Complex Data:</strong> Visualization makes large datasets more digestible by presenting them visually.</li>
+                                <li><strong>Identifies Patterns and Trends:</strong> It helps spot trends, correlations, and outliers in data.</li>
+                                <li><strong>Facilitates Decision-Making:</strong> Visual data enables faster and more informed decisions.</li>
+                                <li><strong>Improves Communication:</strong> Visuals are more engaging and easier to understand than raw data.</li>
+                                <li><strong>Enhances Data Exploration:</strong> Interactive visualizations allow dynamic exploration of data.</li>
+                            </ul>
                         </div>
                     </section>
 
-                    {/* DS Introduction Section */}
-                    <section id="ds-introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Matplotlib Section */}
+                    <section id="matplotlib" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Introduction to Data Science
+                            Data Visualization using Matplotlib in Python
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Data science combines mathematics, statistics, computer science, and domain expertise to extract meaningful insights from data.
+                                Matplotlib is a foundational plotting library in Python, widely used for creating static, animated, and interactive visualizations. It provides extensive customization options, making it suitable for a variety of plotting needs.
                             </p>
-                        </div>
-                    </section>
-
-                    {/* DS What is Data Section */}
-                    <section id="ds-what-is-data" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            What is Data?
-                        </h2>
-                        <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Data is a collection of facts, such as numbers, words, or measurements, that can be processed and analyzed to gain insights.
+                                <strong>Key Features:</strong>
                             </p>
-                        </div>
-                    </section>
-
-                    {/* DS Python Section */}
-                    <section id="ds-python" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Python for Data Science
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Python is a popular programming language for data science due to its rich ecosystem of libraries like Pandas, NumPy, and Matplotlib.
-                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Supports a wide range of plot types (line, scatter, bar, histogram, etc.).</li>
+                                <li>Highly customizable, allowing control over every aspect of a plot (colors, labels, axes, etc.).</li>
+                                <li>Integrates well with NumPy and Pandas for data handling.</li>
+                                <li>Can be used for both simple and complex visualizations.</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# Basic Python Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})\nprint(df)`}</code>
+                                    <code>
+                                        {`# Matplotlib Example\n`}
+                                        {`import matplotlib.pyplot as plt\n`}
+                                        {`import numpy as np\n`}
+                                        {`x = np.array([1, 2, 3, 4])\n`}
+                                        {`y = np.array([10, 20, 25, 30])\n`}
+                                        {`plt.plot(x, y, marker='o')\n`}
+                                        {`plt.title("Simple Line Plot")\n`}
+                                        {`plt.xlabel("X-axis")\n`}
+                                        {`plt.ylabel("Y-axis")\n`}
+                                        {`plt.show()\n`}
+                                    </code>
                                 </pre>
                             </div>
                         </div>
                     </section>
 
-                    {/* DS DataFrame Section */}
-                    <section id="ds-dataframe" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Seaborn Section */}
+                    <section id="seaborn" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            DataFrame in Data Science
+                            Data Visualization with Seaborn - Python
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                DataFrames in Pandas are used to store and manipulate tabular data efficiently.
+                                Seaborn is a Python visualization library built on top of Matplotlib. It provides a high-level interface for drawing attractive and informative statistical graphics, making it easier to create complex plots with less code.
                             </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Features:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Built-in themes for aesthetically pleasing plots.</li>
+                                <li>Specialized functions for statistical visualizations (e.g., heatmaps, pair plots).</li>
+                                <li>Seamless integration with Pandas DataFrames.</li>
+                                <li>Simplifies complex visualizations like categorical data plots and regression plots.</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# DataFrame Example\nimport pandas as pd\ndf = pd.DataFrame({'Name': ['Alice', 'Bob'], 'Age': [25, 30]})\nprint(df)`}</code>
+                                    <code>
+                                        {`# Seaborn Example\n`}
+                                        {`import seaborn as sns\n`}
+                                        {`import matplotlib.pyplot as plt\n`}
+                                        {`df = sns.load_dataset("iris")\n`}
+                                        {`sns.scatterplot(x="sepal_length", y="sepal_width", hue="species", data=df)\n`}
+                                        {`plt.title("Scatter Plot with Seaborn")\n`}
+                                        {`plt.show()\n`}
+                                    </code>
                                 </pre>
                             </div>
                         </div>
                     </section>
 
-                    {/* DS Functions Section */}
-                    <section id="ds-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Pandas Section */}
+                    <section id="pandas" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Functions in Data Science
+                            Data Visualization with Pandas
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Functions in Python allow you to perform repetitive tasks efficiently, such as data cleaning or transformation.
+                                Pandas, primarily a data manipulation library, also offers built-in plotting capabilities through its integration with Matplotlib. It provides a convenient way to create quick visualizations directly from DataFrames and Series.
                             </p>
-                        </div>
-                    </section>
-
-                    {/* DS Data Preparation Section */}
-                    <section id="ds-data-prep" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Data Preparation
-                        </h2>
-                        <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Data preparation involves cleaning, transforming, and organizing data for analysis.
+                                <strong>Key Features:</strong>
                             </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Simple plotting methods like <code>.plot()</code> for DataFrames and Series.</li>
+                                <li>Supports common plot types (line, bar, histogram, etc.).</li>
+                                <li>Ideal for quick exploratory visualizations during data analysis.</li>
+                                <li>Customizable using Matplotlib parameters.</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`# Data Cleaning Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, None, 3]})\ndf.fillna(0, inplace=True)\nprint(df)`}</code>
+                                <pre className="text-xs sm:text smack">
+                                    <code>
+                                        {`# Pandas Visualization Example\n`}
+                                        {`import pandas as pd\n`}
+                                        {`import matplotlib.pyplot as plt\n`}
+                                        {`df = pd.DataFrame({"A": [1, 2, 3], "B": [4, 5, 6]})\n`}
+                                        {`df.plot(kind="bar")\n`}
+                                        {`plt.title("Bar Plot with Pandas")\n`}
+                                        {`plt.show()\n`}
+                                    </code>
                                 </pre>
                             </div>
-                        </div>
-                    </section>
-
-                    {/* DS Math Section */}
-                    <section id="ds-math" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Math for Data Science
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Mathematics, including linear algebra and calculus, forms the foundation of data science techniques.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* DS Linear Functions Section */}
-                    <section id="ds-linear-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Linear Functions
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Linear functions are used to model relationships between variables in data science.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* DS Plotting Functions Section */}
-                    <section id="ds-plotting-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Plotting Functions
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Plotting functions in libraries like Matplotlib help visualize data trends.
-                            </p>
-                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`# Plotting Example\nimport matplotlib.pyplot as plt\nplt.plot([1, 2, 3], [4, 5, 6])\nplt.show()`}</code>
-                                </pre>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* DS Slope and Intercept Section */}
-                    <section id="ds-slope-intercept" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Slope and Intercept
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Slope and intercept are key components of linear equations used in data modeling.
-                            </p>
                         </div>
                     </section>
 
@@ -347,7 +316,7 @@ const DataScience = () => {
                             <button
                                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onClick={() => setShowMore(true)}
-                                aria-label="Explore more Data Science topics"
+                                aria-label="Explore more Data Visualization topics"
                             >
                                 Explore More
                             </button>
@@ -357,104 +326,101 @@ const DataScience = () => {
                     {/* Sections Hidden Behind Explore More Button */}
                     {showMore && (
                         <>
-                            {/* DS Statistics Section */}
-                            <section id="ds-statistics" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Plotly Section */}
+                            <section id="plotly" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Statistics in Data Science
+                                    Plotly for Data Visualization in Python
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Statistics provides the tools to analyze and interpret data effectively.
+                                        Plotly is a powerful library for creating interactive, web-based visualizations. It supports a wide range of chart types and is particularly useful for building dashboards and sharing visualizations online.
                                     </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Introduction Section */}
-                            <section id="stat-introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Introduction to Statistics
-                                </h2>
-                                <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Statistics involves collecting, analyzing, and interpreting data to make informed decisions.
+                                        <strong>Key Features:</strong>
                                     </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Percentiles Section */}
-                            <section id="stat-percentiles" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Percentiles in Statistics
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Percentiles help understand the distribution of data by dividing it into 100 equal parts.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Standard Deviation Section */}
-                            <section id="stat-standard-deviation" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Standard Deviation
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Standard deviation measures the spread of data points from the mean.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Variance Section */}
-                            <section id="stat-variance" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Variance in Statistics
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Variance quantifies the dispersion of data points in a dataset.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Correlation Section */}
-                            <section id="stat-correlation" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Correlation in Statistics
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Correlation measures the strength and direction of the relationship between two variables.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Correlation Matrix Section */}
-                            <section id="stat-correlation-matrix" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Correlation Matrix
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        A correlation matrix displays the correlation coefficients between multiple variables.
-                                    </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li>Interactive plots with hover, zoom, and click features.</li>
+                                        <li>Supports advanced chart types like 3D plots, maps, and animations.</li>
+                                        <li>Can be integrated with web frameworks like Dash for building applications.</li>
+                                        <li>Exportable to HTML for web sharing.</li>
+                                    </ul>
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
-                                            <code>{`# Correlation Matrix Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})\nprint(df.corr())`}</code>
+                                            <code>
+                                                {`# Plotly Example\n`}
+                                                {`import plotly.express as px\n`}
+                                                {`df = px.data.iris()\n`}
+                                                {`fig = px.scatter(df, x="sepal_width", y="sepal_length", color="species")\n`}
+                                                {`fig.show()\n`}
+                                            </code>
                                         </pre>
                                     </div>
                                 </div>
                             </section>
 
-                            {/* Stat Correlation vs Causality Section */}
-                            <section id="stat-correlation-vs-causality" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Plotnine and ggplot2 Section */}
+                            <section id="plotnine-ggplot2" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Correlation vs Causality
+                                    Data Visualization using Plotnine and ggplot2 in Python
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Understanding the difference between correlation and causality is crucial for accurate data interpretation.
+                                        Plotnine is a Python implementation of R's ggplot2, following the grammar of graphics principles. It allows users to build complex visualizations by layering components like data, aesthetics, and geometries.
                                     </p>
+                                    <p className="text-gray-700 text-sm sm:text-base">
+                                        <strong>Key Features:</strong>
+                                    </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li>Declarative syntax for building plots layer by layer.</li>
+                                        <li>Supports a wide range of plot types and customizations.</li>
+                                        <li>Ideal for users familiar with R's ggplot2 who want similar functionality in Python.</li>
+                                        <li>Integrates well with Pandas for data handling.</li>
+                                    </ul>
+                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                        <pre className="text-xs sm:text-sm">
+                                            <code>
+                                                {`# Plotnine Example\n`}
+                                                {`from plotnine import *\n`}
+                                                {`import pandas as pd\n`}
+                                                {`df = pd.DataFrame({"x": [1, 2, 3], "y": [4, 5, 6]})\n`}
+                                                {`p = (ggplot(df, aes(x="x", y="y")) + geom_point() + ggtitle("Scatter Plot with Plotnine"))\n`}
+                                                {`p.draw()\n`}
+                                            </code>
+                                        </pre>
+                                    </div>
+                                </div>
+                            </section>
+
+                            {/* Altair Section */}
+                            <section id="altair" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                                    Introduction to Altair in Python
+                                </h2>
+                                <div className="space-y-4">
+                                    <p className="text-gray-700 text-sm sm:text-base">
+                                        Altair is a declarative statistical visualization library in Python, built on top of Vega and Vega-Lite. It allows users to create interactive visualizations with a concise, declarative syntax.
+                                    </p>
+                                    <p className="text-gray-700 text-sm sm:text-base">
+                                        <strong>Key Features:</strong>
+                                    </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li>Declarative syntax for quick and intuitive chart creation.</li>
+                                        <li>Supports interactivity (e.g., tooltips, zooming) out of the box.</li>
+                                        <li>Works seamlessly with Pandas DataFrames.</li>
+                                        <li>Generates visualizations as JSON, renderable in web browsers.</li>
+                                    </ul>
+                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                        <pre className="text-xs sm:text-sm">
+                                            <code>
+                                                {`# Altair Example\n`}
+                                                {`import altair as alt\n`}
+                                                {`import pandas as pd\n`}
+                                                {`df = pd.DataFrame({"x": [1, 2, 3], "y": [4, 5, 6]})\n`}
+                                                {`chart = alt.Chart(df).mark_point().encode(x="x", y="y").properties(title="Scatter Plot with Altair")\n`}
+                                                {`chart.display()\n`}
+                                            </code>
+                                        </pre>
+                                    </div>
                                 </div>
                             </section>
 
@@ -516,7 +482,7 @@ const DataScience = () => {
                         <ul className="space-y-3">
                             <li>
                                 <a
-                                    href="https://www.coursera.org/learn/data-science-fundamentals"
+                                    href="https://www.coursera.org/learn/data-visualization-python"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -533,12 +499,12 @@ const DataScience = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Data Science Fundamentals on Coursera
+                                    Data Visualization on Coursera
                                 </a>
                             </li>
                             <li>
                                 <a
-                                    href="https://pandas.pydata.org/docs/"
+                                    href="https://matplotlib.org/stable/contents.html"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -555,12 +521,12 @@ const DataScience = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Pandas Official Documentation
+                                    Matplotlib Official Documentation
                                 </a>
                             </li>
                             <li>
                                 <a
-                                    href="https://www.kaggle.com/datasets"
+                                    href="https://seaborn.pydata.org/"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -577,7 +543,7 @@ const DataScience = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Explore Datasets on Kaggle
+                                    Seaborn Official Documentation
                                 </a>
                             </li>
                         </ul>
@@ -590,15 +556,15 @@ const DataScience = () => {
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
-                                    Ready to Learn Data Science?
+                                    Ready to Master Data Visualization?
                                 </h2>
                                 <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-                                    Join thousands of learners and start analyzing data today. Enroll now to unlock your potential!
+                                    Join thousands of learners and start creating impactful visualizations today. Enroll now to unlock your potential!
                                 </p>
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
                                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
+                                        onClick={() => navigate("/login")}
                                         aria-label="Enroll now in the course"
                                     >
                                         Enroll Now
@@ -614,10 +580,82 @@ const DataScience = () => {
                             </div>
                         </div>
                     </section>
+
+                    {/* Footer Links */}
+                    <section className="py-8 px-4 bg-gray-100 text-gray-700 text-sm">
+                        <div className="max-w-6xl mx-auto">
+                            <h3 className="text-lg font-bold mb-4 text-gray-800">Explore More from Online Platforms</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div>
+                                    <h4 className="font-semibold mb-2">Courses</h4>
+                                    <ul className="space-y-1">
+                                        <li>
+                                            <a
+                                                href="https://www.coursera.org/learn/data-visualization-python"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Data Visualization with Python
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://www.datacamp.com/courses/intro-to-data-visualization"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Intro to Data Visualization
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold mb-2">Related Tutorials</h4>
+                                    <ul className="space-y-1">
+                                        <li>
+                                            <a
+                                                href="https://www.geeksforgeeks.org/data-visualization-with-python/"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Data Visualization Tutorial
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://www.geeksforgeeks.org/python-seaborn-tutorial/"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Seaborn Tutorial
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold mb-2">Visualization Topics</h4>
+                                    <ul className="space-y-1">
+                                        <li>
+                                            <a
+                                                href="https://www.geeksforgeeks.org/matplotlib-tutorial/"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Matplotlib Tutorial
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://www.geeksforgeeks.org/plotly-tutorial/"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Plotly Tutorial
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
     );
 };
 
-export default DataScience;
+export default DataVisualization;

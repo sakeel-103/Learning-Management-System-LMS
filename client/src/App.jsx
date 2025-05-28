@@ -30,6 +30,11 @@ import MachineLearning from './Students/AI&ML/MachineLearning'
 import ContactUs from './Students/components/ContanUs';
 import DataScience from './Students/AI&ML/DataScience';
 import DataAnalysis from './Students/AI&ML/DataAnalysis'
+import DataVisualization from './Students/AI&ML/DataVisualization'
+import DeepLearning from './Students/AI&ML/DeepLearning'
+import NaturalLanguage from './Students/AI&ML/NaturalLanguage'
+import ComputerVision from './Students/AI&ML/ComputerVission'
+import ArtificialIntelligence from './Students/AI&ML/ArtificialIntelligence'
 
 function App() {
   return (
@@ -64,6 +69,11 @@ function App() {
         <Route path="/components/contact-us" element={<ContactUs />} />
         <Route path="/AIMLDS/DataSciencePage" element={<DataScience />} />
         <Route path="/AIMLDS/DataAnalysisPage" element={<DataAnalysis />} />
+        <Route path="/AIMLDS/DataVisualizationPage" element={<DataVisualization />} />
+        <Route path="/AIMLDS/DeepLearningPage" element={<DeepLearning />} />
+        <Route path="/AIMLDS/NaturalLanguagePage" element={<NaturalLanguage />} />
+        <Route path="/ALMLDS/ComputerVissionPage" element={<ComputerVision />} />
+        <Route path="/AIMLDS/ArtificialInteligencePage" element={<ArtificialIntelligence />} />
       </Routes>
 
       <ScrollToTop />

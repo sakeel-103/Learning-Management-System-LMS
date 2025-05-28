@@ -1198,10 +1198,10 @@ const CoursePage = () => {
                                     <a href="../AIMLDS/NaturalLanguagePage" className="bg-indigo-100 text-indigo-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-indigo-50 hover:scale-105 transition-all duration-300 ease-in-out">
                                         Natural Language (NLP) <span>→</span>
                                     </a>
-                                    <a href="../AIMLDS/ComputerVisionPage" className="bg-teal-100 text-teal-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-teal-50 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    <a href="/ALMLDS/ComputerVissionPage" className="bg-teal-100 text-teal-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-teal-50 hover:scale-105 transition-all duration-300 ease-in-out">
                                         Computer Vission <span>→</span>
                                     </a>
-                                    <a href="../AIMLDS/AIPage" className="bg-orange-100 text-orange-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-orange-50 hover:scale-105 transition-all duration-300 ease-in-out">
+                                    <a href="/AIMLDS/ArtificialInteligencePage" className="bg-orange-100 text-orange-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-orange-50 hover:scale-105 transition-all duration-300 ease-in-out">
                                         Artificial Intelligence (AI) <span>→</span>
                                     </a>
                                 </div>

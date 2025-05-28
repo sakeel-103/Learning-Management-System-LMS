@@ -1,54 +1,44 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const DataScience = () => {
-    const [activeSection, setActiveSection] = useState("ds-home");
+const ArtificialIntelligence = () => {
+    const navigate = useNavigate();
+    const [activeSection, setActiveSection] = useState("what-is-ai");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [showMore, setShowMore] = useState(false);
 
     const faqs = [
         {
-            question: "What is data science?",
-            answer: "Data science is an interdisciplinary field that uses scientific methods, processes, algorithms, and systems to extract knowledge and insights from structured and unstructured data.",
+            question: "What is the difference between AI, machine learning, and deep learning?",
+            answer: "AI is the broad field of creating intelligent systems, machine learning is a subset of AI that uses algorithms to learn from data, and deep learning is a subset of machine learning that uses neural networks with many layers to analyze complex patterns.",
         },
         {
-            question: "What is a DataFrame in Python?",
-            answer: "A DataFrame is a two-dimensional, size-mutable, and potentially heterogeneous tabular data structure with labeled axes (rows and columns) in the Pandas library.",
+            question: "What are some real-world applications of AI?",
+            answer: "AI is used in various applications like virtual assistants (e.g., Siri, Alexa), recommendation systems (e.g., Netflix, Spotify), autonomous vehicles, medical diagnosis, and fraud detection.",
         },
         {
-            question: "What is the difference between correlation and causation?",
-            answer: "Correlation indicates a statistical relationship between two variables, while causation implies that one variable directly affects the other. Correlation does not imply causation.",
+            question: "What is reinforcement learning in AI?",
+            answer: "Reinforcement learning is a type of machine learning where an agent learns to make decisions by interacting with an environment, receiving rewards or penalties based on its actions, aiming to maximize cumulative rewards.",
         },
         {
-            question: "What are percentiles in statistics?",
-            answer: "Percentiles are measures that divide a dataset into 100 equal parts, indicating the value below which a given percentage of observations fall.",
+            question: "How does AI ethics impact development?",
+            answer: "AI ethics addresses concerns like bias, fairness, transparency, and privacy in AI systems, ensuring that AI is developed responsibly to avoid harm and promote trust.",
         },
         {
-            question: "What is a correlation matrix?",
-            answer: "A correlation matrix is a table showing correlation coefficients between multiple variables, typically used to understand relationships in a dataset.",
+            question: "What is the role of Python in AI development?",
+            answer: "Python is widely used in AI development due to its simplicity, extensive libraries (e.g., TensorFlow, scikit-learn), and strong community support, making it ideal for prototyping and production.",
         },
     ];
     const [openFaqIndexes, setOpenFaqIndexes] = useState(Array(faqs.length).fill(false));
 
     const sections = [
-        { id: "ds-home", title: "DS HOME" },
-        { id: "ds-introduction", title: "DS Introduction" },
-        { id: "ds-what-is-data", title: "DS What is Data" },
-        { id: "ds-python", title: "DS Python" },
-        { id: "ds-dataframe", title: "DS DataFrame" },
-        { id: "ds-functions", title: "DS Functions" },
-        { id: "ds-data-prep", title: "DS Data Preparation" },
-        { id: "ds-math", title: "DS Math" },
-        { id: "ds-linear-functions", title: "DS Linear Functions" },
-        { id: "ds-plotting-functions", title: "DS Plotting Functions" },
-        { id: "ds-slope-intercept", title: "DS Slope and Intercept" },
-        { id: "ds-statistics", title: "DS Statistics" },
-        { id: "stat-introduction", title: "Stat Introduction" },
-        { id: "stat-percentiles", title: "Stat Percentiles" },
-        { id: "stat-standard-deviation", title: "Stat Standard Deviation" },
-        { id: "stat-variance", title: "Stat Variance" },
-        { id: "stat-correlation", title: "Stat Correlation" },
-        { id: "stat-correlation-matrix", title: "Stat Correlation Matrix" },
-        { id: "stat-correlation-vs-causality", title: "Stat Correlation vs Causality" },
+        { id: "what-is-ai", title: "What is Artificial Intelligence (AI)?" },
+        { id: "ai-subfields", title: "Subfields of AI" },
+        { id: "machine-learning", title: "Machine Learning in AI" },
+        { id: "deep-learning", title: "Deep Learning in AI" },
+        { id: "nlp", title: "Natural Language Processing in AI" },
+        { id: "computer-vision", title: "Computer Vision in AI" },
+        { id: "reinforcement-learning", title: "Reinforcement Learning in AI" },
     ];
 
     const toggleSidebar = () => {
@@ -59,7 +49,7 @@ const DataScience = () => {
         setActiveSection(sectionId);
         setIsSidebarOpen(false);
 
-        const hiddenSections = ["ds-statistics", "stat-introduction", "stat-percentiles", "stat-standard-deviation", "stat-variance", "stat-correlation", "stat-correlation-matrix", "stat-correlation-vs-causality"];
+        const hiddenSections = ["computer-vision", "reinforcement-learning"];
         if (hiddenSections.includes(sectionId) && !showMore) {
             setShowMore(true);
         }
@@ -101,7 +91,7 @@ const DataScience = () => {
                 style={{ top: "5rem" }}
             >
                 <div className="p-4 border-b">
-                    <h2 className="text-xl font-bold text-gray-800">Data Science Tutorial</h2>
+                    <h2 className="text-xl font-bold text-gray-800">AI Tutorial</h2>
                 </div>
                 <div className="h-[calc(100%-4rem)] overflow-y-auto">
                     <nav className="p-4">
@@ -135,15 +125,15 @@ const DataScience = () => {
                     <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
-                                Fundamentals of Data Science
+                                Artificial Intelligence with Python
                             </span>
                         </h1>
                         <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                            Explore data science with this in-depth tutorial covering Python, statistics, data preparation, and more. Build the skills to analyze and interpret data effectively.
+                            Explore Artificial Intelligence concepts, subfields, and techniques to build intelligent systems using Python.
                         </p>
                     </div>
 
-                    {/* Data Science Hero Banner */}
+                    {/* AI Hero Banner */}
                     <div className="mb-16 bg-gradient-to-r from-blue-400 to-green-800 rounded-2xl shadow-xl overflow-hidden border border-white/10">
                         <div className="relative p-4 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
                             <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
@@ -153,15 +143,19 @@ const DataScience = () => {
                             <div className="relative z-10 mb-6 md:mb-0 md:mr-8">
                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3">
                                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
-                                        Master Data Science
+                                        Master AI
                                     </span>{" "}
                                     in 2025
                                 </h2>
                                 <p className="text-base sm:text-lg text-white/90 max-w-lg">
-                                    Analyze and interpret data with modern data science techniques.
+                                    Discover the power of AI with Python and build intelligent systems for the future.
                                 </p>
                                 <div className="mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                                    <button className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg">
+                                    <button
+                                        className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
+                                        onClick={() => navigate("/login")}
+                                        aria-label="Start learning now"
+                                    >
                                         Start Learning Now
                                     </button>
                                     <button className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all">
@@ -179,165 +173,159 @@ const DataScience = () => {
                                 </div>
                                 <pre className="text-yellow-400 font-mono text-xs sm:text-sm md:text-base overflow-x-auto">
                                     <code>
-                                        {`# Data Science Example\n`}
-                                        {`import pandas as pd\n`}
-                                        {`df = pd.read_csv('data.csv')\n`}
-                                        {`print(df.head())\n`}
+                                        {`# Simple AI Example\n`}
+                                        {`from sklearn.linear_model import LogisticRegression\n`}
+                                        {`model = LogisticRegression()\n`}
+                                        {`# Sample data\n`}
+                                        {`X = [[0, 0], [1, 1]]\n`}
+                                        {`y = [0, 1]\n`}
+                                        {`model.fit(X, y)\n`}
+                                        {`print(model.predict([[2, 2]]))\n`}
                                     </code>
                                 </pre>
                             </div>
                         </div>
                     </div>
 
-                    {/* DS HOME Section */}
-                    <section id="ds-home" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* What is AI Section */}
+                    <section id="what-is-ai" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Data Science Home
+                            What is Artificial Intelligence (AI)?
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Welcome to the Data Science tutorial! This guide will walk you through the essential concepts and techniques in data science, from data preparation to advanced statistical analysis.
+                                Artificial Intelligence (AI) refers to the development of computer systems that can perform tasks that typically require human intelligence, such as reasoning, problem-solving, decision-making, and perception.
                             </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Characteristics:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Mimics human cognitive functions like learning and reasoning.</li>
+                                <li>Can adapt to new data and improve over time.</li>
+                                <li>Enables automation of complex tasks across industries.</li>
+                                <li>Includes subfields like machine learning, NLP, and computer vision.</li>
+                            </ul>
                         </div>
                     </section>
 
-                    {/* DS Introduction Section */}
-                    <section id="ds-introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* AI Subfields Section */}
+                    <section id="ai-subfields" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Introduction to Data Science
+                            Subfields of AI
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Data science combines mathematics, statistics, computer science, and domain expertise to extract meaningful insights from data.
+                                AI encompasses a wide range of subfields, each focusing on different aspects of intelligence and problem-solving.
                             </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li><strong>Machine Learning:</strong> Algorithms that learn from data to make predictions or decisions.</li>
+                                <li><strong>Deep Learning:</strong> A subset of machine learning using neural networks with many layers.</li>
+                                <li><strong>Natural Language Processing (NLP):</strong> Enables computers to understand and generate human language.</li>
+                                <li><strong>Computer Vision:</strong> Allows machines to interpret and understand visual data.</li>
+                                <li><strong>Reinforcement Learning:</strong> Learning through trial and error by interacting with an environment.</li>
+                            </ul>
                         </div>
                     </section>
 
-                    {/* DS What is Data Section */}
-                    <section id="ds-what-is-data" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Machine Learning Section */}
+                    <section id="machine-learning" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            What is Data?
+                            Machine Learning in AI
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Data is a collection of facts, such as numbers, words, or measurements, that can be processed and analyzed to gain insights.
+                                Machine Learning (ML) is a core subfield of AI that focuses on developing algorithms that enable systems to learn from and make predictions based on data.
                             </p>
-                        </div>
-                    </section>
-
-                    {/* DS Python Section */}
-                    <section id="ds-python" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Python for Data Science
-                        </h2>
-                        <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Python is a popular programming language for data science due to its rich ecosystem of libraries like Pandas, NumPy, and Matplotlib.
+                                <strong>Key Types:</strong>
                             </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li><strong>Supervised Learning:</strong> Learning from labeled data (e.g., classification, regression).</li>
+                                <li><strong>Unsupervised Learning:</strong> Finding patterns in unlabeled data (e.g., clustering).</li>
+                                <li><strong>Reinforcement Learning:</strong> Learning through rewards and penalties in an environment.</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# Basic Python Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})\nprint(df)`}</code>
+                                    <code>
+                                        {`# Machine Learning Example with scikit-learn\n`}
+                                        {`from sklearn.linear_model import LogisticRegression\n`}
+                                        {`from sklearn.datasets import make_classification\n`}
+                                        {`X, y = make_classification(n_samples=100, n_features=2, random_state=42)\n`}
+                                        {`model = LogisticRegression()\n`}
+                                        {`model.fit(X, y)\n`}
+                                        {`predictions = model.predict(X)\n`}
+                                        {`print(predictions[:5])\n`}
+                                    </code>
                                 </pre>
                             </div>
                         </div>
                     </section>
 
-                    {/* DS DataFrame Section */}
-                    <section id="ds-dataframe" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Deep Learning Section */}
+                    <section id="deep-learning" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            DataFrame in Data Science
+                            Deep Learning in AI
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                DataFrames in Pandas are used to store and manipulate tabular data efficiently.
+                                Deep Learning is a subset of machine learning that uses neural networks with multiple layers to analyze complex patterns in data, excelling in tasks like image and speech recognition.
                             </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Features:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Utilizes neural networks with many layers (deep neural networks).</li>
+                                <li>Effective for unstructured data like images, audio, and text.</li>
+                                <li>Requires large datasets and computational power (e.g., GPUs).</li>
+                                <li>Popular frameworks include TensorFlow and PyTorch.</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# DataFrame Example\nimport pandas as pd\ndf = pd.DataFrame({'Name': ['Alice', 'Bob'], 'Age': [25, 30]})\nprint(df)`}</code>
+                                    <code>
+                                        {`# Deep Learning Example with TensorFlow\n`}
+                                        {`import tensorflow as tf\n`}
+                                        {`model = tf.keras.Sequential([\n`}
+                                        {`    tf.keras.layers.Dense(16, activation='relu', input_shape=(2,)),\n`}
+                                        {`    tf.keras.layers.Dense(1, activation='sigmoid')\n`}
+                                        {`])\n`}
+                                        {`model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])\n`}
+                                    </code>
                                 </pre>
                             </div>
                         </div>
                     </section>
 
-                    {/* DS Functions Section */}
-                    <section id="ds-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* NLP Section */}
+                    <section id="nlp" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Functions in Data Science
+                            Natural Language Processing in AI
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Functions in Python allow you to perform repetitive tasks efficiently, such as data cleaning or transformation.
+                                Natural Language Processing (NLP) enables computers to understand, interpret, and generate human language, making it a crucial subfield of AI.
                             </p>
-                        </div>
-                    </section>
-
-                    {/* DS Data Preparation Section */}
-                    <section id="ds-data-prep" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Data Preparation
-                        </h2>
-                        <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Data preparation involves cleaning, transforming, and organizing data for analysis.
+                                <strong>Key Applications:</strong>
                             </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Chatbots and virtual assistants (e.g., Siri, Alexa).</li>
+                                <li>Sentiment analysis for social media monitoring.</li>
+                                <li>Machine translation (e.g., Google Translate).</li>
+                                <li>Text summarization and generation.</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# Data Cleaning Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, None, 3]})\ndf.fillna(0, inplace=True)\nprint(df)`}</code>
+                                    <code>
+                                        {`# NLP Example with NLTK\n`}
+                                        {`import nltk\n`}
+                                        {`from nltk.tokenize import word_tokenize\n`}
+                                        {`nltk.download('punkt')\n`}
+                                        {`text = "AI is transforming the world!"\n`}
+                                        {`tokens = word_tokenize(text)\n`}
+                                        {`print(tokens)\n`}
+                                    </code>
                                 </pre>
                             </div>
-                        </div>
-                    </section>
-
-                    {/* DS Math Section */}
-                    <section id="ds-math" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Math for Data Science
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Mathematics, including linear algebra and calculus, forms the foundation of data science techniques.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* DS Linear Functions Section */}
-                    <section id="ds-linear-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Linear Functions
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Linear functions are used to model relationships between variables in data science.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* DS Plotting Functions Section */}
-                    <section id="ds-plotting-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Plotting Functions
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Plotting functions in libraries like Matplotlib help visualize data trends.
-                            </p>
-                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`# Plotting Example\nimport matplotlib.pyplot as plt\nplt.plot([1, 2, 3], [4, 5, 6])\nplt.show()`}</code>
-                                </pre>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* DS Slope and Intercept Section */}
-                    <section id="ds-slope-intercept" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Slope and Intercept
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Slope and intercept are key components of linear equations used in data modeling.
-                            </p>
                         </div>
                     </section>
 
@@ -347,7 +335,7 @@ const DataScience = () => {
                             <button
                                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onClick={() => setShowMore(true)}
-                                aria-label="Explore more Data Science topics"
+                                aria-label="Explore more AI topics"
                             >
                                 Explore More
                             </button>
@@ -357,104 +345,74 @@ const DataScience = () => {
                     {/* Sections Hidden Behind Explore More Button */}
                     {showMore && (
                         <>
-                            {/* DS Statistics Section */}
-                            <section id="ds-statistics" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Computer Vision Section */}
+                            <section id="computer-vision" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Statistics in Data Science
+                                    Computer Vision in AI
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Statistics provides the tools to analyze and interpret data effectively.
+                                        Computer Vision enables machines to interpret and understand visual data, such as images and videos, and is a vital part of AI applications.
                                     </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Introduction Section */}
-                            <section id="stat-introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Introduction to Statistics
-                                </h2>
-                                <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Statistics involves collecting, analyzing, and interpreting data to make informed decisions.
+                                        <strong>Key Applications:</strong>
                                     </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Percentiles Section */}
-                            <section id="stat-percentiles" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Percentiles in Statistics
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Percentiles help understand the distribution of data by dividing it into 100 equal parts.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Standard Deviation Section */}
-                            <section id="stat-standard-deviation" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Standard Deviation
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Standard deviation measures the spread of data points from the mean.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Variance Section */}
-                            <section id="stat-variance" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Variance in Statistics
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Variance quantifies the dispersion of data points in a dataset.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Correlation Section */}
-                            <section id="stat-correlation" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Correlation in Statistics
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Correlation measures the strength and direction of the relationship between two variables.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Correlation Matrix Section */}
-                            <section id="stat-correlation-matrix" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Correlation Matrix
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        A correlation matrix displays the correlation coefficients between multiple variables.
-                                    </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li>Object detection and recognition (e.g., self-driving cars).</li>
+                                        <li>Facial recognition (e.g., security systems).</li>
+                                        <li>Medical imaging analysis (e.g., detecting tumors).</li>
+                                        <li>Augmented reality (e.g., Snapchat filters).</li>
+                                    </ul>
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
-                                            <code>{`# Correlation Matrix Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})\nprint(df.corr())`}</code>
+                                            <code>
+                                                {`# Computer Vision Example with OpenCV\n`}
+                                                {`import cv2\n`}
+                                                {`image = cv2.imread("sample.jpg")\n`}
+                                                {`gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)\n`}
+                                                {`cv2.imshow("Grayscale Image", gray)\n`}
+                                                {`cv2.waitKey(0)\n`}
+                                                {`cv2.destroyAllWindows()\n`}
+                                            </code>
                                         </pre>
                                     </div>
                                 </div>
                             </section>
 
-                            {/* Stat Correlation vs Causality Section */}
-                            <section id="stat-correlation-vs-causality" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Reinforcement Learning Section */}
+                            <section id="reinforcement-learning" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Correlation vs Causality
+                                    Reinforcement Learning in AI
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Understanding the difference between correlation and causality is crucial for accurate data interpretation.
+                                        Reinforcement Learning (RL) is a type of machine learning where an agent learns to make decisions by interacting with an environment, optimizing for a cumulative reward.
                                     </p>
+                                    <p className="text-gray-700 text-sm sm:text-base">
+                                        <strong>Key Concepts:</strong>
+                                    </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li><strong>Agent:</strong> The decision-maker interacting with the environment.</li>
+                                        <li><strong>Environment:</strong> The world in which the agent operates.</li>
+                                        <li><strong>Reward:</strong> Feedback signal indicating the success of an action.</li>
+                                        <li><strong>Policy:</strong> Strategy that the agent uses to decide actions.</li>
+                                    </ul>
+                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                        <pre className="text-xs sm:text-sm">
+                                            <code>
+                                                {`# Reinforcement Learning Example (Pseudo-code)\n`}
+                                                {`import gym\n`}
+                                                {`env = gym.make("CartPole-v1")\n`}
+                                                {`state = env.reset()\n`}
+                                                {`for _ in range(1000):\n`}
+                                                {`    action = env.action_space.sample()\n`}
+                                                {`    state, reward, done, info = env.step(action)\n`}
+                                                {`    if done:\n`}
+                                                {`        state = env.reset()\n`}
+                                                {`env.close()\n`}
+                                            </code>
+                                        </pre>
+                                    </div>
                                 </div>
                             </section>
 
@@ -516,7 +474,7 @@ const DataScience = () => {
                         <ul className="space-y-3">
                             <li>
                                 <a
-                                    href="https://www.coursera.org/learn/data-science-fundamentals"
+                                    href="https://www.coursera.org/learn/ai-for-everyone"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -533,12 +491,12 @@ const DataScience = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Data Science Fundamentals on Coursera
+                                    AI for Everyone on Coursera
                                 </a>
                             </li>
                             <li>
                                 <a
-                                    href="https://pandas.pydata.org/docs/"
+                                    href="https://www.tensorflow.org/tutorials"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -555,12 +513,12 @@ const DataScience = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Pandas Official Documentation
+                                    TensorFlow Official Tutorials
                                 </a>
                             </li>
                             <li>
                                 <a
-                                    href="https://www.kaggle.com/datasets"
+                                    href="https://gym.openai.com/docs/"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -577,7 +535,7 @@ const DataScience = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Explore Datasets on Kaggle
+                                    OpenAI Gym Documentation
                                 </a>
                             </li>
                         </ul>
@@ -590,15 +548,15 @@ const DataScience = () => {
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
-                                    Ready to Learn Data Science?
+                                    Ready to Master AI?
                                 </h2>
                                 <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-                                    Join thousands of learners and start analyzing data today. Enroll now to unlock your potential!
+                                    Join thousands of learners and start building intelligent systems today. Enroll now to unlock your potential!
                                 </p>
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
                                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
+                                        onClick={() => navigate("/login")}
                                         aria-label="Enroll now in the course"
                                     >
                                         Enroll Now
@@ -620,4 +578,4 @@ const DataScience = () => {
     );
 };
 
-export default DataScience;
+export default ArtificialIntelligence;

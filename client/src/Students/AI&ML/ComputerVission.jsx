@@ -1,54 +1,45 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Computer } from "lucide-react";
 
-const DataScience = () => {
-    const [activeSection, setActiveSection] = useState("ds-home");
+const ComputerVision = () => {
+    const navigate = useNavigate();
+    const [activeSection, setActiveSection] = useState("what-is-computer-vision");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [showMore, setShowMore] = useState(false);
 
     const faqs = [
         {
-            question: "What is data science?",
-            answer: "Data science is an interdisciplinary field that uses scientific methods, processes, algorithms, and systems to extract knowledge and insights from structured and unstructured data.",
+            question: "What is the difference between computer vision and image processing?",
+            answer: "Computer vision focuses on enabling machines to interpret and understand visual data, often involving AI and machine learning, while image processing involves manipulating images (e.g., filtering, resizing) without necessarily understanding their content.",
         },
         {
-            question: "What is a DataFrame in Python?",
-            answer: "A DataFrame is a two-dimensional, size-mutable, and potentially heterogeneous tabular data structure with labeled axes (rows and columns) in the Pandas library.",
+            question: "Why is OpenCV widely used for computer vision?",
+            answer: "OpenCV is widely used because it provides a comprehensive set of tools for image and video processing, supports multiple languages, and is optimized for real-time applications.",
         },
         {
-            question: "What is the difference between correlation and causation?",
-            answer: "Correlation indicates a statistical relationship between two variables, while causation implies that one variable directly affects the other. Correlation does not imply causation.",
+            question: "What are CNNs in computer vision?",
+            answer: "Convolutional Neural Networks (CNNs) are a type of deep learning model designed to process grid-like data, such as images, using convolutional layers to extract features like edges and textures.",
         },
         {
-            question: "What are percentiles in statistics?",
-            answer: "Percentiles are measures that divide a dataset into 100 equal parts, indicating the value below which a given percentage of observations fall.",
+            question: "What is YOLO best suited for?",
+            answer: "YOLO (You Only Look Once) is best suited for real-time object detection tasks, as it can detect and classify objects in a single pass, making it fast and efficient.",
         },
         {
-            question: "What is a correlation matrix?",
-            answer: "A correlation matrix is a table showing correlation coefficients between multiple variables, typically used to understand relationships in a dataset.",
+            question: "How does transfer learning help in computer vision?",
+            answer: "Transfer learning in computer vision uses pre-trained models (e.g., ResNet, VGG) to leverage learned features for new tasks, reducing training time and the need for large datasets.",
         },
     ];
     const [openFaqIndexes, setOpenFaqIndexes] = useState(Array(faqs.length).fill(false));
 
     const sections = [
-        { id: "ds-home", title: "DS HOME" },
-        { id: "ds-introduction", title: "DS Introduction" },
-        { id: "ds-what-is-data", title: "DS What is Data" },
-        { id: "ds-python", title: "DS Python" },
-        { id: "ds-dataframe", title: "DS DataFrame" },
-        { id: "ds-functions", title: "DS Functions" },
-        { id: "ds-data-prep", title: "DS Data Preparation" },
-        { id: "ds-math", title: "DS Math" },
-        { id: "ds-linear-functions", title: "DS Linear Functions" },
-        { id: "ds-plotting-functions", title: "DS Plotting Functions" },
-        { id: "ds-slope-intercept", title: "DS Slope and Intercept" },
-        { id: "ds-statistics", title: "DS Statistics" },
-        { id: "stat-introduction", title: "Stat Introduction" },
-        { id: "stat-percentiles", title: "Stat Percentiles" },
-        { id: "stat-standard-deviation", title: "Stat Standard Deviation" },
-        { id: "stat-variance", title: "Stat Variance" },
-        { id: "stat-correlation", title: "Stat Correlation" },
-        { id: "stat-correlation-matrix", title: "Stat Correlation Matrix" },
-        { id: "stat-correlation-vs-causality", title: "Stat Correlation vs Causality" },
+        { id: "what-is-computer-vision", title: "What is Computer Vision?" },
+        { id: "computer-vision-libraries", title: "Computer Vision Libraries in Python" },
+        { id: "opencv", title: "Computer Vision with OpenCV" },
+        { id: "image-processing", title: "Basic Image Processing Techniques" },
+        { id: "cnns", title: "Convolutional Neural Networks for Computer Vision" },
+        { id: "object-detection", title: "Object Detection with YOLO" },
+        { id: "transfer-learning", title: "Transfer Learning in Computer Vision" },
     ];
 
     const toggleSidebar = () => {
@@ -59,7 +50,7 @@ const DataScience = () => {
         setActiveSection(sectionId);
         setIsSidebarOpen(false);
 
-        const hiddenSections = ["ds-statistics", "stat-introduction", "stat-percentiles", "stat-standard-deviation", "stat-variance", "stat-correlation", "stat-correlation-matrix", "stat-correlation-vs-causality"];
+        const hiddenSections = ["object-detection", "transfer-learning"];
         if (hiddenSections.includes(sectionId) && !showMore) {
             setShowMore(true);
         }
@@ -72,6 +63,7 @@ const DataScience = () => {
 
     return (
         <div className="flex min-h-screen bg-gray-50">
+
             {/* Mobile Sidebar Toggle */}
             <button
                 className="lg:hidden fixed top-24 left-4 z-50 p-2 bg-blue-400 text-white rounded-md focus:outline-none"
@@ -100,8 +92,9 @@ const DataScience = () => {
                     } lg:sticky lg:top-0 lg:h-screen lg:translate-x-0`}
                 style={{ top: "5rem" }}
             >
-                <div className="p-4 border-b">
-                    <h2 className="text-xl font-bold text-gray-800">Data Science Tutorial</h2>
+                <div className="p-4 border-b flex items-center">
+                    <Computer className="w-6 h-6 mr-2 text-blue-600" />
+                    <h2 className="text-xl font-bold text-gray-800">Computer Vision Tutorial</h2>
                 </div>
                 <div className="h-[calc(100%-4rem)] overflow-y-auto">
                     <nav className="p-4">
@@ -131,19 +124,20 @@ const DataScience = () => {
             {/* Main Content */}
             <div className="flex-1 w-full overflow-x-hidden lg:ml-0 lg:px-6">
                 <div className="p-4 sm:p-8 pt-20 sm:pt-36 pb-8">
+
                     {/* Hero Title Section */}
                     <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
-                                Fundamentals of Data Science
+                                Computer Vision with Python
                             </span>
                         </h1>
                         <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                            Explore data science with this in-depth tutorial covering Python, statistics, data preparation, and more. Build the skills to analyze and interpret data effectively.
+                            Learn Computer Vision concepts, libraries, and techniques to process and analyze visual data effectively.
                         </p>
                     </div>
 
-                    {/* Data Science Hero Banner */}
+                    {/* Computer Vision Hero Banner */}
                     <div className="mb-16 bg-gradient-to-r from-blue-400 to-green-800 rounded-2xl shadow-xl overflow-hidden border border-white/10">
                         <div className="relative p-4 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
                             <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
@@ -153,15 +147,19 @@ const DataScience = () => {
                             <div className="relative z-10 mb-6 md:mb-0 md:mr-8">
                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3">
                                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
-                                        Master Data Science
+                                        Master Computer Vision
                                     </span>{" "}
                                     in 2025
                                 </h2>
                                 <p className="text-base sm:text-lg text-white/90 max-w-lg">
-                                    Analyze and interpret data with modern data science techniques.
+                                    Unlock the power of visual data analysis with Python's top computer vision libraries and techniques.
                                 </p>
                                 <div className="mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                                    <button className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg">
+                                    <button
+                                        className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
+                                        onClick={() => navigate("/login")}
+                                        aria-label="Start learning now"
+                                    >
                                         Start Learning Now
                                     </button>
                                     <button className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all">
@@ -179,165 +177,170 @@ const DataScience = () => {
                                 </div>
                                 <pre className="text-yellow-400 font-mono text-xs sm:text-sm md:text-base overflow-x-auto">
                                     <code>
-                                        {`# Data Science Example\n`}
-                                        {`import pandas as pd\n`}
-                                        {`df = pd.read_csv('data.csv')\n`}
-                                        {`print(df.head())\n`}
+                                        {`# Computer Vision Example\n`}
+                                        {`import cv2\n`}
+                                        {`image = cv2.imread("image.jpg")\n`}
+                                        {`gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)\n`}
+                                        {`cv2.imshow("Grayscale Image", gray)\n`}
+                                        {`cv2.waitKey(0)\n`}
                                     </code>
                                 </pre>
                             </div>
                         </div>
                     </div>
 
-                    {/* DS HOME Section */}
-                    <section id="ds-home" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Defintion of Computer Vision Section */}
+                    <section id="what-is-computer-vision" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Data Science Home
+                            What is Computer Vision?
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Welcome to the Data Science tutorial! This guide will walk you through the essential concepts and techniques in data science, from data preparation to advanced statistical analysis.
+                                Computer Vision is a field of artificial intelligence that enables computers to interpret and understand visual information from the world, such as images and videos. It involves tasks like image classification, object detection, and facial recognition.
                             </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Applications:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Image and video analysis (e.g., object detection, segmentation).</li>
+                                <li>Autonomous vehicles (e.g., lane detection, obstacle avoidance).</li>
+                                <li>Medical imaging (e.g., tumor detection in MRI scans).</li>
+                                <li>Facial recognition (e.g., security systems, social media tagging).</li>
+                            </ul>
                         </div>
                     </section>
 
-                    {/* DS Introduction Section */}
-                    <section id="ds-introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Computer Vision Libraries Section */}
+                    <section id="computer-vision-libraries" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Introduction to Data Science
+                            Computer Vision Libraries in Python
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Data science combines mathematics, statistics, computer science, and domain expertise to extract meaningful insights from data.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* DS What is Data Section */}
-                    <section id="ds-what-is-data" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            What is Data?
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Data is a collection of facts, such as numbers, words, or measurements, that can be processed and analyzed to gain insights.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* DS Python Section */}
-                    <section id="ds-python" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Python for Data Science
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Python is a popular programming language for data science due to its rich ecosystem of libraries like Pandas, NumPy, and Matplotlib.
+                                Python offers several libraries for computer vision, each designed for different use cases, from basic image processing to advanced deep learning models.
                             </p>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# Basic Python Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})\nprint(df)`}</code>
+                                    <code>
+                                        {`# Importing Computer Vision Libraries\n`}
+                                        {`import cv2\n`}
+                                        {`import tensorflow as tf\n`}
+                                        {`import torch\n`}
+                                    </code>
+                                </pre>
+                            </div>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li><strong>OpenCV:</strong> A versatile library for image and video processing.</li>
+                                <li><strong>TensorFlow/PyTorch:</strong> Frameworks for building deep learning models for computer vision.</li>
+                                <li><strong>PIL (Pillow):</strong> A library for basic image manipulation.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    {/* OpenCV Section */}
+                    <section id="opencv" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Computer Vision with OpenCV
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                OpenCV (Open Source Computer Vision Library) is a popular library for computer vision tasks, offering tools for image processing, video analysis, and machine learning.
+                            </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Features:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Supports image and video I/O operations.</li>
+                                <li>Provides functions for image transformations (e.g., resizing, rotation).</li>
+                                <li>Includes algorithms for feature detection and object recognition.</li>
+                                <li>Optimized for real-time applications with C++ backend.</li>
+                            </ul>
+                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                <pre className="text-xs sm:text-sm">
+                                    <code>
+                                        {`# OpenCV Example\n`}
+                                        {`import cv2\n`}
+                                        {`image = cv2.imread("sample.jpg")\n`}
+                                        {`gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)\n`}
+                                        {`cv2.imshow("Grayscale Image", gray_image)\n`}
+                                        {`cv2.waitKey(0)\n`}
+                                        {`cv2.destroyAllWindows()\n`}
+                                    </code>
                                 </pre>
                             </div>
                         </div>
                     </section>
 
-                    {/* DS DataFrame Section */}
-                    <section id="ds-dataframe" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Basic Image Processing Section */}
+                    <section id="image-processing" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            DataFrame in Data Science
+                            Basic Image Processing Techniques
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                DataFrames in Pandas are used to store and manipulate tabular data efficiently.
+                                Image processing is a fundamental step in computer vision, involving techniques to enhance or transform images for further analysis.
                             </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Techniques:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li><strong>Grayscale Conversion:</strong> Converting color images to grayscale to simplify processing.</li>
+                                <li><strong>Blurring:</strong> Applying filters (e.g., Gaussian blur) to reduce noise.</li>
+                                <li><strong>Edge Detection:</strong> Identifying edges using algorithms like Canny.</li>
+                                <li><strong>Thresholding:</strong> Segmenting images by converting them to binary based on pixel intensity.</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# DataFrame Example\nimport pandas as pd\ndf = pd.DataFrame({'Name': ['Alice', 'Bob'], 'Age': [25, 30]})\nprint(df)`}</code>
+                                    <code>
+                                        {`# Image Processing Example with OpenCV\n`}
+                                        {`import cv2\n`}
+                                        {`image = cv2.imread("sample.jpg")\n`}
+                                        {`gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)\n`}
+                                        {`blurred = cv2.GaussianBlur(gray, (5, 5), 0)\n`}
+                                        {`edges = cv2.Canny(blurred, 100, 200)\n`}
+                                        {`cv2.imshow("Edges", edges)\n`}
+                                        {`cv2.waitKey(0)\n`}
+                                        {`cv2.destroyAllWindows()\n`}
+                                    </code>
                                 </pre>
                             </div>
                         </div>
                     </section>
 
-                    {/* DS Functions Section */}
-                    <section id="ds-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* CNNs Section */}
+                    <section id="cnns" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Functions in Data Science
+                            Convolutional Neural Networks for Computer Vision
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Functions in Python allow you to perform repetitive tasks efficiently, such as data cleaning or transformation.
+                                Convolutional Neural Networks (CNNs) are a cornerstone of modern computer vision, designed to process and analyze visual data using convolutional layers.
                             </p>
-                        </div>
-                    </section>
-
-                    {/* DS Data Preparation Section */}
-                    <section id="ds-data-prep" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Data Preparation
-                        </h2>
-                        <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Data preparation involves cleaning, transforming, and organizing data for analysis.
+                                <strong>Key Components:</strong>
                             </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li><strong>Convolutional Layers:</strong> Extract features like edges and textures using filters.</li>
+                                <li><strong>Pooling Layers:</strong> Reduce spatial dimensions while preserving important features.</li>
+                                <li><strong>Fully Connected Layers:</strong> Combine features for classification or regression.</li>
+                                <li><strong>Activation Functions:</strong> ReLU is commonly used to introduce non-linearity.</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# Data Cleaning Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, None, 3]})\ndf.fillna(0, inplace=True)\nprint(df)`}</code>
+                                    <code>
+                                        {`# CNN Example with TensorFlow\n`}
+                                        {`import tensorflow as tf\n`}
+                                        {`model = tf.keras.Sequential([\n`}
+                                        {`    tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)),\n`}
+                                        {`    tf.keras.layers.MaxPooling2D((2, 2)),\n`}
+                                        {`    tf.keras.layers.Flatten(),\n`}
+                                        {`    tf.keras.layers.Dense(64, activation='relu'),\n`}
+                                        {`    tf.keras.layers.Dense(10, activation='softmax')\n`}
+                                        {`])\n`}
+                                        {`model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])\n`}
+                                    </code>
                                 </pre>
                             </div>
-                        </div>
-                    </section>
-
-                    {/* DS Math Section */}
-                    <section id="ds-math" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Math for Data Science
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Mathematics, including linear algebra and calculus, forms the foundation of data science techniques.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* DS Linear Functions Section */}
-                    <section id="ds-linear-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Linear Functions
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Linear functions are used to model relationships between variables in data science.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* DS Plotting Functions Section */}
-                    <section id="ds-plotting-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Plotting Functions
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Plotting functions in libraries like Matplotlib help visualize data trends.
-                            </p>
-                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`# Plotting Example\nimport matplotlib.pyplot as plt\nplt.plot([1, 2, 3], [4, 5, 6])\nplt.show()`}</code>
-                                </pre>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* DS Slope and Intercept Section */}
-                    <section id="ds-slope-intercept" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Slope and Intercept
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Slope and intercept are key components of linear equations used in data modeling.
-                            </p>
                         </div>
                     </section>
 
@@ -347,7 +350,7 @@ const DataScience = () => {
                             <button
                                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onClick={() => setShowMore(true)}
-                                aria-label="Explore more Data Science topics"
+                                aria-label="Explore more Computer Vision topics"
                             >
                                 Explore More
                             </button>
@@ -357,104 +360,76 @@ const DataScience = () => {
                     {/* Sections Hidden Behind Explore More Button */}
                     {showMore && (
                         <>
-                            {/* DS Statistics Section */}
-                            <section id="ds-statistics" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            <section id="object-detection" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Statistics in Data Science
+                                    Object Detection with YOLO
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Statistics provides the tools to analyze and interpret data effectively.
+                                        YOLO (You Only Look Once) is a popular object detection algorithm that processes images in a single pass, making it fast and suitable for real-time applications.
                                     </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Introduction Section */}
-                            <section id="stat-introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Introduction to Statistics
-                                </h2>
-                                <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Statistics involves collecting, analyzing, and interpreting data to make informed decisions.
+                                        <strong>Key Features:</strong>
                                     </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Percentiles Section */}
-                            <section id="stat-percentiles" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Percentiles in Statistics
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Percentiles help understand the distribution of data by dividing it into 100 equal parts.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Standard Deviation Section */}
-                            <section id="stat-standard-deviation" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Standard Deviation
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Standard deviation measures the spread of data points from the mean.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Variance Section */}
-                            <section id="stat-variance" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Variance in Statistics
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Variance quantifies the dispersion of data points in a dataset.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Correlation Section */}
-                            <section id="stat-correlation" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Correlation in Statistics
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Correlation measures the strength and direction of the relationship between two variables.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Correlation Matrix Section */}
-                            <section id="stat-correlation-matrix" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Correlation Matrix
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        A correlation matrix displays the correlation coefficients between multiple variables.
-                                    </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li>Single-pass detection for speed and efficiency.</li>
+                                        <li>Divides the image into a grid and predicts bounding boxes and class probabilities.</li>
+                                        <li>Supports multiple object classes in a single image.</li>
+                                        <li>Pre-trained models available for quick deployment.</li>
+                                    </ul>
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
-                                            <code>{`# Correlation Matrix Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})\nprint(df.corr())`}</code>
+                                            <code>
+                                                {`# YOLO Example (Pseudo-code, requires YOLO weights and config)\n`}
+                                                {`import cv2\n`}
+                                                {`import numpy as np\n`}
+                                                {`net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")\n`}
+                                                {`image = cv2.imread("image.jpg")\n`}
+                                                {`blob = cv2.dnn.blobFromImage(image, 1/255.0, (416, 416), swapRB=True, crop=False)\n`}
+                                                {`net.setInput(blob)\n`}
+                                                {`outputs = net.forward(net.getUnconnectedOutLayersNames())\n`}
+                                                {`# Process outputs for bounding boxes and classes\n`}
+                                            </code>
                                         </pre>
                                     </div>
                                 </div>
                             </section>
 
-                            {/* Stat Correlation vs Causality Section */}
-                            <section id="stat-correlation-vs-causality" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Transfer Learning in Computer Vision Section */}
+                            <section id="transfer-learning" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Correlation vs Causality
+                                    Transfer Learning in Computer Vision
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Understanding the difference between correlation and causality is crucial for accurate data interpretation.
+                                        Transfer learning leverages pre-trained models (trained on large datasets like ImageNet) to solve new computer vision tasks with smaller datasets, saving time and resources.
                                     </p>
+                                    <p className="text-gray-700 text-sm sm:text-base">
+                                        <strong>Key Steps:</strong>
+                                    </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li><strong>Load a Pre-trained Model:</strong> Use models like VGG, ResNet, or Inception.</li>
+                                        <li><strong>Freeze Layers:</strong> Prevent pre-trained layers from updating during training.</li>
+                                        <li><strong>Add Custom Layers:</strong> Add layers for the new task (e.g., classification).</li>
+                                        <li><strong>Fine-Tune:</strong> Train the model on the new dataset, optionally unfreezing some layers.</li>
+                                    </ul>
+                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                        <pre className="text-xs sm:text-sm">
+                                            <code>
+                                                {`# Transfer Learning Example with TensorFlow\n`}
+                                                {`import tensorflow as tf\n`}
+                                                {`base_model = tf.keras.applications.VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))\n`}
+                                                {`base_model.trainable = False\n`}
+                                                {`model = tf.keras.Sequential([\n`}
+                                                {`    base_model,\n`}
+                                                {`    tf.keras.layers.Flatten(),\n`}
+                                                {`    tf.keras.layers.Dense(128, activation='relu'),\n`}
+                                                {`    tf.keras.layers.Dense(2, activation='softmax')\n`}
+                                                {`])\n`}
+                                                {`model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])\n`}
+                                            </code>
+                                        </pre>
+                                    </div>
                                 </div>
                             </section>
 
@@ -511,12 +486,13 @@ const DataScience = () => {
                     )}
 
                     {/* Resources Section */}
+
                     <section className="mb-16 bg-blue-50 rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-xl sm:text-2xl font-bold mb-4 text-gray-800">Additional Resources</h2>
                         <ul className="space-y-3">
                             <li>
                                 <a
-                                    href="https://www.coursera.org/learn/data-science-fundamentals"
+                                    href="https://www.coursera.org/learn/computer-vision-basics"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -533,12 +509,12 @@ const DataScience = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Data Science Fundamentals on Coursera
+                                    Computer Vision on Coursera
                                 </a>
                             </li>
                             <li>
                                 <a
-                                    href="https://pandas.pydata.org/docs/"
+                                    href="https://opencv.org/get-started/"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -555,12 +531,12 @@ const DataScience = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Pandas Official Documentation
+                                    OpenCV Official Documentation
                                 </a>
                             </li>
                             <li>
                                 <a
-                                    href="https://www.kaggle.com/datasets"
+                                    href="https://www.tensorflow.org/tutorials/images"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -577,7 +553,7 @@ const DataScience = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Explore Datasets on Kaggle
+                                    TensorFlow Computer Vision Tutorials
                                 </a>
                             </li>
                         </ul>
@@ -590,15 +566,15 @@ const DataScience = () => {
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
-                                    Ready to Learn Data Science?
+                                    Ready to Master Computer Vision?
                                 </h2>
                                 <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-                                    Join thousands of learners and start analyzing data today. Enroll now to unlock your potential!
+                                    Join thousands of learners and start analyzing visual data like a pro today. Enroll now to unlock your potential!
                                 </p>
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
                                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
+                                        onClick={() => navigate("/login")}
                                         aria-label="Enroll now in the course"
                                     >
                                         Enroll Now
@@ -620,4 +596,4 @@ const DataScience = () => {
     );
 };
 
-export default DataScience;
+export default ComputerVision;

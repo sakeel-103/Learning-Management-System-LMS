@@ -515,48 +515,6 @@ const DataAnalysis = () => {
                             </div>
                         </div>
                     </section>
-
-                    {/* Footer Links */}
-                    <section className="py-8 px-4 bg-gray-100 text-gray-700 text-sm">
-                        <div className="max-w-6xl mx-auto">
-                            <h3 className="text-lg font-bold mb-4 text-gray-800">Explore More from Online Platforms</h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                                <div>
-                                    <h4 className="font-semibold mb-2">Courses</h4>
-                                    <ul className="space-y-1">
-                                        <li><a href="https://www.coursera.org/learn/data-analysis-python" className="text-blue-600 hover:underline">Data Analysis with Python</a></li>
-                                        <li><a href="https://www.datacamp.com/courses/intro-to-data-analysis" className="text-blue-600 hover:underline">Intro to Data Analysis</a></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 className="font-semibold mb-2">Related Tutorials</h4>
-                                    <ul className="space-y-1">
-                                        <li><a href="https://www.geeksforgeeks.org/data-analysis-tutorial/" className="text-blue-600 hover:underline">Data Analysis Tutorial</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/time-series-analysis/" className="text-blue-600 hover:underline">Time Series Analysis</a></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 className="font-semibold mb-2">Data Analysis Topics</h4>
-                                    <ul className="space-y-1">
-                                        <li><a href="https://www.geeksforgeeks.org/exploratory-data-analysis/" className="text-blue-600 hover:underline">Exploratory Data Analysis</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/data-cleaning/" className="text-blue-600 hover:underline">Data Cleaning Techniques</a></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 className="font-semibold mb-2">Resources</h4>
-                                    <ul className="space-y-1">
-                                        <li><a href="https://www.geeksforgeeks.org/about/" className="text-blue-600 hover:underline">About Us</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/careers/" className="text-blue-600 hover:underline">Careers</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="mt-6 text-center">
-                                <p>Corporate & Communications Address: A-143, 7th Floor, Sovereign Corporate Tower, Sector-136, Noida, Uttar Pradesh (201305)</p>
-                                <p>Registered Address: K 061, Tower K, Gulshan Vivante Apartment, Sector 137, Noida, Gautam Buddh Nagar, Uttar Pradesh, 201305</p>
-                                <p className="mt-2">© GeeksforGeeks, Sanchhaya Education Private Limited, All rights reserved</p>
-                            </div>
-                        </div>
-                    </section>
                 </div>
             </div>
         </div>
