@@ -1,54 +1,44 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const DataScience = () => {
-    const [activeSection, setActiveSection] = useState("ds-home");
+const NaturalLanguage = () => {
+    const navigate = useNavigate();
+    const [activeSection, setActiveSection] = useState("what-is-nlp");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [showMore, setShowMore] = useState(false);
 
     const faqs = [
         {
-            question: "What is data science?",
-            answer: "Data science is an interdisciplinary field that uses scientific methods, processes, algorithms, and systems to extract knowledge and insights from structured and unstructured data.",
+            question: "What is the difference between NLP and NLU?",
+            answer: "NLP (Natural Language Processing) is a broad field focused on enabling computers to understand and generate human language, while NLU (Natural Language Understanding) is a subset of NLP that specifically deals with comprehending the meaning and intent behind text or speech.",
         },
         {
-            question: "What is a DataFrame in Python?",
-            answer: "A DataFrame is a two-dimensional, size-mutable, and potentially heterogeneous tabular data structure with labeled axes (rows and columns) in the Pandas library.",
+            question: "Why is NLTK widely used for NLP?",
+            answer: "NLTK is widely used because it provides a comprehensive suite of tools and resources for text processing, including tokenization, stemming, and access to corpora, making it ideal for beginners and researchers.",
         },
         {
-            question: "What is the difference between correlation and causation?",
-            answer: "Correlation indicates a statistical relationship between two variables, while causation implies that one variable directly affects the other. Correlation does not imply causation.",
+            question: "What are transformers in NLP?",
+            answer: "Transformers are a type of neural network architecture that use self-attention mechanisms to process sequential data, such as text, enabling models like BERT to understand context and relationships in language effectively.",
         },
         {
-            question: "What are percentiles in statistics?",
-            answer: "Percentiles are measures that divide a dataset into 100 equal parts, indicating the value below which a given percentage of observations fall.",
+            question: "What is spaCy best suited for?",
+            answer: "spaCy is best suited for production-level NLP tasks due to its speed, efficiency, and pre-trained models for tasks like named entity recognition, part-of-speech tagging, and dependency parsing.",
         },
         {
-            question: "What is a correlation matrix?",
-            answer: "A correlation matrix is a table showing correlation coefficients between multiple variables, typically used to understand relationships in a dataset.",
+            question: "How does BERT improve NLP tasks?",
+            answer: "BERT (Bidirectional Encoder Representations from Transformers) improves NLP tasks by understanding the context of words in a sentence bidirectionally, leading to better performance in tasks like sentiment analysis and question answering.",
         },
     ];
     const [openFaqIndexes, setOpenFaqIndexes] = useState(Array(faqs.length).fill(false));
 
     const sections = [
-        { id: "ds-home", title: "DS HOME" },
-        { id: "ds-introduction", title: "DS Introduction" },
-        { id: "ds-what-is-data", title: "DS What is Data" },
-        { id: "ds-python", title: "DS Python" },
-        { id: "ds-dataframe", title: "DS DataFrame" },
-        { id: "ds-functions", title: "DS Functions" },
-        { id: "ds-data-prep", title: "DS Data Preparation" },
-        { id: "ds-math", title: "DS Math" },
-        { id: "ds-linear-functions", title: "DS Linear Functions" },
-        { id: "ds-plotting-functions", title: "DS Plotting Functions" },
-        { id: "ds-slope-intercept", title: "DS Slope and Intercept" },
-        { id: "ds-statistics", title: "DS Statistics" },
-        { id: "stat-introduction", title: "Stat Introduction" },
-        { id: "stat-percentiles", title: "Stat Percentiles" },
-        { id: "stat-standard-deviation", title: "Stat Standard Deviation" },
-        { id: "stat-variance", title: "Stat Variance" },
-        { id: "stat-correlation", title: "Stat Correlation" },
-        { id: "stat-correlation-matrix", title: "Stat Correlation Matrix" },
-        { id: "stat-correlation-vs-causality", title: "Stat Correlation vs Causality" },
+        { id: "what-is-nlp", title: "What is Natural Language Processing (NLP)?" },
+        { id: "nlp-libraries", title: "NLP Libraries in Python" },
+        { id: "nltk", title: "NLP with NLTK" },
+        { id: "spacy", title: "NLP with spaCy" },
+        { id: "text-preprocessing", title: "Text Preprocessing in NLP" },
+        { id: "transformers", title: "Using Transformers for NLP" },
+        { id: "sentiment-analysis", title: "Sentiment Analysis with NLP" },
     ];
 
     const toggleSidebar = () => {
@@ -59,7 +49,7 @@ const DataScience = () => {
         setActiveSection(sectionId);
         setIsSidebarOpen(false);
 
-        const hiddenSections = ["ds-statistics", "stat-introduction", "stat-percentiles", "stat-standard-deviation", "stat-variance", "stat-correlation", "stat-correlation-matrix", "stat-correlation-vs-causality"];
+        const hiddenSections = ["transformers", "sentiment-analysis"];
         if (hiddenSections.includes(sectionId) && !showMore) {
             setShowMore(true);
         }
@@ -101,7 +91,7 @@ const DataScience = () => {
                 style={{ top: "5rem" }}
             >
                 <div className="p-4 border-b">
-                    <h2 className="text-xl font-bold text-gray-800">Data Science Tutorial</h2>
+                    <h2 className="text-xl font-bold text-gray-800">NLP Tutorial</h2>
                 </div>
                 <div className="h-[calc(100%-4rem)] overflow-y-auto">
                     <nav className="p-4">
@@ -135,15 +125,15 @@ const DataScience = () => {
                     <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
-                                Fundamentals of Data Science
+                                Natural Language Processing with Python
                             </span>
                         </h1>
                         <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                            Explore data science with this in-depth tutorial covering Python, statistics, data preparation, and more. Build the skills to analyze and interpret data effectively.
+                            Learn Natural Language Processing (NLP) concepts, libraries, and techniques to process and analyze text data effectively.
                         </p>
                     </div>
 
-                    {/* Data Science Hero Banner */}
+                    {/* NLP Hero Banner */}
                     <div className="mb-16 bg-gradient-to-r from-blue-400 to-green-800 rounded-2xl shadow-xl overflow-hidden border border-white/10">
                         <div className="relative p-4 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
                             <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
@@ -153,15 +143,19 @@ const DataScience = () => {
                             <div className="relative z-10 mb-6 md:mb-0 md:mr-8">
                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3">
                                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
-                                        Master Data Science
+                                        Master NLP
                                     </span>{" "}
                                     in 2025
                                 </h2>
                                 <p className="text-base sm:text-lg text-white/90 max-w-lg">
-                                    Analyze and interpret data with modern data science techniques.
+                                    Unlock the power of text analysis with Python's top NLP libraries and techniques.
                                 </p>
                                 <div className="mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                                    <button className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg">
+                                    <button
+                                        className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
+                                        onClick={() => navigate("/login")}
+                                        aria-label="Start learning now"
+                                    >
                                         Start Learning Now
                                     </button>
                                     <button className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all">
@@ -179,165 +173,170 @@ const DataScience = () => {
                                 </div>
                                 <pre className="text-yellow-400 font-mono text-xs sm:text-sm md:text-base overflow-x-auto">
                                     <code>
-                                        {`# Data Science Example\n`}
-                                        {`import pandas as pd\n`}
-                                        {`df = pd.read_csv('data.csv')\n`}
-                                        {`print(df.head())\n`}
+                                        {`# NLP Example\n`}
+                                        {`import nltk\n`}
+                                        {`from nltk.tokenize import word_tokenize\n`}
+                                        {`nltk.download('punkt')\n`}
+                                        {`text = "Hello, world!"\n`}
+                                        {`tokens = word_tokenize(text)\n`}
+                                        {`print(tokens)\n`}
                                     </code>
                                 </pre>
                             </div>
                         </div>
                     </div>
 
-                    {/* DS HOME Section */}
-                    <section id="ds-home" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* What is NLP Section */}
+                    <section id="what-is-nlp" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Data Science Home
+                            What is Natural Language Processing (NLP)?
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Welcome to the Data Science tutorial! This guide will walk you through the essential concepts and techniques in data science, from data preparation to advanced statistical analysis.
+                                Natural Language Processing (NLP) is a field of artificial intelligence that focuses on the interaction between computers and human language. It enables machines to understand, interpret, and generate human language in a meaningful way.
                             </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Applications:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Text analysis (e.g., sentiment analysis, topic modeling).</li>
+                                <li>Machine translation (e.g., Google Translate).</li>
+                                <li>Chatbots and virtual assistants (e.g., Siri, Alexa).</li>
+                                <li>Information extraction (e.g., named entity recognition).</li>
+                            </ul>
                         </div>
                     </section>
 
-                    {/* DS Introduction Section */}
-                    <section id="ds-introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* NLP Libraries Section */}
+                    <section id="nlp-libraries" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Introduction to Data Science
+                            NLP Libraries in Python
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Data science combines mathematics, statistics, computer science, and domain expertise to extract meaningful insights from data.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* DS What is Data Section */}
-                    <section id="ds-what-is-data" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            What is Data?
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Data is a collection of facts, such as numbers, words, or measurements, that can be processed and analyzed to gain insights.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* DS Python Section */}
-                    <section id="ds-python" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Python for Data Science
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Python is a popular programming language for data science due to its rich ecosystem of libraries like Pandas, NumPy, and Matplotlib.
+                                Python offers a variety of libraries for NLP, each designed for different use cases, from research to production.
                             </p>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# Basic Python Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})\nprint(df)`}</code>
+                                    <code>
+                                        {`# Importing NLP Libraries\n`}
+                                        {`import nltk\n`}
+                                        {`import spacy\n`}
+                                        {`from transformers import pipeline\n`}
+                                    </code>
+                                </pre>
+                            </div>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li><strong>NLTK:</strong> A comprehensive library for text processing and research.</li>
+                                <li><strong>spaCy:</strong> A fast, production-ready library for advanced NLP tasks.</li>
+                                <li><strong>Transformers (Hugging Face):</strong> A library for state-of-the-art NLP models like BERT.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    {/* NLTK Section */}
+                    <section id="nltk" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            NLP with NLTK
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                NLTK (Natural Language Toolkit) is a popular Python library for NLP, widely used for educational purposes and research. It provides tools for text processing and linguistic analysis.
+                            </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Features:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Tokenization, stemming, and lemmatization for text preprocessing.</li>
+                                <li>Access to corpora and lexical resources like WordNet.</li>
+                                <li>Tools for part-of-speech tagging and parsing.</li>
+                                <li>Support for building custom NLP pipelines.</li>
+                            </ul>
+                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                <pre className="text-xs sm:text-sm">
+                                    <code>
+                                        {`# NLTK Example\n`}
+                                        {`import nltk\n`}
+                                        {`from nltk.tokenize import word_tokenize\n`}
+                                        {`nltk.download('punkt')\n`}
+                                        {`text = "Natural Language Processing is amazing!"\n`}
+                                        {`tokens = word_tokenize(text)\n`}
+                                        {`print(tokens)\n`}
+                                    </code>
                                 </pre>
                             </div>
                         </div>
                     </section>
 
-                    {/* DS DataFrame Section */}
-                    <section id="ds-dataframe" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* spaCy Section */}
+                    <section id="spacy" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            DataFrame in Data Science
+                            NLP with spaCy
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                DataFrames in Pandas are used to store and manipulate tabular data efficiently.
+                                spaCy is a fast and efficient NLP library designed for production use. It provides pre-trained models for various languages and tasks, making it ideal for building real-world NLP applications.
                             </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Features:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Fast and accurate tokenization, lemmatization, and dependency parsing.</li>
+                                <li>Pre-trained models for named entity recognition (NER) and part-of-speech (POS) tagging.</li>
+                                <li>Support for multiple languages with downloadable models.</li>
+                                <li>Efficient for large-scale text processing.</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# DataFrame Example\nimport pandas as pd\ndf = pd.DataFrame({'Name': ['Alice', 'Bob'], 'Age': [25, 30]})\nprint(df)`}</code>
+                                    <code>
+                                        {`# spaCy Example\n`}
+                                        {`import spacy\n`}
+                                        {`nlp = spacy.load("en_core_web_sm")\n`}
+                                        {`text = "Apple is looking at buying U.K. startup for $1 billion"\n`}
+                                        {`doc = nlp(text)\n`}
+                                        {`for ent in doc.ents:\n`}
+                                        {`    print(ent.text, ent.label_)\n`}
+                                    </code>
                                 </pre>
                             </div>
                         </div>
                     </section>
 
-                    {/* DS Functions Section */}
-                    <section id="ds-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Text Preprocessing Section */}
+                    <section id="text-preprocessing" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Functions in Data Science
+                            Text Preprocessing in NLP
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Functions in Python allow you to perform repetitive tasks efficiently, such as data cleaning or transformation.
+                                Text preprocessing is a critical step in NLP to clean and prepare raw text data for analysis or modeling. It ensures the data is in a suitable format for NLP algorithms.
                             </p>
-                        </div>
-                    </section>
-
-                    {/* DS Data Preparation Section */}
-                    <section id="ds-data-prep" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Data Preparation
-                        </h2>
-                        <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Data preparation involves cleaning, transforming, and organizing data for analysis.
+                                <strong>Key Steps:</strong>
                             </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li><strong>Tokenization:</strong> Splitting text into words or sentences.</li>
+                                <li><strong>Lowercasing:</strong> Converting all text to lowercase for consistency.</li>
+                                <li><strong>Removing Stop Words:</strong> Eliminating common words (e.g., "the", "is") that add little meaning.</li>
+                                <li><strong>Stemming/Lemmatization:</strong> Reducing words to their root form (e.g., "running" to "run").</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# Data Cleaning Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, None, 3]})\ndf.fillna(0, inplace=True)\nprint(df)`}</code>
+                                    <code>
+                                        {`# Text Preprocessing Example with NLTK\n`}
+                                        {`import nltk\n`}
+                                        {`from nltk.tokenize import word_tokenize\n`}
+                                        {`from nltk.corpus import stopwords\n`}
+                                        {`nltk.download('punkt')\n`}
+                                        {`nltk.download('stopwords')\n`}
+                                        {`text = "This is a sample sentence for preprocessing."\n`}
+                                        {`tokens = word_tokenize(text.lower())\n`}
+                                        {`stop_words = set(stopwords.words('english'))\n`}
+                                        {`filtered_tokens = [word for word in tokens if word not in stop_words]\n`}
+                                        {`print(filtered_tokens)\n`}
+                                    </code>
                                 </pre>
                             </div>
-                        </div>
-                    </section>
-
-                    {/* DS Math Section */}
-                    <section id="ds-math" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Math for Data Science
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Mathematics, including linear algebra and calculus, forms the foundation of data science techniques.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* DS Linear Functions Section */}
-                    <section id="ds-linear-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Linear Functions
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Linear functions are used to model relationships between variables in data science.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* DS Plotting Functions Section */}
-                    <section id="ds-plotting-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Plotting Functions
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Plotting functions in libraries like Matplotlib help visualize data trends.
-                            </p>
-                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`# Plotting Example\nimport matplotlib.pyplot as plt\nplt.plot([1, 2, 3], [4, 5, 6])\nplt.show()`}</code>
-                                </pre>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* DS Slope and Intercept Section */}
-                    <section id="ds-slope-intercept" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Slope and Intercept
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Slope and intercept are key components of linear equations used in data modeling.
-                            </p>
                         </div>
                     </section>
 
@@ -347,7 +346,7 @@ const DataScience = () => {
                             <button
                                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onClick={() => setShowMore(true)}
-                                aria-label="Explore more Data Science topics"
+                                aria-label="Explore more NLP topics"
                             >
                                 Explore More
                             </button>
@@ -357,104 +356,69 @@ const DataScience = () => {
                     {/* Sections Hidden Behind Explore More Button */}
                     {showMore && (
                         <>
-                            {/* DS Statistics Section */}
-                            <section id="ds-statistics" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Transformers Section */}
+                            <section id="transformers" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Statistics in Data Science
+                                    Using Transformers for NLP
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Statistics provides the tools to analyze and interpret data effectively.
+                                        Transformers, introduced by the Hugging Face library, have revolutionized NLP by enabling models like BERT, GPT, and T5 to achieve state-of-the-art results in various tasks.
                                     </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Introduction Section */}
-                            <section id="stat-introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Introduction to Statistics
-                                </h2>
-                                <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Statistics involves collecting, analyzing, and interpreting data to make informed decisions.
+                                        <strong>Key Features:</strong>
                                     </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Percentiles Section */}
-                            <section id="stat-percentiles" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Percentiles in Statistics
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Percentiles help understand the distribution of data by dividing it into 100 equal parts.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Standard Deviation Section */}
-                            <section id="stat-standard-deviation" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Standard Deviation
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Standard deviation measures the spread of data points from the mean.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Variance Section */}
-                            <section id="stat-variance" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Variance in Statistics
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Variance quantifies the dispersion of data points in a dataset.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Correlation Section */}
-                            <section id="stat-correlation" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Correlation in Statistics
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        Correlation measures the strength and direction of the relationship between two variables.
-                                    </p>
-                                </div>
-                            </section>
-
-                            {/* Stat Correlation Matrix Section */}
-                            <section id="stat-correlation-matrix" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Correlation Matrix
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        A correlation matrix displays the correlation coefficients between multiple variables.
-                                    </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li>Self-attention mechanism to capture contextual relationships in text.</li>
+                                        <li>Pre-trained models for tasks like text classification, translation, and question answering.</li>
+                                        <li>Easy-to-use pipelines for quick implementation.</li>
+                                        <li>Support for fine-tuning on custom datasets.</li>
+                                    </ul>
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
-                                            <code>{`# Correlation Matrix Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})\nprint(df.corr())`}</code>
+                                            <code>
+                                                {`# Transformers Example\n`}
+                                                {`from transformers import pipeline\n`}
+                                                {`classifier = pipeline("sentiment-analysis")\n`}
+                                                {`text = "I love using transformers for NLP!"\n`}
+                                                {`result = classifier(text)\n`}
+                                                {`print(result)\n`}
+                                            </code>
                                         </pre>
                                     </div>
                                 </div>
                             </section>
 
-                            {/* Stat Correlation vs Causality Section */}
-                            <section id="stat-correlation-vs-causality" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Sentiment Analysis Section */}
+                            <section id="sentiment-analysis" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Correlation vs Causality
+                                    Sentiment Analysis with NLP
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Understanding the difference between correlation and causality is crucial for accurate data interpretation.
+                                        Sentiment analysis is an NLP task that determines the emotional tone behind a piece of text, such as positive, negative, or neutral. It’s widely used in social media monitoring and customer feedback analysis.
                                     </p>
+                                    <p className="text-gray-700 text-sm sm:text-base">
+                                        <strong>Key Approaches:</strong>
+                                    </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li><strong>Rule-Based:</strong> Using predefined rules and lexicons (e.g., VADER).</li>
+                                        <li><strong>Machine Learning:</strong> Training models on labeled datasets.</li>
+                                        <li><strong>Deep Learning:</strong> Using transformers like BERT for better accuracy.</li>
+                                        <li><strong>Hybrid:</strong> Combining rule-based and machine learning approaches.</li>
+                                    </ul>
+                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                        <pre className="text-xs sm:text-sm">
+                                            <code>
+                                                {`# Sentiment Analysis Example with Transformers\n`}
+                                                {`from transformers import pipeline\n`}
+                                                {`sentiment_pipeline = pipeline("sentiment-analysis")\n`}
+                                                {`text = "This tutorial is fantastic!"\n`}
+                                                {`result = sentiment_pipeline(text)\n`}
+                                                {`print(result)\n`}
+                                            </code>
+                                        </pre>
+                                    </div>
                                 </div>
                             </section>
 
@@ -516,7 +480,7 @@ const DataScience = () => {
                         <ul className="space-y-3">
                             <li>
                                 <a
-                                    href="https://www.coursera.org/learn/data-science-fundamentals"
+                                    href="https://www.coursera.org/learn/natural-language-processing"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -533,12 +497,12 @@ const DataScience = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Data Science Fundamentals on Coursera
+                                    NLP on Coursera
                                 </a>
                             </li>
                             <li>
                                 <a
-                                    href="https://pandas.pydata.org/docs/"
+                                    href="https://www.nltk.org/"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -555,12 +519,12 @@ const DataScience = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Pandas Official Documentation
+                                    NLTK Official Documentation
                                 </a>
                             </li>
                             <li>
                                 <a
-                                    href="https://www.kaggle.com/datasets"
+                                    href="https://spacy.io/usage"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -577,7 +541,7 @@ const DataScience = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Explore Datasets on Kaggle
+                                    spaCy Official Documentation
                                 </a>
                             </li>
                         </ul>
@@ -590,15 +554,15 @@ const DataScience = () => {
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
-                                    Ready to Learn Data Science?
+                                    Ready to Master NLP?
                                 </h2>
                                 <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-                                    Join thousands of learners and start analyzing data today. Enroll now to unlock your potential!
+                                    Join thousands of learners and start processing text data like a pro today. Enroll now to unlock your potential!
                                 </p>
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
                                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
+                                        onClick={() => navigate("/login")}
                                         aria-label="Enroll now in the course"
                                     >
                                         Enroll Now
@@ -614,10 +578,82 @@ const DataScience = () => {
                             </div>
                         </div>
                     </section>
+
+                    {/* Footer Links */}
+                    <section className="py-8 px-4 bg-gray-100 text-gray-700 text-sm">
+                        <div className="max-w-6xl mx-auto">
+                            <h3 className="text-lg font-bold mb-4 text-gray-800">Explore More from Other Platforms</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div>
+                                    <h4 className="font-semibold mb-2">Courses</h4>
+                                    <ul className="space-y-1">
+                                        <li>
+                                            <a
+                                                href="https://www.coursera.org/learn/natural-language-processing"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                NLP Specialization
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://www.datacamp.com/courses/intro-to-nlp"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Intro to NLP
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold mb-2">Related Tutorials</h4>
+                                    <ul className="space-y-1">
+                                        <li>
+                                            <a
+                                                href="https://www.geeksforgeeks.org/natural-language-processing-nlp-tutorial/"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                NLP Tutorial
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://www.geeksforgeeks.org/sentiment-analysis/"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Sentiment Analysis Tutorial
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold mb-2">NLP Topics</h4>
+                                    <ul className="space-y-1">
+                                        <li>
+                                            <a
+                                                href="https://www.geeksforgeeks.org/transformers-in-nlp/"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Transformers in NLP
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://www.geeksforgeeks.org/text-preprocessing-in-nlp/"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Text Preprocessing
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
     );
 };
 
-export default DataScience;
+export default NaturalLanguage;

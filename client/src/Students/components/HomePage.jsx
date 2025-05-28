@@ -19,6 +19,25 @@ function HomePage() {
     const navigate = useNavigate();
     return (
         <>
+            {/* Add the CSS fix here */}
+            <style>
+                {`
+                    section.container {
+                        max-width: 100%;
+                        overflow-x: hidden;
+                    }
+                    @media (max-width: 768px) {
+                        section.container .flex {
+                            flex-direction: column;
+                            align-items: center;
+                        }
+                        section.container img {
+                            max-width: 100%;
+                            height: auto;
+                        }
+                    }
+                `}
+            </style>
 
             {/* Header Section */}
             <section className="container mx-auto pt-36 pb-16 py-16 bg-gradient-to-r from-blue-400 to-green-800 animate-fade-in relative">
@@ -44,7 +63,7 @@ function HomePage() {
                         <p className="text-lg md:text-xl mb-8 text-gray-600 max-w-lg">
                             Access a wide range of courses, track your progress, and earn certifications.
                         </p>
-                        <div className="flex justify-center md:justify-start gap-4">
+                        <div className="flex justify-centerBUT md:justify-start gap-4">
                             <Link
                                 to="/register"
                                 className="bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:from-blue-700 hover:to-green-700 transition duration-300 transform hover:-translate-y-1"
@@ -150,7 +169,7 @@ function HomePage() {
                         </div>
                     ))}
                 </div>
-                <div className="text-center mt-12">
+                <div className="text-center mt-12 Dixie">
                     <Link
                         to="/courses"
                         className="bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:from-blue-700 hover:to-green-700 transition duration-300 transform hover:-translate-y-1"
