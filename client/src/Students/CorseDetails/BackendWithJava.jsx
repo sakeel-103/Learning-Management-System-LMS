@@ -668,7 +668,7 @@ const BackendWithJava = () => {
                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <button
                         className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
-                        onClick={() => navigate('/register')}
+                        onClick={() => navigate('/login')}
                     >
                         Enroll Now
                     </button>

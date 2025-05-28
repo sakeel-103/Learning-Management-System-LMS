@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const NodejsPage = () => {
+    const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState("introduction");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [showMore, setShowMore] = useState(false); // State to toggle visibility of sections after HTTP Server
-
-    // FAQ open/close state
+    const [showMore, setShowMore] = useState(false);
     const faqs = [
         {
             question: "What is Node.js?",
@@ -128,8 +127,8 @@ const NodejsPage = () => {
                                             handleSectionClick(section.id);
                                         }}
                                         className={`block px-4 py-2 rounded-md transition-colors ${activeSection === section.id
-                                                ? "bg-blue-100 text-blue-700 font-medium"
-                                                : "text-gray-700 hover:bg-gray-100"
+                                            ? "bg-blue-100 text-blue-700 font-medium"
+                                            : "text-gray-700 hover:bg-gray-100"
                                             }`}
                                     >
                                         {section.title}
@@ -546,7 +545,7 @@ const NodejsPage = () => {
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
                                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
+                                        onClick={() => navigate('/Login')} // Corrected navigation
                                         aria-label="Enroll now in the course"
                                     >
                                         Enroll Now
