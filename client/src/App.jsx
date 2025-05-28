@@ -27,6 +27,8 @@ import HTMLPage from './Students/DevelopmentAndDS/HTMLPage'
 import NodejsPage from './Students/DevelopmentAndDS/NodeJsPage'
 import ReactJSPage from './Students/DevelopmentAndDS/ReactPage'
 import MachineLearning from './Students/AI&ML/MachineLearning'
+import DataScience from './Students/AI&ML/DataScience';
+import DataAnalysis from './Students/AI&ML/DataAnalysis'
 
 
 function App() {
@@ -60,6 +62,8 @@ function App() {
         <Route path="/DevelopmentAndDS/nodeJsPage" element={<NodejsPage />} />
         <Route path="/DevelopmentAndDS/reactJsPage" element={<ReactJSPage />} />
         <Route path="/AIMLDS/MachineLearningPage" element={<MachineLearning />} />
+        <Route path="/AIMLDS/DataSciencePage" element={<DataScience />} />
+        <Route path="/AIMLDS/DataAnalysisPage" element={<DataAnalysis />} />
       </Routes>
 
       <ScrollToTop />

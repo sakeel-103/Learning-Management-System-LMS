@@ -1,65 +1,46 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const MachineLearning = () => {
+
+const DataAnalysis = () => {
     const navigate = useNavigate();
-    const [activeSection, setActiveSection] = useState("introduction");
+    const [activeSection, setActiveSection] = useState("prerequisites");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [showMore, setShowMore] = useState(false);
 
     const faqs = [
         {
-            question: "What is machine learning?",
-            answer: "Machine learning is a branch of artificial intelligence that enables systems to learn from data and make predictions or decisions without explicit programming.",
+            question: "What is data analysis?",
+            answer: "Data analysis is the process of inspecting, cleaning, transforming, and modeling data to discover useful information, inform conclusions, and support decision-making.",
         },
         {
-            question: "What are the main types of machine learning?",
-            answer: "The main types are supervised learning, unsupervised learning, reinforcement learning, and semi-supervised learning.",
+            question: "Why is data cleaning important?",
+            answer: "Data cleaning ensures the accuracy and reliability of data by removing errors, inconsistencies, and missing values, which improves the quality of analysis.",
         },
         {
-            question: "What is the difference between supervised and unsupervised learning?",
-            answer: "Supervised learning uses labeled data to train models, while unsupervised learning finds patterns in unlabeled data.",
+            question: "What are outliers in data?",
+            answer: "Outliers are data points that differ significantly from other observations, often indicating errors or unique phenomena in the dataset.",
         },
         {
-            question: "What is reinforcement learning used for?",
-            answer: "Reinforcement learning is used for decision-making tasks, such as robotics, gaming, and autonomous systems, where an agent learns through trial and error.",
+            question: "What is time series data analysis?",
+            answer: "Time series data analysis involves analyzing data points collected or recorded at specific time intervals to identify trends, patterns, or seasonal variations.",
         },
         {
-            question: "What is semi-supervised learning?",
-            answer: "Semi-supervised learning uses a mix of labeled and unlabeled data, making it useful when labeled data is scarce or expensive.",
-        },
-        {
-            question: "What are some common supervised learning algorithms?",
-            answer: "Common algorithms include linear regression, logistic regression, decision trees, support vector machines, and random forests.",
-        },
-        {
-            question: "How do you deploy a machine learning model?",
-            answer: "Deployment involves integrating the model into an application using tools like Flask, FastAPI, or Streamlit, and hosting it on platforms like Heroku.",
-        },
-        {
-            question: "What is the role of data preprocessing in machine learning?",
-            answer: "Data preprocessing cleans, scales, and transforms data to improve model performance and accuracy.",
-        },
-        {
-            question: "What are some challenges in machine learning?",
-            answer: "Challenges include data quality issues, overfitting, computational costs, and interpretability of complex models.",
-        },
-        {
-            question: "Where can I find machine learning datasets?",
-            answer: "Popular sources include Kaggle, UCI Machine Learning Repository, and Google Dataset Search.",
+            question: "What libraries are commonly used for data analysis in Python?",
+            answer: "Common libraries include Pandas for data manipulation, NumPy for numerical operations, Matplotlib and Seaborn for visualization, and SciPy for statistical analysis.",
         },
     ];
     const [openFaqIndexes, setOpenFaqIndexes] = useState(Array(faqs.length).fill(false));
 
     const sections = [
-        { id: "introduction", title: "Introduction" },
-        { id: "types", title: "Types of Machine Learning" },
-        { id: "pipeline", title: "Machine Learning Pipeline" },
-        { id: "supervised", title: "Supervised Learning" },
-        { id: "unsupervised", title: "Unsupervised Learning" },
-        { id: "reinforcement", title: "Reinforcement Learning" },
-        { id: "semi-supervised", title: "Semi-Supervised Learning" },
-        { id: "deployment", title: "Deployment" },
-        { id: "FAQ", title: "FAQ" },
+        { id: "prerequisites", title: "Prerequisites for Data Analysis" },
+        { id: "data-analysis-libraries", title: "Data Analysis Libraries" },
+        { id: "understanding-data", title: "Understanding the Data" },
+        { id: "loading-data", title: "Loading the Data" },
+        { id: "data-cleaning", title: "Data Cleaning" },
+        { id: "handling-missing-data", title: "Handling Missing Data" },
+        { id: "outliers-detection", title: "Outliers Detection" },
+        { id: "exploratory-data-analysis", title: "Exploratory Data Analysis" },
+        { id: "time-series-data-analysis", title: "Time Series Data Analysis" },
     ];
 
     const toggleSidebar = () => {
@@ -70,8 +51,7 @@ const MachineLearning = () => {
         setActiveSection(sectionId);
         setIsSidebarOpen(false);
 
-        // If the clicked section is after "reinforcement" and sections are hidden, show them
-        const hiddenSections = ["semi-supervised", "deployment", "FAQ"];
+        const hiddenSections = ["outliers-detection", "exploratory-data-analysis", "time-series-data-analysis"];
         if (hiddenSections.includes(sectionId) && !showMore) {
             setShowMore(true);
         }
@@ -113,7 +93,7 @@ const MachineLearning = () => {
                 style={{ top: "5rem" }}
             >
                 <div className="p-4 border-b">
-                    <h2 className="text-xl font-bold text-gray-800">Machine Learning Tutorial</h2>
+                    <h2 className="text-xl font-bold text-gray-800">Data Analysis Tutorial</h2>
                 </div>
                 <div className="h-[calc(100%-4rem)] overflow-y-auto">
                     <nav className="p-4">
@@ -147,15 +127,15 @@ const MachineLearning = () => {
                     <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
-                                Basics & Advanced of Machine Learning
+                                Fundamentals of Data Analysis
                             </span>
                         </h1>
                         <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                            Learn machine learning with this comprehensive tutorial covering algorithms, models, deployment, and more. Master the skills to build intelligent systems.
+                            Learn data analysis with this comprehensive tutorial covering prerequisites, libraries, data cleaning, and advanced techniques like time series analysis.
                         </p>
                     </div>
 
-                    {/* Machine Learning Hero Banner */}
+                    {/* Data Analysis Hero Banner */}
                     <div className="mb-16 bg-gradient-to-r from-blue-400 to-green-800 rounded-2xl shadow-xl overflow-hidden border border-white/10">
                         <div className="relative p-4 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
                             <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
@@ -165,15 +145,19 @@ const MachineLearning = () => {
                             <div className="relative z-10 mb-6 md:mb-0 md:mr-8">
                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3">
                                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
-                                        Master Machine Learning
+                                        Master Data Analysis
                                     </span>{" "}
                                     in 2025
                                 </h2>
                                 <p className="text-base sm:text-lg text-white/90 max-w-lg">
-                                    Build intelligent systems with modern machine learning techniques
+                                    Unlock insights from data with modern data analysis techniques.
                                 </p>
                                 <div className="mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                                    <button className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg">
+                                    <button
+                                        className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
+                                        onClick={() => navigate("/login")}
+                                        aria-label="Start learning now"
+                                    >
                                         Start Learning Now
                                     </button>
                                     <button className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all">
@@ -191,157 +175,120 @@ const MachineLearning = () => {
                                 </div>
                                 <pre className="text-yellow-400 font-mono text-xs sm:text-sm md:text-base overflow-x-auto">
                                     <code>
-                                        {`# Machine Learning Example\n`}
-                                        {`from sklearn.linear_model import LinearRegression\n`}
-                                        {`model = LinearRegression()\n`}
-                                        {`model.fit(X_train, y_train)\n`}
-                                        {`predictions = model.predict(X_test)`}
+                                        {`# Data Analysis Example\n`}
+                                        {`import pandas as pd\n`}
+                                        {`df = pd.read_csv('data.csv')\n`}
+                                        {`print(df.describe())\n`}
                                     </code>
                                 </pre>
                             </div>
                         </div>
                     </div>
 
-                    {/* Introduction Section */}
-                    <section id="introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Prerequisites Section */}
+                    <section id="prerequisites" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Introduction to Machine Learning
+                            Prerequisites for Data Analysis
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Machine learning (ML) is a branch of Artificial Intelligence that focuses on developing models and algorithms that allow computers to learn from data without being explicitly programmed for every task. In simple words, ML teaches systems to think and understand like humans by learning from data.
-                                <br />
-                                This tutorial will guide you through the core concepts of machine learning, including types of ML, algorithms, pipelines, and deployment.
+                                Before starting data analysis, you should be familiar with basic programming (preferably Python), statistics, and data manipulation concepts.
                             </p>
-                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`# Simple Linear Regression Example\nfrom sklearn.linear_model import LinearRegression\nmodel = LinearRegression()\nmodel.fit([[1], [2], [3]], [2, 4, 6])\nprint(model.predict([[4]]))`}</code>
-                                </pre>
-                            </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Areas:</h3>
                             <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li>Supervised, unsupervised, reinforcement, and semi-supervised learning</li>
-                                <li>Data preprocessing and model evaluation</li>
-                                <li>Deployment and MLOps</li>
-                                <li>Applications in NLP, computer vision, and more</li>
+                                <li>Basic Python programming skills</li>
+                                <li>Understanding of statistics and probability</li>
+                                <li>Familiarity with data structures</li>
                             </ul>
                         </div>
                     </section>
 
-                    {/* Types of Machine Learning Section */}
-                    <section id="types" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Data Analysis Libraries Section */}
+                    <section id="data-analysis-libraries" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Types of Machine Learning
+                            Data Analysis Libraries
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Machine learning can be broadly categorized into four types:
-                            </p>
-                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li><strong>Supervised Learning:</strong> Trains models on labeled data to predict or classify new, unseen data.</li>
-                                <li><strong>Unsupervised Learning:</strong> Finds patterns or groups in unlabeled data, like clustering or dimensionality reduction.</li>
-                                <li><strong>Reinforcement Learning:</strong> Learns through trial and error to maximize rewards, ideal for decision-making tasks.</li>
-                                <li><strong>Semi-Supervised Learning:</strong> Uses a mix of labeled and unlabeled data, helpful when labeled data is limited.</li>
-                            </ul>
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Note: Self-supervised learning is a significant category in deep learning, often used in NLP and computer vision.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* Machine Learning Pipeline Section */}
-                    <section id="pipeline" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Machine Learning Pipeline
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                A machine learning pipeline involves several steps to process data and build a model that can make predictions.
+                                Python offers a variety of libraries for data analysis, each serving a specific purpose.
                             </p>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# Data Preprocessing Example\nimport pandas as pd\nfrom sklearn.preprocessing import StandardScaler\n\ndf = pd.read_csv('data.csv')\nscaler = StandardScaler()\nscaled_data = scaler.fit_transform(df[['feature1', 'feature2']])`}</code>
+                                    <code>{`# Importing Libraries\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt`}</code>
                                 </pre>
                             </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Steps:</h3>
                             <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li><strong>Data Cleaning:</strong> Remove missing values and outliers.</li>
-                                <li><strong>Feature Scaling:</strong> Normalize or standardize data for better model performance.</li>
-                                <li><strong>Data Preprocessing:</strong> Transform data into a suitable format for training.</li>
-                            </ul>
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Learn more: <a href="https://towardsdatascience.com/data-preprocessing-for-machine-learning-1b09e6f6d8a5" className="text-blue-600 hover:underline">Data Preprocessing Guide on Towards Data Science</a>
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* Supervised Learning Section */}
-                    <section id="supervised" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Supervised Learning
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Supervised learning involves training models on labeled data and is categorized into classification (predicting discrete labels) and regression (predicting continuous values).
-                            </p>
-                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`# Logistic Regression Example\nfrom sklearn.linear_model import LogisticRegression\nmodel = LogisticRegression()\nmodel.fit(X_train, y_train)\npredictions = model.predict(X_test)`}</code>
-                                </pre>
-                            </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Common Algorithms:</h3>
-                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li><strong>Linear Regression:</strong> Predicts numerical values using a straight line. <a href="https://scikit-learn.org/stable/modules/linear_model.html#linear-regression" className="text-blue-600 hover:underline">Learn More on Scikit-Learn</a></li>
-                                <li><strong>Logistic Regression:</strong> Predicts categories like yes/no. <a href="https://www.datacamp.com/tutorial/understanding-logistic-regression-python" className="text-blue-600 hover:underline">Learn More on DataCamp</a></li>
-                                <li><strong>Decision Trees:</strong> Makes decisions using a flowchart-like structure. <a href="https://www.analyticsvidhya.com/blog/2021/08/decision-tree-algorithm-for-classification/" className="text-blue-600 hover:underline">Learn More on Analytics Vidhya</a></li>
-                                <li><strong>Support Vector Machines (SVM):</strong> Separates data with a boundary. <a href="https://medium.com/@zxr.ninth/support-vector-machine-svm-a-complete-guide-for-beginners-134c7a4d9f5c" className="text-blue-600 hover:underline">Learn More on Medium</a></li>
-                                <li><strong>Random Forest:</strong> Combines multiple decision trees for better accuracy. <a href="https://www.ibm.com/topics/random-forest" className="text-blue-600 hover:underline">Learn More on IBM</a></li>
+                                <li><strong>Pandas:</strong> For data manipulation and analysis</li>
+                                <li><strong>NumPy:</strong> For numerical computations</li>
+                                <li><strong>Matplotlib/Seaborn:</strong> For data visualization</li>
                             </ul>
                         </div>
                     </section>
 
-                    {/* Unsupervised Learning Section */}
-                    <section id="unsupervised" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Understanding the Data Section */}
+                    <section id="understanding-data" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Unsupervised Learning
+                            Understanding the Data
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Unsupervised learning finds patterns in unlabeled data and is divided into clustering, association rule mining, and dimensionality reduction.
+                                Understanding your data involves exploring its structure, types, and relationships to inform your analysis strategy.
                             </p>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# K-Means Clustering Example\nfrom sklearn.cluster import KMeans\nkmeans = KMeans(n_clusters=3)\nkmeans.fit(data)\nlabels = kmeans.labels_`}</code>
+                                    <code>{`# Exploring Data\nimport pandas as pd\ndf = pd.read_csv('data.csv')\nprint(df.info())`}</code>
                                 </pre>
                             </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Techniques:</h3>
-                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li><strong>Clustering:</strong> Groups data points (e.g., K-Means). <a href="https://www.coursera.org/articles/k-means-clustering" className="text-blue-600 hover:underline">Learn More on Coursera</a></li>
-                                <li><strong>Dimensionality Reduction:</strong> Simplifies data (e.g., PCA). <a href="https://towardsdatascience.com/understanding-pca-for-dimensionality-reduction-293e3455c16e" className="text-blue-600 hover:underline">Learn More on Towards Data Science</a></li>
-                                <li><strong>Association Rules:</strong> Finds patterns (e.g., Apriori). <a href="https://www.kdnuggets.com/2019/11/market-basket-analysis.html" className="text-blue-600 hover:underline">Learn More on KDnuggets</a></li>
-                            </ul>
                         </div>
                     </section>
 
-                    {/* Reinforcement Learning Section */}
-                    <section id="reinforcement" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Loading the Data Section */}
+                    <section id="loading-data" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Reinforcement Learning
+                            Loading the Data
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Reinforcement learning involves an agent learning through interaction with an environment, maximizing rewards through trial and error.
+                                Loading data is the first step in data analysis, often using libraries like Pandas to read from various file formats.
                             </p>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# Q-Learning Pseudo-code\nQ = initialize_Q_table()\nfor episode in episodes:\n    state = env.reset()\n    while not done:\n        action = choose_action(state, Q)\n        reward, next_state = env.step(action)\n        Q[state, action] = update_Q(Q, state, action, reward, next_state)`}</code>
+                                    <code>{`# Loading Data Example\nimport pandas as pd\ndf = pd.read_csv('data.csv')\nprint(df.head())`}</code>
                                 </pre>
                             </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Methods:</h3>
-                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li><strong>Model-Based:</strong> Uses a model of the environment (e.g., MDPs). <a href="https://www.analyticsvidhya.com/blog/2021/04/basics-of-reinforcement-learning-the-modern-way-to-train-intelligent-machines/" className="text-blue-600 hover:underline">Learn More on Analytics Vidhya</a></li>
-                                <li><strong>Model-Free:</strong> Learns from experience (e.g., Q-Learning). <a href="https://www.datacamp.com/tutorial/reinforcement-learning-python-introduction" className="text-blue-600 hover:underline">Learn More on DataCamp</a></li>
-                            </ul>
+                        </div>
+                    </section>
+
+                    {/* Data Cleaning Section */}
+                    <section id="data-cleaning" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Data Cleaning
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Data cleaning involves removing or correcting erroneous data to ensure the dataset is reliable for analysis.
+                            </p>
+                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                <pre className="text-xs sm:text-sm">
+                                    <code>{`# Data Cleaning Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, None, 3]})\ndf.dropna(inplace=True)\nprint(df)`}</code>
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Handling Missing Data Section */}
+                    <section id="handling-missing-data" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Handling Missing Data
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Missing data can be handled by imputation, deletion, or using algorithms that support missing values.
+                            </p>
+                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                <pre className="text-xs sm:text-sm">
+                                    <code>{`# Handling Missing Data\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, None, 3]})\ndf.fillna(df.mean(), inplace=True)\nprint(df)`}</code>
+                                </pre>
+                            </div>
                         </div>
                     </section>
 
@@ -351,7 +298,7 @@ const MachineLearning = () => {
                             <button
                                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onClick={() => setShowMore(true)}
-                                aria-label="Explore more Machine Learning topics"
+                                aria-label="Explore more Data Analysis topics"
                             >
                                 Explore More
                             </button>
@@ -361,52 +308,54 @@ const MachineLearning = () => {
                     {/* Sections Hidden Behind Explore More Button */}
                     {showMore && (
                         <>
-                            {/* Semi-Supervised Learning Section */}
-                            <section id="semi-supervised" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Outliers Detection Section */}
+                            <section id="outliers-detection" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Semi-Supervised Learning
+                                    Outliers Detection
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Semi-supervised learning uses a mix of labeled and unlabeled data, making it helpful when labeling data is costly or limited.
+                                        Outliers can be detected using statistical methods like the IQR (Interquartile Range) or Z-scores.
                                     </p>
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
-                                            <code>{`# Self-Training Example\nfrom sklearn.semi_supervised import SelfTrainingClassifier\nfrom sklearn.svm import SVC\n\nbase_model = SVC(probability=True)\nself_training_model = SelfTrainingClassifier(base_model)\nself_training_model.fit(X, y)`}</code>
+                                            <code>{`# Outliers Detection Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, 2, 100]})\nQ1 = df['A'].quantile(0.25)\nQ3 = df['A'].quantile(0.75)\nIQR = Q3 - Q1\noutliers = df[(df['A'] < (Q1 - 1.5 * IQR)) | (df['A'] > (Q3 + 1.5 * IQR))]\nprint(outliers)`}</code>
                                         </pre>
                                     </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Techniques:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li><strong>Self-Training:</strong> Model generates its own labels. <a href="https://www.kdnuggets.com/2020/03/semi-supervised-learning-explained.html" className="text-blue-600 hover:underline">Learn More on KDnuggets</a></li>
-                                        <li><strong>Few-Shot Learning:</strong> Learns from a small amount of labeled data. <a href="https://towardsdatascience.com/few-shot-learning-what-it-is-and-how-it-works-61482890e6c0" className="text-blue-600 hover:underline">Learn More on Towards Data Science</a></li>
-                                    </ul>
                                 </div>
                             </section>
 
-                            {/* Deployment Section */}
-                            <section id="deployment" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Exploratory Data Analysis Section */}
+                            <section id="exploratory-data-analysis" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Deployment of Machine Learning Models
+                                    Exploratory Data Analysis
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Deploying a machine learning model involves integrating it into an application or service to make predictions accessible.
+                                        Exploratory Data Analysis (EDA) involves summarizing the main characteristics of a dataset, often using visualizations.
                                     </p>
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
-                                            <code>{`# Flask Deployment Example\nfrom flask import Flask, request\napp = Flask(__name__)\n\n@app.route('/predict', methods=['POST'])\ndef predict():\n    data = request.json\n    prediction = model.predict(data['input'])\n    return {'prediction': prediction.tolist()}\n\napp.run()`}</code>
-                                        </pre>import Login from './../../pages/Login';
-
+                                            <code>{`# EDA Example\nimport seaborn as sns\nimport matplotlib.pyplot as plt\ndf = sns.load_dataset('iris')\nsns.pairplot(df)\nplt.show()`}</code>
+                                        </pre>
                                     </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Methods:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li><strong>Streamlit:</strong> Build web apps for ML models. <a href="https://www.analyticsvidhya.com/blog/2021/06/how-to-deploy-your-machine-learning-model-using-streamlit/" className="text-blue-600 hover:underline">Learn More on Analytics Vidhya</a></li>
-                                        <li><strong>Flask/FastAPI:</strong> Deploy as an API. <a href="https://medium.com/@towardsdatascience/how-to-deploy-a-machine-learning-model-with-fastapi-and-docker-7e9b09d492d4" className="text-blue-600 hover:underline">Learn More on Medium</a></li>
-                                        <li><strong>MLOps:</strong> Manage deployment and monitoring. <a href="https://www.databricks.com/glossary/mlops" className="text-blue-600 hover:underline">Learn More on Databricks</a></li>
-                                    </ul>
+                                </div>
+                            </section>
+
+                            {/* Time Series Data Analysis Section */}
+                            <section id="time-series-data-analysis" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                                    Time Series Data Analysis
+                                </h2>
+                                <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        For project ideas: <a href="https://www.kaggle.com/projects" className="text-blue-600 hover:underline">Machine Learning Projects on Kaggle</a>
+                                        Time series analysis examines data points collected over time to identify trends and patterns.
                                     </p>
+                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                        <pre className="text-xs sm:text-sm">
+                                            <code>{`# Time Series Example\nimport pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({'date': pd.date_range(start='2023-01-01', periods=100), 'value': range(100)})\ndf.set_index('date').plot()\nplt.show()`}</code>
+                                        </pre>
+                                    </div>
                                 </div>
                             </section>
 
@@ -462,13 +411,13 @@ const MachineLearning = () => {
                         </>
                     )}
 
-                    {/* Resources Section (Always Visible) */}
+                    {/* Resources Section */}
                     <section className="mb-16 bg-blue-50 rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-xl sm:text-2xl font-bold mb-4 text-gray-800">Additional Resources</h2>
                         <ul className="space-y-3">
                             <li>
                                 <a
-                                    href="https://www.coursera.org/learn/machine-learning"
+                                    href="https://www.coursera.org/learn/data-analysis"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -485,12 +434,12 @@ const MachineLearning = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Machine Learning Course on Coursera
+                                    Data Analysis on Coursera
                                 </a>
                             </li>
                             <li>
                                 <a
-                                    href="https://scikit-learn.org/stable/"
+                                    href="https://pandas.pydata.org/docs/"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -507,7 +456,7 @@ const MachineLearning = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Scikit-Learn Official Documentation
+                                    Pandas Official Documentation
                                 </a>
                             </li>
                             <li>
@@ -532,64 +481,20 @@ const MachineLearning = () => {
                                     Explore Datasets on Kaggle
                                 </a>
                             </li>
-                            <li>
-                                <a
-                                    href="https://www.datacamp.com/courses/introduction-to-machine-learning-with-python"
-                                    className="text-blue-600 hover:underline flex items-center"
-                                >
-                                    <svg
-                                        className="w-5 h-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                                        />
-                                    </svg>
-                                    Introduction to Machine Learning on DataCamp
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="https://machinelearningmastery.com/start-here/"
-                                    className="text-blue-600 hover:underline flex items-center"
-                                >
-                                    <svg
-                                        className="w-5 h-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                                        />
-                                    </svg>
-                                    Machine Learning Mastery Tutorials
-                                </a>
-                            </li>
                         </ul>
                     </section>
 
-                    {/* Call-to-Action Section (Always Visible) */}
+                    {/* Call-to-Action Section */}
                     <section className="py-16 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white">
                         <div className="max-w-6xl mx-auto text-center">
                             <div className="relative">
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
-                                    Ready to Learn Machine Learning?
+                                    Ready to Learn Data Analysis?
                                 </h2>
                                 <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-                                    Join thousands of learners and start building intelligent systems today. Enroll now to unlock your potential!
+                                    Join thousands of learners and start analyzing data today. Enroll now to unlock your potential!
                                 </p>
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
@@ -614,40 +519,41 @@ const MachineLearning = () => {
                     {/* Footer Links */}
                     <section className="py-8 px-4 bg-gray-100 text-gray-700 text-sm">
                         <div className="max-w-6xl mx-auto">
-                            <h3 className="text-lg font-bold mb-4 text-gray-800">Explore More from Online platforms</h3>
+                            <h3 className="text-lg font-bold mb-4 text-gray-800">Explore More from Online Platforms</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                 <div>
                                     <h4 className="font-semibold mb-2">Courses</h4>
                                     <ul className="space-y-1">
-                                        <li><a href="https://www.geeksforgeeks.org/courses/complete-machine-learning-data-science-program" className="text-blue-600 hover:underline">Complete Machine Learning & Data Science Program</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/courses/data-science-training-program" className="text-blue-600 hover:underline">Data Science Training Program</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/courses/artificial-intelligence-for-kids" className="text-blue-600 hover:underline">Artificial Intelligence for Kids</a></li>
+                                        <li><a href="https://www.coursera.org/learn/data-analysis-python" className="text-blue-600 hover:underline">Data Analysis with Python</a></li>
+                                        <li><a href="https://www.datacamp.com/courses/intro-to-data-analysis" className="text-blue-600 hover:underline">Intro to Data Analysis</a></li>
                                     </ul>
                                 </div>
                                 <div>
                                     <h4 className="font-semibold mb-2">Related Tutorials</h4>
                                     <ul className="space-y-1">
-                                        <li><a href="https://www.geeksforgeeks.org/python-for-machine-learning/" className="text-blue-600 hover:underline">Python for Machine Learning</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/machine-learning-with-r/" className="text-blue-600 hover:underline">Machine Learning with R</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/deep-learning-tutorial/" className="text-blue-600 hover:underline">Deep Learning Tutorial</a></li>
+                                        <li><a href="https://www.geeksforgeeks.org/data-analysis-tutorial/" className="text-blue-600 hover:underline">Data Analysis Tutorial</a></li>
+                                        <li><a href="https://www.geeksforgeeks.org/time-series-analysis/" className="text-blue-600 hover:underline">Time Series Analysis</a></li>
                                     </ul>
                                 </div>
                                 <div>
-                                    <h4 className="font-semibold mb-2">Machine Learning Topics</h4>
+                                    <h4 className="font-semibold mb-2">Data Analysis Topics</h4>
                                     <ul className="space-y-1">
-                                        <li><a href="https://www.geeksforgeeks.org/maths-for-machine-learning/" className="text-blue-600 hover:underline">Maths for Machine Learning</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/natural-language-processing-nlp-tutorial/" className="text-blue-600 hover:underline">Natural Language Processing (NLP)</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/computer-vision/" className="text-blue-600 hover:underline">Computer Vision</a></li>
+                                        <li><a href="https://www.geeksforgeeks.org/exploratory-data-analysis/" className="text-blue-600 hover:underline">Exploratory Data Analysis</a></li>
+                                        <li><a href="https://www.geeksforgeeks.org/data-cleaning/" className="text-blue-600 hover:underline">Data Cleaning Techniques</a></li>
                                     </ul>
                                 </div>
                                 <div>
-                                    <h4 className="font-semibold mb-2">GeeksforGeeks Resources</h4>
+                                    <h4 className="font-semibold mb-2">Resources</h4>
                                     <ul className="space-y-1">
                                         <li><a href="https://www.geeksforgeeks.org/about/" className="text-blue-600 hover:underline">About Us</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/advertise-with-us/" className="text-blue-600 hover:underline">Advertise with Us</a></li>
                                         <li><a href="https://www.geeksforgeeks.org/careers/" className="text-blue-600 hover:underline">Careers</a></li>
                                     </ul>
                                 </div>
+                            </div>
+                            <div className="mt-6 text-center">
+                                <p>Corporate & Communications Address: A-143, 7th Floor, Sovereign Corporate Tower, Sector-136, Noida, Uttar Pradesh (201305)</p>
+                                <p>Registered Address: K 061, Tower K, Gulshan Vivante Apartment, Sector 137, Noida, Gautam Buddh Nagar, Uttar Pradesh, 201305</p>
+                                <p className="mt-2">© GeeksforGeeks, Sanchhaya Education Private Limited, All rights reserved</p>
                             </div>
                         </div>
                     </section>
@@ -657,4 +563,4 @@ const MachineLearning = () => {
     );
 };
 
-export default MachineLearning;
+export default DataAnalysis;
