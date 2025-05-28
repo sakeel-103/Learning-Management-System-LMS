@@ -1,7 +1,13 @@
+# ignore env file 
 .env
+
 # Ignore compiled files and cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
 
 # Ignore SQLite database
 db.sqlite3
