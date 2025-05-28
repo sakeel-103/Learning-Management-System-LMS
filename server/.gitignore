@@ -1,1 +1,7 @@
 .env
+# Ignore compiled files and cache
+__pycache__/
+*.pyc
+
+# Ignore SQLite database
+db.sqlite3
