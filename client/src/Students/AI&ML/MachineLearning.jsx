@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 const MachineLearning = () => {
     const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState("introduction");
@@ -70,7 +71,6 @@ const MachineLearning = () => {
         setActiveSection(sectionId);
         setIsSidebarOpen(false);
 
-        // If the clicked section is after "reinforcement" and sections are hidden, show them
         const hiddenSections = ["semi-supervised", "deployment", "FAQ"];
         if (hiddenSections.includes(sectionId) && !showMore) {
             setShowMore(true);
@@ -84,7 +84,6 @@ const MachineLearning = () => {
 
     return (
         <div className="flex min-h-screen bg-gray-50">
-
             {/* Mobile Sidebar Toggle */}
             <button
                 className="lg:hidden fixed top-24 left-4 z-50 p-2 bg-blue-400 text-white rounded-md focus:outline-none"
@@ -161,8 +160,6 @@ const MachineLearning = () => {
                         <div className="relative p-4 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
                             <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
                             <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
-
-                            {/* Content */}
                             <div className="relative z-10 mb-6 md:mb-0 md:mr-8">
                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3">
                                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
@@ -182,8 +179,6 @@ const MachineLearning = () => {
                                     </button>
                                 </div>
                             </div>
-
-                            {/* Code snippet with animation */}
                             <div className="relative z-10 bg-green-900/80 backdrop-blur-sm p-5 rounded-xl border border-white/10 shadow-lg hover:shadow-purple-500/20 transition-shadow duration-300 w-full md:w-auto">
                                 <div className="flex space-x-2 mb-3">
                                     <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -396,8 +391,7 @@ const MachineLearning = () => {
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
                                             <code>{`# Flask Deployment Example\nfrom flask import Flask, request\napp = Flask(__name__)\n\n@app.route('/predict', methods=['POST'])\ndef predict():\n    data = request.json\n    prediction = model.predict(data['input'])\n    return {'prediction': prediction.tolist()}\n\napp.run()`}</code>
-                                        </pre>import Login from './../../pages/Login';
-
+                                        </pre>
                                     </div>
                                     <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Methods:</h3>
                                     <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
@@ -611,8 +605,41 @@ const MachineLearning = () => {
                             </div>
                         </div>
                     </section>
-                </div >
-            </div >
+
+                    {/* Footer Links */}
+                    <section className="py-8 px-4 bg-gray-100 text-gray-700 text-sm">
+                        <div className="max-w-6xl mx-auto">
+                            <h3 className="text-lg font-bold mb-4 text-gray-800">Explore More from Online Resources</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div>
+                                    <h4 className="font-semibold mb-2">Courses</h4>
+                                    <ul className="space-y-1">
+                                        <li><a href="https://www.geeksforgeeks.org/courses/complete-machine-learning-data-science-program" className="text-blue-600 hover:underline">Complete Machine Learning & Data Science Program</a></li>
+                                        <li><a href="https://www.geeksforgeeks.org/courses/data-science-training-program" className="text-blue-600 hover:underline">Data Science Training Program</a></li>
+                                        <li><a href="https://www.geeksforgeeks.org/courses/artificial-intelligence-for-kids" className="text-blue-600 hover:underline">Artificial Intelligence for Kids</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold mb-2">Related Tutorials</h4>
+                                    <ul className="space-y-1">
+                                        <li><a href="https://www.geeksforgeeks.org/python-for-machine-learning/" className="text-blue-600 hover:underline">Python for Machine Learning</a></li>
+                                        <li><a href="https://www.geeksforgeeks.org/machine-learning-with-r/" className="text-blue-600 hover:underline">Machine Learning with R</a></li>
+                                        <li><a href="https://www.geeksforgeeks.org/deep-learning-tutorial/" className="text-blue-600 hover:underline">Deep Learning Tutorial</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold mb-2">Machine Learning Topics</h4>
+                                    <ul className="space-y-1">
+                                        <li><a href="https://www.geeksforgeeks.org/maths-for-machine-learning/" className="text-blue-600 hover:underline">Maths for Machine Learning</a></li>
+                                        <li><a href="https://www.geeksforgeeks.org/natural-language-processing-nlp-tutorial/" className="text-blue-600 hover:underline">Natural Language Processing (NLP)</a></li>
+                                        <li><a href="https://www.geeksforgeeks.org/computer-vision/" className="text-blue-600 hover:underline">Computer Vision</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
     );
 };
