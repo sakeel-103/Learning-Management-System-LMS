@@ -605,39 +605,6 @@ const MachineLearning = () => {
                             </div>
                         </div>
                     </section>
-
-                    {/* Footer Links */}
-                    <section className="py-8 px-4 bg-gray-100 text-gray-700 text-sm">
-                        <div className="max-w-6xl mx-auto">
-                            <h3 className="text-lg font-bold mb-4 text-gray-800">Explore More from Online Resources</h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                                <div>
-                                    <h4 className="font-semibold mb-2">Courses</h4>
-                                    <ul className="space-y-1">
-                                        <li><a href="https://www.geeksforgeeks.org/courses/complete-machine-learning-data-science-program" className="text-blue-600 hover:underline">Complete Machine Learning & Data Science Program</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/courses/data-science-training-program" className="text-blue-600 hover:underline">Data Science Training Program</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/courses/artificial-intelligence-for-kids" className="text-blue-600 hover:underline">Artificial Intelligence for Kids</a></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 className="font-semibold mb-2">Related Tutorials</h4>
-                                    <ul className="space-y-1">
-                                        <li><a href="https://www.geeksforgeeks.org/python-for-machine-learning/" className="text-blue-600 hover:underline">Python for Machine Learning</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/machine-learning-with-r/" className="text-blue-600 hover:underline">Machine Learning with R</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/deep-learning-tutorial/" className="text-blue-600 hover:underline">Deep Learning Tutorial</a></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h4 className="font-semibold mb-2">Machine Learning Topics</h4>
-                                    <ul className="space-y-1">
-                                        <li><a href="https://www.geeksforgeeks.org/maths-for-machine-learning/" className="text-blue-600 hover:underline">Maths for Machine Learning</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/natural-language-processing-nlp-tutorial/" className="text-blue-600 hover:underline">Natural Language Processing (NLP)</a></li>
-                                        <li><a href="https://www.geeksforgeeks.org/computer-vision/" className="text-blue-600 hover:underline">Computer Vision</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
                 </div>
             </div>
         </div>
