@@ -34,6 +34,9 @@ import DeepLearning from './Students/AI&ML/DeepLearning'
 import NaturalLanguage from './Students/AI&ML/NaturalLanguage'
 import ComputerVision from './Students/AI&ML/ComputerVission'
 import ArtificialIntelligence from './Students/AI&ML/ArtificialIntelligence'
+import AssessmentPage from './Students/CorseDetails/AssesmentPage'
+import HtmlQuestionsPage from './Students/AssessmentCourses/HTMLQuationsPage'
+import DSAQuestionsPage from './Students/AssessmentCourses/DSAQuestionsPage'
 
 function App() {
   return (
@@ -56,6 +59,7 @@ function App() {
         <Route path="/courses/machine-learning" element={<MLAndDS />} />
         <Route path="/courses/backend-with-java" element={<BackendWithJava />} />
         <Route path="/courses/data-structure-algorithms" element={<DataStructuresAlgorithm />} />
+        <Route path="/courses/AssesmentPage" element={<AssessmentPage />} />
         <Route path="/dvelopmentAndDS/javascriptPage" element={<JavaScriptPage />} />
         <Route path="/dvelopmentAndDS/backendPage" element={<BackendPage />} />
         <Route path="/devlopmentAndDS/cssPage" element={<CSSPage />} />
@@ -72,6 +76,10 @@ function App() {
         <Route path="/AIMLDS/NaturalLanguagePage" element={<NaturalLanguage />} />
         <Route path="/ALMLDS/ComputerVissionPage" element={<ComputerVision />} />
         <Route path="/AIMLDS/ArtificialInteligencePage" element={<ArtificialIntelligence />} />
+
+        {/* Assessment Pages */}
+        <Route path="/AssessmentCourses/html-questions-page" element={<HtmlQuestionsPage />} />
+        <Route path="/AssessmentCourses/data-structure-algorithm" element={<DSAQuestionsPage />} />
       </Routes>
 
       <ScrollToTop />

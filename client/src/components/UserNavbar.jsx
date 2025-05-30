@@ -110,7 +110,7 @@ function UserNavbar() {
                                 >
                                     Certificates
                                 </Link>
-                                {isLoggedIn && (localStorage.getItem("role") === "Instructor" || localStorage.getItem("role") === "Admin") && (
+                                {/* {isLoggedIn && (localStorage.getItem("role") === "Instructor" || localStorage.getItem("role") === "Admin") && (
                                     <Link
                                         to="/manage-courses"
                                         className="text-blue-600 hover:text-blue-800 px-4 py-2 text-base font-semibold transition-colors duration-200"
@@ -125,7 +125,7 @@ function UserNavbar() {
                                     >
                                         Admin Panel
                                     </Link>
-                                )}
+                                )} */}
                             </div>
                         </div>
 

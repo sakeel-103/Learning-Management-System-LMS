@@ -404,6 +404,11 @@ const CoursePage = () => {
         }
     ];
 
+    // Handler for assessment button
+    const handleStartAssessment = () => {
+        navigate('/assessment');
+    };
+
     return (
         <>
             <style>
@@ -1244,6 +1249,26 @@ const CoursePage = () => {
                                     ))}
                                 </div>
                             </div>
+
+                            {/* Assessment POrtal */}
+                            <section className="bg-gradient-to-r from-blue-100 to-green-100 py-10">
+                                <div className="container mx-auto text-center">
+                                    <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                                        Ready to Test Your Knowledge?
+                                    </h2>
+                                    <p className="text-lg text-gray-600 mb-6">
+                                        Dive into our interactive assessment portal and challenge yourself!
+                                    </p>
+                                    <button
+                                        onClick={() => navigate('/courses/AssesmentPage')}
+                                        className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors"
+                                    >
+                                        Start Assessment
+                                    </button>
+                                </div>
+                            </section>
+
+
                         </>
                     )}
                 </div>
