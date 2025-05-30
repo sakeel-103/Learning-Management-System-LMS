@@ -27,10 +27,6 @@ import HTMLPage from './Students/DevelopmentAndDS/HTMLPage'
 import NodejsPage from './Students/DevelopmentAndDS/NodeJsPage'
 import ReactJSPage from './Students/DevelopmentAndDS/ReactPage'
 import MachineLearning from './Students/AI&ML/MachineLearning'
-<<<<<<< HEAD
-=======
-import ContactUs from './Students/components/ContanUs';
->>>>>>> master
 import DataScience from './Students/AI&ML/DataScience';
 import DataAnalysis from './Students/AI&ML/DataAnalysis'
 import DataVisualization from './Students/AI&ML/DataVisualization'
@@ -38,10 +34,6 @@ import DeepLearning from './Students/AI&ML/DeepLearning'
 import NaturalLanguage from './Students/AI&ML/NaturalLanguage'
 import ComputerVision from './Students/AI&ML/ComputerVission'
 import ArtificialIntelligence from './Students/AI&ML/ArtificialIntelligence'
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 
 function App() {
   return (
@@ -73,10 +65,6 @@ function App() {
         <Route path="/DevelopmentAndDS/nodeJsPage" element={<NodejsPage />} />
         <Route path="/DevelopmentAndDS/reactJsPage" element={<ReactJSPage />} />
         <Route path="/AIMLDS/MachineLearningPage" element={<MachineLearning />} />
-<<<<<<< HEAD
-=======
-        <Route path="/components/contact-us" element={<ContactUs />} />
->>>>>>> master
         <Route path="/AIMLDS/DataSciencePage" element={<DataScience />} />
         <Route path="/AIMLDS/DataAnalysisPage" element={<DataAnalysis />} />
         <Route path="/AIMLDS/DataVisualizationPage" element={<DataVisualization />} />
