@@ -1,7 +1,7 @@
 import api from '../api';
 import { toast } from 'react-toastify';
 
-const API_URL = 'http://localhost:8000/api/auth/';
+// const API_URL = 'http://localhost:8000/api/auth/';
 
 // Register user with role
 const register = async (formData) => {
@@ -15,6 +15,7 @@ const register = async (formData) => {
   }
 
   try {
+    console.log("Register")
     const res = await api.post('/api/v1/accounts/register/', {
       username: formData.username,
       password: formData.password,
@@ -26,6 +27,8 @@ const register = async (formData) => {
       last_name: formData.last_name,
       profile_picture: formData.profile_picture
     });
+    console.log("Response")
+    console.log(res);
     if (res.status === 201) {
       toast.success('Registered successfully.')
       return true

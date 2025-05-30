@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const JavaScriptPage = () => {
     const [activeSection, setActiveSection] = useState("introduction");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const navigate = useNavigate();
 
     // FAQ open/close state
     const faqs = [
@@ -541,7 +542,7 @@ const JavaScriptPage = () => {
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
                                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
+                                        onClick={() => navigate('/Login')} // Corrected navigation
                                         aria-label="Enroll now in the course"
                                     >
                                         Enroll Now

@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'accounts',
     'progress',
+    'course_class',
 ]
 
 MIDDLEWARE = [
@@ -95,8 +96,15 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('PGDATABASE'),
+        'USER': os.getenv('PGUSER'),
+        'PASSWORD': os.getenv('PGPASSWORD'),
+        'HOST': os.getenv('PGHOST'),
+        'PORT': os.getenv('PGPORT'),
+        'OPTIONS': {
+            'sslmode': 'require'
+        }
     }
 }
 
