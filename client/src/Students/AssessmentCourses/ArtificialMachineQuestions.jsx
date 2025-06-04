@@ -1,238 +1,176 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const JavaQuestionsPage = () => {
+const ArtificialMachineQuestions = () => {
     const navigate = useNavigate();
 
     const questions = [
         // MCQ Questions
         {
             id: 1,
-            text: "What is the default value of a boolean variable in Java?",
-            options: ["true", "false", "0", "null"],
+            text: "What is the primary goal of supervised learning?",
+            options: ["To cluster data", "To predict outcomes from labeled data", "To reduce dimensionality", "To explore data patterns"],
             correct: 2,
             complexity: "simple",
-            explanation: "In Java, the default value of a boolean variable is false if not explicitly initialized.",
+            explanation: "Supervised learning aims to predict outcomes for new data based on labeled training data.",
             type: "mcq",
         },
         {
             id: 2,
-            text: "Which keyword is used to inherit a class in Java?",
-            options: ["implements", "extends", "super", "this"],
-            correct: 2,
+            text: "Which algorithm is commonly used for classification tasks?",
+            options: ["K-Means", "Linear Regression", "Logistic Regression", "PCA"],
+            correct: 3,
             complexity: "simple",
-            explanation: "The 'extends' keyword is used to inherit a class in Java, enabling class inheritance.",
+            explanation: "Logistic Regression is used for classification tasks, predicting categorical outcomes.",
             type: "mcq",
         },
         {
             id: 3,
-            text: "What is the size of an int variable in Java?",
-            options: ["2 bytes", "4 bytes", "8 bytes", "1 byte"],
+            text: "What is overfitting in machine learning?",
+            options: ["Underperforming on training data", "Fitting the model too closely to training data", "Using too few features", "Ignoring test data"],
             correct: 2,
             complexity: "simple",
-            explanation: "An int variable in Java is 4 bytes (32 bits) in size, regardless of the platform.",
+            explanation: "Overfitting occurs when a model learns noise in the training data, reducing generalization to new data.",
             type: "mcq",
         },
         {
             id: 4,
-            text: "Which of the following is not a Java access modifier?",
-            options: ["public", "private", "protected", "static"],
-            correct: 4,
+            text: "Which metric is used to evaluate a regression model's performance?",
+            options: ["Accuracy", "F1 Score", "Mean Squared Error", "Confusion Matrix"],
+            correct: 3,
             complexity: "simple",
-            explanation: "'static' is not an access modifier; it defines the scope of a method or variable as class-level.",
+            explanation: "Mean Squared Error (MSE) measures the average squared difference between predicted and actual values in regression.",
             type: "mcq",
         },
         {
             id: 5,
-            text: "What does the 'final' keyword mean when applied to a variable?",
-            options: ["It can be changed", "It cannot be changed", "It must be initialized later", "It is optional"],
-            correct: 2,
+            text: "What is the purpose of a validation set in machine learning?",
+            options: ["To train the model", "To test the final model", "To tune hyperparameters", "To clean data"],
+            correct: 3,
             complexity: "simple",
-            explanation: "A 'final' variable in Java cannot be changed once initialized; it acts as a constant.",
+            explanation: "A validation set is used to tune hyperparameters and evaluate the model during training.",
             type: "mcq",
         },
         {
             id: 6,
-            text: "Which method is the entry point of a Java application?",
-            options: ["start()", "main()", "run()", "init()"],
+            text: "Which algorithm is an ensemble method combining multiple decision trees?",
+            options: ["SVM", "Random Forest", "K-Nearest Neighbors", "Naive Bayes"],
             correct: 2,
-            complexity: "simple",
-            explanation: "The 'main()' method with the signature 'public static void main(String[] args)' is the entry point of a Java application.",
+            complexity: "complex",
+            explanation: "Random Forest is an ensemble method that combines multiple decision trees to improve accuracy and reduce overfitting.",
             type: "mcq",
         },
         {
             id: 7,
-            text: "What is the output of 'System.out.println(5 + 3 + \"Hello\");'?",
-            options: ["8Hello", "Hello8", "53Hello", "Error"],
-            correct: 1,
-            complexity: "complex",
-            explanation: "Java evaluates the expression from left to right: 5 + 3 = 8, then 8 + 'Hello' concatenates to '8Hello'.",
+            text: "What does the term 'gradient descent' refer to in machine learning?",
+            options: ["A clustering technique", "An optimization algorithm", "A feature selection method", "A data preprocessing step"],
+            correct: 2,
+            complexity: "simple",
+            explanation: "Gradient Descent is an optimization algorithm used to minimize the loss function in machine learning models.",
             type: "mcq",
         },
         {
             id: 8,
-            text: "Which collection class does not allow duplicate elements?",
-            options: ["ArrayList", "LinkedList", "HashSet", "HashMap"],
-            correct: 3,
+            text: "Which activation function is commonly used in hidden layers of neural networks?",
+            options: ["Sigmoid", "ReLU", "Softmax", "Tanh"],
+            correct: 2,
             complexity: "simple",
-            explanation: "HashSet does not allow duplicate elements, as it implements the Set interface.",
+            explanation: "ReLU (Rectified Linear Unit) is widely used in hidden layers due to its simplicity and effectiveness in avoiding vanishing gradients.",
             type: "mcq",
         },
         {
             id: 9,
-            text: "What does the 'this' keyword refer to in Java?",
-            options: ["The parent class", "The current object", "A static method", "A new instance"],
+            text: "What is the purpose of regularization in machine learning?",
+            options: ["To increase model complexity", "To prevent overfitting", "To speed up training", "To reduce dataset size"],
             correct: 2,
             complexity: "simple",
-            explanation: "'this' refers to the current object of the class, often used to distinguish instance variables from parameters.",
+            explanation: "Regularization adds a penalty to the loss function to prevent overfitting by discouraging complex models.",
             type: "mcq",
         },
         {
             id: 10,
-            text: "Which exception is thrown when dividing by zero in Java?",
-            options: ["NullPointerException", "IOException", "ArithmeticException", "ClassNotFoundException"],
-            correct: 3,
+            text: "Which algorithm is used for unsupervised clustering?",
+            options: ["Decision Tree", "K-Means", "Linear Regression", "Gradient Boosting"],
+            correct: 2,
             complexity: "simple",
-            explanation: "An ArithmeticException is thrown when an integer division by zero occurs in Java.",
+            explanation: "K-Means is an unsupervised clustering algorithm that groups data points into k clusters based on similarity.",
             type: "mcq",
         },
         {
             id: 11,
-            text: "What is the purpose of the 'super' keyword in Java?",
-            options: ["To call a superclass constructor", "To create a new object", "To define a static method", "To loop through elements"],
-            correct: 1,
+            text: "What is a confusion matrix used for?",
+            options: ["To optimize hyperparameters", "To evaluate classification performance", "To normalize data", "To visualize data"],
+            correct: 2,
             complexity: "simple",
-            explanation: "'super' is used to call a superclass constructor or access superclass members in Java.",
+            explanation: "A confusion matrix evaluates classification performance by showing true positives, true negatives, false positives, and false negatives.",
             type: "mcq",
         },
         {
             id: 12,
-            text: "Which of the following is a marker interface in Java?",
-            options: ["Runnable", "Serializable", "Comparable", "Iterator"],
+            text: "What is the purpose of the 'epoch' in neural network training?",
+            options: ["To define the learning rate", "To represent one pass through the training data", "To select features", "To split the dataset"],
             correct: 2,
-            complexity: "complex",
-            explanation: "Serializable is a marker interface in Java, meaning it has no methods but indicates a class can be serialized.",
+            complexity: "simple",
+            explanation: "An epoch is one complete pass through the entire training dataset during neural network training.",
             type: "mcq",
         },
         {
             id: 13,
-            text: "What is the output of 'int x = 5; System.out.println(x++);'?",
-            options: ["5", "6", "4", "Error"],
-            correct: 1,
-            complexity: "simple",
-            explanation: "The post-increment operator (x++) prints the current value (5) and then increments x to 6.",
+            text: "Which technique is used to handle imbalanced datasets?",
+            options: ["Feature Scaling", "SMOTE", "PCA", "Gradient Descent"],
+            correct: 2,
+            complexity: "complex",
+            explanation: "SMOTE (Synthetic Minority Oversampling Technique) generates synthetic samples to balance imbalanced datasets.",
             type: "mcq",
         },
         {
             id: 14,
-            text: "Which keyword is used to define a constant in Java?",
-            options: ["const", "final", "static", "volatile"],
+            text: "What is the main advantage of using a convolutional neural network (CNN)?",
+            options: ["Handles sequential data", "Reduces computational complexity for images", "Improves clustering", "Simplifies regression"],
             correct: 2,
-            complexity: "simple",
-            explanation: "The 'final' keyword is used to define a constant in Java, preventing its value from being changed.",
+            complexity: "complex",
+            explanation: "CNNs reduce computational complexity for image data by using convolutional layers to extract features.",
             type: "mcq",
         },
         {
             id: 15,
-            text: "Which method is used to start a thread in Java?",
-            options: ["run()", "execute()", "start()", "begin()"],
-            correct: 3,
+            text: "Which library is commonly used for machine learning in Python?",
+            options: ["React", "TensorFlow", "Express", "Django"],
+            correct: 2,
             complexity: "simple",
-            explanation: "The 'start()' method is used to start a thread in Java, which internally calls the run() method.",
+            explanation: "TensorFlow is a popular Python library for building and training machine learning models, especially neural networks.",
             type: "mcq",
         },
-        // Subjective Questions with Code Snippets
+        // Subjective Questions
         {
             id: 16,
-            text: "Write a Java program to print the first 5 numbers in the Fibonacci sequence.",
+            text: "Explain the difference between supervised and unsupervised learning with examples.",
             complexity: "simple",
             type: "subjective",
-            answer: `public class Fibonacci {
-    public static void main(String[] args) {
-        int n = 5, first = 0, second = 1;
-        System.out.print("First " + n + " Fibonacci numbers: " + first + " " + second);
-        for (int i = 2; i < n; i++) {
-            int next = first + second;
-            System.out.print(" " + next);
-            first = second;
-            second = next;
-        }
-    }
-}
-// Output: First 5 Fibonacci numbers: 0 1 1 2 3`
         },
         {
             id: 17,
-            text: "Write a Java program to check if a number is even or odd.",
-            complexity: "simple",
+            text: "Write Python code using scikit-learn to train a linear regression model and make predictions.",
+            complexity: "complex",
             type: "subjective",
-            answer: `public class EvenOdd {
-    public static void main(String[] args) {
-        int num = 10;
-        if (num % 2 == 0) {
-            System.out.println(num + " is even.");
-        } else {
-            System.out.println(num + " is odd.");
-        }
-    }
-}
-// Output: 10 is even.`
         },
         {
             id: 18,
-            text: "Write a Java program to find the factorial of a number using a loop.",
-            complexity: "simple",
+            text: "Describe the backpropagation algorithm in neural networks and provide a step-by-step explanation.",
+            complexity: "complex",
             type: "subjective",
-            answer: `public class Factorial {
-    public static void main(String[] args) {
-        int num = 5, fact = 1;
-        for (int i = 1; i <= num; i++) {
-            fact *= i;
-        }
-        System.out.println("Factorial of " + num + " is " + fact);
-    }
-}
-// Output: Factorial of 5 is 120`
         },
         {
             id: 19,
-            text: "Write a Java program to reverse a string without using built-in methods.",
-            complexity: "simple",
+            text: "Explain how to implement k-fold cross-validation in a machine learning pipeline with a code example.",
+            complexity: "complex",
             type: "subjective",
-            answer: `public class ReverseString {
-    public static void main(String[] args) {
-        String str = "Hello";
-        String reversed = "";
-        for (int i = str.length() - 1; i >= 0; i--) {
-            reversed += str.charAt(i);
-        }
-        System.out.println("Reversed string: " + reversed);
-    }
-}
-// Output: Reversed string: olleH`
         },
         {
             id: 20,
-            text: "Write a Java program to print a pattern of stars in a right triangle shape (5 rows).",
+            text: "Write Python code to preprocess a dataset (handle missing values and normalize features) before training a model.",
             complexity: "simple",
             type: "subjective",
-            answer: `public class StarPattern {
-    public static void main(String[] args) {
-        int rows = 5;
-        for (int i = 1; i <= rows; i++) {
-            for (int j = 1; j <= i; j++) {
-                System.out.print("* ");
-            }
-            System.out.println();
-        }
-    }
-}
-// Output:
-// * 
-// * * 
-// * * * 
-// * * * * 
-// * * * * *`
         },
     ];
 
@@ -382,11 +320,11 @@ const JavaQuestionsPage = () => {
                     <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
-                                Java with Backend Assessment
+                                AI & Machine Learning Assessment
                             </span>
                         </h1>
                         <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                            Test your knowledge in Java programming and backend concepts with a mix of multiple-choice and subjective questions. Good luck!
+                            Test your knowledge in Artificial Intelligence and Machine Learning with a mix of multiple-choice and subjective questions. Good luck!
                         </p>
                     </div>
 
@@ -401,7 +339,7 @@ const JavaQuestionsPage = () => {
                                     Your Score: {score} / {questions.filter((q) => q.type === "mcq").length} (MCQs)
                                 </p>
                                 <p className="text-sm text-gray-600 mt-2">
-                                    Check your subjective answers below with provided solutions.
+                                    Subjective answers are pending evaluation by an instructor.
                                 </p>
                             </div>
 
@@ -454,10 +392,7 @@ const JavaQuestionsPage = () => {
                                             <pre className="text-sm font-mono text-gray-700 bg-gray-50 p-2 rounded mt-1">
                                                 {userAnswer && userAnswer.value ? userAnswer.value : "Not answered"}
                                             </pre>
-                                            <p className="text-sm text-gray-600 mt-2">Sample Solution:</p>
-                                            <pre className="text-sm font-mono text-gray-700 bg-blue-50 p-2 rounded mt-1">
-                                                {question.answer}
-                                            </pre>
+                                            <p className="text-sm text-gray-600 mt-1">Status: Pending evaluation</p>
                                         </div>
                                     );
                                 })}
@@ -485,7 +420,7 @@ const JavaQuestionsPage = () => {
                             <div className="bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <div className="mb-6">
                                     <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                        Java with Backend Quiz
+                                        AI & Machine Learning Quiz
                                     </h2>
                                     <div className="flex justify-between items-center mb-4">
                                         <p className="text-lg font-medium text-gray-700">
@@ -702,4 +637,4 @@ const JavaQuestionsPage = () => {
     );
 };
 
-export default JavaQuestionsPage;
+export default ArtificialMachineQuestions;

@@ -530,7 +530,7 @@ const HtmlQuestionsPage = () => {
                                     <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                         <button
                                             className="px-6 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-md hover:shadow-lg"
-                                            onClick={() => navigate("/assessment")}
+                                            onClick={() => navigate("/courses/AssesmentPage")}
                                         >
                                             Explore Courses
                                         </button>
