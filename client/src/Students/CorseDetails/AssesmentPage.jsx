@@ -68,12 +68,20 @@ const AssessmentPage = () => {
     const handleStartQuiz = (courseId) => {
         const newPath = courseId === "dsa"
             ? `/AssessmentCourses/data-structure-algorithm`
-            : `/AssessmentCourses/${courseId}-questions-page`;
+            : courseId === "web-dev"
+                ? `/AssessmentCourses/wed-developments-page`
+                : courseId === "ai-ml"
+                    ? `/AssessmentCourses/artificial-machine-questions-page`
+                    : courseId === "java"
+                        ? `/AssessmentCourses/java-questions-page`
+                        : courseId === "python"
+                            ? `/AssessmentCourses/python-questions-page`
+                            : `/AssessmentCourses/${courseId}-questions-page`;
         navigate(newPath);
     };
-
     return (
         <div className="flex min-h-screen bg-gray-50">
+
             {/* Mobile Sidebar Toggle */}
             <button
                 className="lg:hidden fixed top-24 left-4 z-50 p-2 bg-blue-500 text-white rounded-md focus:outline-none"
