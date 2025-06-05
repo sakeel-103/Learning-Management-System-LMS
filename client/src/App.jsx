@@ -41,6 +41,8 @@ import WebQuestionsPage from './Students/AssessmentCourses/WebQuestionsPage'
 import ArtificialMachineQuestions from './Students/AssessmentCourses/ArtificialMachineQuestions'
 import JavaQuestionsPage from './Students/AssessmentCourses/JavaQuestionsPage'
 import PythonQuestionsPage from './Students/AssessmentCourses/PythonQuestionsPage'
+import ContactUsPage from './Students/components/ContanUsPage'
+import CertificationPage from './Students/components/CertificationPage'
 
 function App() {
   return (
@@ -80,6 +82,8 @@ function App() {
         <Route path="/AIMLDS/NaturalLanguagePage" element={<NaturalLanguage />} />
         <Route path="/ALMLDS/ComputerVissionPage" element={<ComputerVision />} />
         <Route path="/AIMLDS/ArtificialInteligencePage" element={<ArtificialIntelligence />} />
+        <Route path="/Components/contact-us-page" element={<ContactUsPage />} />
+        <Route path="/Components/certication-page" element={<CertificationPage />} />
 
         {/* Assessment Pages */}
         <Route path="/AssessmentCourses/html-questions-page" element={<HtmlQuestionsPage />} />

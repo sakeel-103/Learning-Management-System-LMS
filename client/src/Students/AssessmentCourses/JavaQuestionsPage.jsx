@@ -5,7 +5,8 @@ const JavaQuestionsPage = () => {
     const navigate = useNavigate();
 
     const questions = [
-        // MCQ Questions
+
+        // ===== MCQ Questions ===========
         {
             id: 1,
             text: "What is the default value of a boolean variable in Java?",
@@ -141,7 +142,6 @@ const JavaQuestionsPage = () => {
             explanation: "The 'start()' method is used to start a thread in Java, which internally calls the run() method.",
             type: "mcq",
         },
-        // Subjective Questions with Code Snippets
         {
             id: 16,
             text: "Write a Java program to print the first 5 numbers in the Fibonacci sequence.",
@@ -246,7 +246,7 @@ const JavaQuestionsPage = () => {
     const [score, setScore] = useState(0);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    // Timer logic
+    // ==== Timer logic ====
     useEffect(() => {
         const question = questions[currentQuestion];
         const timerDuration = question.complexity === "complex" ? 90 : 60;
@@ -352,9 +352,11 @@ const JavaQuestionsPage = () => {
 
     return (
         <div className="flex min-h-screen bg-gray-50 flex-col lg:flex-row overflow-x-hidden">
+
             {/* Main Content */}
             <div className="flex-1 w-full max-w-full lg:pr-72 lg:pl-4 px-0">
                 <div className="p-4 sm:p-8 pt-20 sm:pt-24 pb-8">
+
                     {/* Mobile Sidebar Toggle */}
                     <button
                         className="lg:hidden mb-4 w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-lg flex items-center justify-center gap-2 hover:bg-blue-600 transition-all"
@@ -378,7 +380,7 @@ const JavaQuestionsPage = () => {
                         <span>{isSidebarOpen ? "Hide Navigation" : "Show Navigation"}</span>
                     </button>
 
-                    {/* Header */}
+                    {/* Header section */}
                     <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
@@ -390,7 +392,7 @@ const JavaQuestionsPage = () => {
                         </p>
                     </div>
 
-                    {/* Show Score Summary or Quiz Content */}
+                    {/* Quiz Content */}
                     {showScore ? (
                         <div className="bg-white rounded-xl shadow-md p-4 sm:p-8">
                             <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">

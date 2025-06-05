@@ -5,7 +5,6 @@ const PythonQuestionsPage = () => {
     const navigate = useNavigate();
 
     const questions = [
-        // MCQ Questions
         {
             id: 1,
             text: "What is the default value of a variable in Python if not initialized?",
@@ -141,7 +140,6 @@ const PythonQuestionsPage = () => {
             explanation: "'pandas' is a popular Python library for data manipulation and analysis, providing data structures like DataFrames.",
             type: "mcq",
         },
-        // Subjective Questions with Code Snippets
         {
             id: 16,
             text: "Write a Python program to print the first 10 even numbers.",
@@ -200,7 +198,6 @@ for i in range(size):
         },
     ];
 
-    // State management
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedOption, setSelectedOption] = useState(null);
     const [answers, setAnswers] = useState({});
@@ -210,7 +207,6 @@ for i in range(size):
     const [score, setScore] = useState(0);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    // Timer logic
     useEffect(() => {
         const question = questions[currentQuestion];
         const timerDuration = question.complexity === "complex" ? 90 : 60;
@@ -316,9 +312,11 @@ for i in range(size):
 
     return (
         <div className="flex min-h-screen bg-gray-50 flex-col lg:flex-row overflow-x-hidden">
+
             {/* Main Content */}
             <div className="flex-1 w-full max-w-full lg:pr-72 lg:pl-4 px-0">
                 <div className="p-4 sm:p-8 pt-20 sm:pt-24 pb-8">
+
                     {/* Mobile Sidebar Toggle */}
                     <button
                         className="lg:hidden mb-4 w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-lg flex items-center justify-center gap-2 hover:bg-blue-600 transition-all"
@@ -342,7 +340,7 @@ for i in range(size):
                         <span>{isSidebarOpen ? "Hide Navigation" : "Show Navigation"}</span>
                     </button>
 
-                    {/* Header */}
+                    {/* Header Section */}
                     <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
@@ -354,7 +352,7 @@ for i in range(size):
                         </p>
                     </div>
 
-                    {/* Show Score Summary or Quiz Content */}
+                    {/* Quiz Content */}
                     {showScore ? (
                         <div className="bg-white rounded-xl shadow-md p-4 sm:p-8">
                             <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
@@ -636,7 +634,7 @@ for i in range(size):
                 </div>
             </div>
 
-            {/* Right Sidebar for Question Navigation (Desktop) */}
+            {/* Right Sidebar for Question Navigation */}
             <div className="hidden lg:block w-64 bg-white shadow-lg rounded-xl m-4 fixed right-4 top-24 h-[calc(100vh-8rem)]">
                 <div className="p-4 border-b">
                     <h2 className="text-xl font-bold text-gray-800">Question Navigation</h2>
