@@ -11,7 +11,10 @@ function UserFooter() {
                     <Link to="/about" className="text-white text-base font-bold hover:text-blue-600 hover:underline">
                         About
                     </Link>
-                    <Link to="/contact" className="text-white text-base font-bold hover:text-blue-600 hover:underline">
+                    <Link to="/Components/certication-page" className="text-white text-base font-bold hover:text-blue-600 hover:underline">
+                        Certificate
+                    </Link>
+                    <Link to="/Components/contact-us-page" className="text-white text-base font-bold hover:text-blue-600 hover:underline">
                         Contact
                     </Link>
                     <Link to="/privacy" className="text-white text-base font-bold hover:text-blue-600 hover:underline">
