@@ -67,7 +67,7 @@ const CertificationPage = () => {
                             </div>
                             <div className="mt-4 sm:mt-6 flex justify-center">
                                 <a
-                                    href="/path/to/certificate.pdf"
+                                    href=""
                                     className="inline-block px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-200 font-bold shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     download
                                 >
