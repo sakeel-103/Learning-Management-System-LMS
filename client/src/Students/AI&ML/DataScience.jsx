@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const DataScience = () => {
+    const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState("ds-home");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [showMore, setShowMore] = useState(false);
@@ -598,14 +600,14 @@ const DataScience = () => {
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
                                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
+                                        onClick={() => navigate("/Components/contact-us-page")}
                                         aria-label="Enroll now in the course"
                                     >
                                         Enroll Now
                                     </button>
                                     <button
                                         className="px-8 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
+                                        onClick={() => navigate("/Components/contact-us-page")}
                                         aria-label="Contact us for more information"
                                     >
                                         Contact Us
