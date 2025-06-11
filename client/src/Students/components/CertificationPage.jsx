@@ -85,7 +85,7 @@ const CertificationPage = () => {
                     <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 md:p-8 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-2 sm:mx-4">
                         <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Enter Your Details</h2>
                         <form onSubmit={handleFormSubmit} className="space-y-4">
-                            <div>
+                            {/* <div>
                                 <label htmlFor="fullName" className="block text-sm font-medium text-gray-600">
                                     Full Name
                                 </label>
@@ -99,7 +99,7 @@ const CertificationPage = () => {
                                     className="w-full p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
                                     required
                                 />
-                            </div>
+                            </div> */}
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-600">
                                     Email
