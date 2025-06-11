@@ -83,38 +83,46 @@ function HomePage() {
 
             {/* Features Section */}
             <section className="container mx-auto py-16 bg-gray-50">
-                <h3 className="text-3xl font-bold text-center mb-12 text-gray-800">Why Choose Us?</h3>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <h3 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">Why Choose Us?</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 px-4">
                     {[
                         {
                             icon: <FaBook className="text-4xl text-indigo-600 mx-auto mb-4" />,
-                            title: "Online & Offline Learning",
-                            desc: "Learn anytime, anywhere with flexible access to courses.",
+                            title: 'Online & Offline Learning',
+                            desc: 'Learn anytime, anywhere with flexible access to courses.',
+                            redirectLink: '/courses',
                         },
                         {
                             icon: <FaVideo className="text-4xl text-indigo-600 mx-auto mb-4" />,
-                            title: "Live & Recorded Classes",
-                            desc: "Join live sessions or watch recorded lectures at your convenience.",
+                            title: 'Live & Recorded Classes',
+                            desc: 'Join live sessions or watch recorded lectures at your convenience.',
+                            redirectLink: '/classes',
                         },
                         {
                             icon: <FaChartLine className="text-4xl text-indigo-600 mx-auto mb-4" />,
-                            title: "Progress Tracking",
-                            desc: "Monitor your learning progress with detailed dashboards.",
+                            title: 'Progress Tracking',
+                            desc: 'Monitor your learning progress with detailed dashboards.',
+                            redirectLink: '/progress-tracking',
                         },
                         {
                             icon: <FaCertificate className="text-4xl text-indigo-600 mx-auto mb-4" />,
-                            title: "Earn Certifications",
-                            desc: "Get certified upon course completion with verifiable certificates.",
+                            title: 'Earn Certifications',
+                            desc: 'Get certified upon course completion with verifiable certificates.',
+                            redirectLink: '/Components/certication-page',
                         },
                     ].map((feature, index) => (
-                        <div
+                        <Link
                             key={index}
-                            className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md hover:border-gray-200 text-center transform transition-all duration-300 hover:-translate-y-1"
+                            to={feature.redirectLink}
+                            aria-label={`Learn more about ${feature.title}`}
+                            className="block focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-xl"
                         >
-                            {feature.icon}
-                            <h4 className="text-xl font-medium mb-2 text-gray-700">{feature.title}</h4>
-                            <p className="text-gray-600">{feature.desc}</p>
-                        </div>
+                            <div className="bg-white bg-opacity-20 backdrop-blur-md p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-indigo-300 text-center transform transition-all duration-300 hover:-translate-y-2 cursor-pointer">
+                                {feature.icon}
+                                <h4 className="text-xl font-semibold mb-3 text-gray-800">{feature.title}</h4>
+                                <p className="text-gray-600 text-sm md:text-base">{feature.desc}</p>
+                            </div>
+                        </Link>
                     ))}
                 </div>
             </section>
@@ -476,9 +484,9 @@ function HomePage() {
                     <p className="text-lg mb-6">Enroll now and become a top-tier developer with expert-led courses.</p>
                     <button
                         className="bg-white text-indigo-700 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 shadow-md transform transition-all duration-300 hover:-translate-y-1"
-                        onClick={() => navigate('/login')}
+                        onClick={() => navigate('/course_front_page')}
                     >
-                        Enroll Now
+                        Start Learning Now
                     </button>
                 </div>
             </section>

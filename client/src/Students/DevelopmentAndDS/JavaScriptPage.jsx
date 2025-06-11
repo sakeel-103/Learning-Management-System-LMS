@@ -549,7 +549,7 @@ const JavaScriptPage = () => {
                                     </button>
                                     <button
                                         className="px-8 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => { }}
+                                        onClick={() => navigate('/Components/contact-us-page')}
                                         aria-label="Contact us for more information"
                                     >
                                         Contact Us
