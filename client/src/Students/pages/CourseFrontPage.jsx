@@ -5,94 +5,84 @@ const courses = [
     {
         id: '1',
         title: 'Full Stack Development: A Complete Guide',
-        stats: '1k+ Interested Users',
         rating: '4.4',
         level: 'Beginner to Advanced',
         duration: '3 Months',
-        category: 'Data Structures',
-        prerequisites: ['Basic Programming', 'Computer Science Fundamentals'],
-        schedule: {
-            startDate: '2025-06-01',
-            endDate: '2025-09-01',
-            sessions: 'Mon, Wed (7PM-9PM)',
-            type: 'Live',
-        },
-        materialsCount: { videos: 10, pdfs: 10, presentations: 8, notes: 18 },
+        category: 'Web Development',
         instructor: 'Shradha Khapra',
         price: '₹999',
-        thumbnail: 'https://via.placeholder.com/600x400',
+        originalPrice: '₹2999',
+        thumbnail: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+        description: 'Master full stack development with hands-on projects and real-world applications.'
     },
     {
         id: '2',
-        title: 'JAVA Backend Development: Complete Course',
-        stats: '3k+ Interested Users',
+        title: 'JAVA Backend Development',
         rating: '4.7',
         level: 'Intermediate to Advanced',
         duration: '4 Months',
         category: 'Web Development',
-        prerequisites: ['Basic Java', 'OOP Concepts'],
-        schedule: {
-            startDate: '2025-07-01',
-            endDate: '2025-11-01',
-            sessions: 'Tue, Thu (6PM-8PM)',
-            type: 'Live',
-        },
-        materialsCount: { videos: 10, pdfs: 8, presentations: 5, notes: 8 },
         instructor: 'Aman Dhatarwal',
         price: '₹1499',
-        thumbnail: 'https://via.placeholder.com/600x400',
+        originalPrice: '₹3999',
+        thumbnail: 'https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+        description: 'Build scalable backend systems with Java and Spring framework.'
     },
     {
         id: '3',
-        title: 'Complete Machine Learning & Data Science Program',
-        stats: '1.5k+ Interested Users',
+        title: 'Machine Learning & Data Science',
         rating: '4.7',
         level: 'Beginner to Advanced',
         duration: '6 Months',
-        category: 'Machine Learning',
-        prerequisites: ['Python Basics', 'Statistics'],
-        schedule: {
-            startDate: '2025-06-15',
-            endDate: '2025-12-15',
-            sessions: 'Sat, Sun (10AM-1PM)',
-            type: 'Live',
-        },
-        materialsCount: { videos: 4, pdfs: 5, presentations: 5, notes: 5 },
+        category: 'Data Science',
         instructor: 'Love Babbar',
         price: '₹1999',
-        thumbnail: 'https://via.placeholder.com/600x400',
+        originalPrice: '₹4999',
+        thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+        description: 'Learn machine learning algorithms and data analysis techniques.'
     },
     {
         id: '4',
-        title: 'Data Structures and Algorithms - Self Paced',
-        stats: '1k+ Interested Users',
+        title: 'Data Structures and Algorithms',
         rating: '4.7',
         level: 'Beginner to Advanced',
         duration: '2 Months',
-        category: 'Data Structures',
-        prerequisites: ['Programming Fundamentals'],
-        schedule: { type: 'Self-paced', accessPeriod: '6 Months' },
-        materialsCount: { videos: 2, pdfs: 1, presentations: 5, notes: 2 },
+        category: 'Programming',
         instructor: 'Code With Harry',
         price: '₹799',
-        thumbnail: 'https://via.placeholder.com/600x400',
+        originalPrice: '₹1999',
+        thumbnail: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+        description: 'Master DSA concepts to ace your coding interviews.'
     },
+];
+
+const paymentMethods = [
+    { id: 'credit-card', name: 'Credit/Debit Card', icon: '💳' },
+    { id: 'upi', name: 'UPI', icon: '📱' },
+    { id: 'netbanking', name: 'Net Banking', icon: '🏦' },
+    { id: 'wallet', name: 'Wallet', icon: '💰' },
 ];
 
 const BuyCourse = () => {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
+
+    // 1: Select method, 2: Payment details, 3: Confirmation
+    const [paymentStep, setPaymentStep] = useState(1);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        cardNumber: '',
+        expiryDate: '',
+        cvv: '',
+        upiId: '',
+        saveCard: false,
+    });
     const navigate = useNavigate();
 
-    const categories = [
-        'All',
-        'Data Structures',
-        'Web Development',
-        'Machine Learning',
-        'Mobile Development',
-        'Cloud Computing',
-    ];
+    const categories = ['All', 'Web Development', 'Data Science', 'Programming', 'Mobile Development'];
 
     const filteredCourses = selectedCategory === 'All'
         ? courses
@@ -100,51 +90,85 @@ const BuyCourse = () => {
 
     const handlePurchase = (course) => {
         setSelectedCourse(course);
+        setPaymentStep(1);
         setIsModalOpen(true);
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
         setSelectedCourse(null);
+        setPaymentStep(1);
+        setSelectedPaymentMethod(null);
+        setFormData({
+            name: '',
+            email: '',
+            cardNumber: '',
+            expiryDate: '',
+            cvv: '',
+            upiId: '',
+            saveCard: false,
+        });
     };
 
+    const handleInputChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
+    };
+
+    const handlePaymentMethodSelect = (method) => {
+        setSelectedPaymentMethod(method);
+        setPaymentStep(2);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Validate form based on payment method
+        if (selectedPaymentMethod === 'credit-card' && (!formData.cardNumber || !formData.expiryDate || !formData.cvv)) {
+            alert('Please fill all card details');
+            return;
+        }
+        if (selectedPaymentMethod === 'upi' && !formData.upiId) {
+            alert('Please enter UPI ID');
+            return;
+        }
+        setPaymentStep(3);
+    };
+
+    // Here need to send the payment data to the backend that's why giving error
     const confirmPurchase = () => {
         setIsModalOpen(false);
         navigate('/dashboard');
+
     };
 
     return (
         <div className="min-h-screen bg-gray-50 text-gray-800 pt-16 w-full overflow-x-hidden">
             <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 w-full">
-                {/* Breadcrumb */}
-                <div className="mb-6">
-                </div>
 
                 {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
-                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
-                            Buy a Course
-                        </span>
+                <div className="mb-8 text-center">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-yellow-500">
+                        Explore Our Courses
                     </h1>
-                    <p className="text-sm sm:text-md mt-3 text-gray-600 max-w-2xl">
-                        Unlock your potential with TrackAdemy’s expert-led courses.
+                    <p className="text-lg text-gray-600 mt-3 max-w-2xl mx-auto">
+                        Learn from industry experts and advance your career
                     </p>
                 </div>
 
                 {/* Category Filters */}
                 <div className="mb-8">
-                    <h2 className="text-2xl font-bold mb-4 text-gray-800">
-                        Filter by Category
-                    </h2>
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-wrap justify-center gap-3">
                         {categories.map((category) => (
                             <button
                                 key={category}
                                 onClick={() => setSelectedCategory(category)}
-                                className={`px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:-translate-y-1 shadow-sm ${selectedCategory === category
-                                    ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
-                                    : 'bg-white text-gray-600 border border-gray-100 hover:bg-gray-100'
+                                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${selectedCategory === category
+                                    ? 'bg-green-600 text-white shadow-md'
+                                    : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100'
                                     }`}
                             >
                                 {category}
@@ -154,145 +178,326 @@ const BuyCourse = () => {
                 </div>
 
                 {/* Course List */}
-                <div>
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6">
-                        Available Courses
-                    </h2>
-                    {filteredCourses.length === 0 ? (
-                        <div className="text-center text-gray-600 py-12">
-                            <p className="text-lg">No courses found for this category.</p>
-                            <button
-                                onClick={() => setSelectedCategory('All')}
-                                className="text-gray-600 border border-gray-100 rounded-lg px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200 shadow-sm"
-                            >
-                                View All Courses
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                            {filteredCourses.map((course) => (
-                                <div
-                                    key={course.id}
-                                    className="relative bg-white text-gray-800 rounded-xl shadow-sm transform hover:-translate-y-1 transition-all duration-300 ease-in-out hover:shadow-md border border-gray-100"
-                                >
-                                    <div className="h-40 rounded-t-xl overflow-hidden relative bg-gradient-to-r from-blue-400 to-green-800">
-                                        <img
-                                            src={course.thumbnail}
-                                            alt={course.title}
-                                            className="w-full h-full object-cover"
-                                        />
-                                        <div className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-sm">
-                                            <div className="flex items-center space-x-1">
-                                                <svg
-                                                    className="w-4 h-4 text-indigo-600"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth="2"
-                                                        d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-                                                    />
-                                                </svg>
-                                                <span className="text-xs font-medium text-gray-700">
-                                                    {course.materialsCount.videos}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="p-5 space-y-3">
-                                        <h3 className="text-lg font-bold text-gray-800">{course.title}</h3>
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-xs text-gray-600">{course.stats}</span>
-                                            <span className="text-sm text-yellow-400 font-semibold">
-                                                ★ {course.rating}
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <p className="text-sm text-gray-600">{course.level}</p>
-                                            <p className="text-xs font-medium bg-indigo-100 text-indigo-800 px-2 py-1 rounded">
-                                                {course.duration}
-                                            </p>
-                                        </div>
-                                        <div className="flex items-center text-sm text-gray-600">
-                                            <svg
-                                                className="w-4 h-4 mr-1 text-gray-600"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                                                />
-                                            </svg>
-                                            <span>{course.instructor}</span>
-                                        </div>
-                                        <p className="text-lg font-semibold text-gray-800">Price: {course.price}</p>
-                                        <button
-                                            onClick={() => handlePurchase(course)}
-                                            className="w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-2 rounded-lg font-medium hover:from-blue-700 hover:to-green-700 transition-all duration-200 shadow-md"
-                                        >
-                                            Buy Now
-                                        </button>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {filteredCourses.map((course) => (
+                        <div
+                            key={course.id}
+                            className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
+                        >
+                            <div className="h-48 overflow-hidden">
+                                <img
+                                    src={course.thumbnail}
+                                    alt={course.title}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                            <div className="p-5">
+                                <div className="flex justify-between items-start mb-2">
+                                    <span className="text-xs font-semibold px-2 py-1 bg-blue-100 text-blue-800 rounded-full">
+                                        {course.level}
+                                    </span>
+                                    <div className="flex items-center">
+                                        <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        <span className="ml-1 text-sm text-gray-600">
+                                            {course.rating} ({course.stats})
+                                        </span>
                                     </div>
                                 </div>
-                            ))}
+                                <h3 className="text-lg font-bold text-gray-900 mb-2">{course.title}</h3>
+                                <p className="text-sm text-gray-600 mb-4">{course.description}</p>
+                                <div className="flex items-center text-sm text-gray-600 mb-4">
+                                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span>{course.instructor}</span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <span className="text-lg font-bold text-gray-900">{course.price}</span>
+                                        <span className="ml-2 text-sm text-gray-500 line-through">{course.originalPrice}</span>
+                                    </div>
+                                    <button
+                                        onClick={() => handlePurchase(course)}
+                                        className="px-4 py-2 bg-green-600 text-white rounded-md font-medium hover:bg-green-700 transition-colors"
+                                    >
+                                        Enroll Now
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    )}
+                    ))}
                 </div>
             </div>
 
-            {/* Confirmation Modal */}
+            {/* Payment Modal */}
             {isModalOpen && selectedCourse && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-md border border-gray-100">
-                        <div className="flex justify-between items-center">
-                            <h3 className="text-xl font-bold text-gray-800">Purchase Confirmation</h3>
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-xl font-bold text-gray-800">
+                                {paymentStep === 1 && 'Select Payment Method'}
+                                {paymentStep === 2 && 'Payment Details'}
+                                {paymentStep === 3 && 'Payment Successful'}
+                            </h3>
                             <button
                                 onClick={closeModal}
-                                className="text-gray-600 hover:text-gray-800"
+                                className="text-gray-500 hover:text-gray-700"
                             >
-                                <svg
-                                    className="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </button>
                         </div>
-                        <p className="mt-2 text-sm text-gray-600">
-                            Thank you for purchasing{' '}
-                            <span className="font-semibold">{selectedCourse.title}</span>!
-                        </p>
-                        <p className="mt-2 text-sm text-gray-600">
-                            You can now start your learning journey.
-                        </p>
-                        <div className="mt-4 flex justify-end gap-2">
-                            <button
-                                onClick={() => navigate('/dashboard')}
-                                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
-                            >
-                                View Dashboard
-                            </button>
-                            <button
-                                onClick={confirmPurchase}
-                                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:from-blue-700 hover:to-green-700"
-                            >
-                                Go to Course
-                            </button>
+
+                        {/* Progress Steps - here used 3 steps to make payment successfull */}
+                        <div className="flex justify-between items-center mb-6">
+                            {[1, 2, 3].map((step) => (
+                                <div key={step} className="flex flex-col items-center">
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${paymentStep >= step ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                        {step}
+                                    </div>
+                                    <span className="text-xs mt-1 text-gray-600">
+                                        {step === 1 && 'Method'}
+                                        {step === 2 && 'Details'}
+                                        {step === 3 && 'Confirm'}
+                                    </span>
+                                </div>
+                            ))}
+                            <div className={`absolute top-20 h-1 bg-gray-200 z-0 ${paymentStep >= 2 ? 'w-1/3' : 'w-0'} left-1/4`}></div>
+                            <div className={`absolute top-20 h-1 bg-gray-200 z-0 ${paymentStep >= 3 ? 'w-1/3' : 'w-0'} left-2/4`}></div>
                         </div>
+
+                        {/* Step 1 */}
+                        {paymentStep === 1 && (
+                            <div className="space-y-4">
+                                <div className="p-4 border border-gray-200 rounded-lg">
+                                    <h4 className="font-medium mb-3">Course: {selectedCourse.title}</h4>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-600">Amount to pay:</span>
+                                        <span className="text-xl font-bold">{selectedCourse.price}</span>
+                                    </div>
+                                </div>
+
+                                <h4 className="font-medium">Choose Payment Method</h4>
+                                <div className="space-y-2">
+                                    {paymentMethods.map((method) => (
+                                        <button
+                                            key={method.id}
+                                            onClick={() => handlePaymentMethodSelect(method.id)}
+                                            className="w-full p-3 border border-gray-200 rounded-lg flex items-center hover:border-blue-500 transition-colors"
+                                        >
+                                            <span className="text-xl mr-3">{method.icon}</span>
+                                            <span className="font-medium">{method.name}</span>
+                                            <span className="ml-auto">
+                                                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Step 2 */}
+                        {paymentStep === 2 && (
+                            <form onSubmit={handleSubmit}>
+                                <div className="mb-4">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">You're paying</label>
+                                    <div className="p-3 bg-gray-50 rounded-lg">
+                                        <p className="font-bold text-lg">{selectedCourse.price}</p>
+                                        <p className="text-sm text-gray-600">for {selectedCourse.title}</p>
+                                    </div>
+                                </div>
+
+                                {selectedPaymentMethod === 'credit-card' && (
+                                    <>
+                                        <div className="mb-4">
+                                            <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                                            <input
+                                                type="text"
+                                                id="cardNumber"
+                                                name="cardNumber"
+                                                value={formData.cardNumber}
+                                                onChange={handleInputChange}
+                                                placeholder="1234 5678 9012 3456"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-4 mb-4">
+                                            <div>
+                                                <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+                                                <input
+                                                    type="text"
+                                                    id="expiryDate"
+                                                    name="expiryDate"
+                                                    value={formData.expiryDate}
+                                                    onChange={handleInputChange}
+                                                    placeholder="MM/YY"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    required
+                                                />
+                                            </div>
+                                            <div>
+                                                <label htmlFor="cvv" className="block text-sm font-medium text-gray-700 mb-1">CVV</label>
+                                                <input
+                                                    type="text"
+                                                    id="cvv"
+                                                    name="cvv"
+                                                    value={formData.cvv}
+                                                    onChange={handleInputChange}
+                                                    placeholder="123"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="mb-4">
+                                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Cardholder Name</label>
+                                            <input
+                                                type="text"
+                                                id="name"
+                                                name="name"
+                                                value={formData.name}
+                                                onChange={handleInputChange}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                required
+                                            />
+                                        </div>
+                                    </>
+                                )}
+
+                                {selectedPaymentMethod === 'upi' && (
+                                    <div className="mb-4">
+                                        <label htmlFor="upiId" className="block text-sm font-medium text-gray-700 mb-1">UPI ID</label>
+                                        <input
+                                            type="text"
+                                            id="upiId"
+                                            name="upiId"
+                                            value={formData.upiId}
+                                            onChange={handleInputChange}
+                                            placeholder="yourname@upi"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            required
+                                        />
+                                        <p className="text-xs text-gray-500 mt-1">You'll be redirected to your UPI app for payment</p>
+                                    </div>
+                                )}
+
+                                {selectedPaymentMethod === 'netbanking' && (
+                                    <div className="mb-4">
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Select Bank</label>
+                                        <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                            <option value="">Select your bank</option>
+                                            <option value="sbi">State Bank of India</option>
+                                            <option value="hdfc">HDFC Bank</option>
+                                            <option value="icici">ICICI Bank</option>
+                                            <option value="axis">Axis Bank</option>
+                                        </select>
+                                    </div>
+                                )}
+
+                                {selectedPaymentMethod === 'wallet' && (
+                                    <div className="mb-4">
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Select Wallet</label>
+                                        <div className="space-y-2">
+                                            <label className="flex items-center p-2 border border-gray-200 rounded">
+                                                <input type="radio" name="wallet" className="mr-2" />
+                                                Paytm
+                                            </label>
+                                            <label className="flex items-center p-2 border border-gray-200 rounded">
+                                                <input type="radio" name="wallet" className="mr-2" />
+                                                PhonePe
+                                            </label>
+                                            <label className="flex items-center p-2 border border-gray-200 rounded">
+                                                <input type="radio" name="wallet" className="mr-2" />
+                                                Amazon Pay
+                                            </label>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="mb-6 flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        id="saveCard"
+                                        name="saveCard"
+                                        checked={formData.saveCard}
+                                        onChange={handleInputChange}
+                                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                    />
+                                    <label htmlFor="saveCard" className="ml-2 block text-sm text-gray-700">
+                                        Save payment details for future purchases
+                                    </label>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                                >
+                                    Pay {selectedCourse.price}
+                                </button>
+                            </form>
+                        )}
+
+                        {/* Step 3 */}
+                        {paymentStep === 3 && (
+                            <div>
+                                <div className="text-center py-6">
+                                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <h4 className="text-xl font-bold text-gray-800 mb-2">Payment Successful!</h4>
+                                    <p className="text-gray-600 mb-6">
+                                        You've successfully enrolled in <span className="font-semibold">{selectedCourse.title}</span>
+                                    </p>
+                                </div>
+
+                                <div className="border-t border-gray-200 pt-4 mb-6">
+                                    <h5 className="font-medium text-gray-800 mb-3">Order Details</h5>
+                                    <div className="space-y-3 text-sm">
+                                        <div className="flex justify-between">
+                                            <span className="text-gray-600">Course:</span>
+                                            <span>{selectedCourse.title}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-gray-600">Instructor:</span>
+                                            <span>{selectedCourse.instructor}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-gray-600">Amount Paid:</span>
+                                            <span className="font-semibold">{selectedCourse.price}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-gray-600">Payment Method:</span>
+                                            <span className="capitalize">{selectedPaymentMethod}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col space-y-3">
+                                    <button
+                                        onClick={() => navigate('/instructor/dashboard')}
+                                        className="w-full bg-white border border-blue-600 text-blue-600 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors"
+                                    >
+                                        Go to Dashboard
+                                    </button>
+                                    <button
+                                        onClick={() => navigate(`/courses/${selectedCourse.id}`)}
+                                        className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                                    >
+                                        Start Learning
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
