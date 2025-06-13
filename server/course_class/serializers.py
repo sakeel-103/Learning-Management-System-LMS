@@ -1,15 +1,30 @@
 from rest_framework import serializers
-from .models import Course, CourseMaterial
+from .models import Course, VideoMaterial, PDFMaterial, PresentationMaterial, NoteMaterial
 
 
-class CourseMaterialSerializer(serializers.ModelSerializer):
+
+# Separate serializers for each material type
+class VideoMaterialSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CourseMaterial
+        model = VideoMaterial
+        fields = '__all__'
+
+class PDFMaterialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PDFMaterial
+        fields = '__all__'
+
+class PresentationMaterialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PresentationMaterial
+        fields = '__all__'
+
+class NoteMaterialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NoteMaterial
         fields = '__all__'
 
 class CourseSerializer(serializers.ModelSerializer):
-    materials = CourseMaterialSerializer(many=True, read_only=True)
-
     class Meta:
         model = Course
         fields = '__all__'
