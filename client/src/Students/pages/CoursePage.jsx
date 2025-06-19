@@ -804,7 +804,7 @@ const CoursePage = () => {
                         </div>
                     </div>
 
-                    {/* Assessment POrtal */}
+                    {/* Assessment Portal */}
                     <section className="bg-gradient-to-r from-blue-100 to-green-100 py-10">
                         <div className="container mx-auto text-center">
                             <h2 className="text-3xl font-bold text-gray-800 mb-4">
