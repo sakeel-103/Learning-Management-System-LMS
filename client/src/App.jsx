@@ -13,6 +13,7 @@ import InstructorDashboard from './Instructors/components/InstructorDashboard'
 import StudentDashboard from './Students/components/StudentDashboard'
 import './index.css'
 import CoursePage from './Students/pages/CoursePage';
+import InstructorViewPage from './Students/pages/InstructorViewPage'
 import DSAPage from './Students/CorseDetails/dsaPage'
 import MLAndDS from './Students/CorseDetails/MLAndDS'
 import BackendWithJava from './Students/CorseDetails/BackendWithJava'
@@ -63,6 +64,7 @@ function App() {
         <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
         <Route path="/student/dashboard" element={<StudentDashboard />} />
         <Route path="/courses" element={<CoursePage />} />
+        <Route path="/instructorViewPage" element={<InstructorViewPage />} />
         <Route path="/course_front_page" element={<CourseFrontPage />} />
         <Route path="/courses/dsa-to-development" element={<DSAPage />} />
         <Route path="/courses/machine-learning" element={<MLAndDS />} />

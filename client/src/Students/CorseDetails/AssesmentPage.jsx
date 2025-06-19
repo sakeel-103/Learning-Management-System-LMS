@@ -224,7 +224,7 @@ const AssessmentPage = () => {
                                 </button>
                                 <button
                                     className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all"
-                                    onClick={() => navigate("/contact")}
+                                    onClick={() => navigate("/Components/contact-us-page")}
                                 >
                                     Contact Us
                                 </button>
