@@ -45,6 +45,7 @@ import ContactUsPage from './Students/components/ContanUsPage'
 import CertificationPage from './Students/components/CertificationPage'
 import CourseFrontPage from './Students/pages/CourseFrontPage'
 import PaymentPage from './Students/pages/PaymentPage';
+import InstructorViewPage from './Students/pages/InstructorViewPage';
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
         <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
         <Route path="/student/dashboard" element={<StudentDashboard />} />
         <Route path="/courses" element={<CoursePage />} />
+        <Route path="/InstructorViewPage" element={<InstructorViewPage />} />
         <Route path="/course_front_page" element={<CourseFrontPage />} />
         <Route path="/courses/dsa-to-development" element={<DSAPage />} />
         <Route path="/courses/machine-learning" element={<MLAndDS />} />
