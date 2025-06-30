@@ -53,6 +53,7 @@ const InstructorViewPage = () => {
                 delete headers['Content-Type'];
             }
 
+            const response = await fetch(`http://127.0.0.1:8000/api/v1/${url}`, { ...options, headers });
 
             if (!response.ok) {
                 const errorData = await response.json();
@@ -116,13 +117,13 @@ const InstructorViewPage = () => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
+    // (moved inside fetchWithAuth above)
+    // const response = await fetch(`http://127.0.0.1:8000/api/v1/${url}`, { ...options, headers });
 
-    const response = await fetch(`http://127.0.0.1:8000/api/v1/${url}`, { ...options, headers });
-
-    const handleInputChangeSchedule = (e) => {
-        const { name, value } = e.target;
-        setSchedule((prev) => ({ ...prev, [name]: value }));
-    };
+    // const handleInputChangeSchedule = (e) => {
+    //     const { name, value } = e.target;
+    //     setSchedule((prev) => ({ ...prev, [name]: value }));
+    // };
 
     const handleAddPrerequisite = () => {
         if (prereqInput.trim()) {
