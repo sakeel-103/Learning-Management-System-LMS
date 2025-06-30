@@ -1,16 +1,8 @@
 {
- "version": 2,
- "builds": [
-  {
-   "src": "manage.py",
-   "use": "@vercel/node",
-   "config": { "includeFiles": ["dist/**"] }
-  }
- ],
- "routes": [
-  {
-   "src": "/(.*)",
-   "dest": "manage.py"
-  }
- ]
+  "builds": [
+    { "src": "vercel_wsgi.py", "use": "@vercel/python" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "vercel_wsgi.py" }
+  ]
 }

@@ -1,1 +1,10 @@
-env
+# Ignore Python virtual environment and virtual environments
+env/
+venv/
+
+# Ignore Python bytecode and cache
+*.pyc
+__pycache__/
+
+# Node modules
+node_modules/

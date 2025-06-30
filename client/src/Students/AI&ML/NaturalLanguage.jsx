@@ -1,66 +1,44 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const MachineLearning = () => {
+const NaturalLanguage = () => {
     const navigate = useNavigate();
-    const [activeSection, setActiveSection] = useState("introduction");
+    const [activeSection, setActiveSection] = useState("what-is-nlp");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [showMore, setShowMore] = useState(false);
 
     const faqs = [
         {
-            question: "What is machine learning?",
-            answer: "Machine learning is a branch of artificial intelligence that enables systems to learn from data and make predictions or decisions without explicit programming.",
+            question: "What is the difference between NLP and NLU?",
+            answer: "NLP (Natural Language Processing) is a broad field focused on enabling computers to understand and generate human language, while NLU (Natural Language Understanding) is a subset of NLP that specifically deals with comprehending the meaning and intent behind text or speech.",
         },
         {
-            question: "What are the main types of machine learning?",
-            answer: "The main types are supervised learning, unsupervised learning, reinforcement learning, and semi-supervised learning.",
+            question: "Why is NLTK widely used for NLP?",
+            answer: "NLTK is widely used because it provides a comprehensive suite of tools and resources for text processing, including tokenization, stemming, and access to corpora, making it ideal for beginners and researchers.",
         },
         {
-            question: "What is the difference between supervised and unsupervised learning?",
-            answer: "Supervised learning uses labeled data to train models, while unsupervised learning finds patterns in unlabeled data.",
+            question: "What are transformers in NLP?",
+            answer: "Transformers are a type of neural network architecture that use self-attention mechanisms to process sequential data, such as text, enabling models like BERT to understand context and relationships in language effectively.",
         },
         {
-            question: "What is reinforcement learning used for?",
-            answer: "Reinforcement learning is used for decision-making tasks, such as robotics, gaming, and autonomous systems, where an agent learns through trial and error.",
+            question: "What is spaCy best suited for?",
+            answer: "spaCy is best suited for production-level NLP tasks due to its speed, efficiency, and pre-trained models for tasks like named entity recognition, part-of-speech tagging, and dependency parsing.",
         },
         {
-            question: "What is semi-supervised learning?",
-            answer: "Semi-supervised learning uses a mix of labeled and unlabeled data, making it useful when labeled data is scarce or expensive.",
-        },
-        {
-            question: "What are some common supervised learning algorithms?",
-            answer: "Common algorithms include linear regression, logistic regression, decision trees, support vector machines, and random forests.",
-        },
-        {
-            question: "How do you deploy a machine learning model?",
-            answer: "Deployment involves integrating the model into an application using tools like Flask, FastAPI, or Streamlit, and hosting it on platforms like Heroku.",
-        },
-        {
-            question: "What is the role of data preprocessing in machine learning?",
-            answer: "Data preprocessing cleans, scales, and transforms data to improve model performance and accuracy.",
-        },
-        {
-            question: "What are some challenges in machine learning?",
-            answer: "Challenges include data quality issues, overfitting, computational costs, and interpretability of complex models.",
-        },
-        {
-            question: "Where can I find machine learning datasets?",
-            answer: "Popular sources include Kaggle, UCI Machine Learning Repository, and Google Dataset Search.",
+            question: "How does BERT improve NLP tasks?",
+            answer: "BERT (Bidirectional Encoder Representations from Transformers) improves NLP tasks by understanding the context of words in a sentence bidirectionally, leading to better performance in tasks like sentiment analysis and question answering.",
         },
     ];
     const [openFaqIndexes, setOpenFaqIndexes] = useState(Array(faqs.length).fill(false));
 
     const sections = [
-        { id: "introduction", title: "Introduction" },
-        { id: "types", title: "Types of Machine Learning" },
-        { id: "pipeline", title: "Machine Learning Pipeline" },
-        { id: "supervised", title: "Supervised Learning" },
-        { id: "unsupervised", title: "Unsupervised Learning" },
-        { id: "reinforcement", title: "Reinforcement Learning" },
-        { id: "semi-supervised", title: "Semi-Supervised Learning" },
-        { id: "deployment", title: "Deployment" },
-        { id: "FAQ", title: "FAQ" },
+        { id: "what-is-nlp", title: "What is Natural Language Processing (NLP)?" },
+        { id: "nlp-libraries", title: "NLP Libraries in Python" },
+        { id: "nltk", title: "NLP with NLTK" },
+        { id: "spacy", title: "NLP with spaCy" },
+        { id: "text-preprocessing", title: "Text Preprocessing in NLP" },
+        { id: "transformers", title: "Using Transformers for NLP" },
+        { id: "sentiment-analysis", title: "Sentiment Analysis with NLP" },
     ];
 
     const toggleSidebar = () => {
@@ -71,7 +49,7 @@ const MachineLearning = () => {
         setActiveSection(sectionId);
         setIsSidebarOpen(false);
 
-        const hiddenSections = ["semi-supervised", "deployment", "FAQ"];
+        const hiddenSections = ["transformers", "sentiment-analysis"];
         if (hiddenSections.includes(sectionId) && !showMore) {
             setShowMore(true);
         }
@@ -113,7 +91,7 @@ const MachineLearning = () => {
                 style={{ top: "5rem" }}
             >
                 <div className="p-4 border-b">
-                    <h2 className="text-xl font-bold text-gray-800">Machine Learning Tutorial</h2>
+                    <h2 className="text-xl font-bold text-gray-800">NLP Tutorial</h2>
                 </div>
                 <div className="h-[calc(100%-4rem)] overflow-y-auto">
                     <nav className="p-4">
@@ -147,31 +125,37 @@ const MachineLearning = () => {
                     <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
-                                Basics & Advanced of Machine Learning
+                                Natural Language Processing with Python
                             </span>
                         </h1>
                         <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                            Learn machine learning with this comprehensive tutorial covering algorithms, models, deployment, and more. Master the skills to build intelligent systems.
+                            Learn Natural Language Processing (NLP) concepts, libraries, and techniques to process and analyze text data effectively.
                         </p>
                     </div>
 
-                    {/* Machine Learning Hero Banner */}
+                    {/* NLP Hero Banner */}
                     <div className="mb-16 bg-gradient-to-r from-blue-400 to-green-800 rounded-2xl shadow-xl overflow-hidden border border-white/10">
                         <div className="relative p-4 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
                             <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
                             <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
+
+                            {/* Content */}
                             <div className="relative z-10 mb-6 md:mb-0 md:mr-8">
                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3">
                                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
-                                        Master Machine Learning
+                                        Master NLP
                                     </span>{" "}
                                     in 2025
                                 </h2>
                                 <p className="text-base sm:text-lg text-white/90 max-w-lg">
-                                    Build intelligent systems with modern machine learning techniques
+                                    Unlock the power of text analysis with Python's top NLP libraries and techniques.
                                 </p>
                                 <div className="mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                                    <button className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg">
+                                    <button
+                                        className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
+                                        onClick={() => navigate("/login")}
+                                        aria-label="Start learning now"
+                                    >
                                         Start Learning Now
                                     </button>
                                     <button className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all">
@@ -179,6 +163,8 @@ const MachineLearning = () => {
                                     </button>
                                 </div>
                             </div>
+
+                            {/* Code snippet with animation */}
                             <div className="relative z-10 bg-green-900/80 backdrop-blur-sm p-5 rounded-xl border border-white/10 shadow-lg hover:shadow-purple-500/20 transition-shadow duration-300 w-full md:w-auto">
                                 <div className="flex space-x-2 mb-3">
                                     <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -187,157 +173,170 @@ const MachineLearning = () => {
                                 </div>
                                 <pre className="text-yellow-400 font-mono text-xs sm:text-sm md:text-base overflow-x-auto">
                                     <code>
-                                        {`# Machine Learning Example\n`}
-                                        {`from sklearn.linear_model import LinearRegression\n`}
-                                        {`model = LinearRegression()\n`}
-                                        {`model.fit(X_train, y_train)\n`}
-                                        {`predictions = model.predict(X_test)`}
+                                        {`# NLP Example\n`}
+                                        {`import nltk\n`}
+                                        {`from nltk.tokenize import word_tokenize\n`}
+                                        {`nltk.download('punkt')\n`}
+                                        {`text = "Hello, world!"\n`}
+                                        {`tokens = word_tokenize(text)\n`}
+                                        {`print(tokens)\n`}
                                     </code>
                                 </pre>
                             </div>
                         </div>
                     </div>
 
-                    {/* Introduction Section */}
-                    <section id="introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* What is NLP Section */}
+                    <section id="what-is-nlp" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Introduction to Machine Learning
+                            What is Natural Language Processing (NLP)?
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Machine learning (ML) is a branch of Artificial Intelligence that focuses on developing models and algorithms that allow computers to learn from data without being explicitly programmed for every task. In simple words, ML teaches systems to think and understand like humans by learning from data.
-                                <br />
-                                This tutorial will guide you through the core concepts of machine learning, including types of ML, algorithms, pipelines, and deployment.
+                                Natural Language Processing (NLP) is a field of artificial intelligence that focuses on the interaction between computers and human language. It enables machines to understand, interpret, and generate human language in a meaningful way.
                             </p>
-                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`# Simple Linear Regression Example\nfrom sklearn.linear_model import LinearRegression\nmodel = LinearRegression()\nmodel.fit([[1], [2], [3]], [2, 4, 6])\nprint(model.predict([[4]]))`}</code>
-                                </pre>
-                            </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Areas:</h3>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Applications:</strong>
+                            </p>
                             <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li>Supervised, unsupervised, reinforcement, and semi-supervised learning</li>
-                                <li>Data preprocessing and model evaluation</li>
-                                <li>Deployment and MLOps</li>
-                                <li>Applications in NLP, computer vision, and more</li>
+                                <li>Text analysis (e.g., sentiment analysis, topic modeling).</li>
+                                <li>Machine translation (e.g., Google Translate).</li>
+                                <li>Chatbots and virtual assistants (e.g., Siri, Alexa).</li>
+                                <li>Information extraction (e.g., named entity recognition).</li>
                             </ul>
                         </div>
                     </section>
 
-                    {/* Types of Machine Learning Section */}
-                    <section id="types" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* NLP Libraries Section */}
+                    <section id="nlp-libraries" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Types of Machine Learning
+                            NLP Libraries in Python
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Machine learning can be broadly categorized into four types:
-                            </p>
-                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li><strong>Supervised Learning:</strong> Trains models on labeled data to predict or classify new, unseen data.</li>
-                                <li><strong>Unsupervised Learning:</strong> Finds patterns or groups in unlabeled data, like clustering or dimensionality reduction.</li>
-                                <li><strong>Reinforcement Learning:</strong> Learns through trial and error to maximize rewards, ideal for decision-making tasks.</li>
-                                <li><strong>Semi-Supervised Learning:</strong> Uses a mix of labeled and unlabeled data, helpful when labeled data is limited.</li>
-                            </ul>
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Note: Self-supervised learning is a significant category in deep learning, often used in NLP and computer vision.
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* Machine Learning Pipeline Section */}
-                    <section id="pipeline" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Machine Learning Pipeline
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                A machine learning pipeline involves several steps to process data and build a model that can make predictions.
+                                Python offers a variety of libraries for NLP, each designed for different use cases, from research to production.
                             </p>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# Data Preprocessing Example\nimport pandas as pd\nfrom sklearn.preprocessing import StandardScaler\n\ndf = pd.read_csv('data.csv')\nscaler = StandardScaler()\nscaled_data = scaler.fit_transform(df[['feature1', 'feature2']])`}</code>
+                                    <code>
+                                        {`# Importing NLP Libraries\n`}
+                                        {`import nltk\n`}
+                                        {`import spacy\n`}
+                                        {`from transformers import pipeline\n`}
+                                    </code>
                                 </pre>
                             </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Steps:</h3>
                             <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li><strong>Data Cleaning:</strong> Remove missing values and outliers.</li>
-                                <li><strong>Feature Scaling:</strong> Normalize or standardize data for better model performance.</li>
-                                <li><strong>Data Preprocessing:</strong> Transform data into a suitable format for training.</li>
-                            </ul>
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Learn more: <a href="https://towardsdatascience.com/data-preprocessing-for-machine-learning-1b09e6f6d8a5" className="text-blue-600 hover:underline">Data Preprocessing Guide on Towards Data Science</a>
-                            </p>
-                        </div>
-                    </section>
-
-                    {/* Supervised Learning Section */}
-                    <section id="supervised" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Supervised Learning
-                        </h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-700 text-sm sm:text-base">
-                                Supervised learning involves training models on labeled data and is categorized into classification (predicting discrete labels) and regression (predicting continuous values).
-                            </p>
-                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`# Logistic Regression Example\nfrom sklearn.linear_model import LogisticRegression\nmodel = LogisticRegression()\nmodel.fit(X_train, y_train)\npredictions = model.predict(X_test)`}</code>
-                                </pre>
-                            </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Common Algorithms:</h3>
-                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li><strong>Linear Regression:</strong> Predicts numerical values using a straight line. <a href="https://scikit-learn.org/stable/modules/linear_model.html#linear-regression" className="text-blue-600 hover:underline">Learn More on Scikit-Learn</a></li>
-                                <li><strong>Logistic Regression:</strong> Predicts categories like yes/no. <a href="https://www.datacamp.com/tutorial/understanding-logistic-regression-python" className="text-blue-600 hover:underline">Learn More on DataCamp</a></li>
-                                <li><strong>Decision Trees:</strong> Makes decisions using a flowchart-like structure. <a href="https://www.analyticsvidhya.com/blog/2021/08/decision-tree-algorithm-for-classification/" className="text-blue-600 hover:underline">Learn More on Analytics Vidhya</a></li>
-                                <li><strong>Support Vector Machines (SVM):</strong> Separates data with a boundary. <a href="https://medium.com/@zxr.ninth/support-vector-machine-svm-a-complete-guide-for-beginners-134c7a4d9f5c" className="text-blue-600 hover:underline">Learn More on Medium</a></li>
-                                <li><strong>Random Forest:</strong> Combines multiple decision trees for better accuracy. <a href="https://www.ibm.com/topics/random-forest" className="text-blue-600 hover:underline">Learn More on IBM</a></li>
+                                <li><strong>NLTK:</strong> A comprehensive library for text processing and research.</li>
+                                <li><strong>spaCy:</strong> A fast, production-ready library for advanced NLP tasks.</li>
+                                <li><strong>Transformers (Hugging Face):</strong> A library for state-of-the-art NLP models like BERT.</li>
                             </ul>
                         </div>
                     </section>
 
-                    {/* Unsupervised Learning Section */}
-                    <section id="unsupervised" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* NLTK Section */}
+                    <section id="nltk" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Unsupervised Learning
+                            NLP with NLTK
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Unsupervised learning finds patterns in unlabeled data and is divided into clustering, association rule mining, and dimensionality reduction.
+                                NLTK (Natural Language Toolkit) is a popular Python library for NLP, widely used for educational purposes and research. It provides tools for text processing and linguistic analysis.
                             </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Features:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Tokenization, stemming, and lemmatization for text preprocessing.</li>
+                                <li>Access to corpora and lexical resources like WordNet.</li>
+                                <li>Tools for part-of-speech tagging and parsing.</li>
+                                <li>Support for building custom NLP pipelines.</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# K-Means Clustering Example\nfrom sklearn.cluster import KMeans\nkmeans = KMeans(n_clusters=3)\nkmeans.fit(data)\nlabels = kmeans.labels_`}</code>
+                                    <code>
+                                        {`# NLTK Example\n`}
+                                        {`import nltk\n`}
+                                        {`from nltk.tokenize import word_tokenize\n`}
+                                        {`nltk.download('punkt')\n`}
+                                        {`text = "Natural Language Processing is amazing!"\n`}
+                                        {`tokens = word_tokenize(text)\n`}
+                                        {`print(tokens)\n`}
+                                    </code>
                                 </pre>
                             </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Techniques:</h3>
-                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li><strong>Clustering:</strong> Groups data points (e.g., K-Means). <a href="https://www.coursera.org/articles/k-means-clustering" className="text-blue-600 hover:underline">Learn More on Coursera</a></li>
-                                <li><strong>Dimensionality Reduction:</strong> Simplifies data (e.g., PCA). <a href="https://towardsdatascience.com/understanding-pca-for-dimensionality-reduction-293e3455c16e" className="text-blue-600 hover:underline">Learn More on Towards Data Science</a></li>
-                                <li><strong>Association Rules:</strong> Finds patterns (e.g., Apriori). <a href="https://www.kdnuggets.com/2019/11/market-basket-analysis.html" className="text-blue-600 hover:underline">Learn More on KDnuggets</a></li>
-                            </ul>
                         </div>
                     </section>
 
-                    {/* Reinforcement Learning Section */}
-                    <section id="reinforcement" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* spaCy Section */}
+                    <section id="spacy" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Reinforcement Learning
+                            NLP with spaCy
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                Reinforcement learning involves an agent learning through interaction with an environment, maximizing rewards through trial and error.
+                                spaCy is a fast and efficient NLP library designed for production use. It provides pre-trained models for various languages and tasks, making it ideal for building real-world NLP applications.
                             </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Features:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Fast and accurate tokenization, lemmatization, and dependency parsing.</li>
+                                <li>Pre-trained models for named entity recognition (NER) and part-of-speech (POS) tagging.</li>
+                                <li>Support for multiple languages with downloadable models.</li>
+                                <li>Efficient for large-scale text processing.</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`# Q-Learning Pseudo-code\nQ = initialize_Q_table()\nfor episode in episodes:\n    state = env.reset()\n    while not done:\n        action = choose_action(state, Q)\n        reward, next_state = env.step(action)\n        Q[state, action] = update_Q(Q, state, action, reward, next_state)`}</code>
+                                    <code>
+                                        {`# spaCy Example\n`}
+                                        {`import spacy\n`}
+                                        {`nlp = spacy.load("en_core_web_sm")\n`}
+                                        {`text = "Apple is looking at buying U.K. startup for $1 billion"\n`}
+                                        {`doc = nlp(text)\n`}
+                                        {`for ent in doc.ents:\n`}
+                                        {`    print(ent.text, ent.label_)\n`}
+                                    </code>
                                 </pre>
                             </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Methods:</h3>
+                        </div>
+                    </section>
+
+                    {/* Text Preprocessing Section */}
+                    <section id="text-preprocessing" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Text Preprocessing in NLP
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Text preprocessing is a critical step in NLP to clean and prepare raw text data for analysis or modeling. It ensures the data is in a suitable format for NLP algorithms.
+                            </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Steps:</strong>
+                            </p>
                             <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li><strong>Model-Based:</strong> Uses a model of the environment (e.g., MDPs). <a href="https://www.analyticsvidhya.com/blog/2021/04/basics-of-reinforcement-learning-the-modern-way-to-train-intelligent-machines/" className="text-blue-600 hover:underline">Learn More on Analytics Vidhya</a></li>
-                                <li><strong>Model-Free:</strong> Learns from experience (e.g., Q-Learning). <a href="https://www.datacamp.com/tutorial/reinforcement-learning-python-introduction" className="text-blue-600 hover:underline">Learn More on DataCamp</a></li>
+                                <li><strong>Tokenization:</strong> Splitting text into words or sentences.</li>
+                                <li><strong>Lowercasing:</strong> Converting all text to lowercase for consistency.</li>
+                                <li><strong>Removing Stop Words:</strong> Eliminating common words (e.g., "the", "is") that add little meaning.</li>
+                                <li><strong>Stemming/Lemmatization:</strong> Reducing words to their root form (e.g., "running" to "run").</li>
                             </ul>
+                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                <pre className="text-xs sm:text-sm">
+                                    <code>
+                                        {`# Text Preprocessing Example with NLTK\n`}
+                                        {`import nltk\n`}
+                                        {`from nltk.tokenize import word_tokenize\n`}
+                                        {`from nltk.corpus import stopwords\n`}
+                                        {`nltk.download('punkt')\n`}
+                                        {`nltk.download('stopwords')\n`}
+                                        {`text = "This is a sample sentence for preprocessing."\n`}
+                                        {`tokens = word_tokenize(text.lower())\n`}
+                                        {`stop_words = set(stopwords.words('english'))\n`}
+                                        {`filtered_tokens = [word for word in tokens if word not in stop_words]\n`}
+                                        {`print(filtered_tokens)\n`}
+                                    </code>
+                                </pre>
+                            </div>
                         </div>
                     </section>
 
@@ -347,7 +346,7 @@ const MachineLearning = () => {
                             <button
                                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onClick={() => setShowMore(true)}
-                                aria-label="Explore more Machine Learning topics"
+                                aria-label="Explore more NLP topics"
                             >
                                 Explore More
                             </button>
@@ -357,51 +356,69 @@ const MachineLearning = () => {
                     {/* Sections Hidden Behind Explore More Button */}
                     {showMore && (
                         <>
-                            {/* Semi-Supervised Learning Section */}
-                            <section id="semi-supervised" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Transformers Section */}
+                            <section id="transformers" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Semi-Supervised Learning
+                                    Using Transformers for NLP
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Semi-supervised learning uses a mix of labeled and unlabeled data, making it helpful when labeling data is costly or limited.
+                                        Transformers, introduced by the Hugging Face library, have revolutionized NLP by enabling models like BERT, GPT, and T5 to achieve state-of-the-art results in various tasks.
                                     </p>
+                                    <p className="text-gray-700 text-sm sm:text-base">
+                                        <strong>Key Features:</strong>
+                                    </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li>Self-attention mechanism to capture contextual relationships in text.</li>
+                                        <li>Pre-trained models for tasks like text classification, translation, and question answering.</li>
+                                        <li>Easy-to-use pipelines for quick implementation.</li>
+                                        <li>Support for fine-tuning on custom datasets.</li>
+                                    </ul>
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
-                                            <code>{`# Self-Training Example\nfrom sklearn.semi_supervised import SelfTrainingClassifier\nfrom sklearn.svm import SVC\n\nbase_model = SVC(probability=True)\nself_training_model = SelfTrainingClassifier(base_model)\nself_training_model.fit(X, y)`}</code>
+                                            <code>
+                                                {`# Transformers Example\n`}
+                                                {`from transformers import pipeline\n`}
+                                                {`classifier = pipeline("sentiment-analysis")\n`}
+                                                {`text = "I love using transformers for NLP!"\n`}
+                                                {`result = classifier(text)\n`}
+                                                {`print(result)\n`}
+                                            </code>
                                         </pre>
                                     </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Techniques:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li><strong>Self-Training:</strong> Model generates its own labels. <a href="https://www.kdnuggets.com/2020/03/semi-supervised-learning-explained.html" className="text-blue-600 hover:underline">Learn More on KDnuggets</a></li>
-                                        <li><strong>Few-Shot Learning:</strong> Learns from a small amount of labeled data. <a href="https://towardsdatascience.com/few-shot-learning-what-it-is-and-how-it-works-61482890e6c0" className="text-blue-600 hover:underline">Learn More on Towards Data Science</a></li>
-                                    </ul>
                                 </div>
                             </section>
 
-                            {/* Deployment Section */}
-                            <section id="deployment" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Sentiment Analysis Section */}
+                            <section id="sentiment-analysis" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Deployment of Machine Learning Models
+                                    Sentiment Analysis with NLP
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Deploying a machine learning model involves integrating it into an application or service to make predictions accessible.
+                                        Sentiment analysis is an NLP task that determines the emotional tone behind a piece of text, such as positive, negative, or neutral. It’s widely used in social media monitoring and customer feedback analysis.
                                     </p>
+                                    <p className="text-gray-700 text-sm sm:text-base">
+                                        <strong>Key Approaches:</strong>
+                                    </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li><strong>Rule-Based:</strong> Using predefined rules and lexicons (e.g., VADER).</li>
+                                        <li><strong>Machine Learning:</strong> Training models on labeled datasets.</li>
+                                        <li><strong>Deep Learning:</strong> Using transformers like BERT for better accuracy.</li>
+                                        <li><strong>Hybrid:</strong> Combining rule-based and machine learning approaches.</li>
+                                    </ul>
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
-                                            <code>{`# Flask Deployment Example\nfrom flask import Flask, request\napp = Flask(__name__)\n\n@app.route('/predict', methods=['POST'])\ndef predict():\n    data = request.json\n    prediction = model.predict(data['input'])\n    return {'prediction': prediction.tolist()}\n\napp.run()`}</code>
+                                            <code>
+                                                {`# Sentiment Analysis Example with Transformers\n`}
+                                                {`from transformers import pipeline\n`}
+                                                {`sentiment_pipeline = pipeline("sentiment-analysis")\n`}
+                                                {`text = "This tutorial is fantastic!"\n`}
+                                                {`result = sentiment_pipeline(text)\n`}
+                                                {`print(result)\n`}
+                                            </code>
                                         </pre>
                                     </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Methods:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li><strong>Streamlit:</strong> Build web apps for ML models. <a href="https://www.analyticsvidhya.com/blog/2021/06/how-to-deploy-your-machine-learning-model-using-streamlit/" className="text-blue-600 hover:underline">Learn More on Analytics Vidhya</a></li>
-                                        <li><strong>Flask/FastAPI:</strong> Deploy as an API. <a href="https://medium.com/@towardsdatascience/how-to-deploy-a-machine-learning-model-with-fastapi-and-docker-7e9b09d492d4" className="text-blue-600 hover:underline">Learn More on Medium</a></li>
-                                        <li><strong>MLOps:</strong> Manage deployment and monitoring. <a href="https://www.databricks.com/glossary/mlops" className="text-blue-600 hover:underline">Learn More on Databricks</a></li>
-                                    </ul>
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        For project ideas: <a href="https://www.kaggle.com/projects" className="text-blue-600 hover:underline">Machine Learning Projects on Kaggle</a>
-                                    </p>
                                 </div>
                             </section>
 
@@ -457,13 +474,13 @@ const MachineLearning = () => {
                         </>
                     )}
 
-                    {/* Resources Section (Always Visible) */}
+                    {/* Resources Section */}
                     <section className="mb-16 bg-blue-50 rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-xl sm:text-2xl font-bold mb-4 text-gray-800">Additional Resources</h2>
                         <ul className="space-y-3">
                             <li>
                                 <a
-                                    href="https://www.coursera.org/learn/machine-learning"
+                                    href="https://www.coursera.org/learn/natural-language-processing"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -480,12 +497,12 @@ const MachineLearning = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Machine Learning Course on Coursera
+                                    NLP on Coursera
                                 </a>
                             </li>
                             <li>
                                 <a
-                                    href="https://scikit-learn.org/stable/"
+                                    href="https://www.nltk.org/"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -502,12 +519,12 @@ const MachineLearning = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Scikit-Learn Official Documentation
+                                    NLTK Official Documentation
                                 </a>
                             </li>
                             <li>
                                 <a
-                                    href="https://www.kaggle.com/datasets"
+                                    href="https://spacy.io/usage"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -524,67 +541,23 @@ const MachineLearning = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    Explore Datasets on Kaggle
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="https://www.datacamp.com/courses/introduction-to-machine-learning-with-python"
-                                    className="text-blue-600 hover:underline flex items-center"
-                                >
-                                    <svg
-                                        className="w-5 h-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                                        />
-                                    </svg>
-                                    Introduction to Machine Learning on DataCamp
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="https://machinelearningmastery.com/start-here/"
-                                    className="text-blue-600 hover:underline flex items-center"
-                                >
-                                    <svg
-                                        className="w-5 h-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                                        />
-                                    </svg>
-                                    Machine Learning Mastery Tutorials
+                                    spaCy Official Documentation
                                 </a>
                             </li>
                         </ul>
                     </section>
 
-                    {/* Call-to-Action Section (Always Visible) */}
+                    {/* Call-to-Action Section */}
                     <section className="py-16 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white">
                         <div className="max-w-6xl mx-auto text-center">
                             <div className="relative">
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
-                                    Ready to Learn Machine Learning?
+                                    Ready to Master NLP?
                                 </h2>
                                 <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-                                    Join thousands of learners and start building intelligent systems today. Enroll now to unlock your potential!
+                                    Join thousands of learners and start processing text data like a pro today. Enroll now to unlock your potential!
                                 </p>
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
@@ -605,10 +578,82 @@ const MachineLearning = () => {
                             </div>
                         </div>
                     </section>
+
+                    {/* Footer Links */}
+                    <section className="py-8 px-4 bg-gray-100 text-gray-700 text-sm">
+                        <div className="max-w-6xl mx-auto">
+                            <h3 className="text-lg font-bold mb-4 text-gray-800">Explore More from Other Platforms</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div>
+                                    <h4 className="font-semibold mb-2">Courses</h4>
+                                    <ul className="space-y-1">
+                                        <li>
+                                            <a
+                                                href="https://www.coursera.org/learn/natural-language-processing"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                NLP Specialization
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://www.datacamp.com/courses/intro-to-nlp"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Intro to NLP
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold mb-2">Related Tutorials</h4>
+                                    <ul className="space-y-1">
+                                        <li>
+                                            <a
+                                                href="https://www.geeksforgeeks.org/natural-language-processing-nlp-tutorial/"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                NLP Tutorial
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://www.geeksforgeeks.org/sentiment-analysis/"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Sentiment Analysis Tutorial
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold mb-2">NLP Topics</h4>
+                                    <ul className="space-y-1">
+                                        <li>
+                                            <a
+                                                href="https://www.geeksforgeeks.org/transformers-in-nlp/"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Transformers in NLP
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                href="https://www.geeksforgeeks.org/text-preprocessing-in-nlp/"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                Text Preprocessing
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
     );
 };
 
-export default MachineLearning;
+export default NaturalLanguage;

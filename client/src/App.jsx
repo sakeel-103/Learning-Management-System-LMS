@@ -27,15 +27,31 @@ import HTMLPage from './Students/DevelopmentAndDS/HTMLPage'
 import NodejsPage from './Students/DevelopmentAndDS/NodeJsPage'
 import ReactJSPage from './Students/DevelopmentAndDS/ReactPage'
 import MachineLearning from './Students/AI&ML/MachineLearning'
-import ContactUs from './Students/components/ContanUs';
-
+import DataScience from './Students/AI&ML/DataScience';
+import DataAnalysis from './Students/AI&ML/DataAnalysis'
+import DataVisualization from './Students/AI&ML/DataVisualization'
+import DeepLearning from './Students/AI&ML/DeepLearning'
+import NaturalLanguage from './Students/AI&ML/NaturalLanguage'
+import ComputerVision from './Students/AI&ML/ComputerVission'
+import ArtificialIntelligence from './Students/AI&ML/ArtificialIntelligence'
+import AssessmentPage from './Students/CorseDetails/AssesmentPage'
+import HtmlQuestionsPage from './Students/AssessmentCourses/HTMLQuationsPage'
+import DSAQuestionsPage from './Students/AssessmentCourses/DSAQuestionsPage'
+import WebQuestionsPage from './Students/AssessmentCourses/WebQuestionsPage'
+import ArtificialMachineQuestions from './Students/AssessmentCourses/ArtificialMachineQuestions'
+import JavaQuestionsPage from './Students/AssessmentCourses/JavaQuestionsPage'
+import PythonQuestionsPage from './Students/AssessmentCourses/PythonQuestionsPage'
+import ContactUsPage from './Students/components/ContanUsPage'
+import CertificationPage from './Students/components/CertificationPage'
+import CourseFrontPage from './Students/pages/CourseFrontPage'
+import PaymentPage from './Students/pages/PaymentPage';
+import InstructorViewPage from './Students/pages/InstructorViewPage';
 
 function App() {
   return (
     <Router>
       <UserNavbar />
       <Routes>
-
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
@@ -43,16 +59,18 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-
         {/* Role-based Protected Routes */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
         <Route path="/student/dashboard" element={<StudentDashboard />} />
         <Route path="/courses" element={<CoursePage />} />
+        <Route path="/InstructorViewPage" element={<InstructorViewPage />} />
+        <Route path="/course_front_page" element={<CourseFrontPage />} />
         <Route path="/courses/dsa-to-development" element={<DSAPage />} />
         <Route path="/courses/machine-learning" element={<MLAndDS />} />
         <Route path="/courses/backend-with-java" element={<BackendWithJava />} />
         <Route path="/courses/data-structure-algorithms" element={<DataStructuresAlgorithm />} />
+        <Route path="/courses/AssesmentPage" element={<AssessmentPage />} />
         <Route path="/dvelopmentAndDS/javascriptPage" element={<JavaScriptPage />} />
         <Route path="/dvelopmentAndDS/backendPage" element={<BackendPage />} />
         <Route path="/devlopmentAndDS/cssPage" element={<CSSPage />} />
@@ -62,8 +80,26 @@ function App() {
         <Route path="/DevelopmentAndDS/nodeJsPage" element={<NodejsPage />} />
         <Route path="/DevelopmentAndDS/reactJsPage" element={<ReactJSPage />} />
         <Route path="/AIMLDS/MachineLearningPage" element={<MachineLearning />} />
-        <Route path="/components/contact-us" element={<ContactUs />} />
+        <Route path="/AIMLDS/DataSciencePage" element={<DataScience />} />
+        <Route path="/AIMLDS/DataAnalysisPage" element={<DataAnalysis />} />
+        <Route path="/AIMLDS/DataVisualizationPage" element={<DataVisualization />} />
+        <Route path="/AIMLDS/DeepLearningPage" element={<DeepLearning />} />
+        <Route path="/AIMLDS/NaturalLanguagePage" element={<NaturalLanguage />} />
+        <Route path="/ALMLDS/ComputerVissionPage" element={<ComputerVision />} />
+        <Route path="/AIMLDS/ArtificialInteligencePage" element={<ArtificialIntelligence />} />
+        <Route path="/Components/contact-us-page" element={<ContactUsPage />} />
+        <Route path="/Components/certication-page" element={<CertificationPage />} />
 
+        {/* Payment page */}
+        <Route path="/PaymentPage" element={<PaymentPage />} />
+
+        {/* Assessment Pages */}
+        <Route path="/AssessmentCourses/html-questions-page" element={<HtmlQuestionsPage />} />
+        <Route path="/AssessmentCourses/data-structure-algorithm" element={<DSAQuestionsPage />} />
+        <Route path="/AssessmentCourses/wed-developments-page" element={<WebQuestionsPage />} />
+        <Route path="/AssessmentCourses/artificial-machine-questions-page" element={<ArtificialMachineQuestions />} />
+        <Route path="/AssessmentCourses/java-questions-page" element={<JavaQuestionsPage />} />
+        <Route path="/AssessmentCourses/python-questions-page" element={<PythonQuestionsPage />} />
       </Routes>
 
       <ScrollToTop />

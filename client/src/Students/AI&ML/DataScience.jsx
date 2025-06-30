@@ -1,66 +1,56 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const ReactJSPage = () => {
+
+const DataScience = () => {
     const navigate = useNavigate();
-    const [activeSection, setActiveSection] = useState("introduction");
+    const [activeSection, setActiveSection] = useState("ds-home");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [showMore, setShowMore] = useState(false); // State to toggle visibility of sections after State
+    const [showMore, setShowMore] = useState(false);
 
     const faqs = [
         {
-            question: "What is React?",
-            answer: "React is a JavaScript library for building user interfaces, particularly single-page applications, using a component-based architecture.",
+            question: "What is data science?",
+            answer: "Data science is an interdisciplinary field that uses scientific methods, processes, algorithms, and systems to extract knowledge and insights from structured and unstructured data.",
         },
         {
-            question: "Is React a framework or a library?",
-            answer: "React is a library, not a framework. It focuses on the UI layer and can be used with other libraries or frameworks.",
+            question: "What is a DataFrame in Python?",
+            answer: "A DataFrame is a two-dimensional, size-mutable, and potentially heterogeneous tabular data structure with labeled axes (rows and columns) in the Pandas library.",
         },
         {
-            question: "What are React components?",
-            answer: "Components are reusable building blocks in React that encapsulate UI logic, styling, and behavior.",
+            question: "What is the difference between correlation and causation?",
+            answer: "Correlation indicates a statistical relationship between two variables, while causation implies that one variable directly affects the other. Correlation does not imply causation.",
         },
         {
-            question: "What is the difference between state and props?",
-            answer: "State is internal, mutable data managed within a component, while props are external, immutable data passed to a component.",
+            question: "What are percentiles in statistics?",
+            answer: "Percentiles are measures that divide a dataset into 100 equal parts, indicating the value below which a given percentage of observations fall.",
         },
         {
-            question: "What are React Hooks?",
-            answer: "Hooks are functions that let you use state and other React features in functional components, introduced in React 16.8.",
-        },
-        {
-            question: "How does React Router work?",
-            answer: "React Router is a library for routing in React applications, allowing navigation between different components based on URL paths.",
-        },
-        {
-            question: "What is the Context API?",
-            answer: "The Context API allows you to share state across the component tree without passing props manually at every level.",
-        },
-        {
-            question: "How can you optimize React performance?",
-            answer: "Use techniques like memoization (React.memo), lazy loading, code splitting, and avoiding unnecessary re-renders.",
-        },
-        {
-            question: "What is JSX?",
-            answer: "JSX is a syntax extension for JavaScript that allows you to write HTML-like code within JavaScript, used in React to define UI components.",
-        },
-        {
-            question: "Can React work with TypeScript?",
-            answer: "Yes, React supports TypeScript, which adds static types to JavaScript, improving code reliability and developer experience.",
+            question: "What is a correlation matrix?",
+            answer: "A correlation matrix is a table showing correlation coefficients between multiple variables, typically used to understand relationships in a dataset.",
         },
     ];
     const [openFaqIndexes, setOpenFaqIndexes] = useState(Array(faqs.length).fill(false));
 
     const sections = [
-        { id: "introduction", title: "Introduction" },
-        { id: "components", title: "Components" },
-        { id: "state", title: "State" },
-        { id: "props", title: "Props" },
-        { id: "event-handling", title: "Event Handling" },
-        { id: "hooks", title: "Hooks" },
-        { id: "react-router", title: "React Router" },
-        { id: "context-api", title: "Context API" },
-        { id: "performance-optimization", title: "Performance Optimization" },
-        { id: "FAQ", title: "FAQ" },
+        { id: "ds-home", title: "DS HOME" },
+        { id: "ds-introduction", title: "DS Introduction" },
+        { id: "ds-what-is-data", title: "DS What is Data" },
+        { id: "ds-python", title: "DS Python" },
+        { id: "ds-dataframe", title: "DS DataFrame" },
+        { id: "ds-functions", title: "DS Functions" },
+        { id: "ds-data-prep", title: "DS Data Preparation" },
+        { id: "ds-math", title: "DS Math" },
+        { id: "ds-linear-functions", title: "DS Linear Functions" },
+        { id: "ds-plotting-functions", title: "DS Plotting Functions" },
+        { id: "ds-slope-intercept", title: "DS Slope and Intercept" },
+        { id: "ds-statistics", title: "DS Statistics" },
+        { id: "stat-introduction", title: "Stat Introduction" },
+        { id: "stat-percentiles", title: "Stat Percentiles" },
+        { id: "stat-standard-deviation", title: "Stat Standard Deviation" },
+        { id: "stat-variance", title: "Stat Variance" },
+        { id: "stat-correlation", title: "Stat Correlation" },
+        { id: "stat-correlation-matrix", title: "Stat Correlation Matrix" },
+        { id: "stat-correlation-vs-causality", title: "Stat Correlation vs Causality" },
     ];
 
     const toggleSidebar = () => {
@@ -71,8 +61,7 @@ const ReactJSPage = () => {
         setActiveSection(sectionId);
         setIsSidebarOpen(false);
 
-        // If the clicked section is after "state" and sections are hidden, show them
-        const hiddenSections = ["props", "event-handling", "hooks", "react-router", "context-api", "performance-optimization", "FAQ"];
+        const hiddenSections = ["ds-statistics", "stat-introduction", "stat-percentiles", "stat-standard-deviation", "stat-variance", "stat-correlation", "stat-correlation-matrix", "stat-correlation-vs-causality"];
         if (hiddenSections.includes(sectionId) && !showMore) {
             setShowMore(true);
         }
@@ -85,7 +74,7 @@ const ReactJSPage = () => {
 
     return (
         <div className="flex min-h-screen bg-gray-50">
-            {/* Mobile Viewport button */}
+            {/* Mobile Sidebar Toggle */}
             <button
                 className="lg:hidden fixed top-24 left-4 z-50 p-2 bg-blue-400 text-white rounded-md focus:outline-none"
                 onClick={toggleSidebar}
@@ -114,7 +103,7 @@ const ReactJSPage = () => {
                 style={{ top: "5rem" }}
             >
                 <div className="p-4 border-b">
-                    <h2 className="text-xl font-bold text-gray-800">React JS Tutorial</h2>
+                    <h2 className="text-xl font-bold text-gray-800">Data Science Tutorial</h2>
                 </div>
                 <div className="h-[calc(100%-4rem)] overflow-y-auto">
                     <nav className="p-4">
@@ -148,15 +137,15 @@ const ReactJSPage = () => {
                     <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
-                                Basics & Advanced of React JS
+                                Fundamentals of Data Science
                             </span>
                         </h1>
                         <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                            Learn React JS with this comprehensive tutorial covering all fundamental concepts and advanced features. Master the library that powers modern web applications.
+                            Explore data science with this in-depth tutorial covering Python, statistics, data preparation, and more. Build the skills to analyze and interpret data effectively.
                         </p>
                     </div>
 
-                    {/* React Hero Banner */}
+                    {/* Data Science Hero Banner */}
                     <div className="mb-16 bg-gradient-to-r from-blue-400 to-green-800 rounded-2xl shadow-xl overflow-hidden border border-white/10">
                         <div className="relative p-4 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
                             <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
@@ -166,12 +155,12 @@ const ReactJSPage = () => {
                             <div className="relative z-10 mb-6 md:mb-0 md:mr-8">
                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3">
                                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
-                                        Master React JS
+                                        Master Data Science
                                     </span>{" "}
                                     in 2025
                                 </h2>
                                 <p className="text-base sm:text-lg text-white/90 max-w-lg">
-                                    Unlock the full potential of web development with the world's most popular JavaScript library
+                                    Analyze and interpret data with modern data science techniques.
                                 </p>
                                 <div className="mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg">
@@ -192,90 +181,165 @@ const ReactJSPage = () => {
                                 </div>
                                 <pre className="text-yellow-400 font-mono text-xs sm:text-sm md:text-base overflow-x-auto">
                                     <code>
-                                        {`// React Component Example\n`}
-                                        {`import React from 'react';\n`}
-                                        {`const MyComponent = () => (\n`}
-                                        {`  <div className="text-white">\n`}
-                                        {`    Hello, React!\n`}
-                                        {`  </div>\n`}
-                                        {`);\n`}
-                                        {`export default MyComponent;`}
+                                        {`# Data Science Example\n`}
+                                        {`import pandas as pd\n`}
+                                        {`df = pd.read_csv('data.csv')\n`}
+                                        {`print(df.head())\n`}
                                     </code>
                                 </pre>
                             </div>
                         </div>
                     </div>
 
-                    {/* Introduction Section */}
-                    <section id="introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* DS HOME Section */}
+                    <section id="ds-home" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Introduction to React JS
+                            Data Science Home
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                React JS is a popular JavaScript library for building user interfaces, developed by Facebook. It allows developers to create reusable UI components and manage the state of an application efficiently. React uses a virtual DOM to optimize rendering, making it ideal for building fast and interactive web applications.
-                                <br />
-                                This React tutorial is designed for beginners and professionals alike, covering basic to advanced concepts such as components, state, props, hooks, routing, and more.
+                                Welcome to the Data Science tutorial! This guide will walk you through the essential concepts and techniques in data science, from data preparation to advanced statistical analysis.
                             </p>
-                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`import React from 'react';\nReactDOM.render(<h1>Hello, React!</h1>, document.getElementById('root'));`}</code>
-                                </pre>
-                            </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Features:</h3>
-                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li>Component-based architecture</li>
-                                <li>Virtual DOM for efficient updates</li>
-                                <li>Unidirectional data flow</li>
-                                <li>Support for JSX syntax</li>
-                                <li>Rich ecosystem with tools like React Router and Redux</li>
-                            </ul>
                         </div>
                     </section>
 
-                    {/* Components Section */}
-                    <section id="components" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* DS Introduction Section */}
+                    <section id="ds-introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Components in React
+                            Introduction to Data Science
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                React applications are built using components, which are reusable pieces of UI. Components can be either functional (using hooks) or class-based, and they can accept inputs called props.
+                                Data science combines mathematics, statistics, computer science, and domain expertise to extract meaningful insights from data.
                             </p>
-                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`// Functional Component\nconst Greeting = ({ name }) => {\n  return <h1>Hello, {name}!</h1>;\n};\n\n// Usage\n<Greeting name="User" />`}</code>
-                                </pre>
-                            </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li>Components can be nested to build complex UIs</li>
-                                <li>Functional components are preferred over class components</li>
-                                <li>Components should be pure and predictable</li>
-                            </ul>
                         </div>
                     </section>
 
-                    {/* State Section */}
-                    <section id="state" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* DS What is Data Section */}
+                    <section id="ds-what-is-data" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            State in React
+                            What is Data?
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                State is a built-in object that holds data that may change over time. In functional components, state is managed using the <code>useState</code> hook.
+                                Data is a collection of facts, such as numbers, words, or measurements, that can be processed and analyzed to gain insights.
+                            </p>
+                        </div>
+                    </section>
+
+                    {/* DS Python Section */}
+                    <section id="ds-python" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Python for Data Science
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Python is a popular programming language for data science due to its rich ecosystem of libraries like Pandas, NumPy, and Matplotlib.
                             </p>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`import React, { useState } from 'react';\n\nconst Counter = () => {\n  const [count, setCount] = useState(0);\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n    </div>\n  );\n};`}</code>
+                                    <code>{`# Basic Python Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})\nprint(df)`}</code>
                                 </pre>
                             </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li>State is private to the component</li>
-                                <li>Updating state triggers a re-render</li>
-                                <li>Use <code>useState</code> for simple state management</li>
-                            </ul>
+                        </div>
+                    </section>
+
+                    {/* DS DataFrame Section */}
+                    <section id="ds-dataframe" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            DataFrame in Data Science
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                DataFrames in Pandas are used to store and manipulate tabular data efficiently.
+                            </p>
+                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                <pre className="text-xs sm:text-sm">
+                                    <code>{`# DataFrame Example\nimport pandas as pd\ndf = pd.DataFrame({'Name': ['Alice', 'Bob'], 'Age': [25, 30]})\nprint(df)`}</code>
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* DS Functions Section */}
+                    <section id="ds-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Functions in Data Science
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Functions in Python allow you to perform repetitive tasks efficiently, such as data cleaning or transformation.
+                            </p>
+                        </div>
+                    </section>
+
+                    {/* DS Data Preparation Section */}
+                    <section id="ds-data-prep" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Data Preparation
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Data preparation involves cleaning, transforming, and organizing data for analysis.
+                            </p>
+                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                <pre className="text-xs sm:text-sm">
+                                    <code>{`# Data Cleaning Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, None, 3]})\ndf.fillna(0, inplace=True)\nprint(df)`}</code>
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* DS Math Section */}
+                    <section id="ds-math" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Math for Data Science
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Mathematics, including linear algebra and calculus, forms the foundation of data science techniques.
+                            </p>
+                        </div>
+                    </section>
+
+                    {/* DS Linear Functions Section */}
+                    <section id="ds-linear-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Linear Functions
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Linear functions are used to model relationships between variables in data science.
+                            </p>
+                        </div>
+                    </section>
+
+                    {/* DS Plotting Functions Section */}
+                    <section id="ds-plotting-functions" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Plotting Functions
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Plotting functions in libraries like Matplotlib help visualize data trends.
+                            </p>
+                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                <pre className="text-xs sm:text-sm">
+                                    <code>{`# Plotting Example\nimport matplotlib.pyplot as plt\nplt.plot([1, 2, 3], [4, 5, 6])\nplt.show()`}</code>
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* DS Slope and Intercept Section */}
+                    <section id="ds-slope-intercept" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Slope and Intercept
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Slope and intercept are key components of linear equations used in data modeling.
+                            </p>
                         </div>
                     </section>
 
@@ -285,7 +349,7 @@ const ReactJSPage = () => {
                             <button
                                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onClick={() => setShowMore(true)}
-                                aria-label="Explore more React JS topics"
+                                aria-label="Explore more Data Science topics"
                             >
                                 Explore More
                             </button>
@@ -295,141 +359,104 @@ const ReactJSPage = () => {
                     {/* Sections Hidden Behind Explore More Button */}
                     {showMore && (
                         <>
-                            {/* Props Section */}
-                            <section id="props" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* DS Statistics Section */}
+                            <section id="ds-statistics" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Props in React
+                                    Statistics in Data Science
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Props (short for properties) are read-only inputs passed to components to customize their behavior or appearance.
+                                        Statistics provides the tools to analyze and interpret data effectively.
                                     </p>
-                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                        <pre className="text-xs sm:text-sm">
-                                            <code>{`const Welcome = (props) => {\n  return <h1>Welcome, {props.name}!</h1>;\n};\n\n// Usage\n<Welcome name="Alice" />`}</code>
-                                        </pre>
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Props are immutable within the component</li>
-                                        <li>Can pass any data type as props</li>
-                                        <li>Use defaultProps for default values</li>
-                                    </ul>
                                 </div>
                             </section>
 
-                            {/* Event Handling Section */}
-                            <section id="event-handling" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Stat Introduction Section */}
+                            <section id="stat-introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Event Handling in React
+                                    Introduction to Statistics
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        React handles events using event handlers, which are passed as props to elements. Event names use camelCase (e.g., <code>onClick</code>).
+                                        Statistics involves collecting, analyzing, and interpreting data to make informed decisions.
                                     </p>
-                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                        <pre className="text-xs sm:text-sm">
-                                            <code>{`const Button = () => {\n  const handleClick = () => alert('Button clicked!');\n  return <button onClick={handleClick}>Click Me</button>;\n};`}</code>
-                                        </pre>
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Events are synthetic, wrapping native DOM events</li>
-                                        <li>Pass functions, not function calls, to event handlers</li>
-                                        <li>Can prevent default behavior using <code>event.preventDefault()</code></li>
-                                    </ul>
                                 </div>
                             </section>
 
-                            {/* Hooks Section */}
-                            <section id="hooks" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Stat Percentiles Section */}
+                            <section id="stat-percentiles" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Hooks in React
+                                    Percentiles in Statistics
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Hooks allow functional components to use state and lifecycle features. Common hooks include <code>useState</code>, <code>useEffect</code>, and <code>useContext</code>.
+                                        Percentiles help understand the distribution of data by dividing it into 100 equal parts.
                                     </p>
-                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                        <pre className="text-xs sm:text-sm">
-                                            <code>{`import React, { useState, useEffect } from 'react';\n\nconst Timer = () => {\n  const [seconds, setSeconds] = useState(0);\n  useEffect(() => {\n    const interval = setInterval(() => setSeconds(s => s + 1), 1000);\n    return () => clearInterval(interval);\n  }, []);\n  return <p>Seconds: {seconds}</p>;\n};`}</code>
-                                        </pre>
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Hooks can only be called at the top level</li>
-                                        <li><code>useEffect</code> handles side effects</li>
-                                        <li>Custom hooks can be created for reusable logic</li>
-                                    </ul>
                                 </div>
                             </section>
 
-                            {/* React Router Section */}
-                            <section id="react-router" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Stat Standard Deviation Section */}
+                            <section id="stat-standard-deviation" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    React Router
+                                    Standard Deviation
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        React Router is a library for routing in React applications, enabling navigation between different components based on URL paths.
+                                        Standard deviation measures the spread of data points from the mean.
                                     </p>
-                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                        <pre className="text-xs sm:text-sm">
-                                            <code>{`import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';\n\nconst App = () => (\n  <Router>\n    <Switch>\n      <Route path="/about" component={About} />\n      <Route path="/" component={Home} />\n    </Switch>\n  </Router>\n);`}</code>
-                                        </pre>
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Uses declarative routing with components</li>
-                                        <li>Supports nested routes and dynamic routing</li>
-                                        <li>Provides hooks like <code>useHistory</code> and <code>useParams</code></li>
-                                    </ul>
                                 </div>
                             </section>
 
-                            {/* Context API Section */}
-                            <section id="context-api" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Stat Variance Section */}
+                            <section id="stat-variance" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Context API in React
+                                    Variance in Statistics
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        The Context API provides a way to share data across the component tree without passing props manually at every level.
+                                        Variance quantifies the dispersion of data points in a dataset.
                                     </p>
-                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                        <pre className="text-xs sm:text-sm">
-                                            <code>{`const ThemeContext = React.createContext('light');\n\nconst App = () => (\n  <ThemeContext.Provider value="dark">\n    <ThemedComponent />\n  </ThemeContext.Provider>\n);\n\nconst ThemedComponent = () => {\n  const theme = React.useContext(ThemeContext);\n  return <div>Theme: {theme}</div>;\n};`}</code>
-                                        </pre>
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Avoids prop drilling</li>
-                                        <li>Best for global state like themes or user data</li>
-                                        <li>Use with <code>useContext</code> hook in functional components</li>
-                                    </ul>
                                 </div>
                             </section>
 
-                            {/* Performance Optimization Section */}
-                            <section id="performance-optimization" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Stat Correlation Section */}
+                            <section id="stat-correlation" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Performance Optimization in React
+                                    Correlation in Statistics
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        React provides several techniques to optimize performance, such as memoization, lazy loading, and avoiding unnecessary re-renders.
+                                        Correlation measures the strength and direction of the relationship between two variables.
+                                    </p>
+                                </div>
+                            </section>
+
+                            {/* Stat Correlation Matrix Section */}
+                            <section id="stat-correlation-matrix" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                                    Correlation Matrix
+                                </h2>
+                                <div className="space-y-4">
+                                    <p className="text-gray-700 text-sm sm:text-base">
+                                        A correlation matrix displays the correlation coefficients between multiple variables.
                                     </p>
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
-                                            <code>{`import React, { memo } from 'react';\n\nconst ExpensiveComponent = memo(() => {\n  return <div>Expensive Render</div>;\n});\n\nconst Parent = () => {\n  const [count, setCount] = React.useState(0);\n  return (\n    <div>\n      <ExpensiveComponent />\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n    </div>\n  );\n};`}</code>
+                                            <code>{`# Correlation Matrix Example\nimport pandas as pd\ndf = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})\nprint(df.corr())`}</code>
                                         </pre>
                                     </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Techniques:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Use <code>React.memo</code> to prevent unnecessary re-renders</li>
-                                        <li>Lazy load components with <code>React.lazy</code> and <code>Suspense</code></li>
-                                        <li>Optimize hooks with <code>useMemo</code> and <code>useCallback</code></li>
-                                    </ul>
+                                </div>
+                            </section>
+
+                            {/* Stat Correlation vs Causality Section */}
+                            <section id="stat-correlation-vs-causality" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                                    Correlation vs Causality
+                                </h2>
+                                <div className="space-y-4">
+                                    <p className="text-gray-700 text-sm sm:text-base">
+                                        Understanding the difference between correlation and causality is crucial for accurate data interpretation.
+                                    </p>
                                 </div>
                             </section>
 
@@ -485,13 +512,13 @@ const ReactJSPage = () => {
                         </>
                     )}
 
-                    {/* Resources Section (Always Visible) */}
+                    {/* Resources Section */}
                     <section className="mb-16 bg-blue-50 rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-xl sm:text-2xl font-bold mb-4 text-gray-800">Additional Resources</h2>
                         <ul className="space-y-3">
                             <li>
                                 <a
-                                    href="https://reactjs.org/docs/getting-started.html"
+                                    href="https://www.coursera.org/learn/data-science-fundamentals"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -508,11 +535,14 @@ const ReactJSPage = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    React Official Documentation
+                                    Data Science Fundamentals on Coursera
                                 </a>
                             </li>
                             <li>
-                                <a href="https://reactrouter.com/" className="text-blue-600 hover:underline flex items-center">
+                                <a
+                                    href="https://pandas.pydata.org/docs/"
+                                    className="text-blue-600 hover:underline flex items-center"
+                                >
                                     <svg
                                         className="w-5 h-5 mr-2"
                                         fill="none"
@@ -527,35 +557,57 @@ const ReactJSPage = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    React Router Documentation
+                                    Pandas Official Documentation
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://www.kaggle.com/datasets"
+                                    className="text-blue-600 hover:underline flex items-center"
+                                >
+                                    <svg
+                                        className="w-5 h-5 mr-2"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                                        />
+                                    </svg>
+                                    Explore Datasets on Kaggle
                                 </a>
                             </li>
                         </ul>
                     </section>
 
-                    {/* Call-to-Action Section (Always Visible) */}
+                    {/* Call-to-Action Section */}
                     <section className="py-16 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white">
                         <div className="max-w-6xl mx-auto text-center">
                             <div className="relative">
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
-                                    Ready to Learn React JS?
+                                    Ready to Learn Data Science?
                                 </h2>
                                 <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-                                    Join thousands of learners and start building modern web applications today. Enroll now to unlock your potential!
+                                    Join thousands of learners and start analyzing data today. Enroll now to unlock your potential!
                                 </p>
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
                                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => navigate('/Login')} // Corrected navigation
+                                        onClick={() => navigate("/Components/contact-us-page")}
                                         aria-label="Enroll now in the course"
                                     >
                                         Enroll Now
                                     </button>
                                     <button
                                         className="px-8 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => navigate('/Components/contact-us-page')}
+                                        onClick={() => navigate("/Components/contact-us-page")}
                                         aria-label="Contact us for more information"
                                     >
                                         Contact Us
@@ -570,4 +622,4 @@ const ReactJSPage = () => {
     );
 };
 
-export default ReactJSPage;
+export default DataScience;

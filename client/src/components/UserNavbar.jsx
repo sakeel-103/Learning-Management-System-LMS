@@ -93,39 +93,17 @@ function UserNavbar() {
                                     Courses
                                 </Link>
                                 <Link
-                                    to="/components/contact-us"
+                                    to="/Components/contact-us-page"
                                     className="text-gray-600 hover:text-blue-800 px-4 py-2 text-base font-semibold transition-colors duration-200"
                                 >
                                     Contact Us
                                 </Link>
                                 <Link
-                                    to="/my-learning"
-                                    className="text-gray-600 hover:text-blue-400 px-4 py-2 text-base font-semibold transition-colors duration-200"
-                                >
-                                    Learning
-                                </Link>
-                                <Link
-                                    to="/certificates"
+                                    to="/Components/certication-page"
                                     className="text-gray-600 hover:text-blue-400 px-4 py-2 text-base font-semibold transition-colors duration-200"
                                 >
                                     Certificates
                                 </Link>
-                                {isLoggedIn && (localStorage.getItem("role") === "Instructor" || localStorage.getItem("role") === "Admin") && (
-                                    <Link
-                                        to="/manage-courses"
-                                        className="text-blue-600 hover:text-blue-800 px-4 py-2 text-base font-semibold transition-colors duration-200"
-                                    >
-                                        Manage Courses
-                                    </Link>
-                                )}
-                                {isLoggedIn && localStorage.getItem("role") === "Admin" && (
-                                    <Link
-                                        to="/admin-panel"
-                                        className="text-blue-600 hover:text-blue-800 px-4 py-2 text-base font-semibold transition-colors duration-200"
-                                    >
-                                        Admin Panel
-                                    </Link>
-                                )}
                             </div>
                         </div>
 
@@ -247,18 +225,11 @@ function UserNavbar() {
                             Courses
                         </Link>
                         <Link
-                            to="/my-learning"
-                            className="text-blue-600 hover:text-blue-800 hover:underline block px-4 py-2 text-base font-semibold"
+                            to="/Components/contact-us-page"
+                            className="text-gray-600 hover:text-blue-400 hover:underline block px-4 py-2 text-base font-semibold"
                             onClick={() => setIsOpen(false)}
                         >
-                            Learning
-                        </Link>
-                        <Link
-                            to="/certificates"
-                            className="text-blue-600 hover:text-blue-800 hover:underline block px-4 py-2 text-base font-semibold"
-                            onClick={() => setIsOpen(false)}
-                        >
-                            Certificates
+                            Contact Us
                         </Link>
                         {isLoggedIn && (localStorage.getItem("role") === "Instructor" || localStorage.getItem("role") === "Admin") && (
                             <Link
@@ -281,7 +252,7 @@ function UserNavbar() {
                         {isLoggedIn ? (
                             <>
                                 <Link
-                                    to="/DevelopmentAnsDS/contact-us"
+                                    to="/Components/contact-us-page"
                                     className="text-blue-600 hover:text-blue-800 hover:underline block px-4 py-2 text-base font-semibold"
                                     onClick={() => setIsOpen(false)}
                                 >
@@ -329,13 +300,6 @@ function UserNavbar() {
                                     onClick={() => setIsOpen(false)}
                                 >
                                     Login
-                                </Link>
-                                <Link
-                                    to="/register"
-                                    className="text-blue-600 hover:text-blue- Sandia py-2 text-base font-semibold"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Register
                                 </Link>
                             </>
                         )}

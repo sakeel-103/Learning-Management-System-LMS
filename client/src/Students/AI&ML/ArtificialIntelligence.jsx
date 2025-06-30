@@ -1,66 +1,44 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const ReactJSPage = () => {
+
+const ArtificialIntelligence = () => {
     const navigate = useNavigate();
-    const [activeSection, setActiveSection] = useState("introduction");
+    const [activeSection, setActiveSection] = useState("what-is-ai");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [showMore, setShowMore] = useState(false); // State to toggle visibility of sections after State
+    const [showMore, setShowMore] = useState(false);
 
     const faqs = [
         {
-            question: "What is React?",
-            answer: "React is a JavaScript library for building user interfaces, particularly single-page applications, using a component-based architecture.",
+            question: "What is the difference between AI, machine learning, and deep learning?",
+            answer: "AI is the broad field of creating intelligent systems, machine learning is a subset of AI that uses algorithms to learn from data, and deep learning is a subset of machine learning that uses neural networks with many layers to analyze complex patterns.",
         },
         {
-            question: "Is React a framework or a library?",
-            answer: "React is a library, not a framework. It focuses on the UI layer and can be used with other libraries or frameworks.",
+            question: "What are some real-world applications of AI?",
+            answer: "AI is used in various applications like virtual assistants (e.g., Siri, Alexa), recommendation systems (e.g., Netflix, Spotify), autonomous vehicles, medical diagnosis, and fraud detection.",
         },
         {
-            question: "What are React components?",
-            answer: "Components are reusable building blocks in React that encapsulate UI logic, styling, and behavior.",
+            question: "What is reinforcement learning in AI?",
+            answer: "Reinforcement learning is a type of machine learning where an agent learns to make decisions by interacting with an environment, receiving rewards or penalties based on its actions, aiming to maximize cumulative rewards.",
         },
         {
-            question: "What is the difference between state and props?",
-            answer: "State is internal, mutable data managed within a component, while props are external, immutable data passed to a component.",
+            question: "How does AI ethics impact development?",
+            answer: "AI ethics addresses concerns like bias, fairness, transparency, and privacy in AI systems, ensuring that AI is developed responsibly to avoid harm and promote trust.",
         },
         {
-            question: "What are React Hooks?",
-            answer: "Hooks are functions that let you use state and other React features in functional components, introduced in React 16.8.",
-        },
-        {
-            question: "How does React Router work?",
-            answer: "React Router is a library for routing in React applications, allowing navigation between different components based on URL paths.",
-        },
-        {
-            question: "What is the Context API?",
-            answer: "The Context API allows you to share state across the component tree without passing props manually at every level.",
-        },
-        {
-            question: "How can you optimize React performance?",
-            answer: "Use techniques like memoization (React.memo), lazy loading, code splitting, and avoiding unnecessary re-renders.",
-        },
-        {
-            question: "What is JSX?",
-            answer: "JSX is a syntax extension for JavaScript that allows you to write HTML-like code within JavaScript, used in React to define UI components.",
-        },
-        {
-            question: "Can React work with TypeScript?",
-            answer: "Yes, React supports TypeScript, which adds static types to JavaScript, improving code reliability and developer experience.",
+            question: "What is the role of Python in AI development?",
+            answer: "Python is widely used in AI development due to its simplicity, extensive libraries (e.g., TensorFlow, scikit-learn), and strong community support, making it ideal for prototyping and production.",
         },
     ];
     const [openFaqIndexes, setOpenFaqIndexes] = useState(Array(faqs.length).fill(false));
 
     const sections = [
-        { id: "introduction", title: "Introduction" },
-        { id: "components", title: "Components" },
-        { id: "state", title: "State" },
-        { id: "props", title: "Props" },
-        { id: "event-handling", title: "Event Handling" },
-        { id: "hooks", title: "Hooks" },
-        { id: "react-router", title: "React Router" },
-        { id: "context-api", title: "Context API" },
-        { id: "performance-optimization", title: "Performance Optimization" },
-        { id: "FAQ", title: "FAQ" },
+        { id: "what-is-ai", title: "What is Artificial Intelligence (AI)?" },
+        { id: "ai-subfields", title: "Subfields of AI" },
+        { id: "machine-learning", title: "Machine Learning in AI" },
+        { id: "deep-learning", title: "Deep Learning in AI" },
+        { id: "nlp", title: "Natural Language Processing in AI" },
+        { id: "computer-vision", title: "Computer Vision in AI" },
+        { id: "reinforcement-learning", title: "Reinforcement Learning in AI" },
     ];
 
     const toggleSidebar = () => {
@@ -71,8 +49,7 @@ const ReactJSPage = () => {
         setActiveSection(sectionId);
         setIsSidebarOpen(false);
 
-        // If the clicked section is after "state" and sections are hidden, show them
-        const hiddenSections = ["props", "event-handling", "hooks", "react-router", "context-api", "performance-optimization", "FAQ"];
+        const hiddenSections = ["computer-vision", "reinforcement-learning"];
         if (hiddenSections.includes(sectionId) && !showMore) {
             setShowMore(true);
         }
@@ -85,7 +62,7 @@ const ReactJSPage = () => {
 
     return (
         <div className="flex min-h-screen bg-gray-50">
-            {/* Mobile Viewport button */}
+            {/* Mobile Sidebar Toggle */}
             <button
                 className="lg:hidden fixed top-24 left-4 z-50 p-2 bg-blue-400 text-white rounded-md focus:outline-none"
                 onClick={toggleSidebar}
@@ -114,7 +91,7 @@ const ReactJSPage = () => {
                 style={{ top: "5rem" }}
             >
                 <div className="p-4 border-b">
-                    <h2 className="text-xl font-bold text-gray-800">React JS Tutorial</h2>
+                    <h2 className="text-xl font-bold text-gray-800">AI Tutorial</h2>
                 </div>
                 <div className="h-[calc(100%-4rem)] overflow-y-auto">
                     <nav className="p-4">
@@ -148,15 +125,15 @@ const ReactJSPage = () => {
                     <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
-                                Basics & Advanced of React JS
+                                Artificial Intelligence with Python
                             </span>
                         </h1>
                         <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                            Learn React JS with this comprehensive tutorial covering all fundamental concepts and advanced features. Master the library that powers modern web applications.
+                            Explore Artificial Intelligence concepts, subfields, and techniques to build intelligent systems using Python.
                         </p>
                     </div>
 
-                    {/* React Hero Banner */}
+                    {/* AI Hero Banner */}
                     <div className="mb-16 bg-gradient-to-r from-blue-400 to-green-800 rounded-2xl shadow-xl overflow-hidden border border-white/10">
                         <div className="relative p-4 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
                             <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
@@ -166,15 +143,19 @@ const ReactJSPage = () => {
                             <div className="relative z-10 mb-6 md:mb-0 md:mr-8">
                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3">
                                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
-                                        Master React JS
+                                        Master AI
                                     </span>{" "}
                                     in 2025
                                 </h2>
                                 <p className="text-base sm:text-lg text-white/90 max-w-lg">
-                                    Unlock the full potential of web development with the world's most popular JavaScript library
+                                    Discover the power of AI with Python and build intelligent systems for the future.
                                 </p>
                                 <div className="mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                                    <button className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg">
+                                    <button
+                                        className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
+                                        onClick={() => navigate("/login")}
+                                        aria-label="Start learning now"
+                                    >
                                         Start Learning Now
                                     </button>
                                     <button className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all">
@@ -192,90 +173,159 @@ const ReactJSPage = () => {
                                 </div>
                                 <pre className="text-yellow-400 font-mono text-xs sm:text-sm md:text-base overflow-x-auto">
                                     <code>
-                                        {`// React Component Example\n`}
-                                        {`import React from 'react';\n`}
-                                        {`const MyComponent = () => (\n`}
-                                        {`  <div className="text-white">\n`}
-                                        {`    Hello, React!\n`}
-                                        {`  </div>\n`}
-                                        {`);\n`}
-                                        {`export default MyComponent;`}
+                                        {`# Simple AI Example\n`}
+                                        {`from sklearn.linear_model import LogisticRegression\n`}
+                                        {`model = LogisticRegression()\n`}
+                                        {`# Sample data\n`}
+                                        {`X = [[0, 0], [1, 1]]\n`}
+                                        {`y = [0, 1]\n`}
+                                        {`model.fit(X, y)\n`}
+                                        {`print(model.predict([[2, 2]]))\n`}
                                     </code>
                                 </pre>
                             </div>
                         </div>
                     </div>
 
-                    {/* Introduction Section */}
-                    <section id="introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* What is AI Section */}
+                    <section id="what-is-ai" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Introduction to React JS
+                            What is Artificial Intelligence (AI)?
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                React JS is a popular JavaScript library for building user interfaces, developed by Facebook. It allows developers to create reusable UI components and manage the state of an application efficiently. React uses a virtual DOM to optimize rendering, making it ideal for building fast and interactive web applications.
-                                <br />
-                                This React tutorial is designed for beginners and professionals alike, covering basic to advanced concepts such as components, state, props, hooks, routing, and more.
+                                Artificial Intelligence (AI) refers to the development of computer systems that can perform tasks that typically require human intelligence, such as reasoning, problem-solving, decision-making, and perception.
                             </p>
-                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`import React from 'react';\nReactDOM.render(<h1>Hello, React!</h1>, document.getElementById('root'));`}</code>
-                                </pre>
-                            </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Features:</h3>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Characteristics:</strong>
+                            </p>
                             <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li>Component-based architecture</li>
-                                <li>Virtual DOM for efficient updates</li>
-                                <li>Unidirectional data flow</li>
-                                <li>Support for JSX syntax</li>
-                                <li>Rich ecosystem with tools like React Router and Redux</li>
+                                <li>Mimics human cognitive functions like learning and reasoning.</li>
+                                <li>Can adapt to new data and improve over time.</li>
+                                <li>Enables automation of complex tasks across industries.</li>
+                                <li>Includes subfields like machine learning, NLP, and computer vision.</li>
                             </ul>
                         </div>
                     </section>
 
-                    {/* Components Section */}
-                    <section id="components" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* AI Subfields Section */}
+                    <section id="ai-subfields" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Components in React
+                            Subfields of AI
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                React applications are built using components, which are reusable pieces of UI. Components can be either functional (using hooks) or class-based, and they can accept inputs called props.
+                                AI encompasses a wide range of subfields, each focusing on different aspects of intelligence and problem-solving.
                             </p>
-                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`// Functional Component\nconst Greeting = ({ name }) => {\n  return <h1>Hello, {name}!</h1>;\n};\n\n// Usage\n<Greeting name="User" />`}</code>
-                                </pre>
-                            </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
                             <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li>Components can be nested to build complex UIs</li>
-                                <li>Functional components are preferred over class components</li>
-                                <li>Components should be pure and predictable</li>
+                                <li><strong>Machine Learning:</strong> Algorithms that learn from data to make predictions or decisions.</li>
+                                <li><strong>Deep Learning:</strong> A subset of machine learning using neural networks with many layers.</li>
+                                <li><strong>Natural Language Processing (NLP):</strong> Enables computers to understand and generate human language.</li>
+                                <li><strong>Computer Vision:</strong> Allows machines to interpret and understand visual data.</li>
+                                <li><strong>Reinforcement Learning:</strong> Learning through trial and error by interacting with an environment.</li>
                             </ul>
                         </div>
                     </section>
 
-                    {/* State Section */}
-                    <section id="state" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Machine Learning Section */}
+                    <section id="machine-learning" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            State in React
+                            Machine Learning in AI
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                State is a built-in object that holds data that may change over time. In functional components, state is managed using the <code>useState</code> hook.
+                                Machine Learning (ML) is a core subfield of AI that focuses on developing algorithms that enable systems to learn from and make predictions based on data.
                             </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Types:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li><strong>Supervised Learning:</strong> Learning from labeled data (e.g., classification, regression).</li>
+                                <li><strong>Unsupervised Learning:</strong> Finding patterns in unlabeled data (e.g., clustering).</li>
+                                <li><strong>Reinforcement Learning:</strong> Learning through rewards and penalties in an environment.</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`import React, { useState } from 'react';\n\nconst Counter = () => {\n  const [count, setCount] = useState(0);\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n    </div>\n  );\n};`}</code>
+                                    <code>
+                                        {`# Machine Learning Example with scikit-learn\n`}
+                                        {`from sklearn.linear_model import LogisticRegression\n`}
+                                        {`from sklearn.datasets import make_classification\n`}
+                                        {`X, y = make_classification(n_samples=100, n_features=2, random_state=42)\n`}
+                                        {`model = LogisticRegression()\n`}
+                                        {`model.fit(X, y)\n`}
+                                        {`predictions = model.predict(X)\n`}
+                                        {`print(predictions[:5])\n`}
+                                    </code>
                                 </pre>
                             </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
+                        </div>
+                    </section>
+
+                    {/* Deep Learning Section */}
+                    <section id="deep-learning" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Deep Learning in AI
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Deep Learning is a subset of machine learning that uses neural networks with multiple layers to analyze complex patterns in data, excelling in tasks like image and speech recognition.
+                            </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Features:</strong>
+                            </p>
                             <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li>State is private to the component</li>
-                                <li>Updating state triggers a re-render</li>
-                                <li>Use <code>useState</code> for simple state management</li>
+                                <li>Utilizes neural networks with many layers (deep neural networks).</li>
+                                <li>Effective for unstructured data like images, audio, and text.</li>
+                                <li>Requires large datasets and computational power (e.g., GPUs).</li>
+                                <li>Popular frameworks include TensorFlow and PyTorch.</li>
                             </ul>
+                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                <pre className="text-xs sm:text-sm">
+                                    <code>
+                                        {`# Deep Learning Example with TensorFlow\n`}
+                                        {`import tensorflow as tf\n`}
+                                        {`model = tf.keras.Sequential([\n`}
+                                        {`    tf.keras.layers.Dense(16, activation='relu', input_shape=(2,)),\n`}
+                                        {`    tf.keras.layers.Dense(1, activation='sigmoid')\n`}
+                                        {`])\n`}
+                                        {`model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])\n`}
+                                    </code>
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* NLP Section */}
+                    <section id="nlp" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Natural Language Processing in AI
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Natural Language Processing (NLP) enables computers to understand, interpret, and generate human language, making it a crucial subfield of AI.
+                            </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Applications:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Chatbots and virtual assistants (e.g., Siri, Alexa).</li>
+                                <li>Sentiment analysis for social media monitoring.</li>
+                                <li>Machine translation (e.g., Google Translate).</li>
+                                <li>Text summarization and generation.</li>
+                            </ul>
+                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                <pre className="text-xs sm:text-sm">
+                                    <code>
+                                        {`# NLP Example with NLTK\n`}
+                                        {`import nltk\n`}
+                                        {`from nltk.tokenize import word_tokenize\n`}
+                                        {`nltk.download('punkt')\n`}
+                                        {`text = "AI is transforming the world!"\n`}
+                                        {`tokens = word_tokenize(text)\n`}
+                                        {`print(tokens)\n`}
+                                    </code>
+                                </pre>
+                            </div>
                         </div>
                     </section>
 
@@ -285,7 +335,7 @@ const ReactJSPage = () => {
                             <button
                                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onClick={() => setShowMore(true)}
-                                aria-label="Explore more React JS topics"
+                                aria-label="Explore more AI topics"
                             >
                                 Explore More
                             </button>
@@ -295,141 +345,74 @@ const ReactJSPage = () => {
                     {/* Sections Hidden Behind Explore More Button */}
                     {showMore && (
                         <>
-                            {/* Props Section */}
-                            <section id="props" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Computer Vision Section */}
+                            <section id="computer-vision" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Props in React
+                                    Computer Vision in AI
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Props (short for properties) are read-only inputs passed to components to customize their behavior or appearance.
+                                        Computer Vision enables machines to interpret and understand visual data, such as images and videos, and is a vital part of AI applications.
                                     </p>
+                                    <p className="text-gray-700 text-sm sm:text-base">
+                                        <strong>Key Applications:</strong>
+                                    </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li>Object detection and recognition (e.g., self-driving cars).</li>
+                                        <li>Facial recognition (e.g., security systems).</li>
+                                        <li>Medical imaging analysis (e.g., detecting tumors).</li>
+                                        <li>Augmented reality (e.g., Snapchat filters).</li>
+                                    </ul>
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
-                                            <code>{`const Welcome = (props) => {\n  return <h1>Welcome, {props.name}!</h1>;\n};\n\n// Usage\n<Welcome name="Alice" />`}</code>
+                                            <code>
+                                                {`# Computer Vision Example with OpenCV\n`}
+                                                {`import cv2\n`}
+                                                {`image = cv2.imread("sample.jpg")\n`}
+                                                {`gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)\n`}
+                                                {`cv2.imshow("Grayscale Image", gray)\n`}
+                                                {`cv2.waitKey(0)\n`}
+                                                {`cv2.destroyAllWindows()\n`}
+                                            </code>
                                         </pre>
                                     </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Props are immutable within the component</li>
-                                        <li>Can pass any data type as props</li>
-                                        <li>Use defaultProps for default values</li>
-                                    </ul>
                                 </div>
                             </section>
 
-                            {/* Event Handling Section */}
-                            <section id="event-handling" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Reinforcement Learning Section */}
+                            <section id="reinforcement-learning" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Event Handling in React
+                                    Reinforcement Learning in AI
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        React handles events using event handlers, which are passed as props to elements. Event names use camelCase (e.g., <code>onClick</code>).
+                                        Reinforcement Learning (RL) is a type of machine learning where an agent learns to make decisions by interacting with an environment, optimizing for a cumulative reward.
                                     </p>
-                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                        <pre className="text-xs sm:text-sm">
-                                            <code>{`const Button = () => {\n  const handleClick = () => alert('Button clicked!');\n  return <button onClick={handleClick}>Click Me</button>;\n};`}</code>
-                                        </pre>
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Events are synthetic, wrapping native DOM events</li>
-                                        <li>Pass functions, not function calls, to event handlers</li>
-                                        <li>Can prevent default behavior using <code>event.preventDefault()</code></li>
-                                    </ul>
-                                </div>
-                            </section>
-
-                            {/* Hooks Section */}
-                            <section id="hooks" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Hooks in React
-                                </h2>
-                                <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Hooks allow functional components to use state and lifecycle features. Common hooks include <code>useState</code>, <code>useEffect</code>, and <code>useContext</code>.
+                                        <strong>Key Concepts:</strong>
                                     </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li><strong>Agent:</strong> The decision-maker interacting with the environment.</li>
+                                        <li><strong>Environment:</strong> The world in which the agent operates.</li>
+                                        <li><strong>Reward:</strong> Feedback signal indicating the success of an action.</li>
+                                        <li><strong>Policy:</strong> Strategy that the agent uses to decide actions.</li>
+                                    </ul>
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
-                                            <code>{`import React, { useState, useEffect } from 'react';\n\nconst Timer = () => {\n  const [seconds, setSeconds] = useState(0);\n  useEffect(() => {\n    const interval = setInterval(() => setSeconds(s => s + 1), 1000);\n    return () => clearInterval(interval);\n  }, []);\n  return <p>Seconds: {seconds}</p>;\n};`}</code>
+                                            <code>
+                                                {`# Reinforcement Learning Example (Pseudo-code)\n`}
+                                                {`import gym\n`}
+                                                {`env = gym.make("CartPole-v1")\n`}
+                                                {`state = env.reset()\n`}
+                                                {`for _ in range(1000):\n`}
+                                                {`    action = env.action_space.sample()\n`}
+                                                {`    state, reward, done, info = env.step(action)\n`}
+                                                {`    if done:\n`}
+                                                {`        state = env.reset()\n`}
+                                                {`env.close()\n`}
+                                            </code>
                                         </pre>
                                     </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Hooks can only be called at the top level</li>
-                                        <li><code>useEffect</code> handles side effects</li>
-                                        <li>Custom hooks can be created for reusable logic</li>
-                                    </ul>
-                                </div>
-                            </section>
-
-                            {/* React Router Section */}
-                            <section id="react-router" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    React Router
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        React Router is a library for routing in React applications, enabling navigation between different components based on URL paths.
-                                    </p>
-                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                        <pre className="text-xs sm:text-sm">
-                                            <code>{`import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';\n\nconst App = () => (\n  <Router>\n    <Switch>\n      <Route path="/about" component={About} />\n      <Route path="/" component={Home} />\n    </Switch>\n  </Router>\n);`}</code>
-                                        </pre>
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Uses declarative routing with components</li>
-                                        <li>Supports nested routes and dynamic routing</li>
-                                        <li>Provides hooks like <code>useHistory</code> and <code>useParams</code></li>
-                                    </ul>
-                                </div>
-                            </section>
-
-                            {/* Context API Section */}
-                            <section id="context-api" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Context API in React
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        The Context API provides a way to share data across the component tree without passing props manually at every level.
-                                    </p>
-                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                        <pre className="text-xs sm:text-sm">
-                                            <code>{`const ThemeContext = React.createContext('light');\n\nconst App = () => (\n  <ThemeContext.Provider value="dark">\n    <ThemedComponent />\n  </ThemeContext.Provider>\n);\n\nconst ThemedComponent = () => {\n  const theme = React.useContext(ThemeContext);\n  return <div>Theme: {theme}</div>;\n};`}</code>
-                                        </pre>
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Avoids prop drilling</li>
-                                        <li>Best for global state like themes or user data</li>
-                                        <li>Use with <code>useContext</code> hook in functional components</li>
-                                    </ul>
-                                </div>
-                            </section>
-
-                            {/* Performance Optimization Section */}
-                            <section id="performance-optimization" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Performance Optimization in React
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        React provides several techniques to optimize performance, such as memoization, lazy loading, and avoiding unnecessary re-renders.
-                                    </p>
-                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                        <pre className="text-xs sm:text-sm">
-                                            <code>{`import React, { memo } from 'react';\n\nconst ExpensiveComponent = memo(() => {\n  return <div>Expensive Render</div>;\n});\n\nconst Parent = () => {\n  const [count, setCount] = React.useState(0);\n  return (\n    <div>\n      <ExpensiveComponent />\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n    </div>\n  );\n};`}</code>
-                                        </pre>
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Techniques:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Use <code>React.memo</code> to prevent unnecessary re-renders</li>
-                                        <li>Lazy load components with <code>React.lazy</code> and <code>Suspense</code></li>
-                                        <li>Optimize hooks with <code>useMemo</code> and <code>useCallback</code></li>
-                                    </ul>
                                 </div>
                             </section>
 
@@ -485,13 +468,13 @@ const ReactJSPage = () => {
                         </>
                     )}
 
-                    {/* Resources Section (Always Visible) */}
+                    {/* Resources Section */}
                     <section className="mb-16 bg-blue-50 rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-xl sm:text-2xl font-bold mb-4 text-gray-800">Additional Resources</h2>
                         <ul className="space-y-3">
                             <li>
                                 <a
-                                    href="https://reactjs.org/docs/getting-started.html"
+                                    href="https://www.coursera.org/learn/ai-for-everyone"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -508,11 +491,14 @@ const ReactJSPage = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    React Official Documentation
+                                    AI for Everyone on Coursera
                                 </a>
                             </li>
                             <li>
-                                <a href="https://reactrouter.com/" className="text-blue-600 hover:underline flex items-center">
+                                <a
+                                    href="https://www.tensorflow.org/tutorials"
+                                    className="text-blue-600 hover:underline flex items-center"
+                                >
                                     <svg
                                         className="w-5 h-5 mr-2"
                                         fill="none"
@@ -527,35 +513,57 @@ const ReactJSPage = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    React Router Documentation
+                                    TensorFlow Official Tutorials
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://gym.openai.com/docs/"
+                                    className="text-blue-600 hover:underline flex items-center"
+                                >
+                                    <svg
+                                        className="w-5 h-5 mr-2"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                                        />
+                                    </svg>
+                                    OpenAI Gym Documentation
                                 </a>
                             </li>
                         </ul>
                     </section>
 
-                    {/* Call-to-Action Section (Always Visible) */}
+                    {/* Call-to-Action Section */}
                     <section className="py-16 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white">
                         <div className="max-w-6xl mx-auto text-center">
                             <div className="relative">
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
-                                    Ready to Learn React JS?
+                                    Ready to Master AI?
                                 </h2>
                                 <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-                                    Join thousands of learners and start building modern web applications today. Enroll now to unlock your potential!
+                                    Join thousands of learners and start building intelligent systems today. Enroll now to unlock your potential!
                                 </p>
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
                                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => navigate('/Login')} // Corrected navigation
+                                        onClick={() => navigate("/login")}
                                         aria-label="Enroll now in the course"
                                     >
                                         Enroll Now
                                     </button>
                                     <button
                                         className="px-8 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => navigate('/Components/contact-us-page')}
+                                        onClick={() => navigate("/Components/contact-us-page")}
                                         aria-label="Contact us for more information"
                                     >
                                         Contact Us
@@ -570,4 +578,4 @@ const ReactJSPage = () => {
     );
 };
 
-export default ReactJSPage;
+export default ArtificialIntelligence;

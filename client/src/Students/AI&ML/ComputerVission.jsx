@@ -1,66 +1,45 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const ReactJSPage = () => {
+import { Computer } from "lucide-react";
+
+const ComputerVision = () => {
     const navigate = useNavigate();
-    const [activeSection, setActiveSection] = useState("introduction");
+    const [activeSection, setActiveSection] = useState("what-is-computer-vision");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [showMore, setShowMore] = useState(false); // State to toggle visibility of sections after State
+    const [showMore, setShowMore] = useState(false);
 
     const faqs = [
         {
-            question: "What is React?",
-            answer: "React is a JavaScript library for building user interfaces, particularly single-page applications, using a component-based architecture.",
+            question: "What is the difference between computer vision and image processing?",
+            answer: "Computer vision focuses on enabling machines to interpret and understand visual data, often involving AI and machine learning, while image processing involves manipulating images (e.g., filtering, resizing) without necessarily understanding their content.",
         },
         {
-            question: "Is React a framework or a library?",
-            answer: "React is a library, not a framework. It focuses on the UI layer and can be used with other libraries or frameworks.",
+            question: "Why is OpenCV widely used for computer vision?",
+            answer: "OpenCV is widely used because it provides a comprehensive set of tools for image and video processing, supports multiple languages, and is optimized for real-time applications.",
         },
         {
-            question: "What are React components?",
-            answer: "Components are reusable building blocks in React that encapsulate UI logic, styling, and behavior.",
+            question: "What are CNNs in computer vision?",
+            answer: "Convolutional Neural Networks (CNNs) are a type of deep learning model designed to process grid-like data, such as images, using convolutional layers to extract features like edges and textures.",
         },
         {
-            question: "What is the difference between state and props?",
-            answer: "State is internal, mutable data managed within a component, while props are external, immutable data passed to a component.",
+            question: "What is YOLO best suited for?",
+            answer: "YOLO (You Only Look Once) is best suited for real-time object detection tasks, as it can detect and classify objects in a single pass, making it fast and efficient.",
         },
         {
-            question: "What are React Hooks?",
-            answer: "Hooks are functions that let you use state and other React features in functional components, introduced in React 16.8.",
-        },
-        {
-            question: "How does React Router work?",
-            answer: "React Router is a library for routing in React applications, allowing navigation between different components based on URL paths.",
-        },
-        {
-            question: "What is the Context API?",
-            answer: "The Context API allows you to share state across the component tree without passing props manually at every level.",
-        },
-        {
-            question: "How can you optimize React performance?",
-            answer: "Use techniques like memoization (React.memo), lazy loading, code splitting, and avoiding unnecessary re-renders.",
-        },
-        {
-            question: "What is JSX?",
-            answer: "JSX is a syntax extension for JavaScript that allows you to write HTML-like code within JavaScript, used in React to define UI components.",
-        },
-        {
-            question: "Can React work with TypeScript?",
-            answer: "Yes, React supports TypeScript, which adds static types to JavaScript, improving code reliability and developer experience.",
+            question: "How does transfer learning help in computer vision?",
+            answer: "Transfer learning in computer vision uses pre-trained models (e.g., ResNet, VGG) to leverage learned features for new tasks, reducing training time and the need for large datasets.",
         },
     ];
     const [openFaqIndexes, setOpenFaqIndexes] = useState(Array(faqs.length).fill(false));
 
     const sections = [
-        { id: "introduction", title: "Introduction" },
-        { id: "components", title: "Components" },
-        { id: "state", title: "State" },
-        { id: "props", title: "Props" },
-        { id: "event-handling", title: "Event Handling" },
-        { id: "hooks", title: "Hooks" },
-        { id: "react-router", title: "React Router" },
-        { id: "context-api", title: "Context API" },
-        { id: "performance-optimization", title: "Performance Optimization" },
-        { id: "FAQ", title: "FAQ" },
+        { id: "what-is-computer-vision", title: "What is Computer Vision?" },
+        { id: "computer-vision-libraries", title: "Computer Vision Libraries in Python" },
+        { id: "opencv", title: "Computer Vision with OpenCV" },
+        { id: "image-processing", title: "Basic Image Processing Techniques" },
+        { id: "cnns", title: "Convolutional Neural Networks for Computer Vision" },
+        { id: "object-detection", title: "Object Detection with YOLO" },
+        { id: "transfer-learning", title: "Transfer Learning in Computer Vision" },
     ];
 
     const toggleSidebar = () => {
@@ -71,8 +50,7 @@ const ReactJSPage = () => {
         setActiveSection(sectionId);
         setIsSidebarOpen(false);
 
-        // If the clicked section is after "state" and sections are hidden, show them
-        const hiddenSections = ["props", "event-handling", "hooks", "react-router", "context-api", "performance-optimization", "FAQ"];
+        const hiddenSections = ["object-detection", "transfer-learning"];
         if (hiddenSections.includes(sectionId) && !showMore) {
             setShowMore(true);
         }
@@ -85,7 +63,8 @@ const ReactJSPage = () => {
 
     return (
         <div className="flex min-h-screen bg-gray-50">
-            {/* Mobile Viewport button */}
+
+            {/* Mobile Sidebar Toggle */}
             <button
                 className="lg:hidden fixed top-24 left-4 z-50 p-2 bg-blue-400 text-white rounded-md focus:outline-none"
                 onClick={toggleSidebar}
@@ -113,8 +92,9 @@ const ReactJSPage = () => {
                     } lg:sticky lg:top-0 lg:h-screen lg:translate-x-0`}
                 style={{ top: "5rem" }}
             >
-                <div className="p-4 border-b">
-                    <h2 className="text-xl font-bold text-gray-800">React JS Tutorial</h2>
+                <div className="p-4 border-b flex items-center">
+                    <Computer className="w-6 h-6 mr-2 text-blue-600" />
+                    <h2 className="text-xl font-bold text-gray-800">Computer Vision Tutorial</h2>
                 </div>
                 <div className="h-[calc(100%-4rem)] overflow-y-auto">
                     <nav className="p-4">
@@ -144,19 +124,20 @@ const ReactJSPage = () => {
             {/* Main Content */}
             <div className="flex-1 w-full overflow-x-hidden lg:ml-0 lg:px-6">
                 <div className="p-4 sm:p-8 pt-20 sm:pt-36 pb-8">
+
                     {/* Hero Title Section */}
                     <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
-                                Basics & Advanced of React JS
+                                Computer Vision with Python
                             </span>
                         </h1>
                         <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                            Learn React JS with this comprehensive tutorial covering all fundamental concepts and advanced features. Master the library that powers modern web applications.
+                            Learn Computer Vision concepts, libraries, and techniques to process and analyze visual data effectively.
                         </p>
                     </div>
 
-                    {/* React Hero Banner */}
+                    {/* Computer Vision Hero Banner */}
                     <div className="mb-16 bg-gradient-to-r from-blue-400 to-green-800 rounded-2xl shadow-xl overflow-hidden border border-white/10">
                         <div className="relative p-4 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
                             <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
@@ -166,15 +147,19 @@ const ReactJSPage = () => {
                             <div className="relative z-10 mb-6 md:mb-0 md:mr-8">
                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3">
                                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
-                                        Master React JS
+                                        Master Computer Vision
                                     </span>{" "}
                                     in 2025
                                 </h2>
                                 <p className="text-base sm:text-lg text-white/90 max-w-lg">
-                                    Unlock the full potential of web development with the world's most popular JavaScript library
+                                    Unlock the power of visual data analysis with Python's top computer vision libraries and techniques.
                                 </p>
                                 <div className="mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                                    <button className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg">
+                                    <button
+                                        className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
+                                        onClick={() => navigate("/login")}
+                                        aria-label="Start learning now"
+                                    >
                                         Start Learning Now
                                     </button>
                                     <button className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all">
@@ -192,90 +177,170 @@ const ReactJSPage = () => {
                                 </div>
                                 <pre className="text-yellow-400 font-mono text-xs sm:text-sm md:text-base overflow-x-auto">
                                     <code>
-                                        {`// React Component Example\n`}
-                                        {`import React from 'react';\n`}
-                                        {`const MyComponent = () => (\n`}
-                                        {`  <div className="text-white">\n`}
-                                        {`    Hello, React!\n`}
-                                        {`  </div>\n`}
-                                        {`);\n`}
-                                        {`export default MyComponent;`}
+                                        {`# Computer Vision Example\n`}
+                                        {`import cv2\n`}
+                                        {`image = cv2.imread("image.jpg")\n`}
+                                        {`gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)\n`}
+                                        {`cv2.imshow("Grayscale Image", gray)\n`}
+                                        {`cv2.waitKey(0)\n`}
                                     </code>
                                 </pre>
                             </div>
                         </div>
                     </div>
 
-                    {/* Introduction Section */}
-                    <section id="introduction" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Defintion of Computer Vision Section */}
+                    <section id="what-is-computer-vision" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Introduction to React JS
+                            What is Computer Vision?
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                React JS is a popular JavaScript library for building user interfaces, developed by Facebook. It allows developers to create reusable UI components and manage the state of an application efficiently. React uses a virtual DOM to optimize rendering, making it ideal for building fast and interactive web applications.
-                                <br />
-                                This React tutorial is designed for beginners and professionals alike, covering basic to advanced concepts such as components, state, props, hooks, routing, and more.
+                                Computer Vision is a field of artificial intelligence that enables computers to interpret and understand visual information from the world, such as images and videos. It involves tasks like image classification, object detection, and facial recognition.
                             </p>
-                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                <pre className="text-xs sm:text-sm">
-                                    <code>{`import React from 'react';\nReactDOM.render(<h1>Hello, React!</h1>, document.getElementById('root'));`}</code>
-                                </pre>
-                            </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Features:</h3>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Applications:</strong>
+                            </p>
                             <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li>Component-based architecture</li>
-                                <li>Virtual DOM for efficient updates</li>
-                                <li>Unidirectional data flow</li>
-                                <li>Support for JSX syntax</li>
-                                <li>Rich ecosystem with tools like React Router and Redux</li>
+                                <li>Image and video analysis (e.g., object detection, segmentation).</li>
+                                <li>Autonomous vehicles (e.g., lane detection, obstacle avoidance).</li>
+                                <li>Medical imaging (e.g., tumor detection in MRI scans).</li>
+                                <li>Facial recognition (e.g., security systems, social media tagging).</li>
                             </ul>
                         </div>
                     </section>
 
-                    {/* Components Section */}
-                    <section id="components" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* Computer Vision Libraries Section */}
+                    <section id="computer-vision-libraries" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            Components in React
+                            Computer Vision Libraries in Python
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                React applications are built using components, which are reusable pieces of UI. Components can be either functional (using hooks) or class-based, and they can accept inputs called props.
+                                Python offers several libraries for computer vision, each designed for different use cases, from basic image processing to advanced deep learning models.
                             </p>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`// Functional Component\nconst Greeting = ({ name }) => {\n  return <h1>Hello, {name}!</h1>;\n};\n\n// Usage\n<Greeting name="User" />`}</code>
+                                    <code>
+                                        {`# Importing Computer Vision Libraries\n`}
+                                        {`import cv2\n`}
+                                        {`import tensorflow as tf\n`}
+                                        {`import torch\n`}
+                                    </code>
                                 </pre>
                             </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
                             <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li>Components can be nested to build complex UIs</li>
-                                <li>Functional components are preferred over class components</li>
-                                <li>Components should be pure and predictable</li>
+                                <li><strong>OpenCV:</strong> A versatile library for image and video processing.</li>
+                                <li><strong>TensorFlow/PyTorch:</strong> Frameworks for building deep learning models for computer vision.</li>
+                                <li><strong>PIL (Pillow):</strong> A library for basic image manipulation.</li>
                             </ul>
                         </div>
                     </section>
 
-                    {/* State Section */}
-                    <section id="state" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                    {/* OpenCV Section */}
+                    <section id="opencv" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                            State in React
+                            Computer Vision with OpenCV
                         </h2>
                         <div className="space-y-4">
                             <p className="text-gray-700 text-sm sm:text-base">
-                                State is a built-in object that holds data that may change over time. In functional components, state is managed using the <code>useState</code> hook.
+                                OpenCV (Open Source Computer Vision Library) is a popular library for computer vision tasks, offering tools for image processing, video analysis, and machine learning.
                             </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Features:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li>Supports image and video I/O operations.</li>
+                                <li>Provides functions for image transformations (e.g., resizing, rotation).</li>
+                                <li>Includes algorithms for feature detection and object recognition.</li>
+                                <li>Optimized for real-time applications with C++ backend.</li>
+                            </ul>
                             <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                 <pre className="text-xs sm:text-sm">
-                                    <code>{`import React, { useState } from 'react';\n\nconst Counter = () => {\n  const [count, setCount] = useState(0);\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n    </div>\n  );\n};`}</code>
+                                    <code>
+                                        {`# OpenCV Example\n`}
+                                        {`import cv2\n`}
+                                        {`image = cv2.imread("sample.jpg")\n`}
+                                        {`gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)\n`}
+                                        {`cv2.imshow("Grayscale Image", gray_image)\n`}
+                                        {`cv2.waitKey(0)\n`}
+                                        {`cv2.destroyAllWindows()\n`}
+                                    </code>
                                 </pre>
                             </div>
-                            <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
+                        </div>
+                    </section>
+
+                    {/* Basic Image Processing Section */}
+                    <section id="image-processing" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Basic Image Processing Techniques
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Image processing is a fundamental step in computer vision, involving techniques to enhance or transform images for further analysis.
+                            </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Techniques:</strong>
+                            </p>
                             <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                <li>State is private to the component</li>
-                                <li>Updating state triggers a re-render</li>
-                                <li>Use <code>useState</code> for simple state management</li>
+                                <li><strong>Grayscale Conversion:</strong> Converting color images to grayscale to simplify processing.</li>
+                                <li><strong>Blurring:</strong> Applying filters (e.g., Gaussian blur) to reduce noise.</li>
+                                <li><strong>Edge Detection:</strong> Identifying edges using algorithms like Canny.</li>
+                                <li><strong>Thresholding:</strong> Segmenting images by converting them to binary based on pixel intensity.</li>
                             </ul>
+                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                <pre className="text-xs sm:text-sm">
+                                    <code>
+                                        {`# Image Processing Example with OpenCV\n`}
+                                        {`import cv2\n`}
+                                        {`image = cv2.imread("sample.jpg")\n`}
+                                        {`gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)\n`}
+                                        {`blurred = cv2.GaussianBlur(gray, (5, 5), 0)\n`}
+                                        {`edges = cv2.Canny(blurred, 100, 200)\n`}
+                                        {`cv2.imshow("Edges", edges)\n`}
+                                        {`cv2.waitKey(0)\n`}
+                                        {`cv2.destroyAllWindows()\n`}
+                                    </code>
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* CNNs Section */}
+                    <section id="cnns" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
+                            Convolutional Neural Networks for Computer Vision
+                        </h2>
+                        <div className="space-y-4">
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                Convolutional Neural Networks (CNNs) are a cornerstone of modern computer vision, designed to process and analyze visual data using convolutional layers.
+                            </p>
+                            <p className="text-gray-700 text-sm sm:text-base">
+                                <strong>Key Components:</strong>
+                            </p>
+                            <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                <li><strong>Convolutional Layers:</strong> Extract features like edges and textures using filters.</li>
+                                <li><strong>Pooling Layers:</strong> Reduce spatial dimensions while preserving important features.</li>
+                                <li><strong>Fully Connected Layers:</strong> Combine features for classification or regression.</li>
+                                <li><strong>Activation Functions:</strong> ReLU is commonly used to introduce non-linearity.</li>
+                            </ul>
+                            <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
+                                <pre className="text-xs sm:text-sm">
+                                    <code>
+                                        {`# CNN Example with TensorFlow\n`}
+                                        {`import tensorflow as tf\n`}
+                                        {`model = tf.keras.Sequential([\n`}
+                                        {`    tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)),\n`}
+                                        {`    tf.keras.layers.MaxPooling2D((2, 2)),\n`}
+                                        {`    tf.keras.layers.Flatten(),\n`}
+                                        {`    tf.keras.layers.Dense(64, activation='relu'),\n`}
+                                        {`    tf.keras.layers.Dense(10, activation='softmax')\n`}
+                                        {`])\n`}
+                                        {`model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])\n`}
+                                    </code>
+                                </pre>
+                            </div>
                         </div>
                     </section>
 
@@ -285,7 +350,7 @@ const ReactJSPage = () => {
                             <button
                                 className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onClick={() => setShowMore(true)}
-                                aria-label="Explore more React JS topics"
+                                aria-label="Explore more Computer Vision topics"
                             >
                                 Explore More
                             </button>
@@ -295,141 +360,76 @@ const ReactJSPage = () => {
                     {/* Sections Hidden Behind Explore More Button */}
                     {showMore && (
                         <>
-                            {/* Props Section */}
-                            <section id="props" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            <section id="object-detection" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Props in React
+                                    Object Detection with YOLO
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Props (short for properties) are read-only inputs passed to components to customize their behavior or appearance.
+                                        YOLO (You Only Look Once) is a popular object detection algorithm that processes images in a single pass, making it fast and suitable for real-time applications.
                                     </p>
+                                    <p className="text-gray-700 text-sm sm:text-base">
+                                        <strong>Key Features:</strong>
+                                    </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li>Single-pass detection for speed and efficiency.</li>
+                                        <li>Divides the image into a grid and predicts bounding boxes and class probabilities.</li>
+                                        <li>Supports multiple object classes in a single image.</li>
+                                        <li>Pre-trained models available for quick deployment.</li>
+                                    </ul>
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
-                                            <code>{`const Welcome = (props) => {\n  return <h1>Welcome, {props.name}!</h1>;\n};\n\n// Usage\n<Welcome name="Alice" />`}</code>
+                                            <code>
+                                                {`# YOLO Example (Pseudo-code, requires YOLO weights and config)\n`}
+                                                {`import cv2\n`}
+                                                {`import numpy as np\n`}
+                                                {`net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")\n`}
+                                                {`image = cv2.imread("image.jpg")\n`}
+                                                {`blob = cv2.dnn.blobFromImage(image, 1/255.0, (416, 416), swapRB=True, crop=False)\n`}
+                                                {`net.setInput(blob)\n`}
+                                                {`outputs = net.forward(net.getUnconnectedOutLayersNames())\n`}
+                                                {`# Process outputs for bounding boxes and classes\n`}
+                                            </code>
                                         </pre>
                                     </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Props are immutable within the component</li>
-                                        <li>Can pass any data type as props</li>
-                                        <li>Use defaultProps for default values</li>
-                                    </ul>
                                 </div>
                             </section>
 
-                            {/* Event Handling Section */}
-                            <section id="event-handling" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
+                            {/* Transfer Learning in Computer Vision Section */}
+                            <section id="transfer-learning" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
                                 <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Event Handling in React
+                                    Transfer Learning in Computer Vision
                                 </h2>
                                 <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        React handles events using event handlers, which are passed as props to elements. Event names use camelCase (e.g., <code>onClick</code>).
+                                        Transfer learning leverages pre-trained models (trained on large datasets like ImageNet) to solve new computer vision tasks with smaller datasets, saving time and resources.
                                     </p>
-                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                        <pre className="text-xs sm:text-sm">
-                                            <code>{`const Button = () => {\n  const handleClick = () => alert('Button clicked!');\n  return <button onClick={handleClick}>Click Me</button>;\n};`}</code>
-                                        </pre>
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Events are synthetic, wrapping native DOM events</li>
-                                        <li>Pass functions, not function calls, to event handlers</li>
-                                        <li>Can prevent default behavior using <code>event.preventDefault()</code></li>
-                                    </ul>
-                                </div>
-                            </section>
-
-                            {/* Hooks Section */}
-                            <section id="hooks" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Hooks in React
-                                </h2>
-                                <div className="space-y-4">
                                     <p className="text-gray-700 text-sm sm:text-base">
-                                        Hooks allow functional components to use state and lifecycle features. Common hooks include <code>useState</code>, <code>useEffect</code>, and <code>useContext</code>.
+                                        <strong>Key Steps:</strong>
                                     </p>
+                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
+                                        <li><strong>Load a Pre-trained Model:</strong> Use models like VGG, ResNet, or Inception.</li>
+                                        <li><strong>Freeze Layers:</strong> Prevent pre-trained layers from updating during training.</li>
+                                        <li><strong>Add Custom Layers:</strong> Add layers for the new task (e.g., classification).</li>
+                                        <li><strong>Fine-Tune:</strong> Train the model on the new dataset, optionally unfreezing some layers.</li>
+                                    </ul>
                                     <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
                                         <pre className="text-xs sm:text-sm">
-                                            <code>{`import React, { useState, useEffect } from 'react';\n\nconst Timer = () => {\n  const [seconds, setSeconds] = useState(0);\n  useEffect(() => {\n    const interval = setInterval(() => setSeconds(s => s + 1), 1000);\n    return () => clearInterval(interval);\n  }, []);\n  return <p>Seconds: {seconds}</p>;\n};`}</code>
+                                            <code>
+                                                {`# Transfer Learning Example with TensorFlow\n`}
+                                                {`import tensorflow as tf\n`}
+                                                {`base_model = tf.keras.applications.VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))\n`}
+                                                {`base_model.trainable = False\n`}
+                                                {`model = tf.keras.Sequential([\n`}
+                                                {`    base_model,\n`}
+                                                {`    tf.keras.layers.Flatten(),\n`}
+                                                {`    tf.keras.layers.Dense(128, activation='relu'),\n`}
+                                                {`    tf.keras.layers.Dense(2, activation='softmax')\n`}
+                                                {`])\n`}
+                                                {`model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])\n`}
+                                            </code>
                                         </pre>
                                     </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Hooks can only be called at the top level</li>
-                                        <li><code>useEffect</code> handles side effects</li>
-                                        <li>Custom hooks can be created for reusable logic</li>
-                                    </ul>
-                                </div>
-                            </section>
-
-                            {/* React Router Section */}
-                            <section id="react-router" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    React Router
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        React Router is a library for routing in React applications, enabling navigation between different components based on URL paths.
-                                    </p>
-                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                        <pre className="text-xs sm:text-sm">
-                                            <code>{`import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';\n\nconst App = () => (\n  <Router>\n    <Switch>\n      <Route path="/about" component={About} />\n      <Route path="/" component={Home} />\n    </Switch>\n  </Router>\n);`}</code>
-                                        </pre>
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Uses declarative routing with components</li>
-                                        <li>Supports nested routes and dynamic routing</li>
-                                        <li>Provides hooks like <code>useHistory</code> and <code>useParams</code></li>
-                                    </ul>
-                                </div>
-                            </section>
-
-                            {/* Context API Section */}
-                            <section id="context-api" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Context API in React
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        The Context API provides a way to share data across the component tree without passing props manually at every level.
-                                    </p>
-                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                        <pre className="text-xs sm:text-sm">
-                                            <code>{`const ThemeContext = React.createContext('light');\n\nconst App = () => (\n  <ThemeContext.Provider value="dark">\n    <ThemedComponent />\n  </ThemeContext.Provider>\n);\n\nconst ThemedComponent = () => {\n  const theme = React.useContext(ThemeContext);\n  return <div>Theme: {theme}</div>;\n};`}</code>
-                                        </pre>
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Points:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Avoids prop drilling</li>
-                                        <li>Best for global state like themes or user data</li>
-                                        <li>Use with <code>useContext</code> hook in functional components</li>
-                                    </ul>
-                                </div>
-                            </section>
-
-                            {/* Performance Optimization Section */}
-                            <section id="performance-optimization" className="mb-16 bg-white rounded-xl shadow-md p-4 sm:p-8">
-                                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-2">
-                                    Performance Optimization in React
-                                </h2>
-                                <div className="space-y-4">
-                                    <p className="text-gray-700 text-sm sm:text-base">
-                                        React provides several techniques to optimize performance, such as memoization, lazy loading, and avoiding unnecessary re-renders.
-                                    </p>
-                                    <div className="bg-gray-600 text-white p-4 rounded-lg overflow-x-auto">
-                                        <pre className="text-xs sm:text-sm">
-                                            <code>{`import React, { memo } from 'react';\n\nconst ExpensiveComponent = memo(() => {\n  return <div>Expensive Render</div>;\n});\n\nconst Parent = () => {\n  const [count, setCount] = React.useState(0);\n  return (\n    <div>\n      <ExpensiveComponent />\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n    </div>\n  );\n};`}</code>
-                                        </pre>
-                                    </div>
-                                    <h3 className="text-lg sm:text-xl font-semibold mt-6 mb-2 text-gray-800">Key Techniques:</h3>
-                                    <ul className="list-disc pl-6 space-y-1 text-gray-700 text-sm sm:text-base">
-                                        <li>Use <code>React.memo</code> to prevent unnecessary re-renders</li>
-                                        <li>Lazy load components with <code>React.lazy</code> and <code>Suspense</code></li>
-                                        <li>Optimize hooks with <code>useMemo</code> and <code>useCallback</code></li>
-                                    </ul>
                                 </div>
                             </section>
 
@@ -485,13 +485,14 @@ const ReactJSPage = () => {
                         </>
                     )}
 
-                    {/* Resources Section (Always Visible) */}
+                    {/* Resources Section */}
+
                     <section className="mb-16 bg-blue-50 rounded-xl shadow-md p-4 sm:p-8">
                         <h2 className="text-xl sm:text-2xl font-bold mb-4 text-gray-800">Additional Resources</h2>
                         <ul className="space-y-3">
                             <li>
                                 <a
-                                    href="https://reactjs.org/docs/getting-started.html"
+                                    href="https://www.coursera.org/learn/computer-vision-basics"
                                     className="text-blue-600 hover:underline flex items-center"
                                 >
                                     <svg
@@ -508,11 +509,14 @@ const ReactJSPage = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    React Official Documentation
+                                    Computer Vision on Coursera
                                 </a>
                             </li>
                             <li>
-                                <a href="https://reactrouter.com/" className="text-blue-600 hover:underline flex items-center">
+                                <a
+                                    href="https://opencv.org/get-started/"
+                                    className="text-blue-600 hover:underline flex items-center"
+                                >
                                     <svg
                                         className="w-5 h-5 mr-2"
                                         fill="none"
@@ -527,35 +531,57 @@ const ReactJSPage = () => {
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    React Router Documentation
+                                    OpenCV Official Documentation
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://www.tensorflow.org/tutorials/images"
+                                    className="text-blue-600 hover:underline flex items-center"
+                                >
+                                    <svg
+                                        className="w-5 h-5 mr-2"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                                        />
+                                    </svg>
+                                    TensorFlow Computer Vision Tutorials
                                 </a>
                             </li>
                         </ul>
                     </section>
 
-                    {/* Call-to-Action Section (Always Visible) */}
+                    {/* Call-to-Action Section */}
                     <section className="py-16 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white">
                         <div className="max-w-6xl mx-auto text-center">
                             <div className="relative">
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
-                                    Ready to Learn React JS?
+                                    Ready to Master Computer Vision?
                                 </h2>
                                 <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-                                    Join thousands of learners and start building modern web applications today. Enroll now to unlock your potential!
+                                    Join thousands of learners and start analyzing visual data like a pro today. Enroll now to unlock your potential!
                                 </p>
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
                                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => navigate('/Login')} // Corrected navigation
+                                        onClick={() => navigate("/login")}
                                         aria-label="Enroll now in the course"
                                     >
                                         Enroll Now
                                     </button>
                                     <button
                                         className="px-8 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => navigate('/Components/contact-us-page')}
+                                        onClick={() => navigate("/Components/contact-us-page")}
                                         aria-label="Contact us for more information"
                                     >
                                         Contact Us
@@ -570,4 +596,4 @@ const ReactJSPage = () => {
     );
 };
 
-export default ReactJSPage;
+export default ComputerVision;
