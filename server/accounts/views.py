@@ -1,152 +1,202 @@
-from rest_framework import generics, permissions, status
+from rest_framework import generics, status, permissions
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework_simplejwt.views import TokenObtainPairView
-from django.contrib.auth.tokens import default_token_generator
+from .serializers import PublicRegistrationSerializer, AdminRegistrationSerializer, OTPRequestSerializer, OTPVerifySerializer, PasswordResetVerifySerializer, CustomeTokenObtainPairSerializer, AdminTokenObtainPairSerializer, InstructorSerializer, InstructorAccessSerializer
 from django.core.mail import send_mail
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
-from django.urls import reverse
 from django.conf import settings
+from .models import OTP, User
 
-from .models import User, PasswordResetOTP
-from .serializers import (UserSerializer, 
-                          RegisterSerializer, 
-                          CustomTokenObtainPairSerializer, 
-                          ChangePasswordSerializer, 
-                          RequestPasswordResetOTPSerializer,
-                          VerifyOTPSerializer,
-                          SetNewPasswordSerializer)
+class PublicRegistrationView(generics.CreateAPIView):
+    serializer_class = PublicRegistrationSerializer
+    permission_classes = [AllowAny]
 
-class UserListView(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAdminUser]
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            {'message': 'Registration successful!', 'user': serializer.data},
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
 
-class UserDetailView(generics.RetrieveUpdateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class AdminRegistrationView(generics.CreateAPIView):
+    serializer_class = AdminRegistrationSerializer
+    permission_classes = [IsAdminUser]
 
-    def get_object(self):
-        return self.request.user
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            {'message': 'Admin registration successful!', 'user': serializer.data},
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
+        
+class OTPRequestView(generics.GenericAPIView):
+    serializer_class = OTPRequestSerializer
 
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = RegisterSerializer
-    permission_classes = [permissions.AllowAny]
-
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
-
-class ChangePasswordView(generics.UpdateAPIView):
-    serializer_class = ChangePasswordSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def update(self, request, *args, **kwargs):
+    def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         
-        user = request.user
-        if not user.check_password(serializer.data.get('old_password')):
-            return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+        email = serializer.validated_data['email']
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response(
+                {"error": "User with this email does not exist"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        otp = OTP.create_otp(user)
         
-        user.set_password(serializer.data.get('new_password'))
+        # Send email with OTP
+        send_mail(
+            'Your Verification OTP',
+            f'Your OTP is: {otp.code}\nThis code will expire in 1 minute.',
+            settings.DEFAULT_FROM_EMAIL,
+            [user.email],
+            fail_silently=False,
+        )
+
+        return Response(
+            {"message": "OTP sent to your email"},
+            status=status.HTTP_200_OK
+        )
+
+class OTPVerifyView(generics.GenericAPIView):
+    serializer_class = OTPVerifySerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        email = serializer.validated_data['email']
+        otp_code = serializer.validated_data['otp']
+
+        try:
+            user = User.objects.get(email=email)
+            otp = OTP.objects.get(user=user, code=otp_code)
+        except User.DoesNotExist:
+            return Response(
+                {"error": "User not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except OTP.DoesNotExist:
+            return Response(
+                {"error": "Invalid OTP"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not otp.is_valid():
+            otp.delete()
+            return Response(
+                {"error": "OTP has expired"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Mark user as verified
+        user.is_verified = True
         user.save()
         
-        return Response({"message": "Password updated successfully."}, status=status.HTTP_200_OK)
-          
-class RequestPasswordResetOTPView(generics.GenericAPIView):
-    serializer_class = RequestPasswordResetOTPSerializer
-    permission_classes = [permissions.AllowAny]
-    
+        # Delete the used OTP
+        otp.delete()
+
+        return Response(
+            {"message": "Email verified successfully"},
+            status=status.HTTP_200_OK
+        )
+        
+class PasswordResetVerifyView(generics.GenericAPIView):
+    serializer_class = PasswordResetVerifySerializer
+
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         
         email = serializer.validated_data['email']
-        user = User.objects.filter(email=email).first()
-        
-        if user:
-            # Invalidate existing otp's
-            PasswordResetOTP.objects.filter(user=user).update(is_used=True)
-            
-            # create new otp
-            otp_obj = PasswordResetOTP.objects.create(user=user)
-            
-            # send email with otp
-            try:
-                send_mail(
-                    'Password Reset OTP',
-                    f'Your OTP for password reseet is: {otp_obj.otp}\nThis OTP is valid for 1 minute.',
-                    settings.DEFAULT_FROM_EMAIL,
-                    [email],
-                    fail_silently=False,
-                )
-            except Exception as e:
-                return Response({'error': f'Failed to send email: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            
-        return Response({'message': 'If this email exists, an OTP has been sent.'}, status=status.HTTP_200_OK)
-    
-class VerifyOTPView(generics.GenericAPIView):
-    serializer_class = VerifyOTPSerializer
-    permission_classes = [permissions.AllowAny]
-    
-    def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        
-        email = serializer.validated_data['email']
-        otp = serializer.validated_data['otp']
-        
-        user = User.objects.filter(email=email).first()
-        if not user:
-            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
-        
-        otp_obj = PasswordResetOTP.objects.filter(
-            user=user,
-            otp=otp,
-            is_used=False
-        ).first()
-        
-        if not otp_obj or not otp_obj.is_valid():
-            return Response({'error': 'Invalid or expired OTP.'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        return Response({'message': 'OTP verified successfully.'}, status=status.HTTP_200_OK)
-    
-class SetNewPasswordView(generics.GenericAPIView):
-    serializer_class = SetNewPasswordSerializer
-    permission_classes = [permissions.AllowAny]
-    
-    def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        
-        email = serializer.validated_data['email']
-        otp = serializer.validated_data['otp']
+        otp_code = serializer.validated_data['otp']
         new_password = serializer.validated_data['new_password']
-        
-        user = User.objects.filter(email=email).first()
-        
-        if not user:
-            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
-        
-        otp_obj = PasswordResetOTP.objects.filter(
-            user=user,
-            otp=otp,
-            is_used=False
-        ).first()
-        
-        if not otp_obj or not otp_obj.is_valid():
-            return Response({'error': 'Invalid or expired OTP.'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        # update password
+
+        try:
+            user = User.objects.get(email=email)
+            otp = OTP.objects.get(user=user, code=otp_code)
+        except User.DoesNotExist:
+            return Response(
+                {"error": "User not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except OTP.DoesNotExist:
+            return Response(
+                {"error": "Invalid OTP"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not otp.is_valid():
+            otp.delete()
+            return Response(
+                {"error": "OTP has expired or already used"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Update password
         user.set_password(new_password)
         user.save()
         
-        # mark otp used
-        otp_obj.is_user = True
-        otp_obj.save()
-        
-        return Response({'message': 'Password updated successfully.'}, status=status.HTTP_200_OK)
+        # Mark OTP as used
+        otp.is_used = True
+        otp.save()
+
+        return Response(
+            {"message": "Password reset successfully"},
+            status=status.HTTP_200_OK
+        )
+
+class CustomeTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomeTokenObtainPairSerializer
     
+class AdminTokenObtainPairView(TokenObtainPairView):
+    serializer_class = AdminTokenObtainPairSerializer
+    
+class InstructorListView(generics.ListAPIView):
+    serializer_class = InstructorSerializer
+    permission_classes = [permissions.IsAdminUser]
+
+    def get_queryset(self):
+        return User.objects.filter(user_type=User.INSTRUCTOR)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({
+            'status': 'success',
+            'instructors': serializer.data,
+            'count': queryset.count()
+        })
+        
+class AlterInstructorAccessView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAdminUser]
+    serializer_class = InstructorAccessSerializer
+    
+    def patch(self, request, pk):
+        try:
+            instructor = User.objects.get(pk=pk, user_type=User.INSTRUCTOR)
+        except User.DoesNotExist:
+            return Response(
+                {'detail': 'Instructor not found.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
             
+        serializer = self.get_serializer(instructor, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        
+        return Response({
+            'status': 'success',
+            'message': 'Instructor access updated successfully',
+        })

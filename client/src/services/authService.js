@@ -1,7 +1,7 @@
 import api from '../api';
 import { toast } from 'react-toastify';
 
-const API_URL = 'http://localhost:8000/api/auth/';
+// const API_URL = 'http://localhost:8000/api/auth/';
 
 // Register user with role
 const register = async (formData) => {
