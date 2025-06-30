@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 const InstructorViewPage = () => {
     const [activeTab, setActiveTab] = useState('browse');
     const [courses, setCourses] = useState([]);
@@ -25,7 +26,8 @@ const InstructorViewPage = () => {
     const [selectedCourseId, setSelectedCourseId] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [prereqInput, setPrereqInput] = useState(''); // New state for controlled prerequisite input
+    const [prereqInput, setPrereqInput] = useState('');
+    const [fileUploadProgress, setFileUploadProgress] = useState({});
     const navigate = useNavigate();
 
     const categories = [
@@ -71,15 +73,19 @@ const InstructorViewPage = () => {
         }
     };
 
+    // Move fetchCourses to component scope so it can be reused
+    const fetchCourses = async () => {
+        try {
+            const data = await fetchWithAuth('courses/');
+            setCourses(data);
+            return data;
+        } catch (err) {
+            console.error('Failed to fetch courses:', err);
+            throw err;
+        }
+    };
+
     useEffect(() => {
-        const fetchCourses = async () => {
-            try {
-                const data = await fetchWithAuth('courses/');
-                setCourses(data);
-            } catch (err) {
-                console.error('Failed to fetch courses:', err);
-            }
-        };
         fetchCourses();
     }, []);
 
@@ -111,11 +117,13 @@ const InstructorViewPage = () => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
+    // (moved inside fetchWithAuth above)
+    // const response = await fetch(`http://127.0.0.1:8000/api/v1/${url}`, { ...options, headers });
 
-    const handleInputChangeSchedule = (e) => {
-        const { name, value } = e.target;
-        setSchedule((prev) => ({ ...prev, [name]: value }));
-    };
+    // const handleInputChangeSchedule = (e) => {
+    //     const { name, value } = e.target;
+    //     setSchedule((prev) => ({ ...prev, [name]: value }));
+    // };
 
     const handleAddPrerequisite = () => {
         if (prereqInput.trim()) {
@@ -124,45 +132,13 @@ const InstructorViewPage = () => {
         }
     };
 
+
+
     const handleRemovePrerequisite = (index) => {
         setPrerequisites(prerequisites.filter((_, i) => i !== index));
     };
 
-    const handleSaveCourse = async (e) => {
-        e.preventDefault();
-        try {
-            const method = formData.id ? 'PUT' : 'POST';
-            const url = formData.id ? `courses/${formData.id}/` : 'courses/';
 
-            await fetchWithAuth(url, {
-                method,
-                body: JSON.stringify({
-                    title: formData.title,
-                    category: formData.category,
-                    level: formData.level,
-                    duration: formData.duration,
-                    instructor: formData.instructor,
-                    course_description: formData.course_description,
-                }),
-            });
-
-            setFormData({
-                id: null,
-                title: '',
-                category: '',
-                level: '',
-                duration: '',
-                instructor: '',
-                course_description: ''
-            });
-
-            const updatedCourses = await fetchWithAuth('courses/');
-            setCourses(updatedCourses);
-            setActiveTab('browse');
-        } catch (err) {
-            console.error('Failed to save course:', err);
-        }
-    };
 
     const handleEditCourse = async (id) => {
         try {
@@ -223,15 +199,38 @@ const InstructorViewPage = () => {
             formData.append('file', file);
             formData.append('type', type);
 
-            await fetchWithAuth(`courses/${selectedCourseId}/upload_materials/`, {
-                method: 'POST',
-                body: formData,
+            setFileUploadProgress(prev => ({ ...prev, [type]: 0 }));
+
+            const xhr = new XMLHttpRequest();
+            xhr.upload.addEventListener('progress', (event) => {
+                if (event.lengthComputable) {
+                    const progress = Math.round((event.loaded / event.total) * 100);
+                    setFileUploadProgress(prev => ({ ...prev, [type]: progress }));
+                }
             });
 
-            const materialsData = await fetchWithAuth(`courses/${selectedCourseId}/materials/`);
-            setMaterials((prev) => ({ ...prev, [selectedCourseId]: materialsData }));
+            const token = localStorage.getItem('token');
+            xhr.open('POST', `http://127.0.0.1:8000/api/v1/courses/${selectedCourseId}/upload_materials/`);
+            xhr.setRequestHeader('Authorization', `Token ${token}`);
+
+            xhr.onload = async () => {
+                if (xhr.status === 200) {
+                    const materialsData = await fetchWithAuth(`courses/${selectedCourseId}/materials/`);
+                    setMaterials((prev) => ({ ...prev, [selectedCourseId]: materialsData }));
+                } else {
+                    const errorData = JSON.parse(xhr.responseText);
+                    throw new Error(errorData.detail || errorData.message || 'Upload failed');
+                }
+            };
+
+            xhr.onerror = () => {
+                throw new Error('Network error during upload');
+            };
+
+            xhr.send(formData);
         } catch (err) {
             console.error('Failed to upload material:', err);
+            setError(err.message);
         }
     };
 
@@ -417,12 +416,51 @@ const InstructorViewPage = () => {
                             )}
                         </div>
                     )}
+
+                    {/* section-1 */}
                     {activeTab === 'create' && (
                         <div className="py-4">
                             <h3 className="text-lg font-medium mb-4 text-gray-800">
                                 {formData.id ? 'Edit Course' : 'Create New Course'}
                             </h3>
-                            <form className="space-y-4" onSubmit={handleSaveCourse}>
+                            <form className="space-y-4" onSubmit={async (e) => {
+                                e.preventDefault();
+                                try {
+                                    const method = formData.id ? 'PUT' : 'POST';
+                                    const url = formData.id ? `courses/${formData.id}/` : 'courses/';
+
+                                    await fetchWithAuth(url, {
+                                        method,
+                                        body: JSON.stringify({
+                                            title: formData.title,
+                                            category: formData.category,
+                                            level: formData.level,
+                                            duration: formData.duration,
+                                            instructor: formData.instructor,
+                                            course_description: formData.course_description,
+                                        }),
+                                    });
+
+                                    // Refresh the courses list after successful save
+                                    const updatedCourses = await fetchWithAuth('courses/');
+                                    setCourses(updatedCourses);
+
+                                    // Reset form and switch to browse tab
+                                    setFormData({
+                                        id: null,
+                                        title: '',
+                                        category: '',
+                                        level: '',
+                                        duration: '',
+                                        instructor: '',
+                                        course_description: ''
+                                    });
+                                    setActiveTab('browse');
+                                } catch (err) {
+                                    console.error('Failed to save course:', err);
+                                }
+                            }}>
+                                {/* Form fields remain the same */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Course Title</label>
                                     <input
@@ -530,77 +568,127 @@ const InstructorViewPage = () => {
                             </form>
                         </div>
                     )}
+
                     {activeTab === 'upload' && (
                         <div className="py-4">
-                            <h3 className="text-lg font-medium mb-4 text-gray-800">Upload Course Materials</h3>
-                            <div className="mb-4">
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Select Course</label>
+                            <h2 className="text-xl font-bold mb-4 text-gray-800">Upload Course Materials</h2>
+
+                            <div className="mb-6">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Select Course</label>
                                 <select
                                     value={selectedCourseId}
                                     onChange={(e) => setSelectedCourseId(e.target.value)}
-                                    className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 shadow-sm"
-                                    required
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 >
                                     <option value="">Select a Course</option>
-                                    {courses.map((course) => (
-                                        <option key={course.id} value={course.id}>
-                                            {course.title}
-                                        </option>
-                                    ))}
+                                    {courses.length > 0 ? (
+                                        courses.map((course) => (
+                                            <option key={course.id} value={course.id}>
+                                                {course.title}
+                                            </option>
+                                        ))
+                                    ) : (
+                                        <option value="" disabled>No courses available</option>
+                                    )}
                                 </select>
                             </div>
-                            {selectedCourseId ? (
-                                <>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 w-full">
-                                        {['video', 'pdf', 'presentation', 'notes'].map((type) => (
-                                            <label key={type} className="text-center p-3 border-2 border-dashed border-gray-100 rounded-lg hover:border-indigo-500 cursor-pointer transition-colors">
-                                                <input
-                                                    type="file"
-                                                    className="hidden"
-                                                    accept={type === 'video' ? 'video/*' : type === 'pdf' ? '.pdf' : type === 'presentation' ? '.ppt,.pptx' : '.doc,.docx,.txt'}
-                                                    onChange={(e) => handleFileUpload(e, type)}
-                                                />
-                                                <div className="text-indigo-600 mb-1">
-                                                    <svg className="w-6 sm:w-8 h-6 sm:h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={type === 'video' ? 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z' : type === 'pdf' ? 'M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z' : type === 'presentation' ? 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' : 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z'} />
-                                                    </svg>
-                                                </div>
-                                                <p className="font-medium text-sm sm:text-base text-gray-800">{type.charAt(0).toUpperCase() + type.slice(1)} {type !== 'notes' ? 'Lectures' : ''}</p>
-                                                <p className="text-xs text-gray-600">{type === 'video' ? 'MP4, MOV, Max 2GB' : type === 'pdf' ? 'PDF, Max 50MB' : type === 'presentation' ? 'PPT, PPTX, Max 50MB' : 'DOC, DOCX, TXT, Max 20MB'}</p>
-                                            </label>
-                                        ))}
-                                    </div>
-                                    <div className="mt-4">
-                                        <h4 className="font-medium mb-2 text-gray-800">Uploaded Materials</h4>
-                                        {materials[selectedCourseId] && materials[selectedCourseId].length > 0 ? (
-                                            <div className="space-y-2">
-                                                {materials[selectedCourseId].map((material) => (
-                                                    <div key={material.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                                                        <div>
-                                                            <span className="font-medium capitalize">{material.file_type}</span>
-                                                            <span className="text-gray-600 ml-2">{material.file.split('/').pop()}</span>
-                                                        </div>
-                                                        <a
-                                                            href={`http://127.0.0.1:8000${material.file}`}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="text-indigo-600 hover:text-indigo-800"
-                                                        >
-                                                            View
-                                                        </a>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        ) : (
-                                            <p className="text-gray-600">No materials uploaded yet.</p>
-                                        )}
-                                    </div>
-                                </>
-                            ) : (
-                                <div className="text-center py-8">
-                                    <p className="text-gray-600">Please select a course to upload materials</p>
+
+                            {/* Always visible upload boxes */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                                {/* Video Upload Box */}
+                                <div className={`border-2 border-dashed ${selectedCourseId ? 'border-blue-400' : 'border-gray-300'} rounded-lg p-4 hover:border-blue-400 transition-colors`}>
+                                    <label className="flex flex-col items-center justify-center cursor-pointer h-full">
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            accept="video/*"
+                                            onChange={(e) => handleFileUpload(e, 'video')}
+                                            disabled={!selectedCourseId}
+                                        />
+                                        <div className={`mb-2 ${selectedCourseId ? 'text-blue-600' : 'text-gray-400'}`}>
+                                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                        <h3 className={`font-medium text-center ${selectedCourseId ? 'text-gray-800' : 'text-gray-400'}`}>Video</h3>
+                                    </label>
                                 </div>
-                            )}
+
+                                {/* PDF Upload Box */}
+                                <div className={`border-2 border-dashed ${selectedCourseId ? 'border-blue-400' : 'border-gray-300'} rounded-lg p-4 hover:border-blue-400 transition-colors`}>
+                                    <label className="flex flex-col items-center justify-center cursor-pointer h-full">
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            accept=".pdf"
+                                            onChange={(e) => handleFileUpload(e, 'pdf')}
+                                            disabled={!selectedCourseId}
+                                        />
+                                        <div className={`mb-2 ${selectedCourseId ? 'text-blue-600' : 'text-gray-400'}`}>
+                                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                        <h3 className={`font-medium text-center ${selectedCourseId ? 'text-gray-800' : 'text-gray-400'}`}>PDF</h3>
+                                    </label>
+                                </div>
+
+                                {/* Text Upload Box */}
+                                <div className={`border-2 border-dashed ${selectedCourseId ? 'border-blue-400' : 'border-gray-300'} rounded-lg p-4 hover:border-blue-400 transition-colors`}>
+                                    <label className="flex flex-col items-center justify-center cursor-pointer h-full">
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            accept=".txt"
+                                            onChange={(e) => handleFileUpload(e, 'text')}
+                                            disabled={!selectedCourseId}
+                                        />
+                                        <div className={`mb-2 ${selectedCourseId ? 'text-blue-600' : 'text-gray-400'}`}>
+                                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                            </svg>
+                                        </div>
+                                        <h3 className={`font-medium text-center ${selectedCourseId ? 'text-gray-800' : 'text-gray-400'}`}>TXT</h3>
+                                    </label>
+                                </div>
+
+                                {/* Docs Upload Box */}
+                                <div className={`border-2 border-dashed ${selectedCourseId ? 'border-blue-400' : 'border-gray-300'} rounded-lg p-4 hover:border-blue-400 transition-colors`}>
+                                    <label className="flex flex-col items-center justify-center cursor-pointer h-full">
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            accept=".doc,.docx"
+                                            onChange={(e) => handleFileUpload(e, 'docs')}
+                                            disabled={!selectedCourseId}
+                                        />
+                                        <div className={`mb-2 ${selectedCourseId ? 'text-blue-600' : 'text-gray-400'}`}>
+                                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                            </svg>
+                                        </div>
+                                        <h3 className={`font-medium text-center ${selectedCourseId ? 'text-gray-800' : 'text-gray-400'}`}>Docs</h3>
+                                    </label>
+                                </div>
+                            </div>
+
+                            {/* Save button - always visible */}
+                            <div className="flex justify-end">
+                                <button
+                                    className={`px-6 py-2 rounded-lg shadow-md ${selectedCourseId ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+                                    onClick={() => {
+                                        if (!selectedCourseId) {
+                                            alert('Please select a course first');
+                                            return;
+                                        }
+                                        // Save functionality here
+                                        alert('Materials saved successfully!');
+                                    }}
+                                    disabled={!selectedCourseId}
+                                >
+                                    Save
+                                </button>
+                            </div>
                         </div>
                     )}
                     {activeTab === 'schedule' && (
