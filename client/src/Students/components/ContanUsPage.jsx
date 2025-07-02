@@ -1,6 +1,73 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const ContactUsPage = () => {
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        countryCode: '+91',
+        phone: '',
+        country: 'India',
+        message: ''
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState(null);
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [id]: value
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitStatus(null);
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/contact/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    first_name: formData.firstName,
+                    last_name: formData.lastName,
+                    email: formData.email,
+                    country_code: formData.countryCode,
+                    phone: formData.phone,
+                    country: formData.country,
+                    message: formData.message
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setSubmitStatus({ type: 'success', message: 'Your message has been submitted successfully!' });
+                // Reset form after successful submission
+                setFormData({
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    countryCode: '+91',
+                    phone: '',
+                    country: 'India',
+                    message: ''
+                });
+            } else {
+                setSubmitStatus({ type: 'error', message: data.message || 'Submission failed. Please try again.' });
+            }
+        } catch (error) {
+            console.error(error);
+            setSubmitStatus({ type: 'error', message: 'Network error. Please try again.' });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 text-gray-800 block w-full overflow-x-hidden p-4 sm:p-6 md:p-8 lg:p-10 pt-24 sm:pt-16 md:pt-20">
             <div className="max-w-full sm:max-w-md md:max-w-3xl lg:max-w-5xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 px-4 sm:px-0">
@@ -46,7 +113,14 @@ const ContactUsPage = () => {
                 {/* Right Section - Message Form */}
                 <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
                     <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 border-b pb-2">Leave a Message</h2>
-                    <form className="space-y-3 sm:space-y-4 md:space-y-6">
+
+                    {submitStatus && (
+                        <div className={`p-3 rounded-md ${submitStatus.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                            {submitStatus.message}
+                        </div>
+                    )}
+
+                    <form className="space-y-3 sm:space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label htmlFor="firstName" className="block text-sm font-medium text-gray-600">
@@ -55,6 +129,8 @@ const ContactUsPage = () => {
                                 <input
                                     type="text"
                                     id="firstName"
+                                    value={formData.firstName}
+                                    onChange={handleChange}
                                     placeholder="Enter your first name"
                                     className="w-full p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
                                     required
@@ -67,6 +143,8 @@ const ContactUsPage = () => {
                                 <input
                                     type="text"
                                     id="lastName"
+                                    value={formData.lastName}
+                                    onChange={handleChange}
                                     placeholder="Enter your last name"
                                     className="w-full p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
                                     required
@@ -81,6 +159,8 @@ const ContactUsPage = () => {
                             <input
                                 type="email"
                                 id="email"
+                                value={formData.email}
+                                onChange={handleChange}
                                 placeholder="name@example.com"
                                 className="w-full p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
                                 required
@@ -94,8 +174,9 @@ const ContactUsPage = () => {
                             <div className="flex space-x-2">
                                 <select
                                     id="countryCode"
+                                    value={formData.countryCode}
+                                    onChange={handleChange}
                                     className="p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 transition-all duration-200"
-                                    defaultValue="+91"
                                 >
                                     <option value="+91">+91 (India)</option>
                                     <option value="+1">+1 (USA)</option>
@@ -105,6 +186,8 @@ const ContactUsPage = () => {
                                 <input
                                     type="tel"
                                     id="phone"
+                                    value={formData.phone}
+                                    onChange={handleChange}
                                     placeholder="+919888888888"
                                     className="flex-1 p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
                                     required
@@ -118,8 +201,9 @@ const ContactUsPage = () => {
                             </label>
                             <select
                                 id="country"
+                                value={formData.country}
+                                onChange={handleChange}
                                 className="w-full p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 transition-all duration-200"
-                                defaultValue="India"
                             >
                                 <option value="India">India</option>
                                 <option value="USA">USA</option>
@@ -134,6 +218,8 @@ const ContactUsPage = () => {
                             </label>
                             <textarea
                                 id="message"
+                                value={formData.message}
+                                onChange={handleChange}
                                 placeholder="Enter your issues you face"
                                 className="w-full p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 h-32 resize-none transition-all duration-200"
                                 required
@@ -142,10 +228,11 @@ const ContactUsPage = () => {
 
                         <button
                             type="submit"
-                            className="w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-2 sm:py-3 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-200 font-bold shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            disabled={isSubmitting}
+                            className={`w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-2 sm:py-3 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-200 font-bold shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                             aria-label="Send your message"
                         >
-                            Send Message
+                            {isSubmitting ? 'Sending...' : 'Send Message'}
                         </button>
                     </form>
                 </div>

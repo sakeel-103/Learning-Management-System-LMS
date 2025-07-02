@@ -15,6 +15,7 @@ from datetime import timedelta
 from dotenv import load_dotenv
 import os
 
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -58,6 +59,9 @@ INSTALLED_APPS = [
     'accounts',
     'progress',
     'course_class',
+    'subscription',
+    'contact_form',
+    'certification',
 ]
 
 MIDDLEWARE = [
@@ -94,20 +98,32 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('PGDATABASE'),
+#         'USER': os.getenv('PGUSER'),
+#         'PASSWORD': os.getenv('PGPASSWORD'),
+#         'HOST': os.getenv('PGHOST'),
+#         'PORT': os.getenv('PGPORT'),
+#         'OPTIONS': {
+#             'sslmode': 'require'
+#         }
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('PGDATABASE'),
-        'USER': os.getenv('PGUSER'),
-        'PASSWORD': os.getenv('PGPASSWORD'),
-        'HOST': os.getenv('PGHOST'),
-        'PORT': os.getenv('PGPORT'),
-        'OPTIONS': {
-            'sslmode': 'require'
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
+# Email settings
+# from decouple import config
+
+# SENDGRID_API_KEY = config('SENDGRID_API_KEY')
+# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -150,6 +166,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+APPEND_SLASH = True
 
 # CORS settings
 if DEBUG:

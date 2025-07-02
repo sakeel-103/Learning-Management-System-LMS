@@ -38,42 +38,71 @@ const InstructorViewPage = () => {
         'Cloud Computing',
     ];
 
+    // ================ API calls =================
+
+    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1/';
+
     const fetchWithAuth = async (url, options = {}) => {
         setLoading(true);
         setError(null);
         try {
             const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
             const headers = {
                 ...options.headers,
                 'Authorization': `Token ${token}`,
-                'Content-Type': options.body instanceof FormData ? undefined : 'application/json'
             };
 
-            if (options.body instanceof FormData) {
-                delete headers['Content-Type'];
+            // Only set Content-Type if not FormData
+            if (!(options.body instanceof FormData)) {
+                headers['Content-Type'] = 'application/json';
             }
 
-            const response = await fetch(`http://127.0.0.1:8000/api/v1/${url}`, { ...options, headers });
+            // Ensure URL is properly constructed
+            const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url.replace(/^\/+/, '')}`;
+
+            const response = await fetch(fullUrl, {
+                ...options,
+                headers,
+                credentials: 'include'
+            });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.detail || errorData.message || 'Request failed');
+                let errorData;
+                try {
+                    errorData = await response.json();
+                } catch {
+                    errorData = { detail: response.statusText };
+                }
+                throw new Error(
+                    errorData.detail ||
+                    errorData.message ||
+                    errorData.non_field_errors?.[0] ||
+                    'Request failed'
+                );
             }
 
-            if (response.status === 204) {
-                return null;
-            }
-
-            return await response.json();
+            return response.status === 204 ? null : await response.json();
         } catch (err) {
             setError(err.message);
+
+            // Auto-redirect if unauthorized
+            if (err.message.includes('Unauthorized') || err.message.includes('token')) {
+                localStorage.removeItem('token');
+                window.location.href = '/login';
+            }
+
             throw err;
         } finally {
             setLoading(false);
         }
     };
 
-    // Move fetchCourses to component scope so it can be reused
+    // ================ End of API calls ==================
+
     const fetchCourses = async () => {
         try {
             const data = await fetchWithAuth('courses/');
@@ -120,10 +149,11 @@ const InstructorViewPage = () => {
     // (moved inside fetchWithAuth above)
     // const response = await fetch(`http://127.0.0.1:8000/api/v1/${url}`, { ...options, headers });
 
-    // const handleInputChangeSchedule = (e) => {
-    //     const { name, value } = e.target;
-    //     setSchedule((prev) => ({ ...prev, [name]: value }));
-    // };
+    // Handles changes for schedule-related form fields
+    const handleInputChangeSchedule = (e) => {
+        const { name, value } = e.target;
+        setSchedule((prev) => ({ ...prev, [name]: value }));
+    };
 
     const handleAddPrerequisite = () => {
         if (prereqInput.trim()) {
