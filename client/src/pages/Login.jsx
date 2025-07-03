@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeOffIcon, LogInIcon } from 'lucide-react';
-import useAuthStore from '../stores/authStore';
 import authService from '../services/authService';
-import { jwtDecode } from 'jwt-decode';
 
 function Login() {
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: '',
-    keepSignedIn: false
+    keepSignedIn: false,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,9 +31,6 @@ function Login() {
       setIsLoading(false);
       return;
     }
-    const username = loginRes.username || formData.username;
-    localStorage.setItem("username", username);
-    localStorage.setItem("isLoggedIn", "true");
     navigate('/');
     setIsLoading(false);
   };
@@ -83,19 +78,19 @@ function Login() {
           <div className="p-8">
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                  Username or Email
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  Email
                 </label>
                 <div className="mt-1">
                   <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    autoComplete="username"
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
                     required
                     className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                     placeholder="yourname@example.com"
-                    value={formData.username}
+                    value={formData.email}
                     onChange={handleChange}
                   />
                 </div>

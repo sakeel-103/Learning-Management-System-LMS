@@ -1,50 +1,81 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 import random
-from datetime import timedelta
+import string
 from django.utils import timezone
+from datetime import timedelta
 
-class User(AbstractUser):
-    ROLE_CHOICES = (
-        ('ADMIN', 'Admin'),
-        ('INSTRUCTOR', 'Instructor'),
-        ('STUDENT', 'Student'),
+class UserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+    
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('user_type', User.ADMIN)
+        extra_fields.setdefault('is_admin', True)
+        extra_fields.setdefault('is_verified', True)
+
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self.create_user(email, password, **extra_fields)
+
+class User(AbstractBaseUser, PermissionsMixin):
+    STUDENT = 1
+    INSTRUCTOR = 2
+    ADMIN = 3
+    
+    USER_TYPE_CHOICES = (
+        (STUDENT, 'Student'),
+        (INSTRUCTOR, 'Instructor'),
+        (ADMIN, 'Admin'),
     )
+
+    email = models.EmailField(unique=True, null=False, blank=False)
+    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
+    is_verified = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    has_access = models.BooleanField(default=False)  # For instructors
+    date_joined = models.DateTimeField(auto_now_add=True)
     
-    email = models.EmailField(unique=True, verbose_name='email address')
+    objects = UserManager()
     
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='STUDENT')
-    phone = models.CharField(max_length=20, blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='profile_pics/', null=True)
-    bio = models.TextField(blank=True, null=True)
-    is_email_verified = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     def __str__(self):
-        return f"{self.username} - {self.get_role_display()}"
-
+        return self.email
+    
     class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
-        
-class PasswordResetOTP(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    otp = models.CharField(max_length=6)
+        verbose_name = 'user'
+        verbose_name_plural = 'users'
+
+class OTP(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    code = models.CharField(max_length=6)
+    is_used = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField()
-    is_used = models.BooleanField(default=False)
-    
-    def save(self, *args, **kwargs):
-        # only during creation, this function will execute
-        if not self.pk:
-            self.otp = str(random.randint(100000, 999999))
-            self.expires_at = timezone.now() + timedelta(minutes=1)
-        super().save(*args, **kwargs)
+
+    @classmethod
+    def create_otp(cls, user):
+        cls.objects.filter(user=user).delete()
         
+        code = ''.join(random.choices(string.digits, k=6))
+        expires_at = timezone.now() + timedelta(minutes=1)
+        
+        return cls.objects.create(
+            user=user,
+            code=code,
+            expires_at=expires_at
+        )
+
     def is_valid(self):
-        return not self.is_used and timezone.now() < self.expires_at
-    
-    def __str__(self):
-        return f"OTP for {self.user.email}"
-            
+        return timezone.now() < self.expires_at

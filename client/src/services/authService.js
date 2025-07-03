@@ -1,7 +1,6 @@
+import { jwtDecode } from 'jwt-decode';
 import api from '../api';
 import { toast } from 'react-toastify';
-
-// const API_URL = 'http://localhost:8000/api/auth/';
 
 // Register user with role
 const register = async (formData) => {
@@ -15,20 +14,12 @@ const register = async (formData) => {
   }
 
   try {
-    console.log("Register")
     const res = await api.post('/api/v1/accounts/register/', {
-      username: formData.username,
       password: formData.password,
       password2: formData.password2,
       email: formData.email,
-      role: formData.role,
-      phone: formData.phone,
-      first_name: formData.first_name,
-      last_name: formData.last_name,
-      profile_picture: formData.profile_picture
+      user_type: formData.role,
     });
-    console.log("Response")
-    console.log(res);
     if (res.status === 201) {
       toast.success('Registered successfully.')
       return true
@@ -66,28 +57,34 @@ const register = async (formData) => {
 const login = async (formData) => {
   try {
     const res = await api.post('/api/v1/accounts/login/', {
-      username: formData.username,
+      email: formData.email,
       password: formData.password
-    })
+    });
+
     if (res.status === 200) {
-      localStorage.setItem('ACCESS_TOKEN', res.data.access)
-      localStorage.setItem('REFRESH_TOKEN', res.data.refresh)
-      toast.success('Login successfull.')
-      return true
+      const decoded = jwtDecode(res.data.access)
+      console.log('Token', decoded)
+      localStorage.setItem('ACCESS_TOKEN', res.data.access);
+      localStorage.setItem('REFRESH_TOKEN', res.data.refresh);
+      toast.success('Login successful.');
+      return true;
     }
-    toast.error('Invalid credentials or Unauthorized.')
-    return false
+
+    toast.error('Invalid credentials or Unauthorized.');
+    return false;
+
   } catch (error) {
     console.log(error);
 
     if (error?.response?.data?.detail) {
-      toast.error(error.response.data.detail)
+      toast.error(error.response.data.detail);
     } else {
       toast.error('Login failed');
     }
-    return false
+    return false;
   }
 };
+
 
 // Logout user
 const logout = () => {
