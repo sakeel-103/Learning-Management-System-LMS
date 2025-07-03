@@ -4,7 +4,7 @@ const HTMLPage = () => {
     const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState("introduction");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [showMore, setShowMore] = useState(false);
+    const [showMore, setShowMore] = useState(false); // State to toggle visibility of sections after Elements & Tags
 
     const faqs = [
         {
@@ -72,6 +72,7 @@ const HTMLPage = () => {
         setActiveSection(sectionId);
         setIsSidebarOpen(false);
 
+        // If the clicked section is after "elements-tags" and sections are hidden, show them
         const hiddenSections = ["attributes", "headings-paragraphs", "links-images", "lists", "tables", "forms", "semantic-html", "FAQ"];
         if (hiddenSections.includes(sectionId) && !showMore) {
             setShowMore(true);
@@ -146,9 +147,9 @@ const HTMLPage = () => {
                 <div className="p-4 sm:p-8 pt-20 sm:pt-36 pb-8">
                     {/* Hero Section */}
                     <section className="text-gray-600 mb-16">
-                        <div className="text-center py-12 px-4 bg-teal-600 rounded-xl shadow-sm">
+                        <div className="text-center py-12 px-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl shadow-sm">
                             <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
-                                <span className="bg-clip-text text-transparent bg-white">
+                                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-600">
                                     Basics & Advanced of HTML5
                                 </span>
                             </h1>
@@ -551,7 +552,7 @@ const HTMLPage = () => {
                     </section>
 
                     {/* Call-to-Action Section (Always Visible) */}
-                    <section className="py-16 px-6 bg-teal-600 text-white rounded-lg shadow-lg">
+                    <section className="py-16 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white rounded-lg shadow-lg">
                         <div className="max-w-6xl mx-auto text-center">
                             <div className="relative">
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
