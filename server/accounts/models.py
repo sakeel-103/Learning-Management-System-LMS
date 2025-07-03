@@ -60,15 +60,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 class OTP(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     code = models.CharField(max_length=6)
+    is_used = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField()
 
     @classmethod
     def create_otp(cls, user):
-        # Delete any existing OTP for this user
         cls.objects.filter(user=user).delete()
         
-        # Generate 6-digit numeric OTP
         code = ''.join(random.choices(string.digits, k=6))
         expires_at = timezone.now() + timedelta(minutes=1)
         

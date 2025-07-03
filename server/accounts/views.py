@@ -168,12 +168,12 @@ class IsVerifiedAdminUser(permissions.BasePermission):
     message = 'Only verified admin users can access this endpoint.'
 
     def has_permission(self, request, view):
-        return True
+        if not request.user or not request.user.is_authenticated:
+            return False
+        
         return bool(
             request.user and
-            request.user.is_authenticated and
-            request.user.is_admin and
-            request.user.is_verified
+            request.user.role == "3" or request.user.is_superuser
         )
 class InstructorListView(generics.ListAPIView):
     serializer_class = InstructorSerializer

@@ -3,7 +3,7 @@ from .views import PublicRegistrationView, AdminRegistrationView, OTPRequestView
 
 urlpatterns = [
     path('register/', PublicRegistrationView.as_view(), name='public-registration'),
-    path('register/admin/', AdminRegistrationView.as_view(), name='admin-registration'), # python manage.py createsuperuser
+    path('register/admin/', AdminRegistrationView.as_view(), name='admin-registration'),
     path('otp/request/', OTPRequestView.as_view(), name='otp-request'),
     path('otp/verify/', OTPVerifyView.as_view(), name='otp-verify'),
     path('password-reset/verify/', PasswordResetVerifyView.as_view(), name='password-reset-verify'),
