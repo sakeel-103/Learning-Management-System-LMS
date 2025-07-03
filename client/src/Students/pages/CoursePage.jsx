@@ -1,4 +1,3 @@
-// CoursePage.jsx
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -22,7 +21,7 @@ const CourseCard = ({ course, section }) => {
             role="article"
             aria-labelledby={`course-title-${course.id}`}
         >
-            <div className="h-40 rounded-t-xl overflow-hidden relative bg-gradient-to-r from-blue-400 to-green-800">
+            <div className="h-40 rounded-t-xl overflow-hidden relative bg-teal-600">
                 <div className="absolute inset-0 flex items-center justify-center">
                     <h2
                         id={`course-title-${course.id}`}
@@ -187,7 +186,7 @@ const CourseCard = ({ course, section }) => {
                             navigate(`/course/${course.id}`);
                         }
                     }}
-                    className="w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-2 rounded-lg font-medium hover:from-blue-700 hover:to-green-700 transition-all duration-200 shadow-md"
+                    className="w-full bg-teal-600 text-white py-2 rounded-lg font-medium hover:bg-teal-700 transition-all duration-200 shadow-md"
                     aria-label={`Enroll in ${course.title}`}
                 >
                     Explore Course
@@ -403,9 +402,6 @@ const CoursePage = () => {
         }
     ];
 
-    // Handler for assessment button
-    // (Removed unused handleStartAssessment function)
-
     return (
         <>
             <style>
@@ -430,7 +426,7 @@ const CoursePage = () => {
             <div className="min-h-screen bg-gray-50 text-gray-800 pt-16 w-full overflow-x-hidden">
                 {/* Header Section */}
                 <div
-                    className="py-12 px-4 sm:px-6 text-center relative shadow-sm bg-gradient-to-br from-gray-50 to-white no-horizontal-scroll"
+                    className="py-12 px-4 sm:px-6 text-center relative shadow-sm bg-white no-horizontal-scroll"
                 >
                     {/* Main body content starts */}
                     <div className="relative max-w-7xl mx-auto w-full">
@@ -438,7 +434,7 @@ const CoursePage = () => {
                         <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
                         <div className="flex flex-col items-center gap-6">
                             <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
-                                <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
+                                <span className="text-gray-500">
                                     Discover TrackAdemy Courses
                                 </span>
                             </h1>
@@ -543,7 +539,7 @@ const CoursePage = () => {
                                     key={category}
                                     onClick={() => setSelectedCategory(category)}
                                     className={`px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:-translate-y-1 shadow-sm ${selectedCategory === category
-                                        ? 'bg-gradient-to-r from-blue-600 to-green-600 text-white shadow-md'
+                                        ? 'bg-teal-600 text-white shadow-md'
                                         : 'bg-white text-gray-600 border border-gray-100 hover:bg-gray-100'
                                         }`}
                                     aria-current={selectedCategory === category ? 'true' : 'false'}
@@ -670,7 +666,7 @@ const CoursePage = () => {
                     {/* Banner Section */}
                     <div className="mt-16 mb-8">
                         <div
-                            className="relative bg-gradient-to-r from-blue-600 to-green-600 text-white p-8 rounded-2xl shadow-2xl overflow-hidden bg-cover bg-center w-full"
+                            className="relative bg-teal-600 text-white p-8 rounded-2xl shadow-2xl overflow-hidden bg-cover bg-center w-full"
                             style={{
                                 backgroundImage: `url(${banner})`,
                             }}
@@ -689,7 +685,7 @@ const CoursePage = () => {
                                 </p>
                                 <button
                                     onClick={() => navigate('/courses')}
-                                    className="bg-white text-indigo-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-md animate-[fadeInUp_0.6s_ease-out_0.4s]"
+                                    className="bg-white text-teal-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-md animate-[fadeInUp_0.6s_ease-out_0.4s]"
                                 >
                                     Explore Courses ➔
                                 </button>
@@ -775,7 +771,7 @@ const CoursePage = () => {
                             {testimonials.map((testimonial, index) => (
                                 <div
                                     key={index}
-                                    className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-xl shadow-sm transform hover:-translate-y-1 transition-all duration-300 ease-in-out hover:shadow-md border border-gray-100 relative overflow-hidden w-full"
+                                    className="bg-white p-6 rounded-xl shadow-sm transform hover:-translate-y-1 transition-all duration-300 ease-in-out hover:shadow-md border border-gray-100 relative overflow-hidden w-full"
                                 >
                                     <div className={`absolute -top-10 -right-10 w-24 h-24 rounded-full bg-${testimonial.color}-100 opacity-70`}></div>
                                     <div className="flex flex-col sm:flex-row items-center mb-6">
@@ -804,8 +800,8 @@ const CoursePage = () => {
                         </div>
                     </div>
 
-                    {/* Assessment POrtal */}
-                    <section className="bg-gradient-to-r from-blue-100 to-green-100 py-10">
+                    {/* Assessment Portal */}
+                    <section className="bg-teal-100 py-10">
                         <div className="container mx-auto text-center">
                             <h2 className="text-3xl font-bold text-gray-800 mb-4">
                                 Ready to Test Your Knowledge?
@@ -815,7 +811,7 @@ const CoursePage = () => {
                             </p>
                             <button
                                 onClick={() => navigate('/courses/AssesmentPage')}
-                                className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors"
+                                className="bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition-colors"
                             >
                                 Start Assessment
                             </button>

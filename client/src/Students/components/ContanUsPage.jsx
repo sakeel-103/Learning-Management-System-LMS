@@ -73,7 +73,7 @@ const ContactUsPage = () => {
             <div className="max-w-full sm:max-w-md md:max-w-3xl lg:max-w-5xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 px-4 sm:px-0">
 
                 <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
-                    <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-600">
+                    <h1 className="text-4xl sm:text-5xl font-extrabold text-teal-600">
                         Contact Us
                     </h1>
 
@@ -111,18 +111,18 @@ const ContactUsPage = () => {
                 </div>
 
                 {/* Right Section - Message Form */}
-                <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 border-b pb-2">Leave a Message</h2>
+                <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 border-b pb-4">Leave a Message</h2>
 
                     {submitStatus && (
-                        <div className={`p-3 rounded-md ${submitStatus.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                        <div className={`p-4 rounded-md ${submitStatus.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                             {submitStatus.message}
                         </div>
                     )}
 
-                    <form className="space-y-3 sm:space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
+                    <form className="space-y-6" onSubmit={handleSubmit}>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="space-y-2">
                                 <label htmlFor="firstName" className="block text-sm font-medium text-gray-600">
                                     First Name
                                 </label>
@@ -132,11 +132,11 @@ const ContactUsPage = () => {
                                     value={formData.firstName}
                                     onChange={handleChange}
                                     placeholder="Enter your first name"
-                                    className="w-full p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
+                                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
                                     required
                                 />
                             </div>
-                            <div>
+                            <div className="space-y-2">
                                 <label htmlFor="lastName" className="block text-sm font-medium text-gray-600">
                                     Last Name
                                 </label>
@@ -146,13 +146,13 @@ const ContactUsPage = () => {
                                     value={formData.lastName}
                                     onChange={handleChange}
                                     placeholder="Enter your last name"
-                                    className="w-full p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
+                                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
                                     required
                                 />
                             </div>
                         </div>
 
-                        <div>
+                        <div className="space-y-2">
                             <label htmlFor="email" className="block text-sm font-medium text-gray-600">
                                 Email
                             </label>
@@ -162,21 +162,21 @@ const ContactUsPage = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 placeholder="name@example.com"
-                                className="w-full p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
+                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
                                 required
                             />
                         </div>
 
-                        <div>
+                        <div className="space-y-2">
                             <label htmlFor="phone" className="block text-sm font-medium text-gray-600">
                                 Phone
                             </label>
-                            <div className="flex space-x-2">
+                            <div className="flex space-x-3">
                                 <select
                                     id="countryCode"
                                     value={formData.countryCode}
                                     onChange={handleChange}
-                                    className="p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 transition-all duration-200"
+                                    className="w-1/3 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 transition-all duration-200"
                                 >
                                     <option value="+91">+91 (India)</option>
                                     <option value="+1">+1 (USA)</option>
@@ -189,13 +189,13 @@ const ContactUsPage = () => {
                                     value={formData.phone}
                                     onChange={handleChange}
                                     placeholder="+919888888888"
-                                    className="flex-1 p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
+                                    className="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
                                     required
                                 />
                             </div>
                         </div>
 
-                        <div>
+                        <div className="space-y-2">
                             <label htmlFor="country" className="block text-sm font-medium text-gray-600">
                                 Country
                             </label>
@@ -203,7 +203,7 @@ const ContactUsPage = () => {
                                 id="country"
                                 value={formData.country}
                                 onChange={handleChange}
-                                className="w-full p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 transition-all duration-200"
+                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 transition-all duration-200"
                             >
                                 <option value="India">India</option>
                                 <option value="USA">USA</option>
@@ -212,7 +212,7 @@ const ContactUsPage = () => {
                             </select>
                         </div>
 
-                        <div>
+                        <div className="space-y-2">
                             <label htmlFor="message" className="block text-sm font-medium text-gray-600">
                                 Message
                             </label>
@@ -221,7 +221,7 @@ const ContactUsPage = () => {
                                 value={formData.message}
                                 onChange={handleChange}
                                 placeholder="Enter your issues you face"
-                                className="w-full p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 h-32 resize-none transition-all duration-200"
+                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 h-40 resize-none transition-all duration-200"
                                 required
                             ></textarea>
                         </div>
@@ -229,7 +229,7 @@ const ContactUsPage = () => {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className={`w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-2 sm:py-3 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-200 font-bold shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                            className={`w-full bg-teal-600 text-white py-3 rounded-lg hover:bg-teal-700 transition-all duration-200 font-bold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                             aria-label="Send your message"
                         >
                             {isSubmitting ? 'Sending...' : 'Send Message'}
