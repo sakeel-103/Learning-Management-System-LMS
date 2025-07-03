@@ -40,7 +40,7 @@ const InstructorViewPage = () => {
 
     // ================ API calls =================
 
-    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1/';
+    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8080/api/v1/course_class/create//';
 
     const fetchWithAuth = async (url, options = {}) => {
         setLoading(true);
@@ -56,12 +56,10 @@ const InstructorViewPage = () => {
                 'Authorization': `Token ${token}`,
             };
 
-            // Only set Content-Type if not FormData
             if (!(options.body instanceof FormData)) {
                 headers['Content-Type'] = 'application/json';
             }
 
-            // Ensure URL is properly constructed
             const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url.replace(/^\/+/, '')}`;
 
             const response = await fetch(fullUrl, {
