@@ -12,7 +12,6 @@
   "dependencies": {
     "@tanstack/react-query": "^5.75.4",
     "axios": "^1.9.0",
-    "emailjs-com": "^3.2.0",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.509.0",
     "prop-types": "^15.8.1",

@@ -1,48 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 
 const CertificationPage = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [formData, setFormData] = useState({ fullName: '', email: '' });
     const [showCertificate, setShowCertificate] = useState(false);
-    const [downloadUrl, setDownloadUrl] = useState('');
-
-    useEffect(() => {
-        const fetchEligibility = async () => {
-            try {
-                const response = await axios.get('/api/certification/check-eligibility/', {
-                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-                });
-                if (response.data.eligible) {
-                    setDownloadUrl(response.data.download_url);
-                }
-            } catch (error) {
-                console.error('Eligibility check failed:', error);
-            }
-        };
-        fetchEligibility();
-    }, []);
 
     const handleDownloadClick = () => {
         setShowPopup(true);
     };
 
-    const handleFormSubmit = async (e) => {
+    const handleFormSubmit = (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.post('http://127.0.0.1:8000/api/certification/check-eligibility/', { email: formData.email }, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            });
-            if (response.data.success) {
-                setFormData({ ...formData, fullName: response.data.user_name });
-                setDownloadUrl(response.data.download_url);
-                setShowPopup(false);
-                setShowCertificate(true);
-            } else {
-                console.error('Verification failed:', response.data.message);
-            }
-        } catch (error) {
-            console.error('Verification failed:', error.response ? error.response.data : error.message);
+        if (formData.fullName && formData.email) {
+            setShowPopup(false);
+            setShowCertificate(true);
         }
     };
 
@@ -76,6 +47,7 @@ const CertificationPage = () => {
                         </button>
                     </div>
 
+                    {/* Certificate Display */}
                     {showCertificate && (
                         <div className="mt-6 sm:mt-8 p-4 sm:p-6 md:p-8 lg:p-10 bg-gradient-to-b from-blue-50 to-green-50 rounded-xl shadow-md border-4 border-blue-600 max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[350px]">
                             <div className="text-center">
@@ -95,7 +67,7 @@ const CertificationPage = () => {
                             </div>
                             <div className="mt-4 sm:mt-6 flex justify-center">
                                 <a
-                                    href={downloadUrl || '#'}
+                                    href=""
                                     className="inline-block px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:from-blue-700 hover:to-green-700 transition-all duration-200 font-bold shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     download
                                 >
@@ -107,11 +79,27 @@ const CertificationPage = () => {
                 </div>
             </div>
 
+            {/* Popup Form */}
             {showPopup && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 md:p-8 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-2 sm:mx-4">
                         <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Enter Your Details</h2>
                         <form onSubmit={handleFormSubmit} className="space-y-4">
+                            {/* <div>
+                                <label htmlFor="fullName" className="block text-sm font-medium text-gray-600">
+                                    Full Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="fullName"
+                                    name="fullName"
+                                    placeholder="Enter your full name"
+                                    value={formData.fullName}
+                                    onChange={handleInputChange}
+                                    className="w-full p-2 sm:p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
+                                    required
+                                />
+                            </div> */}
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-600">
                                     Email

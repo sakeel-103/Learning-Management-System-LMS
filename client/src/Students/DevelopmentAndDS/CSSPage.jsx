@@ -50,16 +50,22 @@ const CSSPage = () => {
 
     // Handle sidebar link clicks
     const handleSectionClick = (sectionId) => {
+        // If the clicked section is after "CSS Colors", set it as the active section
         if (conditionalSections.includes(sectionId)) {
             setActiveSection(sectionId);
         } else {
+            // For sections before "CSS Colors", reset the active section
             setActiveSection(null);
         }
+
+        // Smooth scroll to the section
         const element = document.getElementById(sectionId);
         if (element) {
             element.scrollIntoView({ behavior: "smooth" });
         }
     };
+
+    // Toggle sidebar on mobile
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
@@ -127,9 +133,9 @@ const CSSPage = () => {
             <div className="flex-1 w-full overflow-x-hidden lg:ml-0 lg:px-6">
                 <div className="p-4 sm:p-8 pt-20 sm:pt-36 pb-8">
                     {/* Hero Title Section */}
-                    <div className="text-center mb-16 py-12 px-4 bg-teal-600 rounded-xl shadow-sm">
+                    <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
-                            <span className="bg-clip-text text-transparent bg-white">
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
                                 Basics & Advanced of CSS3
                             </span>
                         </h1>
@@ -830,7 +836,7 @@ div {
                     </section>
 
                     {/* Call-to-Action Section */}
-                    <section className="py-16 px-6 bg-teal-600 text-white">
+                    <section className="py-16 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white">
                         <div className="max-w-6xl mx-auto text-center">
                             <div className="relative">
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>

@@ -144,9 +144,9 @@ const NodejsPage = () => {
             <div className="flex-1 w-full overflow-x-hidden lg:ml-0 lg:px-6">
                 <div className="p-4 sm:p-8 pt-20 sm:pt-36 pb-8">
                     {/* Hero Title Section */}
-                    <div className="text-center mb-16 py-12 px-4 bg-teal-600 rounded-xl shadow-sm">
+                    <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
-                            <span className="bg-clip-text text-transparent bg-white">
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
                                 Basics & Advanced of Node.js
                             </span>
                         </h1>
@@ -531,7 +531,7 @@ const NodejsPage = () => {
                     </section>
 
                     {/* Call-to-Action Section (Always Visible) */}
-                    <section className="py-16 px-6 bg-teal-600 text-white">
+                    <section className="py-16 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white">
                         <div className="max-w-6xl mx-auto text-center">
                             <div className="relative">
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
@@ -545,7 +545,7 @@ const NodejsPage = () => {
                                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                                     <button
                                         className="px-8 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white/50"
-                                        onClick={() => navigate('/Login')}
+                                        onClick={() => navigate('/Login')} // Corrected navigation
                                         aria-label="Enroll now in the course"
                                     >
                                         Enroll Now
