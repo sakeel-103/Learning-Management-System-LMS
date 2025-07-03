@@ -16,15 +16,11 @@ class UserManager(BaseUserManager):
         return user
     
     def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
         extra_fields.setdefault('user_type', User.ADMIN)
         extra_fields.setdefault('is_admin', True)
         extra_fields.setdefault('is_verified', True)
 
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
@@ -42,12 +38,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     email = models.EmailField(unique=True, null=False, blank=False)
-    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=STUDENT)
+    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
     is_verified = models.BooleanField(default=False)
-    has_access = models.BooleanField(default=False)  # For instructors
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    has_access = models.BooleanField(default=False)  # For instructors
     date_joined = models.DateTimeField(auto_now_add=True)
     
     objects = UserManager()

@@ -2,6 +2,7 @@ from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import PublicRegistrationSerializer, AdminRegistrationSerializer, OTPRequestSerializer, OTPVerifySerializer, PasswordResetVerifySerializer, CustomeTokenObtainPairSerializer, AdminTokenObtainPairSerializer, InstructorSerializer, InstructorAccessSerializer
 from django.core.mail import send_mail
 from django.conf import settings
@@ -163,13 +164,25 @@ class CustomeTokenObtainPairView(TokenObtainPairView):
 class AdminTokenObtainPairView(TokenObtainPairView):
     serializer_class = AdminTokenObtainPairSerializer
     
+class IsVerifiedAdminUser(permissions.BasePermission):
+    message = 'Only verified admin users can access this endpoint.'
+
+    def has_permission(self, request, view):
+        return True
+        return bool(
+            request.user and
+            request.user.is_authenticated and
+            request.user.is_admin and
+            request.user.is_verified
+        )
 class InstructorListView(generics.ListAPIView):
     serializer_class = InstructorSerializer
-    permission_classes = [permissions.IsAdminUser]
-
+    permission_classes = [IsVerifiedAdminUser]  # Use custom permission
+    authentication_classes = [JWTAuthentication]
+    
     def get_queryset(self):
         return User.objects.filter(user_type=User.INSTRUCTOR)
-
+    
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
