@@ -10,8 +10,9 @@ from .views import (
 
 
 
+
 router = DefaultRouter()
-router.register(r'create', CourseViewSet)
+router.register(r'', CourseViewSet, basename='course_class')
 router.register(r'upload_videos', VideoMaterialUploadViewSet, basename='upload_videos')
 router.register(r'upload_pdfs', PDFMaterialUploadViewSet, basename='upload_pdfs')
 router.register(r'upload_presentations', PresentationMaterialUploadViewSet, basename='upload_presentations')
