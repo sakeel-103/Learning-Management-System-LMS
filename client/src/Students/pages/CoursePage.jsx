@@ -241,98 +241,40 @@ const CoursePage = () => {
         'Cloud Computing',
     ];
 
-    const courses = useMemo(() => [
-        {
-            id: '1',
-            title: 'Full Stack Development: A Complete Guide',
-            stats: '1k+ Interested Users',
-            rating: '4.4',
-            level: 'Beginner to Advanced',
-            duration: '3 Months',
-            category: 'Data Structures',
-            prerequisites: ['Basic Programming', 'Computer Science Fundamentals'],
-            schedule: {
-                startDate: '2025-06-01',
-                endDate: '2025-09-01',
-                sessions: 'Mon, Wed (7PM-9PM)',
-                type: 'Live',
-            },
-            materialsCount: {
-                videos: 10,
-                pdfs: 10,
-                presentations: 8,
-                notes: 18,
-            },
-            instructor: 'Shradha Khapra',
-        },
-        {
-            id: '2',
-            title: 'JAVA Backend Development: Complete Course',
-            stats: '3k+ Interested Users',
-            rating: '4.7',
-            level: 'Intermediate to Advanced',
-            duration: '4 Months',
-            category: 'Web Development',
-            prerequisites: ['Basic Java', 'OOP Concepts'],
-            schedule: {
-                startDate: '2025-07-01',
-                endDate: '2025-11-01',
-                sessions: 'Tue, Thu (6PM-8PM)',
-                type: 'Live',
-            },
-            materialsCount: {
-                videos: 10,
-                pdfs: 8,
-                presentations: 5,
-                notes: 8,
-            },
-            instructor: 'Aman Dhatarwal',
-        },
-        {
-            id: '3',
-            title: 'Complete Machine Learning & Data Science Program',
-            stats: '1.5k+ Interested Users',
-            rating: '4.7',
-            level: 'Beginner to Advanced',
-            duration: '6 Months',
-            category: 'Machine Learning',
-            prerequisites: ['Python Basics', 'Statistics'],
-            schedule: {
-                startDate: '2025-06-15',
-                endDate: '2025-12-15',
-                sessions: 'Sat, Sun (10AM-1PM)',
-                type: 'Live',
-            },
-            materialsCount: {
-                videos: 4,
-                pdfs: 5,
-                presentations: 5,
-                notes: 5,
-            },
-            instructor: 'Love Babbar',
-        },
-        {
-            id: '4',
-            title: 'Data Structures and Algorithms - Self Paced',
-            stats: '1k+ Interested Users',
-            rating: '4.7',
-            level: 'Beginner to Advanced',
-            duration: '2 Months',
-            category: 'Data Structures',
-            prerequisites: ['Programming Fundamentals'],
-            schedule: {
-                type: 'Self-paced',
-                accessPeriod: '6 Months',
-            },
-            materialsCount: {
-                videos: 2,
-                pdfs: 1,
-                presentations: 5,
-                notes: 2,
-            },
-            instructor: 'Code With Harry',
-        },
-    ], []);
+    // Fetch courses from the correct backend endpoint
+    const [courses, setCourses] = useState([]);
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/v1/course_class/');
+                const contentType = response.headers.get('content-type');
+                if (!response.ok) {
+                    // Try to parse error as JSON, fallback to text
+                    let errorMsg = 'Failed to fetch courses';
+                    if (contentType && contentType.includes('application/json')) {
+                        const errJson = await response.json();
+                        errorMsg = errJson.detail || errJson.message || errorMsg;
+                    } else {
+                        const errText = await response.text();
+                        errorMsg = errText;
+                    }
+                    throw new Error(errorMsg);
+                }
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    setCourses(data);
+                } else {
+                    // Not JSON, probably an error page
+                    setCourses([]);
+                }
+            } catch (err) {
+                setCourses([]);
+                // Optionally show error to user
+                // alert(err.message);
+            }
+        };
+        fetchCourses();
+    }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => setIsLoading(false), 1000);

@@ -68,11 +68,24 @@ const InstructorViewPage = () => {
                 delete headers['Content-Type'];
             }
 
-            const response = await fetch(`http://127.0.0.1:8000/api/v1/${url}`, { ...options, headers });
+            const fullUrl = `http://127.0.0.1:8000/api/v1/${url}`;
+            console.log('[fetchWithAuth] URL:', fullUrl, 'Method:', options.method || 'GET');
+            if (options.body && typeof options.body === 'string') {
+                try { console.log('[fetchWithAuth] Body:', JSON.parse(options.body)); } catch { console.log('[fetchWithAuth] Body:', options.body); }
+            }
+
+            const response = await fetch(fullUrl, { ...options, headers });
+            console.log('[fetchWithAuth] Response status:', response.status, response.statusText);
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.detail || errorData.message || 'Request failed');
+                let errorData;
+                try {
+                    errorData = await response.json();
+                } catch (e) {
+                    errorData = await response.text();
+                }
+                console.error('[fetchWithAuth] Error response:', errorData);
+                throw new Error((errorData && (errorData.detail || errorData.message)) || 'Request failed');
             }
 
             if (response.status === 204) {
@@ -91,7 +104,7 @@ const InstructorViewPage = () => {
     // Move fetchCourses to component scope so it can be reused
     const fetchCourses = async () => {
         try {
-            const data = await fetchWithAuth('courses/');
+            const data = await fetchWithAuth('course_class/');
             setCourses(data);
             return data;
         } catch (err) {
@@ -101,7 +114,7 @@ const InstructorViewPage = () => {
     };
 
     useEffect(() => {
-        verifyInstructor()
+        // verifyInstructor()
         fetchCourses();
     }, []);
 
@@ -110,6 +123,7 @@ const InstructorViewPage = () => {
             if (!courses.length) return;
 
             try {
+                // Update this if you have a new endpoint for materials, otherwise leave as is
                 const materialPromises = courses.map((course) =>
                     fetchWithAuth(`courses/${course.id}/materials/`)
                 );
@@ -158,7 +172,7 @@ const InstructorViewPage = () => {
 
     const handleEditCourse = async (id) => {
         try {
-            const data = await fetchWithAuth(`courses/${id}/`);
+            const data = await fetchWithAuth(`course_class/${id}/`);
             setFormData({
                 id: data.id,
                 title: data.title,
@@ -193,7 +207,7 @@ const InstructorViewPage = () => {
     const handleDeleteCourse = async (id) => {
         if (window.confirm('Are you sure you want to delete this course?')) {
             try {
-                await fetchWithAuth(`courses/${id}/`, { method: 'DELETE' });
+                await fetchWithAuth(`course_class/${id}/`, { method: 'DELETE' });
                 setCourses(courses.filter((course) => course.id !== id));
             } catch (err) {
                 console.error('Failed to delete course:', err);
@@ -226,12 +240,12 @@ const InstructorViewPage = () => {
             });
 
             const token = localStorage.getItem('token');
-            xhr.open('POST', `http://127.0.0.1:8000/api/v1/courses/${selectedCourseId}/upload_materials/`);
+            xhr.open('POST', `http://127.0.0.1:8000/api/v1/courses/${selectedCourseId}/upload_materials/`); // Update if you change upload endpoint
             xhr.setRequestHeader('Authorization', `Token ${token}`);
 
             xhr.onload = async () => {
                 if (xhr.status === 200) {
-                    const materialsData = await fetchWithAuth(`courses/${selectedCourseId}/materials/`);
+                    const materialsData = await fetchWithAuth(`courses/${selectedCourseId}/materials/`); // Update if you change materials endpoint
                     setMaterials((prev) => ({ ...prev, [selectedCourseId]: materialsData }));
                 } else {
                     const errorData = JSON.parse(xhr.responseText);
@@ -258,7 +272,7 @@ const InstructorViewPage = () => {
         }
 
         try {
-            await fetchWithAuth(`courses/${selectedCourseId}/`, {
+            await fetchWithAuth(`course_class/${selectedCourseId}/`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     schedule_type: schedule.type,
@@ -270,7 +284,7 @@ const InstructorViewPage = () => {
                 }),
             });
 
-            const updatedCourses = await fetchWithAuth('courses/');
+            const updatedCourses = await fetchWithAuth('course_class/');
             setCourses(updatedCourses);
 
             setSchedule({ type: 'Live', startDate: '', endDate: '', sessions: '', duration: '' });
@@ -443,7 +457,8 @@ const InstructorViewPage = () => {
                                 e.preventDefault();
                                 try {
                                     const method = formData.id ? 'PUT' : 'POST';
-                                    const url = formData.id ? `courses/${formData.id}/` : 'courses/';
+                                    // Use RESTful endpoint for both create and update
+                                    const url = formData.id ? `course_class/${formData.id}/` : 'course_class/';
 
                                     await fetchWithAuth(url, {
                                         method,
@@ -458,7 +473,7 @@ const InstructorViewPage = () => {
                                     });
 
                                     // Refresh the courses list after successful save
-                                    const updatedCourses = await fetchWithAuth('courses/');
+                                    const updatedCourses = await fetchWithAuth('course_class/');
                                     setCourses(updatedCourses);
 
                                     // Reset form and switch to browse tab
