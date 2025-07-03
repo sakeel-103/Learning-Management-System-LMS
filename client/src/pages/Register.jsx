@@ -30,7 +30,7 @@ function Register() {
     setIsLoading(true);
     const registerRes = await authService.register(formData);
     if (registerRes) {
-      navigate('/login');
+      navigate('/verify-email');
     }
 
     setIsLoading(false);

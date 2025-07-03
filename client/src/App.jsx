@@ -46,6 +46,8 @@ import CertificationPage from './Students/components/CertificationPage'
 import CourseFrontPage from './Students/pages/CourseFrontPage'
 import PaymentPage from './Students/pages/PaymentPage';
 import InstructorViewPage from './Students/pages/InstructorViewPage';
+import VerifyEmail from './pages/VerifyEmail'
+import InstructorAccess from './Admin/components/InstructorAccess'
 
 function App() {
   return (
@@ -58,9 +60,11 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path='/verify-email' element={<VerifyEmail />} />
 
         {/* Role-based Protected Routes */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path='/admin/instructor-access' element={<InstructorAccess />} />
         <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
         <Route path="/student/dashboard" element={<StudentDashboard />} />
         <Route path="/courses" element={<CoursePage />} />

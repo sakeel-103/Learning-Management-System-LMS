@@ -15,22 +15,22 @@ function AdminDashboard() {
   });
 
   useEffect(() => {
-    // Check if user is authenticated and has Admin role
     const token = localStorage.getItem('ACCESS_TOKEN');
     if (!token) {
+
       navigate('/login')
     }
     if (token) {
       const decoded = jwtDecode(token);
-      if (decoded.role !== 'ADMIN') {
+      if (decoded.role != '3') {
         navigate('/login')
       }
-      setUser(decoded.username)
+      setUser(decoded.email)
     }
   }, [navigate]);
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen mt-9 bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="bg-white overflow-hidden shadow-lg rounded-lg mb-8">
           <div className="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-8">
@@ -63,7 +63,9 @@ function AdminDashboard() {
             <div className="mt-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">Quick Actions</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button className="flex items-center justify-center py-3 px-4 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition-colors">
+                <button 
+                onClick={() => navigate('/admin/instructor-access')}
+                className="flex items-center justify-center py-3 px-4 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition-colors">
                   Approve Instructor Requests
                 </button>
                 <button className="flex items-center justify-center py-3 px-4 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition-colors">

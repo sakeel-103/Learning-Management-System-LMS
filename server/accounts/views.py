@@ -8,6 +8,18 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .models import OTP, User
 
+# Verify the token
+from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+def decode_jwt(token):
+    try:
+        access_token = AccessToken(token)
+        payload = access_token.payload
+        return payload
+    except (InvalidToken, TokenError) as e:
+        print(f"Invalid token: {e}")
+        return None
+
 class PublicRegistrationView(generics.CreateAPIView):
     serializer_class = PublicRegistrationSerializer
     permission_classes = [AllowAny]
@@ -104,9 +116,6 @@ class OTPVerifyView(generics.GenericAPIView):
         # Mark user as verified
         user.is_verified = True
         user.save()
-        
-        # Delete the used OTP
-        otp.delete()
 
         return Response(
             {"message": "Email verified successfully"},
@@ -149,9 +158,8 @@ class PasswordResetVerifyView(generics.GenericAPIView):
         user.set_password(new_password)
         user.save()
         
-        # Mark OTP as used
-        otp.is_used = True
-        otp.save()
+        # delete otp
+        otp.delete()
 
         return Response(
             {"message": "Password reset successfully"},
@@ -171,10 +179,19 @@ class IsVerifiedAdminUser(permissions.BasePermission):
         if not request.user or not request.user.is_authenticated:
             return False
         
-        return bool(
-            request.user and
-            request.user.role == "3" or request.user.is_superuser
-        )
+        auth_header = request.META.get('HTTP_AUTHORIZATION', '')
+        
+        if not auth_header.startswith('Bearer '):
+            return Response(
+                {'error': 'Invalid authorization header'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        token = auth_header.split(' ')[1]
+        payload = decode_jwt(token)
+        
+        return payload.get('role') == '3'
+    
 class InstructorListView(generics.ListAPIView):
     serializer_class = InstructorSerializer
     permission_classes = [IsVerifiedAdminUser]  # Use custom permission
@@ -193,7 +210,7 @@ class InstructorListView(generics.ListAPIView):
         })
         
 class AlterInstructorAccessView(generics.GenericAPIView):
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [IsVerifiedAdminUser]
     serializer_class = InstructorAccessSerializer
     
     def patch(self, request, pk):

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeOffIcon, LogInIcon } from 'lucide-react';
 import authService from '../services/authService';
+import { jwtDecode } from 'jwt-decode';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -31,7 +32,16 @@ function Login() {
       setIsLoading(false);
       return;
     }
-    navigate('/');
+    const decoded = jwtDecode(localStorage.getItem('ACCESS_TOKEN'))
+    if (decoded?.role == '3') {
+      navigate('/admin/dashboard')
+      return
+    }
+    if (decoded?.role == '2') {
+      navigate('/instructor/dashboard')
+      return
+    }
+    navigate('/student/dashboard');
     setIsLoading(false);
   };
 
