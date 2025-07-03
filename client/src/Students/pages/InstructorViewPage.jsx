@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode'
+import { toast } from 'react-toastify';
 
 
 const InstructorViewPage = () => {
@@ -37,6 +39,19 @@ const InstructorViewPage = () => {
         'Mobile Development',
         'Cloud Computing',
     ];
+
+    const verifyInstructor = () => {
+        const token = localStorage.getItem('ACCESS_TOKEN')
+        if (!token) {
+            navigate('/login')
+        }
+        const decoded = jwtDecode(token)
+        if (decoded?.role != '2') {
+            toast.error('Your are a student.! Do not have access.')
+            navigate('/login')
+        }
+    }
+
 
     const fetchWithAuth = async (url, options = {}) => {
         setLoading(true);
@@ -99,6 +114,7 @@ const InstructorViewPage = () => {
     };
 
     useEffect(() => {
+        // verifyInstructor()
         fetchCourses();
     }, []);
 
