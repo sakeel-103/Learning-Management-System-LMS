@@ -38,7 +38,7 @@ function Login() {
       return
     }
     if (decoded?.role == '2') {
-      navigate('/instructor/dashboard')
+      navigate('/InstructorViewPage')
       return
     }
     navigate('/student/dashboard');
