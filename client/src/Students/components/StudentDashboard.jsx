@@ -22,7 +22,7 @@ function StudentDashboard() {
     }
     if (token) {
       const decoded = jwtDecode(token);
-      if (decoded.role !== 'STUDENT') {
+      if (decoded.role != '1') {
         navigate('/login')
       }
       setUser(decoded.username)
