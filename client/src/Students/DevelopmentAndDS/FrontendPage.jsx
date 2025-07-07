@@ -4,7 +4,7 @@ const FrontendPage = () => {
     const navigate = useNavigate();
     const [activeSection, setActiveSection] = useState("introduction");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [showMore, setShowMore] = useState(false); // State to toggle visibility of sections after JavaScript
+    const [showMore, setShowMore] = useState(false);
 
     const faqs = [
         {
@@ -71,7 +71,6 @@ const FrontendPage = () => {
         setActiveSection(sectionId);
         setIsSidebarOpen(false);
 
-        // If the clicked section is after "javascript" and sections are hidden, show them
         const hiddenSections = ["react", "responsive-design", "accessibility", "performance-optimization", "tools-frameworks", "FAQ"];
         if (hiddenSections.includes(sectionId) && !showMore) {
             setShowMore(true);
@@ -145,9 +144,9 @@ const FrontendPage = () => {
             <div className="flex-1 w-full overflow-x-hidden lg:ml-0 lg:px-6">
                 <div className="p-4 sm:p-8 pt-20 sm:pt-36 pb-8">
                     {/* Hero Title Section */}
-                    <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
+                    <div className="text-center mb-16 py-12 px-4 bg-teal-600 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
+                            <span className="bg-clip-text text-transparent bg-white">
                                 Basics & Advanced of Frontend
                             </span>
                         </h1>
@@ -534,7 +533,7 @@ const FrontendPage = () => {
                     </section>
 
                     {/* Call-to-Action Section (Always Visible) */}
-                    <section className="py-16 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white">
+                    <section className="py-16 px-6 bg-teal-600 text-white">
                         <div className="max-w-6xl mx-auto text-center">
                             <div className="relative">
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>

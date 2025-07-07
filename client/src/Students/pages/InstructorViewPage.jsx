@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import { toast } from 'react-toastify';
 
 
@@ -39,7 +39,6 @@ const InstructorViewPage = () => {
         'Mobile Development',
         'Cloud Computing',
     ];
-
     const verifyInstructor = () => {
         const token = localStorage.getItem('ACCESS_TOKEN')
         if (!token) {
@@ -51,30 +50,36 @@ const InstructorViewPage = () => {
             navigate('/login')
         }
     }
-
+    // ================ API calls =================
 
     const fetchWithAuth = async (url, options = {}) => {
         setLoading(true);
         setError(null);
         try {
             const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
             const headers = {
                 ...options.headers,
                 'Authorization': `Token ${token}`,
-                'Content-Type': options.body instanceof FormData ? undefined : 'application/json'
             };
 
-            if (options.body instanceof FormData) {
-                delete headers['Content-Type'];
+            if (!(options.body instanceof FormData)) {
+                headers['Content-Type'] = 'application/json';
             }
-
-            const fullUrl = `http://127.0.0.1:8000/api/v1/${url}`;
+            const fullUrl = url.startsWith('http') ? url : `http://127.0.0.1:8000/api/v1/${url.replace(/^\/+/, '')}`;
             console.log('[fetchWithAuth] URL:', fullUrl, 'Method:', options.method || 'GET');
             if (options.body && typeof options.body === 'string') {
                 try { console.log('[fetchWithAuth] Body:', JSON.parse(options.body)); } catch { console.log('[fetchWithAuth] Body:', options.body); }
             }
 
-            const response = await fetch(fullUrl, { ...options, headers });
+            const response = await fetch(fullUrl, {
+                ...options,
+                headers,
+                credentials: 'include'
+            });
             console.log('[fetchWithAuth] Response status:', response.status, response.statusText);
 
             if (!response.ok) {
@@ -83,25 +88,41 @@ const InstructorViewPage = () => {
                     errorData = await response.json();
                 } catch (e) {
                     errorData = await response.text();
+                    try {
+                        // Try to parse as JSON if possible
+                        errorData = JSON.parse(errorData);
+                    } catch {
+                        // If not JSON, use status text
+                        errorData = { detail: response.statusText };
+                    }
                 }
                 console.error('[fetchWithAuth] Error response:', errorData);
-                throw new Error((errorData && (errorData.detail || errorData.message)) || 'Request failed');
+                throw new Error(
+                    errorData.detail ||
+                    errorData.message ||
+                    errorData.non_field_errors?.[0] ||
+                    (typeof errorData === 'string' ? errorData : 'Request failed')
+                );
             }
 
-            if (response.status === 204) {
-                return null;
-            }
-
-            return await response.json();
+            return response.status === 204 ? null : await response.json();
         } catch (err) {
             setError(err.message);
+
+            // Auto-redirect if unauthorized
+            if (err.message.includes('Unauthorized') || err.message.includes('token')) {
+                localStorage.removeItem('token');
+                window.location.href = '/login';
+            }
+
             throw err;
         } finally {
             setLoading(false);
         }
     };
 
-    // Move fetchCourses to component scope so it can be reused
+    // ================ End of API calls ==================
+
     const fetchCourses = async () => {
         try {
             const data = await fetchWithAuth('course_class/');
@@ -150,10 +171,11 @@ const InstructorViewPage = () => {
     // (moved inside fetchWithAuth above)
     // const response = await fetch(`http://127.0.0.1:8000/api/v1/${url}`, { ...options, headers });
 
-    // const handleInputChangeSchedule = (e) => {
-    //     const { name, value } = e.target;
-    //     setSchedule((prev) => ({ ...prev, [name]: value }));
-    // };
+    // Handles changes for schedule-related form fields
+    const handleInputChangeSchedule = (e) => {
+        const { name, value } = e.target;
+        setSchedule((prev) => ({ ...prev, [name]: value }));
+    };
 
     const handleAddPrerequisite = () => {
         if (prereqInput.trim()) {

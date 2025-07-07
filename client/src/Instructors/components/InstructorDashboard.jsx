@@ -22,10 +22,10 @@ function InstructorDashboard() {
     }
     if (token) {
       const decoded = jwtDecode(token);
-      if (decoded.role !== 'INSTRUCTOR') {
+      if (decoded.role != '2') {
         navigate('/login')
       }
-      setUser(decoded.username)
+      setUser(decoded.email)
     }
   }, [navigate]);
 
