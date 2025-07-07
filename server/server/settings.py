@@ -76,6 +76,8 @@ INSTALLED_APPS = [
     'subscription',
     'contact_form',
     'certification',
+    'notifications',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
