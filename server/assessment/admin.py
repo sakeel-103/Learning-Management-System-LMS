@@ -97,3 +97,13 @@ class CertificateAdmin(admin.ModelAdmin):
         if not change:  # Only for new certificates
             obj.generate_qr_code()
         super().save_model(request, obj, form, change)
+
+def api_root(request):
+    return JsonResponse({
+        "message": "Welcome to the LMS API!",
+        "endpoints": {
+            "admin": "/admin/",
+            "assessment": "/api/assessment/",
+            # Add more endpoints as needed
+        }
+    })
