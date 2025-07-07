@@ -5,6 +5,7 @@ from .models import Course, VideoMaterial, PDFMaterial, PresentationMaterial, No
 from .serializers import CourseSerializer, VideoMaterialSerializer, PDFMaterialSerializer, PresentationMaterialSerializer, NoteMaterialSerializer
 
 
+
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
