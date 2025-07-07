@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'certification',
     'notifications',
     'dashboard',
+    'assessment',
 ]
 
 MIDDLEWARE = [
