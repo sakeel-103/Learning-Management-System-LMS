@@ -46,7 +46,7 @@ const InstructorViewPage = () => {
         }
         const decoded = jwtDecode(token)
         if (decoded?.role != '2') {
-            toast.error('Your are a student.! Do not have access.')
+            toast.error('Your are not a Instructor.! Do not have access.')
             navigate('/login')
         }
     }
@@ -135,7 +135,7 @@ const InstructorViewPage = () => {
     };
 
     useEffect(() => {
-        // verifyInstructor()
+        verifyInstructor()
         fetchCourses();
     }, []);
 

@@ -72,7 +72,6 @@ const login = async (formData) => {
 
     toast.error('Invalid credentials or Unauthorized.');
     return false;
-
   } catch (error) {
     console.log(error);
 
@@ -88,10 +87,8 @@ const login = async (formData) => {
 
 // Logout user
 const logout = () => {
-  localStorage.removeItem('user');
-  localStorage.removeItem('isLoggedIn');
-  localStorage.removeItem('username');
-  localStorage.removeItem('role');
+  localStorage.removeItem('ACCESS_TOKEN')
+  localStorage.removeItem('REFRESH_TOKEN')
 };
 
 // Get current user
