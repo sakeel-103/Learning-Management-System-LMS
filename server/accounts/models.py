@@ -20,6 +20,7 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('user_type', User.ADMIN)
         extra_fields.setdefault('is_admin', True)
         extra_fields.setdefault('is_verified', True)
+        extra_fields.setdefault('is_staff', True)
 
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
@@ -44,6 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     has_access = models.BooleanField(default=False)  # For instructors
     date_joined = models.DateTimeField(auto_now_add=True)
+    is_staff = models.BooleanField(default=False)
     
     objects = UserManager()
     
