@@ -26,6 +26,6 @@ urlpatterns = [
     path('api/contact/', include('contact_form.urls')),
     path('api/certification/', include('certification.urls')),
     path('api/v1/assessment/', include('assessment.urls')),
-  
+    path('api/v1/course_class/', include('course_class.urls')),
    
 ]
