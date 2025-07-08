@@ -1,0 +1,185 @@
+from rest_framework import serializers
+from django.contrib.auth import get_user_model
+from .models import (
+    Quiz, Question, Choice, Assignment, Exam, QuizAttempt, 
+    QuizResponse, AssignmentSubmission, ExamAttempt, Certificate
+)
+from course_class.serializers import CourseSerializer
+
+User = get_user_model()
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'user_type']
+        read_only_fields = fields
+
+class ChoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Choice
+        fields = ['id', 'choice_text', 'is_correct', 'order']
+
+class QuestionSerializer(serializers.ModelSerializer):
+    choices = ChoiceSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Question
+        fields = ['id', 'question_text', 'question_type', 'points', 'order', 'is_required', 'choices', 'created_at']
+
+class QuizSerializer(serializers.ModelSerializer):
+    questions = QuestionSerializer(many=True, read_only=True)
+    course = CourseSerializer(read_only=True)
+    course_id = serializers.UUIDField(write_only=True)
+    
+    class Meta:
+        model = Quiz
+        fields = [
+            'id', 'title', 'description', 'course', 'course_id', 'quiz_type', 
+            'time_limit', 'passing_score', 'is_active', 'questions', 
+            'created_at', 'updated_at'
+        ]
+
+class AssignmentSerializer(serializers.ModelSerializer):
+    course = CourseSerializer(read_only=True)
+    course_id = serializers.UUIDField(write_only=True)
+    
+    class Meta:
+        model = Assignment
+        fields = [
+            'id', 'title', 'description', 'course', 'course_id', 'assignment_type',
+            'due_date', 'max_points', 'instructions', 'rubric', 'is_active',
+            'created_at', 'updated_at'
+        ]
+
+class ExamSerializer(serializers.ModelSerializer):
+    course = CourseSerializer(read_only=True)
+    course_id = serializers.UUIDField(write_only=True)
+    
+    class Meta:
+        model = Exam
+        fields = [
+            'id', 'title', 'description', 'course', 'course_id', 'exam_type',
+            'time_limit', 'passing_score', 'start_date', 'end_date', 'is_proctored',
+            'allow_retakes', 'max_attempts', 'is_active', 'created_at', 'updated_at'
+        ]
+
+class QuizResponseSerializer(serializers.ModelSerializer):
+    selected_choices = ChoiceSerializer(many=True, read_only=True)
+    selected_choice_ids = serializers.ListField(
+        child=serializers.UUIDField(),
+        write_only=True,
+        required=False
+    )
+    
+    class Meta:
+        model = QuizResponse
+        fields = [
+            'id', 'question', 'selected_choices', 'selected_choice_ids',
+            'text_response', 'is_correct', 'points_earned', 'answered_at'
+        ]
+        read_only_fields = ['is_correct', 'points_earned', 'answered_at']
+    
+    def create(self, validated_data):
+        selected_choice_ids = validated_data.pop('selected_choice_ids', [])
+        response = QuizResponse.objects.create(**validated_data)
+        
+        if selected_choice_ids:
+            choices = Choice.objects.filter(id__in=selected_choice_ids)
+            response.selected_choices.set(choices)
+        
+        return response
+
+class QuizAttemptSerializer(serializers.ModelSerializer):
+    quiz = QuizSerializer(read_only=True)
+    quiz_id = serializers.UUIDField(write_only=True)
+    responses = QuizResponseSerializer(many=True, read_only=True)
+    user = UserSerializer(read_only=True)
+    
+    class Meta:
+        model = QuizAttempt
+        fields = [
+            'id', 'user', 'quiz', 'quiz_id', 'started_at', 'completed_at',
+            'score', 'is_passed', 'time_taken', 'responses'
+        ]
+        read_only_fields = ['user', 'started_at', 'completed_at', 'score', 'is_passed', 'time_taken']
+    
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
+
+class AssignmentSubmissionSerializer(serializers.ModelSerializer):
+    assignment = AssignmentSerializer(read_only=True)
+    assignment_id = serializers.UUIDField(write_only=True)
+    user = UserSerializer(read_only=True)
+    
+    class Meta:
+        model = AssignmentSubmission
+        fields = [
+            'id', 'user', 'assignment', 'assignment_id', 'submission_file',
+            'submission_text', 'submitted_at', 'graded_at', 'score', 'feedback',
+            'status', 'is_late'
+        ]
+        read_only_fields = ['user', 'submitted_at', 'graded_at', 'score', 'feedback', 'status', 'is_late']
+    
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
+
+class ExamAttemptSerializer(serializers.ModelSerializer):
+    exam = ExamSerializer(read_only=True)
+    exam_id = serializers.UUIDField(write_only=True)
+    user = UserSerializer(read_only=True)
+    
+    class Meta:
+        model = ExamAttempt
+        fields = [
+            'id', 'user', 'exam', 'exam_id', 'started_at', 'completed_at',
+            'score', 'is_passed', 'time_taken', 'attempt_number'
+        ]
+        read_only_fields = ['user', 'started_at', 'completed_at', 'score', 'is_passed', 'time_taken', 'attempt_number']
+    
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
+
+class CertificateSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    course = CourseSerializer(read_only=True)
+    quiz_attempt = QuizAttemptSerializer(read_only=True)
+    exam_attempt = ExamAttemptSerializer(read_only=True)
+    assignment_submission = AssignmentSubmissionSerializer(read_only=True)
+    
+    class Meta:
+        model = Certificate
+        fields = [
+            'id', 'user', 'course', 'certificate_type', 'title', 'description',
+            'issued_date', 'expiry_date', 'certificate_number', 'qr_code',
+            'pdf_file', 'is_valid', 'quiz_attempt', 'exam_attempt', 'assignment_submission'
+        ]
+        read_only_fields = [
+            'user', 'issued_date', 'certificate_number', 'qr_code', 'pdf_file'
+        ]
+
+class QuizSubmissionSerializer(serializers.Serializer):
+    quiz_id = serializers.UUIDField()
+    responses = serializers.ListField(
+        child=serializers.DictField()
+    )
+    time_taken = serializers.IntegerField(required=False)
+
+class AutoGradeResponseSerializer(serializers.Serializer):
+    score = serializers.DecimalField(max_digits=5, decimal_places=2)
+    is_passed = serializers.BooleanField()
+    correct_answers = serializers.IntegerField()
+    total_questions = serializers.IntegerField()
+    feedback = serializers.ListField(child=serializers.DictField())
+
+class TimerSerializer(serializers.Serializer):
+    time_remaining = serializers.IntegerField()
+    is_expired = serializers.BooleanField()
+    warning_threshold = serializers.IntegerField()
+
+class CertificateVerificationSerializer(serializers.Serializer):
+    certificate_number = serializers.CharField()
+    is_valid = serializers.BooleanField()
+    certificate_data = CertificateSerializer(read_only=True) 

@@ -56,7 +56,7 @@ const InstructorViewPage = () => {
         setLoading(true);
         setError(null);
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('ACCESS_TOKEN');
             if (!token) {
                 throw new Error('No authentication token found');
             }
@@ -110,8 +110,9 @@ const InstructorViewPage = () => {
             setError(err.message);
 
             // Auto-redirect if unauthorized
-            if (err.message.includes('Unauthorized') || err.message.includes('token')) {
-                localStorage.removeItem('token');
+            if (err.message.includes('Unauthorized') || err.message.includes('ACCESS_TOKEN')) {
+                localStorage.removeItem('ACCESS_TOKEN');
+                localStorage.removeItem('REFRESH_TOKEN');
                 window.location.href = '/login';
             }
 
@@ -135,7 +136,7 @@ const InstructorViewPage = () => {
     };
 
     useEffect(() => {
-        verifyInstructor()
+       // verifyInstructor()
         fetchCourses();
     }, []);
 
@@ -261,7 +262,7 @@ const InstructorViewPage = () => {
                 }
             });
 
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('ACCESS_TOKEN');
             xhr.open('POST', `http://127.0.0.1:8000/api/v1/courses/${selectedCourseId}/upload_materials/`); // Update if you change upload endpoint
             xhr.setRequestHeader('Authorization', `Token ${token}`);
 
