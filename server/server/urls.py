@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/subscribe/', include('subscription.urls')),
     path('api/contact/', include('contact_form.urls')),
     path('api/certification/', include('certification.urls')),
+    path('api/notifications/', include('notifications.urls')),
 ]

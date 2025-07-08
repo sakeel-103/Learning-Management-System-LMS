@@ -1,37 +1,31 @@
-from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from .models import Progress
 from .serializers import ProgressSerializer
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from accounts.models import User
+
+class IsStudentOrAdmin(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.is_authenticated
+
+    def has_object_permission(self, request, view, obj):
+        # Allow student to see only their own progress
+        if request.user.user_type == User.STUDENT:
+            return obj.student == request.user
+        return True  # Admins/instructors can view
 
 class ProgressViewSet(viewsets.ModelViewSet):
+    queryset = Progress.objects.all()
     serializer_class = ProgressSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsStudentOrAdmin]
 
     def get_queryset(self):
         user = self.request.user
-        if user.role == 'Student':
+        if user.user_type == User.STUDENT:
             return Progress.objects.filter(student=user)
-        elif user.role == 'Admin':
-            return Progress.objects.all()
-        else:  # Instructor
-            return Progress.objects.none()
+        return Progress.objects.all()
 
     def perform_create(self, serializer):
-        serializer.save(student=self.request.user)
+        serializer.save()
 
-    @action(detail=False, methods=['get'], url_path='my-dashboard')
-    def my_dashboard(self, request):
-        user = request.user
-        if user.role != "Student":
-            return Response({"error": "Only students can view dashboard"}, status=403)
-        progresses = Progress.objects.filter(student=user)
-        total_courses = progresses.count()
-        total_percentage = sum(p.percentage_completed for p in progresses)
-        avg_progress = total_percentage / total_courses if total_courses else 0
-        return Response({
-            "total_courses": total_courses,
-            "average_progress": round(avg_progress, 2)
-        })
+    def perform_update(self, serializer):
+        serializer.save()

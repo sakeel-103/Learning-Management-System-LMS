@@ -11,8 +11,8 @@ class AdminDashboardOverview(APIView):
     permission_classes = [IsAdminUser]
 
     def get(self, request):
-        total_students = User.objects.filter(role='Student').count()
-        total_instructors = User.objects.filter(role='Instructor').count()
+        total_students = User.objects.filter(user_type='Student').count()
+        total_instructors = User.objects.filter(user_type='Instructor').count()
         total_courses = TempCourse.objects.count()
         avg_progress = Progress.objects.aggregate(avg=Avg('percentage_completed'))['avg'] or 0.0
 
