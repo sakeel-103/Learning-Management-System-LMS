@@ -1,31 +1,15 @@
-"""
-URL configuration for server project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/accounts/', include('accounts.urls')),
-    path('api/progress/', include('progress.urls')),
-    path('api/v1/course_class/',include('course_class.urls')),
-    path('api/subscribe/', include('subscription.urls')),
-    path('api/contact/', include('contact_form.urls')),
-    path('api/certification/', include('certification.urls')),
-    path('api/notifications/', include('notifications.urls')),
     path('api/v1/assessment/', include('assessment.urls')),
-
+    path('api/v1/certification/', include('certification.urls')),
+    path('api/v1/contact_form/', include('contact_form.urls')),
+    path('api/v1/course_class/', include('course_class.urls')),
+    path('api/v1/dashboard/', include('dashboard.urls')),
+    path('api/v1/notifications/', include('notifications.urls')),
+    path('api/v1/progress/', include('progress.urls')),
+    path('api/v1/subscription/', include('subscription.urls')),
 ]

@@ -13,19 +13,19 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'email', 'user_type']
         read_only_fields = fields
-
+from .models import Quiz, Question, Choice
 class ChoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Choice
-        fields = ['id', 'choice_text', 'is_correct', 'order']
+        fields = '__all__'
 
 class QuestionSerializer(serializers.ModelSerializer):
     choices = ChoiceSerializer(many=True, read_only=True)
     
     class Meta:
         model = Question
-        fields = ['id', 'question_text', 'question_type', 'points', 'order', 'is_required', 'choices', 'created_at']
-
+        fields = '__all__'
+        
 class QuizSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True, read_only=True)
     course = CourseSerializer(read_only=True)
