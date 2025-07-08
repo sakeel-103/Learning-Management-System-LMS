@@ -91,7 +91,7 @@ class CustomeTokenObtainPairSerializer(TokenObtainPairSerializer):
                 'detail': 'Email not verified. Please verify your email first!'
             })
         
-        if self.user.user_type == User.INSTRUCTOR and not self.user.has_access:
+        if self.user.user_type == '2' and not self.user.has_access:
             raise serializers.ValidationError({
                 'detail': "Your instructor account hasn't been approved yet."
             })
