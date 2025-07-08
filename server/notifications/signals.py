@@ -73,6 +73,17 @@ def quiz_submitted(sender, instance, created, **kwargs):
             email_message=f"Hi,\n\nYou have completed the quiz '{instance.quiz.title}' with a score of {instance.score:.2f}%.\n\nTrackademy"
         )
 
+#Assignment Scheduled
+@receiver(post_save,sender=Assignment)
+def Assignment_created(sender, instance, created, **kwargs):
+    if created:
+        notify_all_students(
+            f"A new Assignment '{instance.title}' has been scheduled.",
+            email_subject="Assignment Scheduled",
+            email_message=f"Hi,\n\nA Assignment title '{instance.title}' has been scheduled for the course '{instance.course}'.\n\ntrackademy" 
+        )
+
+
 # Assignment Submitted
 @receiver(post_save, sender=AssignmentSubmission)
 def assignment_submitted(sender, instance, created, **kwargs):

@@ -1,11 +1,11 @@
-# adminpanel/views.py
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 from accounts.models import User
-from progress.models import Progress, TempCourse
+from progress.models import Progress
 from .serializers import TempCourseStatsSerializer
 from django.db.models import Avg
+from course_class.models import Course
 
 class AdminDashboardOverview(APIView):
     permission_classes = [IsAdminUser]
@@ -13,7 +13,7 @@ class AdminDashboardOverview(APIView):
     def get(self, request):
         total_students = User.objects.filter(user_type='Student').count()
         total_instructors = User.objects.filter(user_type='Instructor').count()
-        total_courses = TempCourse.objects.count()
+        total_courses = Course.objects.count()
         avg_progress = Progress.objects.aggregate(avg=Avg('percentage_completed'))['avg'] or 0.0
 
         return Response({
@@ -30,7 +30,7 @@ class AdminCourseWiseProgress(APIView):
     def get(self, request):
         course_data = []
 
-        for course in TempCourse.objects.all():
+        for course in Course.objects.all():
             progresses = Progress.objects.filter(course=course)
             total_students = progresses.count()
             avg_progress = progresses.aggregate(avg=Avg('percentage_completed'))['avg'] or 0.0
