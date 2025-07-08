@@ -46,24 +46,24 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 to-green-800 py-12 px-4 sm:px-6 lg:px-8 animate-fade-in relative">
-      <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
+    <div className="min-h-screen flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8 animate-fade-in relative">
+      <div className="absolute -top-20 -left-20 w-40 h-40 bg-teal-400 rounded-full filter blur-3xl opacity-20"></div>
       <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
       <div className="max-w-6xl w-full mx-auto flex flex-col md:flex-row items-center justify-between">
         <div className="w-full md:w-1/2 text-center md:text-left mb-8 md:mb-0 md:pr-8">
           <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-gray-800 tracking-tight">
-            <span className="inline-block animate-text-reveal bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">Your</span>{' '}
-            <span className="inline-block animate-text-reveal [animation-delay:200ms] bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">Learning</span>{' '}
-            <span className="inline-block animate-text-reveal [animation-delay:400ms] bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">Management</span>{' '}
-            <span className="inline-block animate-text-reveal [animation-delay:600ms] bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">System</span>
+            <span className="inline-block animate-text-reveal bg-clip-text text-transparent bg-gray-600">Your</span>{' '}
+            <span className="inline-block animate-text-reveal [animation-delay:200ms] bg-clip-text text-transparent bg-gray-600">Learning</span>{' '}
+            <span className="inline-block animate-text-reveal [animation-delay:400ms] bg-clip-text text-transparent bg-gray-600">Management</span>{' '}
+            <span className="inline-block animate-text-reveal [animation-delay:600ms] bg-clip-text text-transparent bg-gray-600">System</span>
           </h2>
-          <p className="text-lg md:text-xl mb-8 text-gray-200 max-w-lg mx-auto md:mx-0">
+          <p className="text-lg md:text-xl mb-8 text-gray-600 max-w-lg mx-auto md:mx-0">
             Unlock a world of knowledge with our comprehensive courses, expert instructors, and flexible learning options. Sign in to continue your journey!
           </p>
           <div className="flex justify-center md:justify-start gap-4">
             <Link
               to="/register"
-              className="bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:from-blue-700 hover:to-green-700 transition duration-300 transform hover:-translate-y-1"
+              className="bg-teal-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:from-blue-700 hover:to-green-700 transition duration-300 transform hover:-translate-y-1"
             >
               Get Started
             </Link>
@@ -78,10 +78,10 @@ function Login() {
 
         {/* Right Section: Login Form */}
         <div className="w-full md:w-1/2 bg-white bg-opacity-10 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden border border-gray-100 transform transition-all duration-300 hover:shadow-md">
-          <div className="bg-gradient-to-r from-blue-600 to-green-600 p-6">
+          <div className="bg-teal-600 p-6">
             <div className="text-center">
               <h2 className="text-3xl font-extrabold text-white">Welcome back</h2>
-              <p className="mt-2 text-indigo-200">Sign in to access your learning journey</p>
+              <p className="mt-2 text-white-600">Sign in to access your learning journey</p>
             </div>
           </div>
 
@@ -162,7 +162,7 @@ function Login() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-75"
+                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-75"
                 >
                   {isLoading ? (
                     <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

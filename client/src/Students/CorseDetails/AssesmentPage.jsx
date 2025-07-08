@@ -139,7 +139,7 @@ const AssessmentPage = () => {
                 <div className="p-4 sm:p-8 pt-20 sm:pt-24 pb-8">
                     <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
                         <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
+                            <span className="bg-clip-text text-transparent bg-gray-600">
                                 Course Assessment Portal
                             </span>
                         </h1>
@@ -157,7 +157,7 @@ const AssessmentPage = () => {
                             </p>
                         </div>
                     ) : (
-                        <div className="mb-16 bg-gradient-to-r from-blue-400 to-green-800 rounded-2xl shadow-xl overflow-hidden border border-white/10">
+                        <div className="mb-16 bg-teal-600 rounded-2xl shadow-xl overflow-hidden border border-white/10">
                             <div className="relative p-4 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
                                 <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
                                 <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
@@ -205,7 +205,7 @@ const AssessmentPage = () => {
                     )}
 
                     {/* CTA Section */}
-                    <section className="py-10 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white rounded-xl shadow-md">
+                    <section className="py-10 px-6 bg-teal-600 text-white rounded-xl shadow-md">
                         <div className="max-w-6xl mx-auto text-center relative">
                             <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
                             <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>

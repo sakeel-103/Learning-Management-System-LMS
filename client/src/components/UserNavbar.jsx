@@ -8,8 +8,6 @@ function UserNavbar() {
     const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
     const dropdownRef = useRef(null);
-
-    // Authentication state and storing in local storage
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     const username = localStorage.getItem("username");
 
@@ -123,13 +121,13 @@ function UserNavbar() {
                                                     ref={dropdownRef}
                                                     className="absolute right-0 top-16 w-48 bg-white rounded-md shadow-lg py-1 z-10"
                                                 >
-                                                    <Link
+                                                    {/* <Link
                                                         to="/dashboard"
                                                         className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
                                                         onClick={() => setShowDropdown(false)}
                                                     >
                                                         Dashboard
-                                                    </Link>
+                                                    </Link> */}
                                                     <button
                                                         onClick={handleLogout}
                                                         className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full text-left"

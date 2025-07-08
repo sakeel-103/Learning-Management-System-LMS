@@ -66,6 +66,8 @@ const login = async (formData) => {
       console.log('Token', decoded)
       localStorage.setItem('ACCESS_TOKEN', res.data.access);
       localStorage.setItem('REFRESH_TOKEN', res.data.refresh);
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('username', decoded.email);
       toast.success('Login successful.');
       return true;
     }
