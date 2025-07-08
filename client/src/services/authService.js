@@ -78,7 +78,7 @@ const login = async (formData) => {
     console.log(error);
 
     if (error?.response?.data?.detail) {
-      toast.error(error.response.data.detail);
+      toast.error(error.response.data.detail[0]);
     } else {
       toast.error('Login failed');
     }
