@@ -35,12 +35,7 @@ import NaturalLanguage from './Students/AI&ML/NaturalLanguage'
 import ComputerVision from './Students/AI&ML/ComputerVission'
 import ArtificialIntelligence from './Students/AI&ML/ArtificialIntelligence'
 import AssessmentPage from './Students/CorseDetails/AssesmentPage'
-import HtmlQuestionsPage from './Students/AssessmentCourses/HTMLQuationsPage'
-import DSAQuestionsPage from './Students/AssessmentCourses/DSAQuestionsPage'
-import WebQuestionsPage from './Students/AssessmentCourses/WebQuestionsPage'
-import ArtificialMachineQuestions from './Students/AssessmentCourses/ArtificialMachineQuestions'
-import JavaQuestionsPage from './Students/AssessmentCourses/JavaQuestionsPage'
-import PythonQuestionsPage from './Students/AssessmentCourses/PythonQuestionsPage'
+import DynamicQuizPage from './Students/AssessmentCourses/DynamicQuizPage'
 import ContactUsPage from './Students/components/ContanUsPage'
 import CertificationPage from './Students/components/CertificationPage'
 import CourseFrontPage from './Students/pages/CourseFrontPage'
@@ -48,8 +43,10 @@ import PaymentPage from './Students/pages/PaymentPage';
 import InstructorViewPage from './Students/pages/InstructorViewPage';
 import VerifyEmail from './pages/VerifyEmail'
 import InstructorAccess from './Admin/components/InstructorAccess'
-
-function App() {
+import HandleDownloadCertificate from './Students/AssessmentCourses/HandleCertificate'
+import QuizResultPage from './Students/CorseDetails/QuizResultPage'
+function App() {  
+    
   return (
     <Router>
       <UserNavbar />
@@ -97,13 +94,10 @@ function App() {
         {/* Payment page */}
         <Route path="/PaymentPage" element={<PaymentPage />} />
 
-        {/* Assessment Pages */}
-        <Route path="/AssessmentCourses/html-questions-page" element={<HtmlQuestionsPage />} />
-        <Route path="/AssessmentCourses/data-structure-algorithm" element={<DSAQuestionsPage />} />
-        <Route path="/AssessmentCourses/wed-developments-page" element={<WebQuestionsPage />} />
-        <Route path="/AssessmentCourses/artificial-machine-questions-page" element={<ArtificialMachineQuestions />} />
-        <Route path="/AssessmentCourses/java-questions-page" element={<JavaQuestionsPage />} />
-        <Route path="/AssessmentCourses/python-questions-page" element={<PythonQuestionsPage />} />
+        {/* Dynamic Assessment Page */}
+        <Route path="/AssessmentCourses/:quizId/start" element={<DynamicQuizPage />} />
+        <Route path="/Certi" element={<HandleDownloadCertificate/>}/>
+        <Route path="/AssessmentCourses/result/:quizId" element={<QuizResultPage />} />
       </Routes>
 
       <ScrollToTop />

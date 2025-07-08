@@ -1,100 +1,179 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import HandleDownloadCertificate from "../AssessmentCourses/HandleCertificate";
 
+const API_BASE = "http://127.0.0.1:8000/api/v1";
+const API="http://127.0.0.1:8000/api";
 const AssessmentPage = () => {
     const navigate = useNavigate();
-
-    const courses = [
-        {
-            id: "html",
-            name: "HTML",
-            bannerTitle: "Master HTML5 in 2025",
-            bannerDesc: "Build the foundation of web development with HTML. Start your quiz to test your skills!",
-            bannerCode: `// HTML Example\nconst html = "<h1>Hello, World!</h1>";`,
-        },
-        {
-            id: "dsa",
-            name: "Data Structures & Algorithms",
-            bannerTitle: "Data Structure & Algorithms in 2025",
-            bannerDesc: "Sharpen your problem-solving skills with Data Structures & Algorithms. Take the quiz now!",
-            bannerCode: `// DSA Example\nconst stack = new Stack();\nstack.push(5);`,
-        },
-        {
-            id: "web-dev",
-            name: "Web Development (Full Stack)",
-            bannerTitle: "Become a Full Stack Developer in 2025",
-            bannerDesc: "Master both frontend and backend with our Web Development quiz. Get started!",
-            bannerCode: `// Web Dev Example\nconst app = express();\napp.get('/', (req, res) => res.send('Hello'));`,
-        },
-        {
-            id: "ai-ml",
-            name: "AI & Machine Learning",
-            bannerTitle: "AI & ML in 2025",
-            bannerDesc: "Explore the future of technology with AI & Machine Learning. Test your knowledge now!",
-            bannerCode: `// AI/ML Example\nconst model = tf.sequential();\nmodel.add(tf.layers.dense({units: 1}));`,
-        },
-        {
-            id: "python",
-            name: "Python",
-            bannerTitle: "Master Python in 2025",
-            bannerDesc: "Unlock the power of Python programming. Start your quiz to evaluate your skills!",
-            bannerCode: `// Python Example\ndef greet():\n    print("Hello, Python!");`,
-        },
-        {
-            id: "java",
-            name: "Java with Backend",
-            bannerTitle: "Java & Backend in 2025",
-            bannerDesc: "Build robust backend systems with Java. Take the quiz to test your expertise!",
-            bannerCode: `// Java Example\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, Java!");\n    }\n}`,
-        },
-    ];
-
+    const [courses, setCourses] = useState([]);
     const [selectedCourse, setSelectedCourse] = useState(null);
+    const [quizzes, setQuizzes] = useState([]);
+    const [assignments, setAssignments] = useState([]);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [loadingQuizId, setLoadingQuizId] = useState(null);
+    const [quizError, setQuizError] = useState("");
+    const [certificateLoading, setCertificateLoading] = useState(false);
+    const [certificateError, setCertificateError] = useState("");
 
-    const handleCourseSelect = (courseId) => {
-        setSelectedCourse(courseId);
+    // Fetch courses on mount
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const res = await fetch(`${API_BASE}/course_class/`);
+                const data = await res.json();
+                setCourses(data);
+            } catch {
+                setCourses([]);
+                alert("Failed to load courses.");
+            }
+        };
+        fetchCourses();
+    }, []);
+
+    // Fetch quizzes and assignments when a course is selected
+    useEffect(() => {
+        if (selectedCourse) {
+            const fetchQuizzes = async () => {
+                try {
+                    const res = await fetch(`${API_BASE}/assessment/quizzes/by_course/${selectedCourse.id}/`);
+                    const data = await res.json();
+                    setQuizzes(Array.isArray(data) ? data : []);
+                } catch {
+                    setQuizzes([]);
+                }
+            };
+            const fetchAssignments = async () => {
+                try {
+                    const res = await fetch(`${API_BASE}/assessment/assignments/?course=${selectedCourse.id}`);
+                    setAssignments(await res.json());
+                } catch {
+                    setAssignments([]);
+                }
+            };
+            fetchQuizzes();
+            fetchAssignments();
+        } else {
+            setQuizzes([]);
+            setAssignments([]);
+        }
+    }, [selectedCourse]);
+
+    const handleCourseSelect = (course) => {
+        setSelectedCourse(course);
         setIsSidebarOpen(false);
     };
 
     const handleBackToCourse = () => {
-        navigate("/");
+        setSelectedCourse(null);
+        setQuizzes([]);
+        setAssignments([]);
     };
 
-    const toggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
+    const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
+    const handleStartQuiz = async (quizId) => {
+        setLoadingQuizId(quizId);
+        setQuizError("");
+        try {
+            const res = await fetch(`${API_BASE}/assessment/quizzes1/start/`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ quiz_id: quizId })
+            });
+            if (!res.ok) throw new Error("Failed to start quiz");
+            // Optionally, you can use the returned attempt_id for analytics or state
+            await res.json();
+            navigate(`/AssessmentCourses/${quizId}`);
+        } catch (err) {
+            setQuizError(err.message);
+        } finally {
+            setLoadingQuizId(null);
+        }
     };
 
-    const handleStartQuiz = (courseId) => {
-        const newPath = courseId === "dsa"
-            ? `/AssessmentCourses/data-structure-algorithm`
-            : courseId === "web-dev"
-                ? `/AssessmentCourses/wed-developments-page`
-                : courseId === "ai-ml"
-                    ? `/AssessmentCourses/artificial-machine-questions-page`
-                    : courseId === "java"
-                        ? `/AssessmentCourses/java-questions-page`
-                        : courseId === "python"
-                            ? `/AssessmentCourses/python-questions-page`
-                            : `/AssessmentCourses/${courseId}-questions-page`;
-        navigate(newPath);
+    // Certificate download handler
+    const handleDownloadCertificate = async ({
+        API_BASE,
+        selectedCourse,
+        setCertificateLoading,
+        setCertificateError,
+        navigate
+    }) => {
+        setCertificateLoading(true);
+        setCertificateError("");
+
+        try {
+            const token = localStorage.getItem('ACCESS_TOKEN');
+            if (!token) throw new Error('Authentication token missing. Please login again.');
+
+            // Use the correct endpoint and send the token
+            const res = await fetch(
+                `${API}/certification/check-eligibility/?course_id=${selectedCourse.id}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+            const data = await res.json();
+
+            if (!res.ok || !data.eligible) {
+                throw new Error(data.message || 'Not eligible for certificate');
+            }
+
+            // Compose HTML certificate
+            const html = `<!DOCTYPE html>
+<html lang='en'>
+<head><meta charset='UTF-8'><title>Certificate of Completion</title></head>
+<body style='font-family:sans-serif;text-align:center;padding:40px;background:#f9fafb;'>
+  <div style='max-width:600px;margin:auto;background:white;border-radius:16px;box-shadow:0 2px 16px #0001;padding:40px;'>
+    <h1 style='color:#2563eb;font-size:2.5rem;margin-bottom:0.5em;'>Certificate of Completion</h1>
+    <h2 style='color:#16a34a;margin-bottom:1.5em;'>Traceacademy</h2>
+    <p style='font-size:1.2rem;margin-bottom:2em;'>This is to certify that</p>
+    <h2 style='font-size:2rem;color:#0f172a;margin-bottom:0.5em;'>${data.user_name || 'Student'}</h2>
+    <p style='font-size:1.1rem;margin-bottom:2em;'>has successfully completed the course</p>
+    <h3 style='font-size:1.5rem;color:#2563eb;margin-bottom:0.5em;'>${data.course_title}</h3>
+    <p style='font-size:1.1rem;margin-bottom:2em;'>Duration: <b>${data.duration || 'N/A'}</b></p>
+    <p style='color:#64748b;margin-bottom:2em;'>Issued on: ${new Date().toLocaleDateString()}</p>
+    <div style='margin-top:2em;'>
+      <span style='font-size:0.9rem;color:#94a3b8;'>Verification Code: ${data.verification_code}</span>
+    </div>
+  </div>
+</body>
+</html>`;
+
+            // Download as HTML file
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Traceacademy_Certificate_${data.course_title.replace(/\s+/g, '_')}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            // Optionally navigate after download
+            if (navigate) {
+                navigate('/certi');
+            }
+        } catch (err) {
+            setCertificateError(err.message);
+        } finally {
+            setCertificateLoading(false);
+        }
     };
+
     return (
-        <div className="flex min-h-screen bg-gray-50">
-
-            {/* Mobile Sidebar Toggle */}
+        <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
+            {/* Sidebar */}
             <button
-                className="lg:hidden fixed top-24 left-4 z-50 p-2 bg-blue-500 text-white rounded-md focus:outline-none"
+                className="lg:hidden fixed top-24 left-4 z-50 p-2 bg-blue-600 text-white rounded-md shadow-lg"
                 onClick={toggleSidebar}
                 aria-label="Toggle sidebar"
             >
-                <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -103,136 +182,164 @@ const AssessmentPage = () => {
                     />
                 </svg>
             </button>
-
-            {/* Sidebar for Course Selection */}
-            <div
-                className={`w-64 bg-white shadow-md fixed h-[calc(100vh-5rem)] transition-transform duration-300 ease-in-out z-40 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-                    } lg:sticky lg:top-0 lg:h-screen lg:translate-x-0`}
-                style={{ top: "5rem" }}
+            <aside
+                className={`w-72 bg-white shadow-xl fixed h-screen pt-24 z-40 transition-transform duration-300 ease-in-out
+                    ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:sticky lg:top-0 lg:h-screen lg:translate-x-0`}
             >
-                <div className="p-4 border-b pt-14">
-                    <h2 className="text-xl font-bold text-gray-800">Course Assessments</h2>
+                <div className="p-6 border-b bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-t-xl">
+                    <h2 className="text-2xl font-bold">Courses</h2>
                 </div>
-                <div className="h-[calc(100%-4rem)]">
-                    <nav className="p-4">
-                        <ul className="space-y-2">
-                            {courses.map((course) => (
-                                <li key={course.id}>
-                                    <button
-                                        onClick={() => handleCourseSelect(course.id)}
-                                        className={`w-full text-left px-4 py-2 rounded-md transition-colors ${selectedCourse === course.id
-                                            ? "bg-blue-100 text-blue-700 font-medium"
+                <nav className="p-6 overflow-y-auto h-[calc(100%-4rem)]">
+                    <ul className="space-y-2">
+                        {courses.map((course) => (
+                            <li key={course.id}>
+                                <button
+                                    onClick={() => handleCourseSelect(course)}
+                                    className={`w-full text-left px-4 py-2 rounded-lg transition-colors font-medium shadow-sm ${
+                                        selectedCourse && selectedCourse.id === course.id
+                                            ? "bg-gradient-to-r from-blue-100 to-green-100 text-blue-800"
                                             : "text-gray-700 hover:bg-gray-100"
-                                            }`}
-                                    >
-                                        {course.name}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+                                    }`}
+                                >
+                                    {course.title}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+            </aside>
 
             {/* Main Content */}
-            <div className="flex-1 w-full overflow-x-hidden lg:ml-0 lg:px-4">
-                <div className="p-4 sm:p-8 pt-20 sm:pt-24 pb-8">
-                    <div className="text-center mb-16 py-12 px-4 bg-gradient-to-r from-green-50 to-indigo-50 rounded-xl shadow-sm">
-                        <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-6">
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-indigo-600">
-                                Course Assessment Portal
+            <main className="flex-1 flex flex-col items-center justify-center px-4 py-16">
+                <div className="w-full max-w-5xl">
+                    <div className="text-center mb-12 py-10 px-4 bg-gradient-to-r from-green-100 to-blue-100 rounded-2xl shadow-lg">
+                        <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-green-600">
+                                Assessment & Assignment Portal
                             </span>
                         </h1>
-                        <p className="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                            Test your knowledge with our comprehensive assessments across various technical courses. Select a course to get started!
+                        <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+                            Test your knowledge and complete assignments across various technical courses. Select a course to get started!
                         </p>
                     </div>
 
-                    {/* Course-Specific Banner */}
+                    {/* Course Details and Features */}
                     {!selectedCourse ? (
-                        <div className="bg-white rounded-xl shadow-md p-6 sm:p-8 text-center">
+                        <div className="bg-white rounded-xl shadow-md p-8 text-center">
                             <h2 className="text-2xl font-bold text-gray-800 mb-3">Choose a Course</h2>
-                            <p className="text-sm sm:text-base text-gray-700">
-                                Select a course from the sidebar to start your assessment journey.
+                            <p className="text-base text-gray-700">
+                                Select a course from the sidebar to view available quizzes and assignments.
                             </p>
                         </div>
                     ) : (
-                        <div className="mb-16 bg-gradient-to-r from-blue-400 to-green-800 rounded-2xl shadow-xl overflow-hidden border border-white/10">
-                            <div className="relative p-4 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
-                                <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
-                                <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
-
-                                {/* Content */}
-                                <div className="relative z-10 mb-6 md:mb-0 md:mr-8">
-                                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3">
-                                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
-                                            {courses.find((c) => c.id === selectedCourse).bannerTitle.split(" in")[0]}
-                                        </span>{" "}
-                                        in 2025
-                                    </h2>
-                                    <p className="text-base sm:text-lg text-white/90 max-w-lg">
-                                        {courses.find((c) => c.id === selectedCourse).bannerDesc}
-                                    </p>
-                                    <div className="mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                                        <button
-                                            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-md hover:shadow-lg"
-                                            onClick={() => handleStartQuiz(selectedCourse)}
-                                        >
-                                            Start Your Quiz
-                                        </button>
-                                        <button
-                                            className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all"
-                                            onClick={handleBackToCourse}
-                                        >
-                                            Back to Courses
-                                        </button>
+                        <div className="mb-16 bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+                            <div className="p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+                                <div className="flex-1">
+                                    <h2 className="text-3xl font-extrabold text-blue-800 mb-2">{selectedCourse.title}</h2>
+                                    <p className="text-lg text-gray-700 mb-4">{selectedCourse.description || "Ready to test your knowledge and skills?"}</p>
+                                    <div className="flex flex-wrap gap-4 mb-4">
+                                        <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                            {selectedCourse.level || "All Levels"}
+                                        </span>
+                                        <span className="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                            {selectedCourse.category || "General"}
+                                        </span>
                                     </div>
+                                    <button
+                                        className="px-6 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold rounded-lg shadow hover:from-blue-700 hover:to-green-700 transition-all"
+                                        onClick={handleBackToCourse}
+                                    >
+                                        Back to Courses
+                                    </button>
                                 </div>
-
-                                {/* Code Snippet */}
-                                <div className="relative z-10 bg-green-900/80 backdrop-blur-sm p-5 rounded-xl border border-white/10 shadow-lg hover:shadow-purple-500/20 transition-shadow duration-300 w-full md:w-auto">
-                                    <div className="flex space-x-2 mb-3">
-                                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                <div className="flex-1 flex flex-col gap-8">
+                                    {/* Quizzes */}
+                                    <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-6 shadow">
+                                        <h3 className="text-xl font-bold text-blue-700 mb-3 flex items-center gap-2">
+                                            <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                            </svg>
+                                            Available Quizzes
+                                        </h3>
+                                        {quizzes.length === 0 ? (
+                                            <p className="text-gray-600">No quizzes available for this course.</p>
+                                        ) : (
+                                            <ul className="space-y-2">
+                                                {(Array.isArray(quizzes) ? quizzes : []).map((quiz) => (
+                                                    <li key={quiz.id} className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm">
+                                                        <span className="font-medium text-gray-800">{quiz.title}</span>
+                                                        <button
+                                                            className="ml-4 px-4 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition font-semibold"
+                                                            onClick={() => navigate(`/AssessmentCourses/${quiz.id}/start`)}
+                                                            disabled={loadingQuizId === quiz.id}
+                                                        >
+                                                            Start Quiz
+                                                        </button>
+                                                        {quizError && loadingQuizId === quiz.id && <p className="text-red-500 text-sm mt-2">{quizError}</p>}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
                                     </div>
-                                    <pre className="text-yellow-400 font-mono text-xs sm:text-sm overflow-x-auto">
-                                        <code>{courses.find((c) => c.id === selectedCourse).bannerCode}</code>
-                                    </pre>
+                                    {/* Assignments */}
+                                    <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-6 shadow">
+                                        <h3 className="text-xl font-bold text-green-700 mb-3 flex items-center gap-2">
+                                            <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            Available Assignments
+                                        </h3>
+                                        {assignments.length === 0 ? (
+                                            <p className="text-gray-600">No assignments available for this course.</p>
+                                        ) : (
+                                            <ul className="space-y-2">
+                                                {assignments.map((assignment) => (
+                                                    <li key={assignment.id}>
+                                                        <div className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm">
+                                                            <span className="font-medium text-gray-800">{assignment.title}</span>
+                                                            <button
+                                                                className="ml-4 px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition"
+                                                                onClick={() => alert('Assignment details/submission coming soon!')}
+                                                            >
+                                                                View / Submit
+                                                            </button>
+                                                        </div>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                    </div>
+                                    {/* Download Certificate */}
+                                    <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-6 shadow mt-6 flex flex-col items-center">
+                                        {/* {<h3 className="text-xl font-bold text-indigo-700 mb-3 flex items-center gap-2">
+                                            <svg className="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                                            </svg>
+                                            Download Certificate
+                                        </h3> } */}
+                                        <button
+                                            className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold shadow hover:bg-indigo-700 transition-all"
+                                            onClick={() =>
+                                                handleDownloadCertificate({
+                                                    API_BASE,
+                                                    selectedCourse,
+                                                    setCertificateLoading,
+                                                    setCertificateError,
+                                                    navigate
+                                                })
+                                            }
+                                            disabled={certificateLoading}
+                                        >
+                                            {certificateLoading ? 'Preparing...' : 'Download Certificate'}
+                                        </button>
+                                        {certificateError && <p className="text-red-500 mt-2">{certificateError}</p>}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     )}
-
-                    {/* CTA Section */}
-                    <section className="py-10 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white rounded-xl shadow-md">
-                        <div className="max-w-6xl mx-auto text-center relative">
-                            <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
-                            <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
-                            <h2 className="text-2xl sm:text-3xl font-extrabold mb-4">
-                                Ready to Test More Courses?
-                            </h2>
-                            <p className="text-base sm:text-base mb-6 max-w-lg mx-auto">
-                                Explore assessments in other technical domains and elevate your skills to the next level.
-                            </p>
-                            <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                                <button
-                                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-md hover:shadow-lg"
-                                    onClick={() => navigate("/courses")}
-                                >
-                                    Explore Courses
-                                </button>
-                                <button
-                                    className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all"
-                                    onClick={() => navigate("/contact")}
-                                >
-                                    Contact Us
-                                </button>
-                            </div>
-                        </div>
-                    </section>
                 </div>
-            </div>
+            </main>
         </div>
     );
 };
