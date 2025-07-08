@@ -10,17 +10,7 @@ from django.core.files.base import ContentFile
 import json
 import uuid
 from datetime import datetime, timedelta
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework import status, permissions
-from django.contrib.auth.models import User
-from .models import Course, QuizAttempt  
-from rest_framework.permissions import AllowAny
-# adjust imports
-import random
-import string
-from decimal import Decimal
-from django.utils.timezone import now
+
 from .models import (
     Quiz, Question, Choice, Assignment, Exam, QuizAttempt, 
     QuizResponse, AssignmentSubmission, ExamAttempt, Certificate
@@ -37,209 +27,133 @@ class QuizViewSet(viewsets.ModelViewSet):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
     permission_classes = []  # Allow public access
-
-    @action(detail=True, methods=['post'], url_path='submit_attempt', permission_classes=[])
-    def submit_attempt(self, request, pk=None):
-        try:
-            quiz = self.get_object()
-            data = request.data
-            attempt_id = data.get('attempt_id')
-            responses = data.get('responses', [])
-
-            # Handle anonymous user
-            user = request.user if request.user.is_authenticated else None
-
-            # Get or create the attempt
-            attempt = QuizAttempt.objects.filter(id=attempt_id, quiz=quiz).first()
-            if not attempt:
-                attempt = QuizAttempt.objects.create(quiz=quiz, user=user)
-
-            total_points = 0
-            earned_points = 0
-
-            for response_data in responses:
-                question_id = response_data['question_id']
-                selected_choice_ids = response_data.get('selected_choice_ids', [])
-
-                try:
-                    question = Question.objects.get(id=question_id, quiz=quiz)
-                except Question.DoesNotExist:
-                    continue
-
-                response = QuizResponse.objects.create(
-                    attempt=attempt,
-                    question=question
-                )
-                if question.question_type == 'mcq':
-                    correct_choices = set(question.choices.filter(is_correct=True).values_list('id', flat=True))
-                    selected_choices = set(map(str, selected_choice_ids))
-
-                    response.selected_choices.set(selected_choice_ids)
-
-                    if correct_choices == selected_choices:
-                        response.is_correct = True
-                        response.points_earned = question.points
-                        earned_points += question.points
-                    else:
-                        response.is_correct = False
-                        response.points_earned = 0
-
-                    response.save()
-
-                total_points += question.points
-
-            # Calculate score percentage
-            score_percentage = (earned_points / total_points * 100) if total_points > 0 else 0
-            attempt.score = round(Decimal(score_percentage), 2)
-            attempt.is_passed = score_percentage >= quiz.passing_score
-            attempt.completed_at = now()
-            attempt.time_taken = (attempt.completed_at - attempt.started_at).total_seconds()
-            attempt.save()
-
-            return Response({
-                'score': float(attempt.score),
-                'is_passed': attempt.is_passed,
-                'time_taken': attempt.time_taken
-            }, status=status.HTTP_200_OK)
-
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
     def get_queryset(self):
         return Quiz.objects.filter(is_active=True)
     
-    @action(detail=False, methods=['get'], url_path='by_course/(?P<course_id>[^/.]+)')
-    def by_course(self, request, course_id=None):
-        """Return quizzes for a given course id"""
-        quizzes = Quiz.objects.filter(course__id=course_id, is_active=True)
-        serializer = self.get_serializer(quizzes, many=True)
-        return Response(serializer.data)
-    
-    @action(detail=True, methods=['post'], url_path='start')
-    def start(self, request, pk=None):
-        """Start a new quiz attempt and return attempt_id and quiz_id"""
+    @action(detail=True, methods=['post'])
+    def start_attempt(self, request, pk=None):
+        """Start a new quiz attempt"""
         quiz = self.get_object()
         user = request.user
-
+        
         # Check if user already has an attempt
         existing_attempt = QuizAttempt.objects.filter(user=user, quiz=quiz).first()
         if existing_attempt and not existing_attempt.completed_at:
             return Response({
                 'attempt_id': existing_attempt.id,
-                'quiz_id': str(quiz.id),
                 'time_remaining': quiz.time_limit * 60,
                 'message': 'Resuming existing attempt'
             })
-
+        
         # Create new attempt
         attempt = QuizAttempt.objects.create(user=user, quiz=quiz)
-
+        
         return Response({
             'attempt_id': attempt.id,
-            'quiz_id': str(quiz.id),
             'time_remaining': quiz.time_limit * 60,
             'message': 'Quiz attempt started'
         })
     
-    # def submit_attempt(self, request, pk=None):
-    #     """Submit quiz attempt with auto-grading"""
-    #     quiz = self.get_object()
-    #     # Use None for anonymous users, or the real user if authenticated
-    #     user = request.user if request.user.is_authenticated else None
+    @action(detail=True, methods=['post'])
+    def submit_attempt(self, request, pk=None):
+        """Submit quiz attempt with auto-grading"""
+        quiz = self.get_object()
+        user = request.user
         
-    #     serializer = QuizSubmissionSerializer(data=request.data)
-    #     if not serializer.is_valid():
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = QuizSubmissionSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-    #     attempt = get_object_or_404(QuizAttempt, user=user, quiz=quiz, completed_at__isnull=True)
+        attempt = get_object_or_404(QuizAttempt, user=user, quiz=quiz, completed_at__isnull=True)
         
-    #     with transaction.atomic():
-    #         # Process responses
-    #         responses_data = serializer.validated_data['responses']
-    #         total_points = 0
-    #         earned_points = 0
-    #         correct_answers = 0
-    #         total_questions = quiz.questions.count()
-    #         feedback = []
+        with transaction.atomic():
+            # Process responses
+            responses_data = serializer.validated_data['responses']
+            total_points = 0
+            earned_points = 0
+            correct_answers = 0
+            total_questions = quiz.questions.count()
+            feedback = []
             
-    #         for response_data in responses_data:
-    #             question_id = response_data.get('question_id')
-    #             selected_choice_ids = response_data.get('selected_choice_ids', [])
-    #             text_response = response_data.get('text_response', '')
+            for response_data in responses_data:
+                question_id = response_data.get('question_id')
+                selected_choice_ids = response_data.get('selected_choice_ids', [])
+                text_response = response_data.get('text_response', '')
                 
-    #             question = get_object_or_404(Question, id=question_id, quiz=quiz)
-    #             total_points += question.points
+                question = get_object_or_404(Question, id=question_id, quiz=quiz)
+                total_points += question.points
                 
-    #             # Create response
-    #             response = QuizResponse.objects.create(
-    #                 attempt=attempt,
-    #                 question=question,
-    #                 text_response=text_response
-    #             )
+                # Create response
+                response = QuizResponse.objects.create(
+                    attempt=attempt,
+                    question=question,
+                    text_response=text_response
+                )
                 
-    #             if selected_choice_ids:
-    #                 choices = Choice.objects.filter(id__in=selected_choice_ids)
-    #                 response.selected_choices.set(choices)
+                if selected_choice_ids:
+                    choices = Choice.objects.filter(id__in=selected_choice_ids)
+                    response.selected_choices.set(choices)
                 
-    #             # Auto-grade based on question type
-    #             if question.question_type == 'mcq':
-    #                 correct_choices = question.choices.filter(is_correct=True)
-    #                 selected_correct = response.selected_choices.filter(is_correct=True).count()
-    #                 selected_total = response.selected_choices.count()
+                # Auto-grade based on question type
+                if question.question_type == 'mcq':
+                    correct_choices = question.choices.filter(is_correct=True)
+                    selected_correct = response.selected_choices.filter(is_correct=True).count()
+                    selected_total = response.selected_choices.count()
                     
-    #                 if selected_correct == correct_choices.count() and selected_total == correct_choices.count():
-    #                     response.is_correct = True
-    #                     response.points_earned = question.points
-    #                     earned_points += question.points
-    #                     correct_answers += 1
-    #                 else:
-    #                     response.is_correct = False
-    #                     response.points_earned = 0
+                    if selected_correct == correct_choices.count() and selected_total == correct_choices.count():
+                        response.is_correct = True
+                        response.points_earned = question.points
+                        earned_points += question.points
+                        correct_answers += 1
+                    else:
+                        response.is_correct = False
+                        response.points_earned = 0
                 
-    #             elif question.question_type == 'true_false':
-    #                 correct_choice = question.choices.filter(is_correct=True).first()
-    #                 if response.selected_choices.filter(id=correct_choice.id).exists():
-    #                     response.is_correct = True
-    #                     response.points_earned = question.points
-    #                     earned_points += question.points
-    #                     correct_answers += 1
-    #                 else:
-    #                     response.is_correct = False
-    #                     response.points_earned = 0
+                elif question.question_type == 'true_false':
+                    correct_choice = question.choices.filter(is_correct=True).first()
+                    if response.selected_choices.filter(id=correct_choice.id).exists():
+                        response.is_correct = True
+                        response.points_earned = question.points
+                        earned_points += question.points
+                        correct_answers += 1
+                    else:
+                        response.is_correct = False
+                        response.points_earned = 0
                 
-    #             response.save()
+                response.save()
                 
-    #             # Add feedback
-    #             feedback.append({
-    #                 'question_id': str(question.id),
-    #                 'is_correct': response.is_correct,
-    #                 'points_earned': float(response.points_earned),
-    #                 'correct_answer': self._get_correct_answer(question)
-    #             })
+                # Add feedback
+                feedback.append({
+                    'question_id': str(question.id),
+                    'is_correct': response.is_correct,
+                    'points_earned': float(response.points_earned),
+                    'correct_answer': self._get_correct_answer(question)
+                })
             
-    #         # Calculate final score
-    #         score = (earned_points / total_points * 100) if total_points > 0 else 0
-    #         is_passed = score >= quiz.passing_score
+            # Calculate final score
+            score = (earned_points / total_points * 100) if total_points > 0 else 0
+            is_passed = score >= quiz.passing_score
             
-    #         # Update attempt
-    #         attempt.score = score
-    #         attempt.is_passed = is_passed
-    #         attempt.completed_at = timezone.now()
-    #         attempt.time_taken = serializer.validated_data.get('time_taken', 0)
-    #         attempt.save()
+            # Update attempt
+            attempt.score = score
+            attempt.is_passed = is_passed
+            attempt.completed_at = timezone.now()
+            attempt.time_taken = serializer.validated_data.get('time_taken', 0)
+            attempt.save()
             
-    #         # Generate certificate if passed
-    #         if is_passed:
-    #             self._generate_certificate(user, quiz, attempt)
+            # Generate certificate if passed
+            if is_passed:
+                self._generate_certificate(user, quiz, attempt)
             
-    #         return Response({
-    #             'score': score,
-    #             'is_passed': is_passed,
-    #             'correct_answers': correct_answers,
-    #             'total_questions': total_questions,
-    #             'feedback': feedback,
-    #             'attempt_id': attempt.id
-    #         })
+            return Response({
+                'score': score,
+                'is_passed': is_passed,
+                'correct_answers': correct_answers,
+                'total_questions': total_questions,
+                'feedback': feedback,
+                'attempt_id': attempt.id
+            })
     
     def _get_correct_answer(self, question):
         """Get correct answer for feedback"""
@@ -542,66 +456,6 @@ class AutoGradeView(APIView):
             'total_questions': total_questions
         })
 
-from rest_framework.decorators import api_view, permission_classes
-
-@api_view(['GET'])
-# @permission_classes([permissions.IsAuthenticated])
-@permission_classes([AllowAny])
-def check_certificate_eligibility(request):
-    course_id = request.query_params.get('course_id')
-
-    if not course_id:
-        return Response({"message": "Course ID is required."}, status=status.HTTP_400_BAD_REQUEST)
-
-    try:
-        course = Course.objects.get(id=course_id)
-    except Course.DoesNotExist:
-        return Response({"message": "Course not found."}, status=status.HTTP_404_NOT_FOUND)
-
-    # If user is not logged in, return dummy values (for testing)
-    user = request.user if request.user and request.user.is_authenticated else None
-
-    if not user:
-        # Return dummy data for unauthenticated access
-        return Response({
-            "eligible": True,
-            "user_name": "Guest User",
-            "course_title": course.title,
-            "duration": getattr(course, "duration", "N/A"),
-            "verification_code": f"FREE-CERT-{random.randint(100000, 999999)}",
-            "quiz_details": {
-                "quiz_title": "Sample Quiz",
-                "score": 100,
-                "date_passed": str(datetime.now().date())
-            }
-        })
-
-    # For logged-in users: check if they passed the quiz
-    has_passed = QuizAttempt.objects.filter(
-        user=user,
-        quiz__course=course,
-        is_passed=True
-    ).exists()
-
-    if not has_passed:
-        return Response({
-            "eligible": False,
-            "message": "You must pass the course quiz to receive a certificate."
-        })
-
-    # Logged-in + eligible user
-    return Response({
-        "eligible": True,
-        "user_name": user.get_full_name() or user.username,
-        "course_title": course.title,
-        "duration": getattr(course, "duration", "N/A"),
-        "verification_code": f"TRACK-{random.randint(100000, 999999)}",
-        "quiz_details": {
-            "quiz_title": "Passed Quiz",
-            "score": 92,
-            "date_passed": str(datetime.now().date())
-        }
-    })
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
@@ -611,41 +465,3 @@ class ChoiceViewSet(viewsets.ModelViewSet):
     queryset = Choice.objects.all()
     serializer_class = ChoiceSerializer
     permission_classes = []  # Allow public access
-
-from rest_framework import serializers
-from .models import QuizAttempt
-
-class QuizAttemptSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = QuizAttempt
-        fields = '__all__'
-
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework import status, permissions
-from .models import QuizAttempt
-
-@api_view(['GET'])
-
-def get_quiz_attempt(request, attempt_id):
-    try:
-        attempt = QuizAttempt.objects.get(id=attempt_id, user=request.user)
-        # Build feedback as in your submission response
-        feedback = []
-        for response in attempt.responses.all():
-            feedback.append({
-                "question_text": response.question.question_text,
-                "user_answer": response.selected_choices.first().choice_text if response.selected_choices.exists() else "",
-                "correct_answer": ", ".join([c.choice_text for c in response.question.choices.filter(is_correct=True)]),
-                "is_correct": response.is_correct
-            })
-        return Response({
-            "score": attempt.score,
-            "is_passed": attempt.is_passed,
-            "total_questions": attempt.quiz.questions.count(),
-            "feedback": feedback
-        })
-    except QuizAttempt.DoesNotExist:
-        return Response({"error": "Attempt not found"}, status=status.HTTP_404_NOT_FOUND)
-
-

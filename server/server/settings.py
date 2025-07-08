@@ -48,9 +48,6 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',  # <--- This allows public access by default
-    ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
@@ -82,7 +79,6 @@ INSTALLED_APPS = [
     'notifications',
     'dashboard',
     'assessment',
-    'django_extensions',
 ]
 
 MIDDLEWARE = [
