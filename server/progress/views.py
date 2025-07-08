@@ -8,10 +8,9 @@ class IsStudentOrAdmin(permissions.BasePermission):
         return request.user and request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
-        # Allow student to see only their own progress
         if request.user.user_type == User.STUDENT:
             return obj.student == request.user
-        return True  # Admins/instructors can view
+        return True
 
 class ProgressViewSet(viewsets.ModelViewSet):
     queryset = Progress.objects.all()

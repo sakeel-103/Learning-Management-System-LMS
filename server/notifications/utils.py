@@ -7,4 +7,5 @@ def notify_user(user, message, email_subject=None, email_message=None):
 
     # Email notification
     if email_subject and email_message:
-        send_email_notification.delay(email_subject, email_message, [user.email])
+        send_email_notification(email_subject, email_message, [user.email])
+
