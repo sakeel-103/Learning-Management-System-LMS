@@ -18,6 +18,12 @@ export default function DynamicQuizPage() {
 
   // Fetch quiz data
   useEffect(() => {
+    const token = localStorage.getItem("ACCESS_TOKEN");
+    if (!token) {
+      alert("Please login first!");
+      navigate("/login");
+      return;
+    }
     const fetchQuiz = async () => {
       setLoading(true);
       setError("");
@@ -41,7 +47,6 @@ export default function DynamicQuizPage() {
         setTimeLeft(timeLeftInSeconds);
 
         // --- Always start a new attempt and set attemptId ---
-        const token = localStorage.getItem("ACCESS_TOKEN");
         const resStart = await fetch(`${API_BASE}/quizzes/${quizId}/start/`, {
           method: "POST",
           headers: {
@@ -59,7 +64,7 @@ export default function DynamicQuizPage() {
       setLoading(false);
     };
     fetchQuiz();
-  }, [quizId]);
+  }, [quizId, navigate]);
 
   // Timer countdown
   useEffect(() => {
