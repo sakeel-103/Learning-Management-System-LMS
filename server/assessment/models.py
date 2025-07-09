@@ -128,7 +128,7 @@ class Exam(models.Model):
 
 class QuizAttempt(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quiz_attempts')
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='attempts')
     started_at = models.DateTimeField(auto_now_add=True)
     completed_at = models.DateTimeField(null=True, blank=True)
@@ -141,7 +141,7 @@ class QuizAttempt(models.Model):
         ordering = ['-started_at']
     
     def __str__(self):
-        return f"{self.user.email} - {self.quiz.title}"
+        return f"{self.user.email if self.user else 'Anonymous'} - {self.quiz.title}"
 
 class QuizResponse(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -153,8 +153,8 @@ class QuizResponse(models.Model):
     points_earned = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     answered_at = models.DateTimeField(auto_now_add=True)
     
-    def __str__(self):
-        return f"{self.attempt.user.email} - {self.question.question_text[:30]}"
+    # def __str__(self):
+    #     return f"{self.attempt.user.email} - {self.question.question_text[:30]}"
 
 class AssignmentSubmission(models.Model):
     SUBMISSION_STATUS = [
