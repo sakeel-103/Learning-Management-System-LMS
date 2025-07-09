@@ -467,6 +467,7 @@
 #     permission_classes = []  # Allow public access
 from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
@@ -537,9 +538,11 @@ class QuizViewSet(viewsets.ModelViewSet):
                     attempt=attempt,
                     question=question
                 )
+
                 if question.question_type == 'mcq':
-                    correct_choices = set(question.choices.filter(is_correct=True).values_list('id', flat=True))
-                    selected_choices = set(map(str, selected_choice_ids))
+                    # ✅ FIX: Ensure selected_choice_ids are integers
+                    correct_choices = set(str(x) for x in question.choices.filter(is_correct=True).values_list('id', flat=True))
+                    selected_choices = set(str(x) for x in selected_choice_ids)
 
                     response.selected_choices.set(selected_choice_ids)
 
@@ -563,10 +566,27 @@ class QuizViewSet(viewsets.ModelViewSet):
             attempt.time_taken = (attempt.completed_at - attempt.started_at).total_seconds()
             attempt.save()
 
+            # Build feedback for each question
+            feedback = []
+            for response in attempt.responses.select_related('question').prefetch_related('selected_choices'):
+                question = response.question
+                correct_choices = question.choices.filter(is_correct=True)
+                correct_text = [c.choice_text for c in correct_choices]
+                selected_text = [c.choice_text for c in response.selected_choices.all()]
+                feedback.append({
+                    "question_text": question.question_text,
+                    "user_answer": ", ".join(selected_text),
+                    "correct_answer": ", ".join(correct_text),
+                    "is_correct": response.is_correct
+                })
+
             return Response({
-                'score': float(attempt.score),
+                'score': float(earned_points),  # raw points earned
+                'total_points': float(total_points),
+                'percentage': float(score_percentage),  # percentage
                 'is_passed': attempt.is_passed,
-                'time_taken': attempt.time_taken
+                'time_taken': attempt.time_taken,
+                'feedback': feedback
             }, status=status.HTTP_200_OK)
 
         except Exception as e:
@@ -773,6 +793,22 @@ class AssignmentViewSet(viewsets.ModelViewSet):
             })
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'], url_path='upload', parser_classes=[MultiPartParser, FormParser])
+    def upload(self, request, pk=None):
+        assignment = self.get_object()
+        user = request.user if request.user.is_authenticated else None
+        file = request.FILES.get('file')
+        if not file:
+            return Response({'error': 'No file uploaded.'}, status=status.HTTP_400_BAD_REQUEST)
+        # Save the uploaded file as a new AssignmentSubmission (create this model if not exists)
+        from .models import AssignmentSubmission
+        submission = AssignmentSubmission.objects.create(
+            assignment=assignment,
+            user=user,
+            file=file
+        )
+        return Response({'message': 'Upload successful!'}, status=status.HTTP_201_CREATED)
 
 class ExamViewSet(viewsets.ModelViewSet):
     queryset = Exam.objects.all()
@@ -1093,25 +1129,41 @@ from rest_framework import status, permissions
 from .models import QuizAttempt
 
 @api_view(['GET'])
-
+@permission_classes([AllowAny])  # Temporarily allow any for debugging
 def get_quiz_attempt(request, attempt_id):
     try:
         attempt = QuizAttempt.objects.get(id=attempt_id, user=request.user)
-        # Build feedback as in your submission response
+
         feedback = []
-        for response in attempt.responses.all():
+        correct_answers = 0
+
+        for response in attempt.responses.select_related('question').prefetch_related('selected_choices'):
+            is_correct = response.is_correct
+            if is_correct:
+                correct_answers += 1
+
+            question = response.question
+            selected = response.selected_choices.first()
+            user_answer = selected.choice_text if selected else ""
+
+            correct_answer_texts = [c.choice_text for c in question.choices.filter(is_correct=True)]
+
             feedback.append({
-                "question_text": response.question.question_text,
-                "user_answer": response.selected_choices.first().choice_text if response.selected_choices.exists() else "",
-                "correct_answer": ", ".join([c.choice_text for c in response.question.choices.filter(is_correct=True)]),
-                "is_correct": response.is_correct
+                "question_text": question.question_text,
+                "user_answer": user_answer,
+                "correct_answer": ", ".join(correct_answer_texts),
+                "is_correct": is_correct
             })
+
         return Response({
-            "score": attempt.score,
+            "score": float(attempt.score),
             "is_passed": attempt.is_passed,
+            "correct_answers": correct_answers,
             "total_questions": attempt.quiz.questions.count(),
             "feedback": feedback
         })
+
     except QuizAttempt.DoesNotExist:
         return Response({"error": "Attempt not found"}, status=status.HTTP_404_NOT_FOUND)
-
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

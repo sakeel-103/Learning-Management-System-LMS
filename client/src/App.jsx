@@ -103,7 +103,8 @@ function App() {
         {/* Assessment Pages */}
         <Route path="/AssessmentCourses/:quizId/start" element={<DynamicQuizPage />} />
         <Route path="/Certi" element={<HandleDownloadCertificate/>}/>
-        <Route path="/AssessmentCourses/result/:quizId" element={<QuizResultPage />} />
+       
+        <Route path="/students/CorseDetails/QuizResultPage/:attemptId" element={<QuizResultPage />} />
       </Routes>
 
       <ScrollToTop />

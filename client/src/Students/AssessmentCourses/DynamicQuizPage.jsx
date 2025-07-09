@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
+import {jwtDecode} from "jwt-decode";
 const API_BASE = "http://127.0.0.1:8000/api/v1/assessment";
 
 export default function DynamicQuizPage() {
@@ -12,6 +12,7 @@ export default function DynamicQuizPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
+  const [attemptId, setAttemptId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -25,7 +26,33 @@ export default function DynamicQuizPage() {
         if (!res.ok) throw new Error("Failed to load quiz");
         const data = await res.json();
         setQuiz(data);
-        setTimeLeft(data.time_limit * 60); // time_limit in minutes
+
+        // Timer logic
+        const storedStartTime = localStorage.getItem(`quiz-${quizId}-startTime`);
+        const now = Math.floor(Date.now() / 1000);
+        let timeLeftInSeconds;
+        if (storedStartTime) {
+          const elapsed = now - parseInt(storedStartTime);
+          timeLeftInSeconds = Math.max(0, data.time_limit * 60 - elapsed);
+        } else {
+          localStorage.setItem(`quiz-${quizId}-startTime`, now);
+          timeLeftInSeconds = data.time_limit * 60;
+        }
+        setTimeLeft(timeLeftInSeconds);
+
+        // --- Always start a new attempt and set attemptId ---
+        const token = localStorage.getItem("ACCESS_TOKEN");
+        const resStart = await fetch(`${API_BASE}/quizzes/${quizId}/start/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          }
+        });
+        const dataStart = await resStart.json();
+        if (!resStart.ok) throw new Error(dataStart.message || "Failed to start attempt");
+        setAttemptId(dataStart.attempt_id);
+
       } catch (err) {
         setError(err.message);
       }
@@ -34,166 +61,264 @@ export default function DynamicQuizPage() {
     fetchQuiz();
   }, [quizId]);
 
-  // Timer
+  // Timer countdown
   useEffect(() => {
-    if (timeLeft === null) return;
-    if (timeLeft <= 0) return;
-    const timer = setInterval(() => setTimeLeft((t) => t - 1), 1000);
+    if (timeLeft === null || timeLeft <= 0) return;
+    const timer = setInterval(() => {
+      setTimeLeft((t) => t - 1);
+    }, 1000);
     return () => clearInterval(timer);
   }, [timeLeft]);
-
+  
   const handleSubmit = async () => {
-    // Check if all questions are answered
-    const allAnswered = quiz.questions.every(q => answers[q.id]);
-    if (!allAnswered) {
-      alert("Please answer all questions before submitting the quiz.");
+  const allAnswered = quiz.questions.every(q => answers[q.id]);
+  if (!allAnswered) {
+    alert("Please answer all questions before submitting the quiz.");
+    return;
+  }
+
+  const token = localStorage.getItem("ACCESS_TOKEN");
+
+  // ✅ Check if token is expired
+  try {
+    const decoded = jwtDecode(token);
+    const now = Date.now() / 1000;
+    if (decoded.exp < now) {
+      alert("Session expired. Please log in again.");
+      localStorage.clear();
+      navigate("/login");  // or your login route
       return;
     }
-    alert("quiz submitted")
-    navigate('/courses/AssesmentPage')
-    // try {
-    //   // Prepare the payload
-    //   const responses = quiz.questions.map(q => ({
-    //     question_id: q.id,
-    //     selected_choice_ids: [answers[q.id]]
-    //   }));
+  } catch (e) {
+    alert("Invalid session. Please log in again.");
+    localStorage.clear();
+    navigate("/login");
+    return;
+  }
 
-    // //   const token = localStorage.getItem("ACCESS_TOKEN");
-    //   // const res = await fetch(`${API_BASE}/quizzes/${quizId}/submit_attempt/`, {
-    //   //   method: "POST",
-    //   //   headers: {
-    //   //     "Content-Type": "application/json"
-    //   //   },
-    //   //   body: JSON.stringify({
-    //   //     quiz_id: quizId,      // <-- Add this line!
-    //   //     responses
-    //   //   })
-    //   // });
-        
-       
-    //   // const data = await res.json();
-    //   // if (!res.ok) {
-    //   //   alert(data.message || "Failed to submit quiz.");
-    //   //   return;
-    //   // }
-    //   setResult(data); // <-- Show result on the same page!
-    //   navigate(`/AssessmentCourses/result/${data.attempt_id}`);
-    // } catch (err) {
-    //   alert("Failed to submit quiz.");
-    // }
-  };
+  try {
+    const responses = quiz.questions.map((q) => ({
+      question_id: q.id,
+      selected_choice_ids: [answers[q.id]], // This must be a UUID!
+    }));
+
+    console.log("Submitting payload:", {
+      quiz_id: quizId,
+      attempt_id: attemptId,
+      responses,
+    });
+
+    const res = await fetch(`${API_BASE}/quizzes/${quizId}/submit_attempt/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        quiz_id: quizId,
+        attempt_id: attemptId, // always use the current attemptId
+        responses,
+      }),
+    });
+
+    const data = await res.json();
+    console.log("Quiz submit response:", data);
+
+    if (!res.ok) {
+      alert(data.message || "Failed to submit quiz.");
+      return;
+    }
+
+    localStorage.removeItem(`quiz-${quizId}-startTime`);
+    navigate(`/students/CorseDetails/QuizResultPage/${attemptId}`);
+  } catch (err) {
+    alert("Error submitting quiz. Check console.");
+    console.error(err);
+  }
+};
+  
+  
+  
+// const handleSubmit = async () => {
+//   const allAnswered = quiz.questions.every(q => answers[q.id]);
+//   if (!allAnswered) {
+//     alert("Please answer all questions before submitting the quiz.");
+//     return;
+//   }
+
+//   try {
+//     const responses = quiz.questions.map(q => ({
+//       question_id: q.id,
+//       selected_choice_ids: [answers[q.id]]
+//     }));
+
+//     const res = await fetch(`${API_BASE}/quizzes/${quizId}/submit_attempt/`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         quiz_id: quizId,
+//         responses,
+//       }),
+//     });
+
+//     const data = await res.json();
+//     if (!res.ok) {
+//       alert(data.message || "Failed to submit quiz.");
+//       return;
+//     }
+
+//     // Clear timer
+//     localStorage.removeItem(`quiz-${quizId}-startTime`);
+
+//     // Navigate to result page
+//     navigate(`/students/CorseDetails/QuizResultPage/${data.attempt_id}`);
+//   } catch (err) {
+//     alert("Error submitting quiz. Please try again.");
+//   }
+// };
+  // const handleSubmit = async () => {
+  //   const allAnswered = quiz.questions.every((q) => answers[q.id]);
+  //   if (!allAnswered) {
+  //     alert("Please answer all questions before submitting the quiz.");
+  //     return;
+  //   }
+
+  //   alert("Quiz submitted!");
+  //   localStorage.removeItem(`quiz-${quizId}-startTime`); // Clear persisted timer
+  //   navigate("/courses/AssesmentPage");
+
+    // --- Optional: Enable this if you're submitting to the backend ---
+    /*
+    try {
+      const responses = quiz.questions.map((q) => ({
+        question_id: q.id,
+        selected_choice_ids: [answers[q.id]],
+      }));
+
+      const res = await fetch(`${API_BASE}/quizzes/${quizId}/submit_attempt/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          quiz_id: quizId,
+          responses,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.message || "Failed to submit quiz.");
+        return;
+      }
+      setResult(data);
+      navigate(`/students/CorseDetails/QuizResultPage/${data.attempt_id}`);
+    } catch (err) {
+      alert("Failed to submit quiz.");
+    }
+    */
+  // };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-600">{error}</div>;
-  if (!quiz || !quiz.questions || quiz.questions.length === 0) return <div>No questions found.</div>;
+  if (!quiz || !quiz.questions || quiz.questions.length === 0)
+    return <div>No questions found.</div>;
 
   const q = quiz.questions[current];
 
   return (
-    <div className="max-w-xl mx-auto py-20 px-4 mt-12">
-      {result ? (
-        <div className="mt-8 p-6 bg-gray-100 rounded shadow text-center">
-          <h2 className="text-2xl font-bold mb-4">Quiz Results</h2>
-          <p className="text-lg mb-2">
-            You scored <span className="font-semibold">{result.score}</span> out of <span className="font-semibold">{result.total_questions}</span>
-          </p>
-          <p className="mb-2 text-lg">
-            Percentage: <span className="font-semibold">{((result.score / result.total_questions) * 100).toFixed(2)}%</span>
-          </p>
-          <p className={`text-xl font-bold mb-4 ${result.is_passed ? "text-green-600" : "text-red-600"}`}>
-            {result.is_passed ? "Congratulations! You Passed 🎉" : "Sorry, You Did Not Pass"}
-          </p>
-          {result.feedback && (
-            <div className="mt-6 text-left">
-              <h3 className="text-lg font-bold mb-2">Review:</h3>
-              {result.feedback.map((fb, idx) => (
-                <div key={idx} className="mb-4 p-4 bg-white rounded shadow">
-                  <div className="font-semibold mb-1">Q{idx + 1}. {fb.question_text}</div>
-                  <div>
-                    <span className="font-medium">Your Answer: </span>
-                    <span className={fb.is_correct ? "text-green-600" : "text-red-600"}>
-                      {fb.user_answer}
-                    </span>
-                  </div>
-                  {!fb.is_correct && (
-                    <div>
-                      <span className="font-medium">Correct Answer: </span>
-                      <span className="text-green-600">{fb.correct_answer}</span>
-                    </div>
-                  )}
-                  <div>
-                    {fb.is_correct ? (
-                      <span className="text-green-600 font-bold">Correct</span>
-                    ) : (
-                      <span className="text-red-600 font-bold">Incorrect</span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          <button
-            className="mt-4 px-6 py-2 bg-blue-600 text-white rounded"
-            onClick={() => navigate("/courses/AssesmentPage")}
-          >
-            Back to Assessments
-          </button>
-        </div>
-      ) : (
-        <>
-          <h1 className="text-2xl font-bold mb-4">{quiz.title}</h1>
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-lg font-semibold">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-100 py-8 px-2">
+      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl p-8">
+        {/* Progress Bar */}
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-lg font-semibold text-gray-700">
               Question {current + 1} of {quiz.questions.length}
             </span>
-            <span className="text-blue-700 font-semibold">
+            <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-lg font-semibold">
               Time Left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, "0")}
             </span>
           </div>
-          <div className="mb-6 p-6 bg-white rounded shadow">
-            <h3 className="font-semibold mb-2">
-              Q{current + 1}. {q.question_text}
-            </h3>
-            {q.choices.map((c) => (
-              <label key={c.id} className="block mb-1 cursor-pointer">
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div
+              className="bg-blue-500 h-2 rounded-full transition-all"
+              style={{
+                width: `${((current + 1) / quiz.questions.length) * 100}%`,
+              }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Question Card */}
+        <div className="mb-8 p-6 bg-gray-50 rounded-xl shadow flex flex-col gap-4">
+          <h3 className="font-bold text-xl text-gray-800 mb-2">
+            Q{current + 1}. {quiz.questions[current].question_text}
+          </h3>
+          <div className="space-y-3">
+            {quiz.questions[current].choices.map((c) => (
+              <label
+                key={c.id}
+                className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all
+                  ${
+                    answers[quiz.questions[current].id] === c.id
+                      ? "bg-blue-100 border-blue-400"
+                      : "bg-white border-gray-300 hover:border-blue-300"
+                  }
+                `}
+              >
                 <input
                   type="radio"
-                  name={`q${q.id}`}
+                  name={`q${quiz.questions[current].id}`}
                   value={c.id}
-                  checked={answers[q.id] === c.id}
-                  onChange={() => setAnswers({ ...answers, [q.id]: c.id })}
-                  className="mr-2"
+                  checked={answers[quiz.questions[current].id] === c.id}
+                  onChange={() =>
+                    setAnswers({ ...answers, [quiz.questions[current].id]: c.id })
+                  }
+                  className="form-radio h-5 w-5 text-blue-600"
                 />
-                {c.choice_text}
+                <span className="text-gray-700">{c.choice_text}</span>
               </label>
             ))}
           </div>
-          <div className="flex gap-4 mt-6">
+        </div>
+
+        {/* Navigation Buttons */}
+        <div className="flex justify-between mt-6">
+          <button
+            onClick={() => setCurrent((c) => Math.max(0, c - 1))}
+            disabled={current === 0}
+            className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg font-semibold shadow disabled:opacity-50"
+          >
+            Previous
+          </button>
+          {current < quiz.questions.length - 1 ? (
             <button
-              onClick={() => setCurrent((c) => Math.max(0, c - 1))}
-              disabled={current === 0}
-              className="px-4 py-2 bg-gray-200 rounded"
+              onClick={() => setCurrent((c) => c + 1)}
+              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow"
             >
-              Previous
+              Next
             </button>
-            {current < quiz.questions.length - 1 ? (
-              <button
-                onClick={() => setCurrent((c) => c + 1)}
-                className="px-4 py-2 bg-blue-600 text-white rounded"
-              >
-                Next
-              </button>
-            ) : (
-              <button
-                onClick={handleSubmit}
-                className="px-4 py-2 bg-green-600 text-white rounded"
-              >
-                Submit Quiz
-              </button>
-            )}
-          </div>
-        </>
-      )}
+          ) : (
+            <button
+              onClick={handleSubmit}
+              className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold shadow"
+            >
+              Submit Quiz
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
