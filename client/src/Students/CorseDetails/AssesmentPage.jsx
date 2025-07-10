@@ -169,10 +169,10 @@ const AssessmentPage = () => {
     return (
         <>
             <UserNavbar />
-            <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-green-50 mt-12">
+            <div className="flex min-h-screen bg-blue-50 mt-12">
                 {/* Sidebar */}
                 <button
-                    className="lg:hidden fixed top-24 left-4 z-50 p-2 bg-blue-600 text-white rounded-md shadow-lg"
+                    className="lg:hidden fixed top-24 left-4 z-50 p-2 bg-blue-600 text-white rounded-md shadow-sm"
                     onClick={toggleSidebar}
                     aria-label="Toggle sidebar"
                 >
@@ -186,10 +186,10 @@ const AssessmentPage = () => {
                     </svg>
                 </button>
                 <aside
-                    className={`w-56 bg-white shadow-2xl border-r border-blue-100 fixed h-screen pt-24 z-40 transition-transform duration-300 ease-in-out
+                    className={`w-56 bg-white shadow-md border-r border-blue-100 fixed h-screen pt-24 z-40 transition-transform duration-300 ease-in-out
                         ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:sticky lg:top-0 lg:h-screen lg:translate-x-0`}
                 >
-                    <div className="p-4 border-b bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-t-xl shadow">
+                    <div className="p-4 border-b bg-blue-600 text-white rounded-t-xl shadow">
                         <h2 className="text-2xl font-bold tracking-tight">Courses</h2>
                     </div>
                     <nav className="p-4 overflow-y-auto h-[calc(100%-4rem)]">
@@ -200,8 +200,8 @@ const AssessmentPage = () => {
                                         onClick={() => handleCourseSelect(course)}
                                         className={`w-full text-left px-3 py-1.5 rounded-lg transition-colors font-medium shadow-sm border border-transparent hover:border-blue-300 hover:shadow-md
                                             ${selectedCourse && selectedCourse.id === course.id
-                                                ? "bg-gradient-to-r from-blue-100 to-green-100 text-blue-800 border-blue-400"
-                                                : "text-gray-700 hover:bg-gray-100"}
+                                                ? "bg-blue-100 text-blue-800 border-blue-400"
+                                                : "text-blue-600 hover:bg-blue-50"}
                                         `}
                                     >
                                         {course.title}
@@ -215,41 +215,39 @@ const AssessmentPage = () => {
                 {/* Main Content */}
                 <main className="flex-1 flex flex-col items-center justify-center px-4 py-16">
                     <div className="w-full max-w-5xl">
-                        <div className="text-center mb-12 py-10 px-4 bg-gradient-to-r from-green-100 to-blue-100 rounded-2xl shadow-2xl border border-blue-100">
-                            <h1 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
-                                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-green-600">
-                                    Assessment & Assignment Portal
-                                </span>
+                        <div className="text-center mb-6 py-6 px-4 bg-blue-600 rounded-xl shadow-md border border-blue-200">
+                            <h1 className="text-3xl font-extrabold text-white mb-2 tracking-tight">
+                                Assessment & Assignment Portal
                             </h1>
-                            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+                            <p className="text-base text-blue-100 max-w-2xl mx-auto">
                                 Test your knowledge and complete assignments across various technical courses. Select a course to get started!
                             </p>
                         </div>
 
                         {/* Course Details and Features */}
                         {!selectedCourse ? (
-                            <div className="bg-white rounded-2xl shadow-xl p-10 text-center border border-blue-100">
-                                <h2 className="text-2xl font-bold text-gray-800 mb-3">Choose a Course</h2>
-                                <p className="text-base text-gray-700">
+                            <div className="bg-white rounded-2xl shadow-xl p-8 text-center border border-blue-200">
+                                <h2 className="text-2xl font-bold text-blue-700 mb-3">Choose a Course</h2>
+                                <p className="text-base text-blue-800">
                                     Select a course from the sidebar to view available quizzes and assignments.
                                 </p>
                             </div>
                         ) : (
-                            <div className="mb-16 bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
-                                <div className="p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+                            <div className="mb-12 bg-white rounded-xl shadow-md overflow-hidden border border-blue-100">
+                                <div className="p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                                     <div className="flex-1">
                                         <h2 className="text-3xl font-extrabold text-blue-800 mb-2 tracking-tight">{selectedCourse.title}</h2>
-                                        <p className="text-lg text-gray-700 mb-4">{selectedCourse.description || "Ready to test your knowledge and skills?"}</p>
+                                        <p className="text-lg text-blue-600 mb-4">{selectedCourse.description || "Ready to test your knowledge and skills?"}</p>
                                         <div className="flex flex-wrap gap-4 mb-4">
                                             <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
                                                 {selectedCourse.level || "All Levels"}
                                             </span>
-                                            <span className="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                            <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
                                                 {selectedCourse.category || "General"}
                                             </span>
                                         </div>
                                         <button
-                                            className="px-6 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold rounded-lg shadow hover:from-blue-700 hover:to-green-700 transition-all"
+                                            className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition-all"
                                             onClick={handleBackToCourse}
                                         >
                                             Back to Courses
@@ -257,20 +255,20 @@ const AssessmentPage = () => {
                                     </div>
                                     <div className="flex-1 flex flex-col gap-8">
                                         {/* Quizzes */}
-                                        <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-8 shadow-xl border border-blue-100">
-                                            <h3 className="text-xl font-bold text-blue-700 mb-3 flex items-center gap-2">
+                                        <div className="bg-blue-50 rounded-xl p-6 shadow-md border border-blue-100">
+                                            <h3 className="text-xl font-bold text-blue-600 mb-3 flex items-center gap-2">
                                                 <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                                 </svg>
                                                 Available Quizzes
                                             </h3>
                                             {quizzes.length === 0 ? (
-                                                <p className="text-gray-600">No quizzes available for this course.</p>
+                                                <p className="text-blue-500">No quizzes available for this course.</p>
                                             ) : (
                                                 <ul className="space-y-2">
                                                     {(Array.isArray(quizzes) ? quizzes : []).map((quiz) => (
                                                         <li key={quiz.id} className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm border border-blue-100 hover:shadow-md transition">
-                                                            <span className="font-medium text-gray-800">{quiz.title}</span>
+                                                            <span className="font-medium text-blue-700">{quiz.title}</span>
                                                             <button
                                                                 className="ml-4 px-4 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition font-semibold shadow"
                                                                 onClick={() => navigate(`/AssessmentCourses/${quiz.id}/start`)}
@@ -285,21 +283,21 @@ const AssessmentPage = () => {
                                             )}
                                         </div>
                                         {/* Assignments */}
-                                        <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-8 shadow-xl border border-green-100">
-                                            <h3 className="text-xl font-bold text-green-700 mb-3 flex items-center gap-2">
-                                                <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <div className="bg-blue-50 rounded-xl p-6 shadow-md border border-blue-100">
+                                            <h3 className="text-xl font-bold text-blue-600 mb-3 flex items-center gap-2">
+                                                <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
                                                 Available Assignments
                                             </h3>
                                             {assignments.length === 0 ? (
-                                                <p className="text-gray-600">No assignments available for this course.</p>
+                                                <p className="text-blue-500">No assignments available for this course.</p>
                                             ) : (
                                                 <ul className="space-y-2">
                                                     {assignments.map((assignment) => (
                                                         <li key={assignment.id}>
                                                             <div className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm border border-green-100 hover:shadow-md transition">
-                                                                <span className="font-medium text-gray-800">{assignment.title}</span>
+                                                                <span className="font-medium text-blue-700">{assignment.title}</span>
                                                                 {assignment.assignment_file && (
                                                                     <a
                                                                         href={assignment.assignment_file}

@@ -128,7 +128,7 @@ const PaymentPage = () => {
                             <h2 className="text-lg font-medium text-gray-900 mb-4">Order Summary</h2>
 
                             <div className="flex items-start mb-6">
-                                <div className="flex-shrink-0 h-16 w-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold">
+                                <div className="flex-shrink-0 h-16 w-16 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">
                                     {course.title.charAt(0)}
                                 </div>
                                 <div className="ml-4 flex-1">
@@ -181,14 +181,14 @@ const PaymentPage = () => {
                                         <button
                                             type="button"
                                             onClick={() => setPaymentMethod('credit')}
-                                            className={`py-2 px-3 border rounded-md text-sm font-medium ${paymentMethod === 'credit' ? 'bg-blue-50 border-blue-500 text-blue-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
+                                            className={`py-2 px-3 border rounded-md text-sm font-medium ${paymentMethod === 'credit' ? 'bg-blue-50 border-blue-500 text-blue-700' : 'border-gray-300 text-gray-700 hover:bg-blue-50'}`}
                                         >
                                             Credit Card
                                         </button>
                                         <button
                                             type="button"
                                             onClick={() => setPaymentMethod('paypal')}
-                                            className={`py-2 px-3 border rounded-md text-sm font-medium ${paymentMethod === 'paypal' ? 'bg-blue-50 border-blue-500 text-blue-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
+                                            className={`py-2 px-3 border rounded-md text-sm font-medium ${paymentMethod === 'paypal' ? 'bg-blue-50 border-blue-500 text-blue-700' : 'border-gray-300 text-gray-700 hover:bg-blue-50'}`}
                                         >
                                             PayPal
                                         </button>

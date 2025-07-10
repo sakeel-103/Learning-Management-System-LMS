@@ -69,14 +69,14 @@ function VerifyEmail() {
 
   const renderStepIndicator = () => (
     <div className="flex items-center justify-center space-x-4 mb-8">
-      <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${currentStep === 'requestOTP' ? 'border-indigo-600 bg-indigo-100 text-indigo-600' : 'border-gray-300 text-gray-500'}`}>
+      <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${currentStep === 'requestOTP' ? 'border-blue-600 bg-blue-100 text-blue-600' : 'border-gray-300 text-gray-500'}`}>
         1
       </div>
-      <div className={`w-8 h-1 ${currentStep === 'requestOTP' ? 'bg-gray-300' : 'bg-indigo-500'}`}></div>
-      <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${currentStep === 'verifyOTP' ? 'border-indigo-600 bg-indigo-100 text-indigo-600' : 'border-gray-300 text-gray-500'}`}>
+      <div className={`w-8 h-1 ${currentStep === 'requestOTP' ? 'bg-gray-300' : 'bg-blue-500'}`}></div>
+      <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${currentStep === 'verifyOTP' ? 'border-blue-600 bg-blue-100 text-blue-600' : 'border-gray-300 text-gray-500'}`}>
         2
       </div>
-      <div className={`w-8 h-1 ${currentStep === 'resetPassword' ? 'bg-indigo-500' : 'bg-gray-300'}`}></div>
+      <div className={`w-8 h-1 ${currentStep === 'resetPassword' ? 'bg-blue-500' : 'bg-gray-300'}`}></div>
     </div>
   );
 
@@ -93,7 +93,7 @@ function VerifyEmail() {
             type="email"
             autoComplete="email"
             required
-            className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-indigo-500"
             placeholder="you@example.com"
             value={formData.email}
             onChange={handleChange}
@@ -111,7 +111,7 @@ function VerifyEmail() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-75"
+          className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-75"
         >
           {isLoading ? (
             <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -137,7 +137,7 @@ function VerifyEmail() {
             type="text"
             placeholder="Enter 6-digit code"
             required
-            className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-indigo-500"
             value={formData.otp}
             onChange={handleChange}
             maxLength={6}
@@ -159,7 +159,7 @@ function VerifyEmail() {
         <button
           type="submit"
           disabled={isLoading}
-          className="flex items-center justify-center py-2 px-6 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-75"
+          className="flex items-center justify-center py-2 px-6 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-75"
         >
           {isLoading ? (
             <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

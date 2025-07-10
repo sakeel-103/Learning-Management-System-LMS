@@ -69,34 +69,34 @@ const ContactUsPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 text-gray-800 block w-full overflow-x-hidden p-4 sm:p-6 md:p-8 lg:p-10 pt-24 sm:pt-16 md:pt-20">
-            <div className="max-w-full sm:max-w-md md:max-w-3xl lg:max-w-5xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 px-4 sm:px-0">
+        <div className="min-h-screen bg-blue-50 text-blue-800 block w-full overflow-x-hidden p-4 sm:p-5 md:p-6 lg:p-8 pt-20 sm:pt-16 md:pt-20 lg:pt-24">
+            <div className="max-w-full sm:max-w-md md:max-w-3xl lg:max-w-5xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-16 px-4 sm:px-0 mb-12">
 
-                <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
-                    <h1 className="text-4xl sm:text-5xl font-extrabold text-teal-600">
+                <div className="bg-white rounded-xl shadow-md p-5 sm:p-6 md:p-8 space-y-4 sm:space-y-5 md:space-y-6">
+                    <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-700 mb-3 md:mb-4">
                         Contact Us
                     </h1>
 
                     {/* Contact Details */}
-                    <div className="space-y-4 max-w-md">
-                        <div className="flex flex-col">
-                            <span className="text-sm font-medium text-gray-600">Email</span>
-                            <span className="text-base sm:text-lg text-gray-800">trackademy@gmail.com</span>
+                    <div className="space-y-4 sm:space-y-5 md:space-y-6 max-w-md">
+                        <div className="flex flex-col mb-2 md:mb-3">
+                            <span className="text-sm md:text-base font-medium text-blue-600 mb-1 md:mb-2">Email</span>
+                            <span className="text-sm sm:text-base md:text-lg text-blue-700">trackademy@gmail.com</span>
                         </div>
-                        <div className="flex flex-col">
-                            <span className="text-sm font-medium text-gray-600">Phone</span>
-                            <span className="text-base sm:text-lg text-gray-800">+91 1234567890</span>
+                        <div className="flex flex-col mb-2 md:mb-3">
+                            <span className="text-sm md:text-base font-medium text-blue-600 mb-1 md:mb-2">Phone</span>
+                            <span className="text-sm sm:text-base md:text-lg text-blue-700">+91 1234567890</span>
                         </div>
-                        <div className="flex flex-col">
-                            <span className="text-sm font-medium text-gray-600">Office Location</span>
-                            <span className="text-base sm:text-lg text-gray-800">
+                        <div className="flex flex-col mb-3 md:mb-4">
+                            <span className="text-sm md:text-base font-medium text-blue-600 mb-1 md:mb-2">Office Location</span>
+                            <span className="text-sm sm:text-base md:text-lg text-blue-700">
                                 Design Esthetics, 1st Floor, FF1, Business Point Building, Brigade Rd, near Brigade Towers, Shanthala Nagar, Ashok Nagar, Bengaluru, Karnataka 560025
                             </span>
                         </div>
                     </div>
 
                     {/* Map functionality*/}
-                    <div className="w-full h-48 sm:h-56 md:h-64 rounded-lg shadow-sm overflow-hidden">
+                    <div className="w-full h-48 sm:h-56 md:h-64 lg:h-72 rounded-lg shadow-sm overflow-hidden mt-4 md:mt-6">
                         <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.086228673622!2d77.60352119999999!3d12.967451700000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae15024f6ed90b%3A0xf7212a5ecc8218e7!2sDesign%20Esthetics!5e0!3m2!1sen!2sin!4v1695832741234!5m2!1sen!2sin"
                             width="100%"
@@ -111,19 +111,19 @@ const ContactUsPage = () => {
                 </div>
 
                 {/* Right Section - Message Form */}
-                <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 border-b pb-4">Leave a Message</h2>
+                <div className="bg-white rounded-xl shadow-md p-5 sm:p-6 md:p-8 space-y-4 sm:space-y-5 md:space-y-6">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-700 border-b border-blue-200 pb-3 mb-3 md:mb-4">Leave a Message</h2>
 
                     {submitStatus && (
-                        <div className={`p-4 rounded-md ${submitStatus.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                        <div className={`p-3 md:p-4 rounded-md text-sm sm:text-base ${submitStatus.type === 'success' ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800'}`}>
                             {submitStatus.message}
                         </div>
                     )}
 
-                    <form className="space-y-6" onSubmit={handleSubmit}>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <label htmlFor="firstName" className="block text-sm font-medium text-gray-600">
+                    <form className="space-y-5 md:space-y-6" onSubmit={handleSubmit}>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+                            <div className="space-y-1">
+                                <label htmlFor="firstName" className="block text-xs font-medium text-blue-600">
                                     First Name
                                 </label>
                                 <input
@@ -132,12 +132,12 @@ const ContactUsPage = () => {
                                     value={formData.firstName}
                                     onChange={handleChange}
                                     placeholder="Enter your first name"
-                                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
+                                    className="w-full p-2 border border-blue-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-blue-700 placeholder-blue-300 transition-all duration-200 text-sm"
                                     required
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <label htmlFor="lastName" className="block text-sm font-medium text-gray-600">
+                            <div className="space-y-1">
+                                <label htmlFor="lastName" className="block text-xs font-medium text-blue-600">
                                     Last Name
                                 </label>
                                 <input
@@ -146,14 +146,14 @@ const ContactUsPage = () => {
                                     value={formData.lastName}
                                     onChange={handleChange}
                                     placeholder="Enter your last name"
-                                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
+                                    className="w-full p-2 border border-blue-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-blue-700 placeholder-blue-300 transition-all duration-200 text-sm"
                                     required
                                 />
                             </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-600">
+                        <div className="space-y-1">
+                            <label htmlFor="email" className="block text-xs font-medium text-blue-600">
                                 Email
                             </label>
                             <input
@@ -162,21 +162,21 @@ const ContactUsPage = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 placeholder="name@example.com"
-                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
+                                className="w-full p-2 border border-blue-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-blue-700 placeholder-blue-300 transition-all duration-200 text-sm"
                                 required
                             />
                         </div>
 
-                        <div className="space-y-2">
-                            <label htmlFor="phone" className="block text-sm font-medium text-gray-600">
+                        <div className="space-y-1">
+                            <label htmlFor="phone" className="block text-xs font-medium text-blue-600">
                                 Phone
                             </label>
-                            <div className="flex space-x-3">
+                            <div className="flex space-x-2">
                                 <select
                                     id="countryCode"
                                     value={formData.countryCode}
                                     onChange={handleChange}
-                                    className="w-1/3 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 transition-all duration-200"
+                                    className="w-1/3 p-2 border border-blue-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-blue-700 transition-all duration-200 text-sm"
                                 >
                                     <option value="+91">+91 (India)</option>
                                     <option value="+1">+1 (USA)</option>
@@ -189,21 +189,21 @@ const ContactUsPage = () => {
                                     value={formData.phone}
                                     onChange={handleChange}
                                     placeholder="+919888888888"
-                                    className="flex-1 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 transition-all duration-200"
+                                    className="flex-1 p-2 border border-blue-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-blue-700 placeholder-blue-300 transition-all duration-200 text-sm"
                                     required
                                 />
                             </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <label htmlFor="country" className="block text-sm font-medium text-gray-600">
+                        <div className="space-y-1">
+                            <label htmlFor="country" className="block text-xs font-medium text-blue-600">
                                 Country
                             </label>
                             <select
                                 id="country"
                                 value={formData.country}
                                 onChange={handleChange}
-                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 transition-all duration-200"
+                                className="w-full p-2 border border-blue-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-blue-700 transition-all duration-200 text-sm"
                             >
                                 <option value="India">India</option>
                                 <option value="USA">USA</option>
@@ -212,8 +212,8 @@ const ContactUsPage = () => {
                             </select>
                         </div>
 
-                        <div className="space-y-2">
-                            <label htmlFor="message" className="block text-sm font-medium text-gray-600">
+                        <div className="space-y-1">
+                            <label htmlFor="message" className="block text-xs font-medium text-blue-600">
                                 Message
                             </label>
                             <textarea
@@ -221,7 +221,7 @@ const ContactUsPage = () => {
                                 value={formData.message}
                                 onChange={handleChange}
                                 placeholder="Enter your issues you face"
-                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 placeholder-gray-400 h-40 resize-none transition-all duration-200"
+                                className="w-full p-3 border border-blue-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-blue-700 placeholder-blue-300 h-40 md:h-48 resize-none transition-all duration-200 text-sm"
                                 required
                             ></textarea>
                         </div>
@@ -229,7 +229,7 @@ const ContactUsPage = () => {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className={`w-full bg-teal-600 text-white py-3 rounded-lg hover:bg-teal-700 transition-all duration-200 font-bold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                            className={`w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-all duration-200 font-medium shadow-sm hover:shadow-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm sm:text-base mt-3 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                             aria-label="Send your message"
                         >
                             {isSubmitting ? 'Sending...' : 'Send Message'}

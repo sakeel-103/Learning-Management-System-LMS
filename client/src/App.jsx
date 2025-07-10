@@ -51,6 +51,8 @@ import InstructorAccess from './Admin/components/InstructorAccess'
 import HandleDownloadCertificate from './Students/AssessmentCourses/HandleCertificate'
 import QuizResultPage from './Students/CorseDetails/QuizResultPage'
 import DynamicQuizPage from './Students/AssessmentCourses/DynamicQuizPage'
+import TermsOfService from './pages/TermsOfService'
+import PrivacyPolicy from './pages/PrivacyPolicy'
 
 function App() {
   return (
@@ -64,6 +66,8 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path='/verify-email' element={<VerifyEmail />} />
+        <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
 
         {/* Role-based Protected Routes */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
