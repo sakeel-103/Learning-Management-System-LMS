@@ -42,14 +42,11 @@ class QuizSerializer(serializers.ModelSerializer):
 class AssignmentSerializer(serializers.ModelSerializer):
     course = CourseSerializer(read_only=True)
     course_id = serializers.UUIDField(write_only=True)
+    assignment_file = serializers.FileField(use_url=True, required=False)
     
     class Meta:
         model = Assignment
-        fields = [
-            'id', 'title', 'description', 'course', 'course_id', 'assignment_type',
-            'due_date', 'max_points', 'instructions', 'rubric', 'is_active',
-            'created_at', 'updated_at'
-        ]
+        fields ='__all__'
 
 class ExamSerializer(serializers.ModelSerializer):
     course = CourseSerializer(read_only=True)
@@ -108,22 +105,9 @@ class QuizAttemptSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 class AssignmentSubmissionSerializer(serializers.ModelSerializer):
-    assignment = AssignmentSerializer(read_only=True)
-    assignment_id = serializers.UUIDField(write_only=True)
-    user = UserSerializer(read_only=True)
-    
     class Meta:
         model = AssignmentSubmission
-        fields = [
-            'id', 'user', 'assignment', 'assignment_id', 'submission_file',
-            'submission_text', 'submitted_at', 'graded_at', 'score', 'feedback',
-            'status', 'is_late'
-        ]
-        read_only_fields = ['user', 'submitted_at', 'graded_at', 'score', 'feedback', 'status', 'is_late']
-    
-    def create(self, validated_data):
-        validated_data['user'] = self.context['request'].user
-        return super().create(validated_data)
+        fields = '__all__'
 
 class ExamAttemptSerializer(serializers.ModelSerializer):
     exam = ExamSerializer(read_only=True)

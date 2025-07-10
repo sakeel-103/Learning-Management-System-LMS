@@ -2,6 +2,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
 from .views import check_certificate_eligibility
+from .views import view_assignment_submissions
+from .views import student_upload_assignment
 
 
 router = DefaultRouter()
@@ -20,4 +22,12 @@ urlpatterns = [
    
     path('quizzes/attempts/<uuid:attempt_id>/', views.get_quiz_attempt, name='get_quiz_attempt'),
   
+]
+
+urlpatterns += [
+    path('assignments/view_assignment_submissions/', view_assignment_submissions, name='view_assignment_submissions'),
+] 
+
+urlpatterns += [
+    path('assignments/<uuid:assignment_id>/student_upload/', student_upload_assignment, name='student_upload_assignment'),
 ] 
