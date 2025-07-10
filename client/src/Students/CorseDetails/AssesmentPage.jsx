@@ -183,10 +183,10 @@ const AssessmentPage = () => {
     return (
         <>
             <UserNavbar />
-            <div className="flex min-h-screen bg-blue-50 mt-12">
+            <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-green-50 mt-12">
                 {/* Sidebar */}
                 <button
-                    className="lg:hidden fixed top-24 left-4 z-50 p-2 bg-blue-600 text-white rounded-md shadow-sm"
+                    className="lg:hidden fixed top-24 left-4 z-50 p-2 bg-blue-600 text-white rounded-md shadow-lg"
                     onClick={toggleSidebar}
                     aria-label="Toggle sidebar"
                 >
@@ -200,10 +200,10 @@ const AssessmentPage = () => {
                     </svg>
                 </button>
                 <aside
-                    className={`w-56 bg-white shadow-md border-r border-blue-100 fixed h-screen pt-24 z-40 transition-transform duration-300 ease-in-out
+                    className={`w-56 bg-white shadow-2xl border-r border-blue-100 fixed h-screen pt-24 z-40 transition-transform duration-300 ease-in-out
                         ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:sticky lg:top-0 lg:h-screen lg:translate-x-0`}
                 >
-                    <div className="p-4 border-b bg-blue-600 text-white rounded-t-xl shadow">
+                    <div className="p-4 border-b bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-t-xl shadow">
                         <h2 className="text-2xl font-bold tracking-tight">Courses</h2>
                     </div>
                     <nav className="p-4 overflow-y-auto h-[calc(100%-4rem)]">
@@ -214,8 +214,8 @@ const AssessmentPage = () => {
                                         onClick={() => handleCourseSelect(course)}
                                         className={`w-full text-left px-3 py-1.5 rounded-lg transition-colors font-medium shadow-sm border border-transparent hover:border-blue-300 hover:shadow-md
                                             ${selectedCourse && selectedCourse.id === course.id
-                                                ? "bg-blue-100 text-blue-800 border-blue-400"
-                                                : "text-blue-600 hover:bg-blue-50"}
+                                                ? "bg-gradient-to-r from-blue-100 to-green-100 text-blue-800 border-blue-400"
+                                                : "text-gray-700 hover:bg-gray-100"}
                                         `}
                                     >
                                         {course.title}
@@ -229,39 +229,47 @@ const AssessmentPage = () => {
                 {/* Main Content */}
                 <main className="flex-1 flex flex-col items-center justify-center px-4 py-16">
                     <div className="w-full max-w-5xl">
-                        <div className="text-center mb-6 py-6 px-4 bg-blue-600 rounded-xl shadow-md border border-blue-200">
-                            <h1 className="text-3xl font-extrabold text-white mb-2 tracking-tight">
-                                Assessment & Assignment Portal
+                        <div className="text-center mb-12 py-10 px-4 bg-gradient-to-r from-green-100 to-blue-100 rounded-2xl shadow-2xl border border-blue-100">
+                            <h1 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
+                                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-green-600">
+                                    Assessment & Assignment Portal
+                                </span>
                             </h1>
-                            <p className="text-base text-blue-100 max-w-2xl mx-auto">
+                            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
                                 Test your knowledge and complete assignments across various technical courses. Select a course to get started!
                             </p>
                         </div>
 
                         {/* Course Details and Features */}
                         {!selectedCourse ? (
-                            <div className="bg-white rounded-2xl shadow-xl p-8 text-center border border-blue-200">
-                                <h2 className="text-2xl font-bold text-blue-700 mb-3">Choose a Course</h2>
-                                <p className="text-base text-blue-800">
+                            <div className="bg-white rounded-2xl shadow-xl p-10 text-center border border-blue-100">
+                                <h2 className="text-2xl font-bold text-gray-800 mb-3">Choose a Course</h2>
+                                <p className="text-base text-gray-700">
                                     Select a course from the sidebar to view available quizzes and assignments.
                                 </p>
                             </div>
                         ) : (
                             <div className="mb-16 bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
                                 <div className="p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-                                    <div className="flex-1">
+                                    <div className="flex-1 md:max-w-xl">
                                         <h2 className="text-3xl font-extrabold text-blue-800 mb-2 tracking-tight">{selectedCourse.title}</h2>
-                                        <p className="text-lg text-gray-700 mb-4">{selectedCourse.description || "Ready to test your knowledge and skills?"}</p>
+                                        <p className="text-lg text-gray-700 mb-4 leading-relaxed text-justify hidden sm:block">
+                                            {(selectedCourse.course_description || "Ready to test your knowledge and skills?")
+                                                .split(/\n{2,}/)
+                                                .map((para, idx) => (
+                                                    <span key={idx}>{para.trim()}<br/></span>
+                                                ))}
+                                        </p>
                                         <div className="flex flex-wrap gap-4 mb-4">
                                             <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
                                                 {selectedCourse.level || "All Levels"}
                                             </span>
-                                            <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                            <span className="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
                                                 {selectedCourse.category || "General"}
                                             </span>
                                         </div>
                                         <button
-                                            className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition-all"
+                                            className="px-6 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white font-semibold rounded-lg shadow hover:from-blue-700 hover:to-green-700 transition-all"
                                             onClick={handleBackToCourse}
                                         >
                                             Back to Courses
@@ -269,7 +277,7 @@ const AssessmentPage = () => {
                                     </div>
                                     <div className="flex-1 flex flex-col gap-8">
                                         {/* Quizzes */}
-                                        <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-8 shadow-xl border border-blue-100">
+                                        <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-2 sm:p-4 md:p-6 shadow-xl border border-blue-100">
                                             <h3 className="text-xl font-bold text-blue-700 mb-3 flex items-center gap-2">
                                                 <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -277,12 +285,12 @@ const AssessmentPage = () => {
                                                 Available Quizzes
                                             </h3>
                                             {quizzes.length === 0 ? (
-                                                <p className="text-blue-500">No quizzes available for this course.</p>
+                                                <p className="text-gray-600">No quizzes available for this course.</p>
                                             ) : (
                                                 <ul className="space-y-2">
                                                     {(Array.isArray(quizzes) ? quizzes : []).map((quiz) => (
                                                         <li key={quiz.id} className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm border border-blue-100 hover:shadow-md transition">
-                                                            <span className="font-medium text-blue-700">{quiz.title}</span>
+                                                            <span className="font-medium text-gray-800">{quiz.title}</span>
                                                             <button
                                                                 className="ml-4 px-4 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition font-semibold shadow"
                                                                 onClick={() => navigate(`/AssessmentCourses/${quiz.id}/start`)}
@@ -297,7 +305,7 @@ const AssessmentPage = () => {
                                             )}
                                         </div>
                                         {/* Assignments */}
-                                        <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-8 shadow-xl border border-green-100">
+                                        <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-2 sm:p-4 md:p-6 shadow-xl border border-green-100">
                                             <h3 className="text-xl font-bold text-green-700 mb-3 flex items-center gap-2">
                                                 <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -305,32 +313,98 @@ const AssessmentPage = () => {
                                                 Available Assignments
                                             </h3>
                                             {assignments.length === 0 ? (
-                                                <p className="text-blue-500">No assignments available for this course.</p>
+                                                <p className="text-gray-600">No assignments available for this course.</p>
                                             ) : (
                                                 <ul className="space-y-2">
-                                                    {assignments.map((assignment) => (
-                                                        <li key={assignment.id}>
-                                                            <div className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm border border-green-100 hover:shadow-md transition">
-                                                                <span className="font-medium text-gray-800">{assignment.title}</span>
-                                                                {assignment.assignment_file && (
-                                                                    <a
-                                                                        href={assignment.assignment_file}
-                                                                        target="_blank"
-                                                                        rel="noopener noreferrer"
-                                                                        className="px-4 py-2 bg-blue-600 text-white rounded mr-2"
-                                                                    >
-                                                                        View Assignment
-                                                                    </a>
-                                                                )}
-                                                                <button
-                                                                    className="ml-4 px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition shadow"
-                                                                    onClick={() => alert('Assignment details/submission coming soon!')}
-                                                                >
-                                                                    View / Submit
-                                                                </button>
-                                                            </div>
-                                                        </li>
-                                                    ))}
+                                                    {assignments.map((assignment) => {
+                                                        const isSubmitted = submittedAssignments[assignment.id];
+                                                        return (
+                                                            <li key={assignment.id}>
+                                                                <div className="flex flex-col sm:flex-row sm:items-start justify-between bg-white rounded-lg px-4 py-2 shadow-sm border border-green-100 hover:shadow-md transition">
+                                                                    <span className="font-medium text-gray-800 mb-2 sm:mb-0 sm:flex-1">{assignment.title}</span>
+                                                                    <form
+                                                                        className="flex gap-2 items-center"
+                                                                        onSubmit={async (e) => {
+                                                                            e.preventDefault();
+                                                                            const fileInput = e.target.elements[`file-${assignment.id}`];
+                                                                            if (!fileInput.files.length) return;
+                                                                            setSubmittingAssignmentId(assignment.id);
+                                                                            const formData = new FormData();
+                                                                            formData.append("submission_file", fileInput.files[0]);
+                                                                            const token = localStorage.getItem('ACCESS_TOKEN');
+                                                                            try {
+                                                                                const res = await fetch(
+                                                                                    `http://127.0.0.1:8000/api/v1/assessment/assignments/${assignment.id}/student_upload/`,
+                                                                                    {
+                                                                                        method: "POST",
+                                                                                        headers: token ? { Authorization: `Bearer ${token}` } : {},
+                                                                                        body: formData,
+                                                                                    }
+                                                                                );
+                                                                                if (res.ok) {
+                                                                                    setSubmittedAssignments((prev) => ({
+                                                                                        ...prev,
+                                                                                        [assignment.id]: true,
+                                                                                    }));
+                                                                                } else {
+                                                                                    alert("Submission failed.");
+                                                                                }
+                                                                            } catch {
+                                                                                alert("Submission failed.");
+                                                                            } finally {
+                                                                                    setSubmittingAssignmentId(null);
+                                                                                }
+                                                                            }}
+                                                                        >
+                                                                            {assignment.assignment_file && (
+                                                                                <a
+                                                                                    href={assignment.assignment_file}
+                                                                                    target="_blank"
+                                                                                    rel="noopener noreferrer"
+                                                                                    className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition font-semibold shadow text-sm min-w-[110px] text-center"
+                                                                                    style={{ whiteSpace: "nowrap" }}
+                                                                                >
+                                                                                    View
+                                                                                </a>
+                                                                            )}
+                                                                            {!isSubmitted && (
+                                                                                <>
+                                                                                    <label className="relative cursor-pointer bg-white border border-blue-300 rounded px-3 py-1 text-sm font-medium text-blue-700 hover:bg-blue-50 shadow-sm min-w-[110px] text-center">
+                                                                                        <span>
+                                                                                            Choose File
+                                                                                        </span>
+                                                                                        <input
+                                                                                            type="file"
+                                                                                            name={`file-${assignment.id}`}
+                                                                                            className="absolute left-0 top-0 w-full h-full opacity-0 cursor-pointer"
+                                                                                            required
+                                                                                        />
+                                                                                    </label>
+                                                                                    <button
+                                                                                        type="submit"
+                                                                                        className={`px-3 py-1 rounded text-sm font-semibold shadow min-w-[110px] text-center ${
+                                                                                            isSubmitted
+                                                                                                ? "bg-gray-400 text-white cursor-not-allowed"
+                                                                                                : "bg-blue-600 text-white hover:bg-blue-700 transition"
+                                                                                        }`}
+                                                                                        disabled={isSubmitted || submittingAssignmentId === assignment.id}
+                                                                                    >
+                                                                                        {isSubmitted
+                                                                                            ? "Submitted"
+                                                                                            : submittingAssignmentId === assignment.id
+                                                                                            ? "Submitting..."
+                                                                                            : "Submit"}
+                                                                                    </button>
+                                                                                </>
+                                                                            )}
+                                                                            {isSubmitted && (
+                                                                                <span className="px-3 py-1 bg-green-200 text-green-800 rounded font-semibold text-sm">Submitted</span>
+                                                                            )}
+                                                                        </form>
+                                                                    </div>
+                                                                </li>
+                                                            );
+                                                        })}
                                                 </ul>
                                             )}
                                         </div>
