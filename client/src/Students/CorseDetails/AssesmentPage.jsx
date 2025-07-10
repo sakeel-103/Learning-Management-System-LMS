@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import HandleDownloadCertificate from "../AssessmentCourses/HandleCertificate";
 import UserNavbar from "../../components/UserNavbar";
+import html2canvas from "html2canvas";
+import CertificateTemplate from "./CertificateTemplate"; // Adjust path if needed
+import jsPDF from "jspdf";
 
 const API_BASE = "http://127.0.0.1:8000/api/v1";
 const API="http://127.0.0.1:8000/api";
@@ -16,6 +19,9 @@ const AssessmentPage = () => {
     const [quizError, setQuizError] = useState("");
     const [certificateLoading, setCertificateLoading] = useState(false);
     const [certificateError, setCertificateError] = useState("");
+    const [submittingAssignmentId, setSubmittingAssignmentId] = useState(null);
+    const [submittedAssignments, setSubmittedAssignments] = useState({});
+    const certificateRef = useRef();
 
     // Fetch courses on mount
     useEffect(() => {
@@ -94,76 +100,84 @@ const AssessmentPage = () => {
     };
 
     // Certificate download handler
-    const handleDownloadCertificate = async ({
-        API_BASE,
-        selectedCourse,
-        setCertificateLoading,
-        setCertificateError,
-        navigate
-    }) => {
-        setCertificateLoading(true);
-        setCertificateError("");
+    const handleDownloadCertificate = () => {
+        if (!selectedCourse) return;
 
-        try {
-            const token = localStorage.getItem('ACCESS_TOKEN');
-            if (!token) throw new Error('Authentication token missing. Please login again.');
+        // Get user email from localStorage
+        let user = JSON.parse(localStorage.getItem("user"));
+        let studentEmail = user?.email || "student@example.com";
+        let studentName = studentEmail.split("@")[0];
 
-            // Use the correct endpoint and send the token
-            const res = await fetch(
-                `${API}/certification/check-eligibility/?course_id=${selectedCourse.id}`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }
-            );
-            const data = await res.json();
+        const courseTitle = selectedCourse.title || "Course Title";
+        const today = new Date();
+        const dateStr = today.toLocaleDateString();
 
-            if (!res.ok || !data.eligible) {
-                throw new Error(data.message || 'Not eligible for certificate');
-            }
+        const doc = new jsPDF({
+            orientation: "landscape",
+            unit: "pt",
+            format: [900, 650],
+        });
 
-            // Compose HTML certificate
-            const html = `<!DOCTYPE html>
-<html lang='en'>
-<head><meta charset='UTF-8'><title>Certificate of Completion</title></head>
-<body style='font-family:sans-serif;text-align:center;padding:40px;background:#f9fafb;'>
-  <div style='max-width:600px;margin:auto;background:white;border-radius:16px;box-shadow:0 2px 16px #0001;padding:40px;'>
-    <h1 style='color:#2563eb;font-size:2.5rem;margin-bottom:0.5em;'>Certificate of Completion</h1>
-    <h2 style='color:#16a34a;margin-bottom:1.5em;'>Traceacademy</h2>
-    <p style='font-size:1.2rem;margin-bottom:2em;'>This is to certify that</p>
-    <h2 style='font-size:2rem;color:#0f172a;margin-bottom:0.5em;'>${data.user_name || 'Student'}</h2>
-    <p style='font-size:1.1rem;margin-bottom:2em;'>has successfully completed the course</p>
-    <h3 style='font-size:1.5rem;color:#2563eb;margin-bottom:0.5em;'>${data.course_title}</h3>
-    <p style='font-size:1.1rem;margin-bottom:2em;'>Duration: <b>${data.duration || 'N/A'}</b></p>
-    <p style='color:#64748b;margin-bottom:2em;'>Issued on: ${new Date().toLocaleDateString()}</p>
-    <div style='margin-top:2em;'>
-      <span style='font-size:0.9rem;color:#94a3b8;'>Verification Code: ${data.verification_code}</span>
-    </div>
-  </div>
-</body>
-</html>`;
+        // Gold border
+        doc.setDrawColor("#FFD700");
+        doc.setLineWidth(6);
+        doc.rect(20, 20, 860, 610);
 
-            // Download as HTML file
-            const blob = new Blob([html], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Traceacademy_Certificate_${data.course_title.replace(/\s+/g, '_')}.html`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+        // Header bar
+        doc.setFillColor("#1e293b");
+        doc.rect(20, 20, 860, 70, "F");
 
-            // Optionally navigate after download
-            if (navigate) {
-                navigate('/certi');
-            }
-        } catch (err) {
-            setCertificateError(err.message);
-        } finally {
-            setCertificateLoading(false);
-        }
+        // Company/Logo
+        doc.setFont("times", "bold");
+        doc.setTextColor("#FFD700");
+        doc.setFontSize(36);
+        doc.text("TRACKACADEMY", 450, 70, { align: "center" });
+
+        // Certificate Title
+        doc.setFontSize(34);
+        doc.setTextColor("#1e293b");
+        doc.setFont("times", "bold");
+        doc.text("Certificate of Completion", 450, 160, { align: "center" });
+
+        // Subtitle
+        doc.setFont("times", "normal");
+        doc.setFontSize(18);
+        doc.setTextColor("#22223b");
+        doc.text("This is to certify that", 450, 210, { align: "center" });
+
+        // Student Name
+        doc.setFont("times", "bold");
+        doc.setFontSize(32);
+        doc.setTextColor("#111827");
+        doc.text(studentName.replace(/[^a-zA-Z0-9 ]/g, '').toUpperCase(), 450, 260, { align: "center" });
+
+        // For successfully completing...
+        doc.setFont("times", "normal");
+        doc.setFontSize(18);
+        doc.setTextColor("#22223b");
+        doc.text("has successfully completed the course", 450, 300, { align: "center" });
+
+        // Course Title
+        doc.setFont("times", "bold");
+        doc.setFontSize(26);
+        doc.setTextColor("#2563eb");
+        doc.text(courseTitle.toUpperCase(), 450, 340, { align: "center" });
+
+        // Date and Signature lines
+        doc.setFont("times", "normal");
+        doc.setFontSize(16);
+        doc.setTextColor("#22223b");
+        doc.line(120, 520, 320, 520);
+        doc.text("Date", 220, 540, { align: "center" });
+        doc.line(580, 520, 780, 520);
+        doc.text("Signature", 680, 540, { align: "center" });
+
+        // Today's date
+        doc.setFontSize(14);
+        doc.text(dateStr, 220, 560, { align: "center" });
+
+        // Save PDF
+        doc.save(`Certificate_${courseTitle.replace(/\s+/g, "_")}.pdf`);
     };
 
     return (
@@ -237,9 +251,15 @@ const AssessmentPage = () => {
                         ) : (
                             <div className="mb-16 bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
                                 <div className="p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-                                    <div className="flex-1">
+                                    <div className="flex-1 md:max-w-xl">
                                         <h2 className="text-3xl font-extrabold text-blue-800 mb-2 tracking-tight">{selectedCourse.title}</h2>
-                                        <p className="text-lg text-gray-700 mb-4">{selectedCourse.description || "Ready to test your knowledge and skills?"}</p>
+                                        <p className="text-lg text-gray-700 mb-4 leading-relaxed text-justify hidden sm:block">
+                                            {(selectedCourse.course_description || "Ready to test your knowledge and skills?")
+                                                .split(/\n{2,}/)
+                                                .map((para, idx) => (
+                                                    <span key={idx}>{para.trim()}<br/></span>
+                                                ))}
+                                        </p>
                                         <div className="flex flex-wrap gap-4 mb-4">
                                             <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
                                                 {selectedCourse.level || "All Levels"}
@@ -257,7 +277,7 @@ const AssessmentPage = () => {
                                     </div>
                                     <div className="flex-1 flex flex-col gap-8">
                                         {/* Quizzes */}
-                                        <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-8 shadow-xl border border-blue-100">
+                                        <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-2 sm:p-4 md:p-6 shadow-xl border border-blue-100">
                                             <h3 className="text-xl font-bold text-blue-700 mb-3 flex items-center gap-2">
                                                 <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -285,7 +305,7 @@ const AssessmentPage = () => {
                                             )}
                                         </div>
                                         {/* Assignments */}
-                                        <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-8 shadow-xl border border-green-100">
+                                        <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-2 sm:p-4 md:p-6 shadow-xl border border-green-100">
                                             <h3 className="text-xl font-bold text-green-700 mb-3 flex items-center gap-2">
                                                 <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -296,29 +316,95 @@ const AssessmentPage = () => {
                                                 <p className="text-gray-600">No assignments available for this course.</p>
                                             ) : (
                                                 <ul className="space-y-2">
-                                                    {assignments.map((assignment) => (
-                                                        <li key={assignment.id}>
-                                                            <div className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm border border-green-100 hover:shadow-md transition">
-                                                                <span className="font-medium text-gray-800">{assignment.title}</span>
-                                                                {assignment.assignment_file && (
-                                                                    <a
-                                                                        href={assignment.assignment_file}
-                                                                        target="_blank"
-                                                                        rel="noopener noreferrer"
-                                                                        className="px-4 py-2 bg-blue-600 text-white rounded mr-2"
-                                                                    >
-                                                                        View Assignment
-                                                                    </a>
-                                                                )}
-                                                                <button
-                                                                    className="ml-4 px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition shadow"
-                                                                    onClick={() => alert('Assignment details/submission coming soon!')}
-                                                                >
-                                                                    View / Submit
-                                                                </button>
-                                                            </div>
-                                                        </li>
-                                                    ))}
+                                                    {assignments.map((assignment) => {
+                                                        const isSubmitted = submittedAssignments[assignment.id];
+                                                        return (
+                                                            <li key={assignment.id}>
+                                                                <div className="flex flex-col sm:flex-row sm:items-start justify-between bg-white rounded-lg px-4 py-2 shadow-sm border border-green-100 hover:shadow-md transition">
+                                                                    <span className="font-medium text-gray-800 mb-2 sm:mb-0 sm:flex-1">{assignment.title}</span>
+                                                                    <form
+                                                                        className="flex gap-2 items-center"
+                                                                        onSubmit={async (e) => {
+                                                                            e.preventDefault();
+                                                                            const fileInput = e.target.elements[`file-${assignment.id}`];
+                                                                            if (!fileInput.files.length) return;
+                                                                            setSubmittingAssignmentId(assignment.id);
+                                                                            const formData = new FormData();
+                                                                            formData.append("submission_file", fileInput.files[0]);
+                                                                            const token = localStorage.getItem('ACCESS_TOKEN');
+                                                                            try {
+                                                                                const res = await fetch(
+                                                                                    `http://127.0.0.1:8000/api/v1/assessment/assignments/${assignment.id}/student_upload/`,
+                                                                                    {
+                                                                                        method: "POST",
+                                                                                        headers: token ? { Authorization: `Bearer ${token}` } : {},
+                                                                                        body: formData,
+                                                                                    }
+                                                                                );
+                                                                                if (res.ok) {
+                                                                                    setSubmittedAssignments((prev) => ({
+                                                                                        ...prev,
+                                                                                        [assignment.id]: true,
+                                                                                    }));
+                                                                                } else {
+                                                                                    alert("Submission failed.");
+                                                                                }
+                                                                            } catch {
+                                                                                alert("Submission failed.");
+                                                                            } finally {
+                                                                                    setSubmittingAssignmentId(null);
+                                                                                }
+                                                                            }}
+                                                                        >
+                                                                            {assignment.assignment_file && (
+                                                                                <a
+                                                                                    href={assignment.assignment_file}
+                                                                                    target="_blank"
+                                                                                    rel="noopener noreferrer"
+                                                                                    className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition font-semibold shadow text-sm min-w-[110px] text-center"
+                                                                                    style={{ whiteSpace: "nowrap" }}
+                                                                                >
+                                                                                    View
+                                                                                </a>
+                                                                            )}
+                                                                            {!isSubmitted && (
+                                                                                <>
+                                                                                    <label className="relative cursor-pointer bg-white border border-blue-300 rounded px-3 py-1 text-sm font-medium text-blue-700 hover:bg-blue-50 shadow-sm min-w-[110px] text-center">
+                                                                                        <span>
+                                                                                            Choose File
+                                                                                        </span>
+                                                                                        <input
+                                                                                            type="file"
+                                                                                            name={`file-${assignment.id}`}
+                                                                                            className="absolute left-0 top-0 w-full h-full opacity-0 cursor-pointer"
+                                                                                            required
+                                                                                        />
+                                                                                    </label>
+                                                                                    <button
+                                                                                        type="submit"
+                                                                                        className={`px-3 py-1 rounded text-sm font-semibold shadow min-w-[110px] text-center ${
+                                                                                            isSubmitted
+                                                                                                ? "bg-gray-400 text-white cursor-not-allowed"
+                                                                                                : "bg-blue-600 text-white hover:bg-blue-700 transition"
+                                                                                        }`}
+                                                                                        disabled={isSubmitted || submittingAssignmentId === assignment.id}
+                                                                                    >
+                                                                                        {isSubmitted
+                                                                                            ? "Submitted"
+                                                                                            : submittingAssignmentId === assignment.id
+                                                                                            ? "Submitting..."
+                                                                                            : "Submit"}
+                                                                                    </button>
+                                                                                </>
+                                                                            )}
+                                                                            {isSubmitted && (
+                                                                                <span className="px-3 py-1 bg-green-200 text-green-800 rounded font-semibold text-sm">Submitted</span>
+                                                                            )}
+                                                                        </form>
+                                                                    </div>
+                                                                </li>
+                                                            );
+                                                        })}
                                                 </ul>
                                             )}
                                         </div>
@@ -326,18 +412,9 @@ const AssessmentPage = () => {
                                         <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-8 shadow-xl mt-6 flex flex-col items-center border border-indigo-100">
                                             <button
                                                 className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold shadow hover:bg-indigo-700 transition-all"
-                                                onClick={() =>
-                                                    handleDownloadCertificate({
-                                                        API_BASE,
-                                                        selectedCourse,
-                                                        setCertificateLoading,
-                                                        setCertificateError,
-                                                        navigate
-                                                    })
-                                                }
-                                                disabled={certificateLoading}
+                                                onClick={handleDownloadCertificate}
                                             >
-                                                {certificateLoading ? 'Preparing...' : 'Download Certificate'}
+                                                Download Certificate
                                             </button>
                                             {certificateError && <p className="text-red-500 mt-2">{certificateError}</p>}
                                         </div>
@@ -346,6 +423,14 @@ const AssessmentPage = () => {
                             </div>
                         )}
                     </div>
+                    {/* Hidden certificate for rendering */}
+                    {/* <div style={{ position: "absolute", left: "-9999px", top: 0 }}>
+                        <CertificateTemplate
+                            ref={certificateRef}
+                            studentName={user?.name || "Student Name"}
+                            courseTitle={selectedCourse?.title || "Course Title"}
+                        />
+                    </div> */}
                 </main>
             </div>
         </>

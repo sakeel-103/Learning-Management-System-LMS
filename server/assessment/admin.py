@@ -3,6 +3,7 @@ from .models import (
     Quiz, Question, Choice, Assignment, Exam, QuizAttempt, 
     QuizResponse, AssignmentSubmission, ExamAttempt, Certificate
 )
+from django.utils.html import format_html
 
 @admin.register(Quiz)
 class QuizAdmin(admin.ModelAdmin):
@@ -65,13 +66,16 @@ class QuizResponseAdmin(admin.ModelAdmin):
 
 @admin.register(AssignmentSubmission)
 class AssignmentSubmissionAdmin(admin.ModelAdmin):
-    list_display = ['user', 'assignment', 'status', 'score', 'submitted_at', 'is_late']
-    list_filter = ['status', 'is_late', 'submitted_at', 'assignment']
-    search_fields = ['user__email', 'assignment__title']
-    readonly_fields = ['submitted_at', 'is_late']
-    
-    def get_queryset(self, request):
-        return super().get_queryset(request).select_related('user', 'assignment')
+    list_display = ('id', 'user', 'assignment', 'submitted_at', 'is_late', 'status', 'file_link')
+    list_filter = ('assignment', 'user', 'is_late', 'status')
+    search_fields = ('user__email', 'assignment__title')
+    readonly_fields = ('submitted_at',)
+
+    def file_link(self, obj):
+        if obj.submission_file:
+            return format_html('<a href="{}" target="_blank">Download</a>', obj.submission_file.url)
+        return "-"
+    file_link.short_description = "File"
 
 @admin.register(ExamAttempt)
 class ExamAttemptAdmin(admin.ModelAdmin):

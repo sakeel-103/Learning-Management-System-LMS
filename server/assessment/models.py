@@ -6,6 +6,7 @@ import qrcode
 from io import BytesIO
 from django.core.files.base import ContentFile
 from PIL import Image
+from collections import defaultdict
 
 User = get_user_model()
 
@@ -89,6 +90,7 @@ class Assignment(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    assignment_file = models.FileField(upload_to='assignment_files/', blank=True, null=True)
     
     class Meta:
         ordering = ['-created_at']
@@ -137,7 +139,7 @@ class QuizAttempt(models.Model):
     time_taken = models.IntegerField(help_text="Time taken in seconds", null=True, blank=True)
     
     class Meta:
-        unique_together = ['user', 'quiz']
+        # unique_together = ['user', 'quiz']
         ordering = ['-started_at']
     
     def __str__(self):
