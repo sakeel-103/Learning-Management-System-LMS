@@ -25,27 +25,25 @@ const DSAPage = () => {
             <div className="min-h-screen overflow-x-hidden bg-gray-50">
 
                 {/* Hero Section */}
-                <section className="bg-gradient-to-r from-blue-400 to-green-800 text-white py-16 px-6 pt-36">
-                    <div className="relative max-w-6xl mx-auto text-center">
-                        <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
-                        <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
+                <section className="bg-blue-600 text-white py-14 px-6 pt-32">
+                    <div className="max-w-6xl mx-auto text-center">
                         <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400">
+                            <span className="text-white">
                                 Full Stack Development: A Complete Guide
                             </span>
                         </h1>
-                        <p className="text-lg md:text-xl mb-6 max-w-3xl mx-auto">
+                        <p className="text-base md:text-lg mb-5 max-w-3xl mx-auto">
                             Master front-end, back-end, databases, and DevOps to build dynamic, scalable web applications from scratch.
                         </p>
                         <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                             <button
-                                className="px-6 py-3 bg-white text-indigo-700 font-semibold rounded-lg hover:bg-gray-100 transition-all shadow-md hover:shadow-lg"
+                                className="px-5 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-all shadow-sm hover:shadow-md"
                                 onClick={() => { }}
                             >
                                 Start Learning Now
                             </button>
                             <button
-                                className="px-6 py-3 border-2 border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all"
+                                className="px-5 py-2 border border-white text-white font-medium rounded-lg hover:bg-blue-700 transition-all"
                                 onClick={() => { }}
                             >
                                 Explore Projects
@@ -55,10 +53,10 @@ const DSAPage = () => {
                 </section>
 
                 {/* Course Section */}
-                <section id="overview" className="py-12 px-6 bg-white">
+                <section id="overview" className="py-10 px-6 bg-white">
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center border-b pb-2">Course Overview</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center border-b pb-2">Course Overview</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                             <div className="bg-gray-50 p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-gray-100">
                                 <h3 className="text-xl font-semibold mb-2 text-gray-800">Rating & Popularity</h3>
                                 <p className="text-yellow-400">★ 4.6 <span className="text-gray-600">(2K+ Interested Users)</span></p>
@@ -82,7 +80,7 @@ const DSAPage = () => {
                             </p>
                             <p className="text-gray-600 font-medium mb-2">Here's why full-stack development is important:</p>
                             <button
-                                className="flex items-center text-indigo-600 hover:text-indigo-800 text-sm font-medium transition-colors"
+                                className="flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors"
                                 onClick={() => setShowMoreBenefits(!showMoreBenefits)}
                                 aria-label={showMoreBenefits ? 'Hide benefits details' : 'Show benefits details'}
                             >
@@ -100,7 +98,7 @@ const DSAPage = () => {
                                 <div className="mt-4 space-y-4 animate-fadeIn">
                                     <div className="space-y-4">
                                         <div className="flex items-start">
-                                            <div className="flex-shrink-0 h-6 w-6 text-indigo-600 mr-3 mt-0.5">1.</div>
+                                            <div className="flex-shrink-0 h-6 w-6 text-blue-600 mr-3 mt-0.5">1.</div>
                                             <div>
                                                 <h4 className="font-medium text-gray-800">Efficiency and Speed</h4>
                                                 <p className="text-gray-600 text-sm">
@@ -110,7 +108,7 @@ const DSAPage = () => {
                                             </div>
                                         </div>
                                         <div className="flex items-start">
-                                            <div className="flex-shrink-0 h-6 w-6 text-indigo-600 mr-3 mt-0.5">2.</div>
+                                            <div className="flex-shrink-0 h-6 w-6 text-blue-600 mr-3 mt-0.5">2.</div>
                                             <div>
                                                 <h4 className="font-medium text-gray-800">Cost Savings</h4>
                                                 <p className="text-gray-600 text-sm">
@@ -120,7 +118,7 @@ const DSAPage = () => {
                                         </div>
                                     </div>
                                     <div className="flex items-start">
-                                        <div className="flex-shrink-0 h-6 w-6 text-indigo-600 mr-3 mt-0.5">3.</div>
+                                        <div className="flex-shrink-0 h-6 w-6 text-blue-600 mr-3 mt-0.5">3.</div>
                                         <div>
                                             <h4 className="font-medium text-gray-800">Comprehensive Understanding</h4>
                                             <p className="text-gray-600 text-sm">
@@ -130,7 +128,7 @@ const DSAPage = () => {
                                         </div>
                                     </div>
                                     <div className="flex items-start">
-                                        <div className="flex-shrink-0 h-6 w-6 text-indigo-600 mr-3 mt-0.5">4.</div>
+                                        <div className="flex-shrink-0 h-6 w-6 text-blue-600 mr-3 mt-0.5">4.</div>
                                         <div>
                                             <h4 className="font-medium text-gray-800">Adaptability</h4>
                                             <p className="text-gray-600 text-sm">
@@ -140,7 +138,7 @@ const DSAPage = () => {
                                         </div>
                                     </div>
                                     <div className="flex items-start">
-                                        <div className="flex-shrink-0 h-6 w-6 text-indigo-600 mr-3 mt-0.5">5.</div>
+                                        <div className="flex-shrink-0 h-6 w-6 text-blue-600 mr-3 mt-0.5">5.</div>
                                         <div>
                                             <h4 className="font-medium text-gray-800">Improved Communication</h4>
                                             <p className="text-gray-600 text-sm">
@@ -149,7 +147,7 @@ const DSAPage = () => {
                                         </div>
                                     </div>
                                     <div className="flex items-start">
-                                        <div className="flex-shrink-0 h-6 w-6 text-indigo-600 mr-3 mt-0.5">6.</div>
+                                        <div className="flex-shrink-0 h-6 w-6 text-blue-600 mr-3 mt-0.5">6.</div>
                                         <div>
                                             <h4 className="font-medium text-gray-800">Career Opportunities</h4>
                                             <p className="text-gray-600 text-sm">
@@ -169,7 +167,7 @@ const DSAPage = () => {
                         <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center border-b pb-2">Technologies Covered</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="bg-blue-100 p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-gray-100">
-                                <h3 className="text-xl font-semibold mb-3 text-indigo-700">Front-End</h3>
+                                <h3 className="text-xl font-semibold mb-3 text-blue-700">Front-End</h3>
                                 <ul className="list-disc list-inside space-y-2 text-gray-600">
                                     <li>HTML5: Structure web content</li>
                                     <li>CSS3 & Tailwind: Responsive styling</li>
@@ -189,7 +187,7 @@ const DSAPage = () => {
                                 </ul>
                             </div>
                             <div className="bg-purple-100 p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border border-gray-100">
-                                <h3 className="text-xl font-semibold mb-3 text-purple-700">DevOps & Tools</h3>
+                                <h3 className="text-xl font-semibold mb-3 text-blue-700">DevOps & Tools</h3>
                                 <ul className="list-disc list-inside space-y-2 text-gray-600">
                                     <li>Git: Version control system</li>
                                     <li>Docker: Containerization platform</li>
@@ -226,9 +224,9 @@ const DSAPage = () => {
                                         </p>
                                     </div>
                                     <div className="flex flex-wrap justify-center gap-2">
-                                        <span className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs hover:bg-indigo-200 transition-colors duration-300">Cloud</span>
-                                        <span className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs hover:bg-indigo-200 transition-colors duration-300">Microservices</span>
-                                        <span className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs hover:bg-indigo-200 transition-colors duration-300">AWS</span>
+                                        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">Cloud</span>
+                                        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">Microservices</span>
+                                        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">AWS</span>
                                     </div>
                                 </div>
                             </div>
@@ -251,9 +249,9 @@ const DSAPage = () => {
                                         </p>
                                     </div>
                                     <div className="flex flex-wrap justify-center gap-2">
-                                        <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs hover:bg-green-200 transition-colors duration-300">Pedagogy</span>
-                                        <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs hover:bg-green-200 transition-colors duration-300">Mentoring</span>
-                                        <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs hover:bg-green-200 transition-colors duration-300">Full Stack</span>
+                                        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">Pedagogy</span>
+                                        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">Mentoring</span>
+                                        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">Full Stack</span>
                                     </div>
                                 </div>
                             </div>
@@ -276,9 +274,9 @@ const DSAPage = () => {
                                         </p>
                                     </div>
                                     <div className="flex flex-wrap justify-center gap-2">
-                                        <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs hover:bg-purple-200 transition-colors duration-300">React</span>
-                                        <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs hover:bg-purple-200 transition-colors duration-300">Node.js</span>
-                                        <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs hover:bg-purple-200 transition-colors duration-300">Next.js</span>
+                                        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">React</span>
+                                        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">Node.js</span>
+                                        <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">Next.js</span>
                                     </div>
                                 </div>
                             </div>
@@ -329,9 +327,9 @@ const DSAPage = () => {
                                                 </p>
                                             </div>
                                             <div className="flex flex-wrap justify-center gap-2">
-                                                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs hover:bg-green-200 transition-colors duration-300">Node.js</span>
-                                                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs hover:bg-green-200 transition-colors duration-300">Express</span>
-                                                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs hover:bg-green-200 transition-colors duration-300">MongoDB</span>
+                                                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">Node.js</span>
+                                                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">Express</span>
+                                                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">MongoDB</span>
                                             </div>
                                         </div>
                                     </div>
@@ -354,9 +352,9 @@ const DSAPage = () => {
                                                 </p>
                                             </div>
                                             <div className="flex flex-wrap justify-center gap-2">
-                                                <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs hover:bg-purple-200 transition-colors duration-300">Docker</span>
-                                                <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs hover:bg-purple-200 transition-colors duration-300">AWS</span>
-                                                <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs hover:bg-purple-200 transition-colors duration-300">CI/CD</span>
+                                                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">Docker</span>
+                                                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">AWS</span>
+                                                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">CI/CD</span>
                                             </div>
                                         </div>
                                     </div>
@@ -479,9 +477,9 @@ const DSAPage = () => {
                                                 </p>
                                             </div>
                                             <div className="flex flex-wrap justify-center gap-2">
-                                                <span className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs hover:bg-indigo-200 transition-colors duration-300">Mentoring</span>
-                                                <span className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs hover:bg-indigo-200 transition-colors duration-300">Projects</span>
-                                                <span className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs hover:bg-indigo-200 transition-colors duration-300">Git</span>
+                                                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">Mentoring</span>
+                                                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">Projects</span>
+                                                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200 transition-colors duration-300">Git</span>
                                             </div>
                                         </div>
                                     </div>
@@ -489,7 +487,7 @@ const DSAPage = () => {
                                     {/* Show Less Button */}
                                     <div className="col-span-full text-center mt-6">
                                         <button
-                                            className="inline-flex items-center bg-gray-50 rounded-xl px-6 py-3 shadow-sm cursor-pointer hover:shadow-md transition-all duration-300 border border-gray-100 text-indigo-600 hover:text-indigo-800 font-medium"
+                                            className="inline-flex items-center bg-gray-50 rounded-xl px-6 py-3 shadow-sm cursor-pointer hover:shadow-md transition-all duration-300 border border-gray-100 text-blue-600 hover:text-blue-800 font-medium"
                                             onClick={() => setShowAssistants(false)}
                                             aria-label="Hide teaching assistants"
                                         >
@@ -543,7 +541,7 @@ const DSAPage = () => {
                 </section>
 
                 {/* Detailed Syllabus Section */}
-                <section id="syllabus" className="py-12 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white">
+                <section id="syllabus" className="py-12 px-6 bg-blue-600 text-white">
                     <div className="max-w-6xl mx-auto">
                         <h2 className="text-3xl font-bold mb-8 text-center border-b pb-2">Detailed Syllabus</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -702,7 +700,7 @@ const DSAPage = () => {
                                         TypeScript
                                     </button>
                                 </div>
-                                <button className="px-8 py-3 bg-white text-blue-900 font-bold rounded-lg hover:bg-gray-100 transition-colors shadow-lg">
+                                <button className="px-8 py-3 bg-white text-blue-900 font-bold rounded-lg hover:bg-blue-50 transition-colors shadow-lg">
                                     Enroll Now
                                 </button>
                             </div>
@@ -751,7 +749,7 @@ const DSAPage = () => {
                                     title: 'Project-Based Learning',
                                     description: 'Build real-world projects like a blog, e-commerce site, or chat app to apply concepts and create a portfolio.',
                                     icon: (
-                                        <svg className="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
                                     )
@@ -760,7 +758,7 @@ const DSAPage = () => {
                                     title: 'Code Daily',
                                     description: 'Practice coding daily on platforms like FreeCodeCamp or Codecademy to reinforce skills and build muscle memory.',
                                     icon: (
-                                        <svg className="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                                         </svg>
                                     )
@@ -769,7 +767,7 @@ const DSAPage = () => {
                                     title: 'Collaborate & Network',
                                     description: 'Join coding communities (e.g., Discord, Reddit) and contribute to open-source projects to learn from peers.',
                                     icon: (
-                                        <svg className="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                                         </svg>
                                     )
@@ -778,7 +776,7 @@ const DSAPage = () => {
                                     title: 'Stay Updated',
                                     description: 'Follow tech blogs (e.g., Smashing Magazine, DEV.to) and attend webinars to keep up with industry trends.',
                                     icon: (
-                                        <svg className="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                         </svg>
                                     )
@@ -892,7 +890,7 @@ const DSAPage = () => {
                                                 <li className="flex items-start gap-3">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-5 w-5 text-indigo-600 mt-0.5"
+                                                        className="h-5 w-5 text-blue-600 mt-0.5"
                                                         viewBox="0 0 20 20"
                                                         fill="currentColor"
                                                     >
@@ -912,7 +910,7 @@ const DSAPage = () => {
                                                 <li className="flex items-start gap-3">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-5 w-5 text-indigo-600 mt-0.5"
+                                                        className="h-5 w-5 text-blue-600 mt-0.5"
                                                         viewBox="0 0 20 20"
                                                         fill="currentColor"
                                                     >
@@ -932,7 +930,7 @@ const DSAPage = () => {
                                                 <li className="flex items-start gap-3">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-5 w-5 text-indigo-600 mt-0.5"
+                                                        className="h-5 w-5 text-blue-600 mt-0.5"
                                                         viewBox="0 0 20 20"
                                                         fill="currentColor"
                                                     >
@@ -965,7 +963,7 @@ const DSAPage = () => {
                                                 <div className="bg-indigo-100 p-2 rounded-full">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-6 w-6 text-indigo-600"
+                                                        className="h-6 w-6 text-blue-600"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
                                                         stroke="currentColor"
@@ -1010,7 +1008,7 @@ const DSAPage = () => {
                                                 <div className="bg-indigo-100 p-2 rounded-full">
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-6 w-6 text-indigo-600"
+                                                        className="h-6 w-6 text-blue-600"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
                                                         stroke="currentColor"
@@ -1040,7 +1038,7 @@ const DSAPage = () => {
                         <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center border-b pb-2">Recommended Learning Resources</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-100">
-                                <h3 className="text-xl font-semibold mb-3 text-indigo-700">Books</h3>
+                                <h3 className="text-xl font-semibold mb-3 text-blue-700">Books</h3>
                                 <ul className="list-disc list-inside space-y-2 text-gray-600 mb-4">
                                     <li>"Eloquent JavaScript" by Marijn Haverbeke</li>
                                     <li>"You Don't Know JS" by Kyle Simpson</li>
@@ -1055,7 +1053,7 @@ const DSAPage = () => {
                                     <li>LeetCode</li>
                                 </ul>
                                 <button
-                                    className="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center transition-colors duration-300"
+                                    className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center transition-colors duration-300"
                                     onClick={() => setShowPlatforms(!showPlatforms)}
                                     aria-label={showPlatforms ? 'Hide platforms details' : 'Show platforms details'}
                                 >
@@ -1077,7 +1075,7 @@ const DSAPage = () => {
                                                 Free courses and projects for full-stack development.
                                                 <a
                                                     href="https://www.freecodecamp.org/"
-                                                    className="text-indigo-600 hover:underline ml-1"
+                                                    className="text-blue-600 hover:underline ml-1"
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                 >
@@ -1091,7 +1089,7 @@ const DSAPage = () => {
                                                 Interactive lessons on HTML, CSS, JavaScript, and more.
                                                 <a
                                                     href="https://www.codecademy.com/"
-                                                    className="text-indigo-600 hover:underline ml-1"
+                                                    className="text-blue-600 hover:underline ml-1"
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                 >
@@ -1105,7 +1103,7 @@ const DSAPage = () => {
                                                 Practice coding problems to prepare for technical interviews.
                                                 <a
                                                     href="https://leetcode.com/"
-                                                    className="text-indigo-600 hover:underline ml-1"
+                                                    className="text-blue-600 hover:underline ml-1"
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                 >
@@ -1117,14 +1115,14 @@ const DSAPage = () => {
                                 )}
                             </div>
                             <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-100">
-                                <h3 className="text-xl font-semibold mb-3 text-purple-700">Videos</h3>
+                                <h3 className="text-xl font-semibold mb-3 text-blue-700">Videos</h3>
                                 <ul className="list-disc list-inside space-y-2 text-gray-600 mb-4">
                                     <li>Traversy Media (YouTube)</li>
                                     <li>The Net Ninja (YouTube)</li>
                                     <li>Academind (YouTube)</li>
                                 </ul>
                                 <button
-                                    className="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center transition-colors duration-300"
+                                    className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center transition-colors duration-300"
                                     onClick={() => setShowVideos(!showVideos)}
                                     aria-label={showVideos ? 'Hide videos details' : 'Show videos details'}
                                 >
@@ -1146,7 +1144,7 @@ const DSAPage = () => {
                                                 In-depth tutorials on full-stack technologies and frameworks.
                                                 <a
                                                     href="https://www.youtube.com/c/TraversyMedia"
-                                                    className="text-indigo-600 hover:underline ml-1"
+                                                    className="text-blue-600 hover:underline ml-1"
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                 >
@@ -1160,7 +1158,7 @@ const DSAPage = () => {
                                                 Beginner-friendly series on React, Node.js, and more.
                                                 <a
                                                     href="https://www.youtube.com/c/TheNetNinja"
-                                                    className="text-indigo-600 hover:underline ml-1"
+                                                    className="text-blue-600 hover:underline ml-1"
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                 >
@@ -1174,7 +1172,7 @@ const DSAPage = () => {
                                                 Advanced courses on Next.js, TypeScript, and DevOps.
                                                 <a
                                                     href="https://www.youtube.com/c/Academind"
-                                                    className="text-indigo-600 hover:underline ml-1"
+                                                    className="text-blue-600 hover:underline ml-1"
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                 >
@@ -1226,7 +1224,7 @@ const DSAPage = () => {
                                         aria-label={`Toggle ${faq.question}`}
                                     >
                                         {faq.question}
-                                        <span className="text-indigo-600">{openWeeks[`faq-${index}`] ? '▲' : '▼'}</span>
+                                        <span className="text-blue-600">{openWeeks[`faq-${index}`] ? '▲' : '▼'}</span>
                                     </h3>
                                     {openWeeks[`faq-${index}`] && (
                                         <p className="mt-3 text-gray-600 animate-fadeIn">{faq.answer}</p>
@@ -1238,12 +1236,12 @@ const DSAPage = () => {
                 </section>
 
                 {/* Call-to-Action Section */}
-                <section className="py-16 px-6 bg-gradient-to-r from-blue-400 to-green-800 text-white">
+                <section className="py-16 px-6 bg-blue-600 text-white">
                     <div className="max-w-6xl mx-auto text-center">
                         <div className="relative">
                             {/* Glow effect */}
-                            <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
-                            <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
+                            <div className="absolute -top-20 -left-20 w-40 h-40 bg-blue-300 rounded-full filter blur-3xl opacity-20"></div>
+                            <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-blue-400 rounded-full filter blur-3xl opacity-20"></div>
                             <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
                                 Ready to Become a Full Stack Developer?
                             </h2>

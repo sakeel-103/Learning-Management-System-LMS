@@ -17,15 +17,15 @@ const CourseCard = ({ course, section }) => {
 
     return (
         <div
-            className="relative bg-white text-gray-800 rounded-xl shadow-sm transform hover:-translate-y-1 transition-all duration-300 ease-in-out hover:shadow-md border border-gray-100 w-full"
+            className="relative bg-white text-blue-800 rounded-xl shadow-sm transform hover:-translate-y-1 transition-all duration-300 ease-in-out hover:shadow-md border border-blue-200 w-full"
             role="article"
             aria-labelledby={`course-title-${course.id}`}
         >
-            <div className="h-40 rounded-t-xl overflow-hidden relative bg-teal-600">
+            <div className="h-36 rounded-t-xl overflow-hidden relative bg-blue-600">
                 <div className="absolute inset-0 flex items-center justify-center">
                     <h2
                         id={`course-title-${course.id}`}
-                        className="text-xl font-bold text-center p-4 text-white"
+                        className="text-xl font-bold text-center p-3 text-white"
                     >
                         {course.title}
                     </h2>
@@ -34,7 +34,7 @@ const CourseCard = ({ course, section }) => {
                     <div className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-sm">
                         <div className="flex items-center space-x-1">
                             <svg
-                                className="w-4 h-4 text-indigo-600"
+                                className="w-4 h-4 text-blue-600"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -46,33 +46,33 @@ const CourseCard = ({ course, section }) => {
                                     d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
                                 />
                             </svg>
-                            <span className="text-xs font-medium text-gray-700">
+                            <span className="text-xs font-medium text-blue-700">
                                 {course.materialsCount.videos}
                             </span>
                         </div>
                     </div>
                 )}
             </div>
-            <div className="p-5 space-y-3">
+            <div className="p-4 space-y-2">
                 <div className="flex justify-between items-center">
-                    <span className="text-xs text-gray-600">{course.stats}</span>
-                    <span className="text-sm text-yellow-400 font-semibold">
+                    <span className="text-xs text-blue-600">{course.stats}</span>
+                    <span className="text-sm text-blue-600 font-semibold">
                         ★ {course.rating}
                     </span>
                 </div>
                 <div className="flex items-center justify-between">
-                    <p className="text-sm text-gray-600">{course.level}</p>
+                    <p className="text-sm text-blue-600">{course.level}</p>
                     {course.duration && (
-                        <p className="text-xs font-medium bg-indigo-100 text-indigo-800 px-2 py-1 rounded">
+                        <p className="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded">
                             {course.duration}
                         </p>
                     )}
                 </div>
 
                 {course.schedule && course.schedule.sessions && (
-                    <div className="flex items-center text-sm text-gray-600">
+                    <div className="flex items-center text-sm text-blue-600">
                         <svg
-                            className="w-4 h-4 mr-1 text-gray-600"
+                            className="w-4 h-4 mr-1 text-blue-600"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -89,9 +89,9 @@ const CourseCard = ({ course, section }) => {
                 )}
 
                 {course.instructor && (
-                    <div className="flex items-center text-sm text-gray-600">
+                    <div className="flex items-center text-sm text-blue-600">
                         <svg
-                            className="w-4 h-4 mr-1 text-gray-600"
+                            className="w-4 h-4 mr-1 text-blue-600"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -111,7 +111,7 @@ const CourseCard = ({ course, section }) => {
                     <div>
                         <button
                             onClick={() => setShowDetails(!showDetails)}
-                            className="text-indigo-600 text-xs flex items-center hover:underline focus:outline-none"
+                            className="text-blue-600 text-xs flex items-center hover:underline focus:outline-none"
                             aria-expanded={showDetails}
                             aria-controls={`prerequisites-${course.id}`}
                         >
@@ -186,7 +186,7 @@ const CourseCard = ({ course, section }) => {
                             navigate(`/course/${course.id}`);
                         }
                     }}
-                    className="w-full bg-teal-600 text-white py-2 rounded-lg font-medium hover:bg-teal-700 transition-all duration-200 shadow-md"
+                    className="w-full bg-blue-600 text-white py-1.5 rounded-lg font-medium hover:bg-blue-700 transition-all duration-200 shadow-sm"
                     aria-label={`Enroll in ${course.title}`}
                 >
                     Explore Course
@@ -365,15 +365,15 @@ const CoursePage = () => {
                     }
                 `}
             </style>
-            <div className="min-h-screen bg-gray-50 text-gray-800 pt-16 w-full overflow-x-hidden">
+            <div className="min-h-screen bg-gray-50 text-blue-800 pt-16 w-full overflow-x-hidden">
                 {/* Header Section */}
                 <div
                     className="py-12 px-4 sm:px-6 text-center relative shadow-sm bg-white no-horizontal-scroll"
                 >
                     {/* Main body content starts */}
                     <div className="relative max-w-7xl mx-auto w-full">
-                        <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
-                        <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
+                        <div className="absolute -top-20 -left-20 w-40 h-40 bg-blue-300 rounded-full filter blur-3xl opacity-20"></div>
+                        <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-blue-400 rounded-full filter blur-3xl opacity-20"></div>
                         <div className="flex flex-col items-center gap-6">
                             <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
                                 <span className="text-gray-500">
@@ -394,7 +394,7 @@ const CoursePage = () => {
                                 <input
                                     type="text"
                                     placeholder="Search for your next course..."
-                                    className="bg-white text-gray-800 placeholder-gray-400 p-4 pr-20 rounded-lg w-full border border-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 shadow-sm"
+                                    className="bg-white text-blue-700 placeholder-blue-400 p-4 pr-20 rounded-lg w-full border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 shadow-sm"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     aria-label="Search courses"
@@ -404,7 +404,7 @@ const CoursePage = () => {
                                         <button
                                             type="button"
                                             onClick={resetSearch}
-                                            className="text-gray-600 hover:text-gray-800"
+                                            className="text-blue-600 hover:text-blue-800"
                                             aria-label="Clear search"
                                         >
                                             <svg
@@ -424,7 +424,7 @@ const CoursePage = () => {
                                     )}
                                     <button
                                         type="submit"
-                                        className="text-indigo-600 hover:text-indigo-800 transition-colors duration-200"
+                                        className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
                                         aria-label="Submit search"
                                     >
                                         <svg
@@ -449,7 +449,7 @@ const CoursePage = () => {
                     {/* Instructor toggle button */}
                     <button
                         onClick={() => navigate('/InstructorViewPage')}
-                        className="absolute top-6 sm:top-12 right-2 sm:right-6 px-3 py-1 sm:px-4 sm:py-2 bg-white text-indigo-700 border border-gray-100 rounded-lg shadow-md hover:bg-gray-100 transition-all flex items-center gap-2 text-sm sm:text-base"
+                        className="absolute top-6 sm:top-12 right-2 sm:right-6 px-3 py-1 sm:px-4 sm:py-2 bg-white text-blue-700 border border-gray-100 rounded-lg shadow-md hover:bg-blue-50 transition-all flex items-center gap-2 text-sm sm:text-base"
                         aria-label="Switch to Instructor View"
                     >
                         <svg
@@ -472,7 +472,7 @@ const CoursePage = () => {
                 <div className="px-2 sm:px-6 py-8 max-w-7xl mx-auto w-full no-horizontal-scroll">
                     {/* Category Filters */}
                     <div>
-                        <h2 className="text-2xl font-bold mb-6 text-gray-800">
+                        <h2 className="text-2xl font-bold mb-6 text-blue-700">
                             Explore by Category
                         </h2>
                         <div className="flex flex-wrap gap-3 mb-8 w-full category-buttons">
@@ -481,8 +481,8 @@ const CoursePage = () => {
                                     key={category}
                                     onClick={() => setSelectedCategory(category)}
                                     className={`px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:-translate-y-1 shadow-sm ${selectedCategory === category
-                                        ? 'bg-teal-600 text-white shadow-md'
-                                        : 'bg-white text-gray-600 border border-gray-100 hover:bg-gray-100'
+                                        ? 'bg-blue-600 text-white shadow-md'
+                                        : 'bg-white text-gray-600 border border-gray-100 hover:bg-blue-50'
                                         }`}
                                     aria-current={selectedCategory === category ? 'true' : 'false'}
                                 >
@@ -494,12 +494,12 @@ const CoursePage = () => {
                         {/* Featured Courses Section */}
                         <div>
                             <div className="flex justify-between items-center mb-6">
-                                <h2 className="text-2xl font-bold text-gray-800">
+                                <h2 className="text-2xl font-bold text-blue-700">
                                     Top Picks for You
                                 </h2>
                                 <button
                                     onClick={() => navigate('/courses')}
-                                    className="text-gray-600 border border-gray-100 rounded-lg px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200 shadow-sm"
+                                    className="text-gray-600 border border-gray-100 rounded-lg px-4 py-1 text-sm font-medium hover:bg-blue-50 transition-all duration-200 shadow-sm"
                                 >
                                     See All Courses ➔
                                 </button>
@@ -522,7 +522,7 @@ const CoursePage = () => {
                                     <p className="text-lg">No courses found for this category.</p>
                                     <button
                                         onClick={() => setSelectedCategory('All')}
-                                        className="text-gray-600 border border-gray-100 rounded-lg px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200 shadow-sm"
+                                        className="text-gray-600 border border-gray-100 rounded-lg px-4 py-1 text-sm font-medium hover:bg-blue-50 transition-all duration-200 shadow-sm"
                                     >
                                         View All Courses
                                     </button>
@@ -544,7 +544,7 @@ const CoursePage = () => {
                                 </h2>
                                 <button
                                     onClick={() => navigate('/courses')}
-                                    className="text-gray-600 border border-gray-100 rounded-lg px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200 shadow-sm"
+                                    className="text-gray-600 border border-gray-100 rounded-lg px-4 py-1 text-sm font-medium hover:bg-blue-50 transition-all duration-200 shadow-sm"
                                 >
                                     See All Courses ➔
                                 </button>
@@ -556,7 +556,7 @@ const CoursePage = () => {
                                     </p>
                                     <button
                                         onClick={() => setSelectedCategory('All')}
-                                        className="text-gray-600 border border-gray-100 rounded-lg px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200 shadow-sm"
+                                        className="text-gray-600 border border-gray-100 rounded-lg px-4 py-1 text-sm font-medium hover:bg-blue-50 transition-all duration-200 shadow-sm"
                                     >
                                         View All Courses
                                     </button>
@@ -578,7 +578,7 @@ const CoursePage = () => {
                                 </h2>
                                 <button
                                     onClick={() => navigate('/courses')}
-                                    className="text-gray-600 border border-gray-100 rounded-lg px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200 shadow-sm"
+                                    className="text-gray-600 border border-gray-100 rounded-lg px-4 py-1 text-sm font-medium hover:bg-blue-50 transition-all duration-200 shadow-sm"
                                 >
                                     See All Courses ➔
                                 </button>
@@ -590,7 +590,7 @@ const CoursePage = () => {
                                     </p>
                                     <button
                                         onClick={() => setSelectedCategory('All')}
-                                        className="text-gray-600 border border-gray-100 rounded-lg px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200 shadow-sm"
+                                        className="text-gray-600 border border-gray-100 rounded-lg px-4 py-1 text-sm font-medium hover:bg-blue-50 transition-all duration-200 shadow-sm"
                                     >
                                         View All Courses
                                     </button>
@@ -627,7 +627,7 @@ const CoursePage = () => {
                                 </p>
                                 <button
                                     onClick={() => navigate('/courses')}
-                                    className="bg-white text-teal-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-md animate-[fadeInUp_0.6s_ease-out_0.4s]"
+                                    className="bg-white text-blue-700 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300 shadow-md animate-[fadeInUp_0.6s_ease-out_0.4s]"
                                 >
                                     Explore Courses ➔
                                 </button>
@@ -639,7 +639,7 @@ const CoursePage = () => {
                     <div className="mb-16 mt-16">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-xl font-semibold">Development/Data Science</h2>
-                            <a href="#" className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200">See All</a>
+                            <a href="#" className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-blue-50 transition-all duration-200">See All</a>
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <a href="/dvelopmentAndDS/javascriptPage" className="bg-green-100 text-green-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-green-50 hover:scale-105 transition-all duration-300 ease-in-out">
@@ -673,7 +673,7 @@ const CoursePage = () => {
                     <div>
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-xl font-semibold">AI, ML & Data Science</h2>
-                            <a href="#" className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-gray-100 transition-all duration-200">See All</a>
+                            <a href="#" className="text-gray-600 border border-gray-300 rounded-full px-4 py-1 text-sm font-medium hover:bg-blue-50 transition-all duration-200">See All</a>
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <a href="/AIMLDS/MachineLearningPage" className="bg-green-100 text-green-800 py-3 px-6 rounded-lg flex justify-between items-center hover:bg-green-50 hover:scale-105 transition-all duration-300 ease-in-out">
@@ -743,17 +743,17 @@ const CoursePage = () => {
                     </div>
 
                     {/* Assessment Portal */}
-                    <section className="bg-teal-100 py-10">
+                    <section className="bg-blue-100 py-10">
                         <div className="container mx-auto text-center">
-                            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                            <h2 className="text-3xl font-bold text-blue-700 mb-4">
                                 Ready to Test Your Knowledge?
                             </h2>
-                            <p className="text-lg text-gray-600 mb-6">
+                            <p className="text-lg text-blue-600 mb-6">
                                 Dive into our interactive assessment portal and challenge yourself!
                             </p>
                             <button
                                 onClick={() => navigate('/courses/AssesmentPage')}
-                                className="bg-teal-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition-colors"
+                                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
                             >
                                 Start Assessment
                             </button>

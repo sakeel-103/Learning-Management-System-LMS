@@ -146,29 +146,29 @@ const BuyCourse = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 text-gray-800 pt-16 w-full overflow-x-hidden">
+        <div className="min-h-screen bg-gray-50 text-blue-800 pt-16 w-full overflow-x-hidden">
             <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 w-full">
 
                 {/* Header */}
-                <div className="mb-8 text-center">
-                    <h1 className="text-3xl sm:text-4xl font-bold text-yellow-500">
+                <div className="mb-6 text-center">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-blue-600">
                         Explore Our Courses
                     </h1>
-                    <p className="text-lg text-gray-600 mt-3 max-w-2xl mx-auto">
+                    <p className="text-lg text-blue-600 mt-2 max-w-2xl mx-auto">
                         Learn from industry experts and advance your career
                     </p>
                 </div>
 
                 {/* Category Filters */}
-                <div className="mb-8">
-                    <div className="flex flex-wrap justify-center gap-3">
+                <div className="mb-6">
+                    <div className="flex flex-wrap justify-center gap-2">
                         {categories.map((category) => (
                             <button
                                 key={category}
                                 onClick={() => setSelectedCategory(category)}
-                                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${selectedCategory === category
-                                    ? 'bg-green-600 text-white shadow-md'
-                                    : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100'
+                                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${selectedCategory === category
+                                    ? 'bg-blue-600 text-white shadow-sm'
+                                    : 'bg-white text-blue-600 border border-blue-200 hover:bg-blue-50'
                                     }`}
                             >
                                 {category}
@@ -178,36 +178,36 @@ const BuyCourse = () => {
                 </div>
 
                 {/* Course List */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     {filteredCourses.map((course) => (
                         <div
                             key={course.id}
-                            className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
+                            className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100"
                         >
-                            <div className="h-48 overflow-hidden">
+                            <div className="h-40 overflow-hidden">
                                 <img
                                     src={course.thumbnail}
                                     alt={course.title}
                                     className="w-full h-full object-cover"
                                 />
                             </div>
-                            <div className="p-5">
+                            <div className="p-4">
                                 <div className="flex justify-between items-start mb-2">
                                     <span className="text-xs font-semibold px-2 py-1 bg-blue-100 text-blue-800 rounded-full">
                                         {course.level}
                                     </span>
                                     <div className="flex items-center">
-                                        <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                         </svg>
-                                        <span className="ml-1 text-sm text-gray-600">
+                                        <span className="ml-1 text-sm text-blue-600">
                                             {course.rating} ({course.stats})
                                         </span>
                                     </div>
                                 </div>
-                                <h3 className="text-lg font-bold text-gray-900 mb-2">{course.title}</h3>
-                                <p className="text-sm text-gray-600 mb-4">{course.description}</p>
-                                <div className="flex items-center text-sm text-gray-600 mb-4">
+                                <h3 className="text-lg font-bold text-blue-700 mb-2">{course.title}</h3>
+                                <p className="text-sm text-blue-600 mb-4">{course.description}</p>
+                                <div className="flex items-center text-sm text-blue-600 mb-4">
                                     <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                     </svg>
@@ -215,12 +215,12 @@ const BuyCourse = () => {
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <span className="text-lg font-bold text-gray-900">{course.price}</span>
-                                        <span className="ml-2 text-sm text-gray-500 line-through">{course.originalPrice}</span>
+                                        <span className="text-lg font-bold text-blue-700">{course.price}</span>
+                                        <span className="ml-2 text-sm text-blue-500 line-through">{course.originalPrice}</span>
                                     </div>
                                     <button
                                         onClick={() => handlePurchase(course)}
-                                        className="px-4 py-2 bg-green-600 text-white rounded-md font-medium hover:bg-green-700 transition-colors"
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition-colors"
                                     >
                                         Enroll Now
                                     </button>
@@ -236,14 +236,14 @@ const BuyCourse = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-bold text-gray-800">
+                            <h3 className="text-xl font-bold text-blue-700">
                                 {paymentStep === 1 && 'Select Payment Method'}
                                 {paymentStep === 2 && 'Payment Details'}
                                 {paymentStep === 3 && 'Payment Successful'}
                             </h3>
                             <button
                                 onClick={closeModal}
-                                className="text-gray-500 hover:text-gray-700"
+                                className="text-blue-500 hover:text-blue-700"
                             >
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -255,10 +255,10 @@ const BuyCourse = () => {
                         <div className="flex justify-between items-center mb-6">
                             {[1, 2, 3].map((step) => (
                                 <div key={step} className="flex flex-col items-center">
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${paymentStep >= step ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${paymentStep >= step ? 'bg-blue-600 text-white' : 'bg-blue-200 text-blue-600'}`}>
                                         {step}
                                     </div>
-                                    <span className="text-xs mt-1 text-gray-600">
+                                    <span className="text-xs mt-1 text-blue-600">
                                         {step === 1 && 'Method'}
                                         {step === 2 && 'Details'}
                                         {step === 3 && 'Confirm'}
@@ -272,11 +272,11 @@ const BuyCourse = () => {
                         {/* Step 1 */}
                         {paymentStep === 1 && (
                             <div className="space-y-4">
-                                <div className="p-4 border border-gray-200 rounded-lg">
-                                    <h4 className="font-medium mb-3">Course: {selectedCourse.title}</h4>
+                                <div className="p-4 border border-blue-200 rounded-lg">
+                                    <h4 className="font-medium mb-3 text-blue-700">Course: {selectedCourse.title}</h4>
                                     <div className="flex justify-between items-center">
-                                        <span className="text-gray-600">Amount to pay:</span>
-                                        <span className="text-xl font-bold">{selectedCourse.price}</span>
+                                        <span className="text-blue-600">Amount to pay:</span>
+                                        <span className="text-xl font-bold text-blue-700">{selectedCourse.price}</span>
                                     </div>
                                 </div>
 

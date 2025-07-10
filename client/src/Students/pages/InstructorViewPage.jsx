@@ -356,7 +356,7 @@ const InstructorViewPage = () => {
             {loading && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mx-auto"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 mx-auto"></div>
                         <p className="mt-4 text-center">Loading...</p>
                     </div>
                 </div>
@@ -372,13 +372,11 @@ const InstructorViewPage = () => {
                     </button>
                 </div>
             )}
-            <div className="py-12 px-4 sm:px-6 text-center relative shadow-sm bg-gradient-to-br from-gray-50 to-white">
+            <div className="py-12 px-4 sm:px-6 text-center relative shadow-sm bg-gray-50">
                 <div className="relative max-w-7xl mx-auto w-full">
-                    <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-400 rounded-full filter blur-3xl opacity-20"></div>
-                    <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-400 rounded-full filter blur-3xl opacity-20"></div>
                     <div className="flex flex-col items-center gap-6">
                         <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
-                            <span className="bg-clip-text text-transparent bg-gray-600">
+                            <span className="text-gray-800">
                                 Course Management Dashboard
                             </span>
                         </h1>
@@ -392,7 +390,7 @@ const InstructorViewPage = () => {
                                 setFormData({ id: null, title: '', category: '', level: '', duration: '', instructor: '', course_description: '' });
                                 setActiveTab('create');
                             }}
-                            className="bg-teal-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-green-700 transition-all shadow-md flex items-center gap-2"
+                            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all shadow-md flex items-center gap-2"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
@@ -401,7 +399,7 @@ const InstructorViewPage = () => {
                         </button>
                         <button
                             onClick={() => setActiveTab('browse')}
-                            className="bg-white text-indigo-600 border border-gray-100 px-6 py-3 rounded-lg hover:bg-gray-100 transition-all shadow-md flex items-center gap-2"
+                            className="bg-white text-blue-600 border border-blue-200 px-6 py-3 rounded-lg hover:bg-blue-50 transition-all shadow-md flex items-center gap-2"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -412,7 +410,7 @@ const InstructorViewPage = () => {
                 </div>
                 <button
                     onClick={() => navigate('/courses')}
-                    className="absolute top-6 sm:top-12 right-2 sm:right-6 px-3 py-1 sm:px-4 sm:py-2 bg-white text-indigo-700 border border-gray-100 rounded-lg shadow-md hover:bg-gray-100 transition-all flex items-center gap-2 text-sm sm:text-base"
+                    className="absolute top-6 sm:top-12 right-2 sm:right-6 px-3 py-1 sm:px-4 sm:py-2 bg-white text-blue-600 border border-blue-200 rounded-lg shadow-md hover:bg-blue-50 transition-all flex items-center gap-2 text-sm sm:text-base"
                     aria-label="Switch to Student View"
                 >
                     <svg className="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -432,7 +430,7 @@ const InstructorViewPage = () => {
                         ].map(({ tab, label }) => (
                             <button
                                 key={tab}
-                                className={`px-3 py-2 font-medium flex items-center gap-2 text-sm sm:text-base ${activeTab === tab ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-600 hover:text-indigo-600'}`}
+                                className={`px-3 py-2 font-medium flex items-center gap-2 text-sm sm:text-base ${activeTab === tab ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-blue-600'}`}
                                 onClick={() => setActiveTab(tab)}
                                 aria-current={activeTab === tab ? 'true' : 'false'}
                             >
@@ -470,7 +468,7 @@ const InstructorViewPage = () => {
                             ) : (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
                                     {courses.map((course) => (
-                                        <div key={course.id} className="border border-gray-100 rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center hover:bg-indigo-50 transition-colors w-full">
+                                        <div key={course.id} className="border border-gray-100 rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center hover:bg-blue-50 transition-colors w-full">
                                             <div className="mb-2 sm:mb-0">
                                                 <h4 className="font-medium text-sm sm:text-base text-gray-800">{course.title}</h4>
                                                 <p className="text-xs sm:text-sm text-gray-600">{course.duration} • {course.category}</p>
@@ -478,7 +476,7 @@ const InstructorViewPage = () => {
                                             <div className="flex gap-2">
                                                 <button
                                                     onClick={() => handleEditCourse(course.id)}
-                                                    className="p-2 text-indigo-600 hover:bg-indigo-100 rounded"
+                                                    className="p-2 text-blue-600 hover:bg-blue-100 rounded"
                                                     aria-label={`Edit ${course.title}`}
                                                     title="Edit Course"
                                                 >
@@ -556,7 +554,7 @@ const InstructorViewPage = () => {
                                         name="title"
                                         value={formData.title}
                                         onChange={handleInputChange}
-                                        className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 shadow-sm"
+                                        className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
                                         placeholder="Enter course title"
                                         required
                                     />
@@ -568,7 +566,7 @@ const InstructorViewPage = () => {
                                             name="category"
                                             value={formData.category}
                                             onChange={handleInputChange}
-                                            className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 shadow-sm"
+                                            className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
                                             required
                                         >
                                             <option value="">Select Category</option>
@@ -585,7 +583,7 @@ const InstructorViewPage = () => {
                                             name="level"
                                             value={formData.level}
                                             onChange={handleInputChange}
-                                            className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 shadow-sm"
+                                            className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
                                             required
                                         >
                                             <option value="">Select Level</option>
@@ -606,7 +604,7 @@ const InstructorViewPage = () => {
                                             name="duration"
                                             value={formData.duration}
                                             onChange={handleInputChange}
-                                            className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 shadow-sm"
+                                            className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
                                             placeholder="e.g. 3 Months"
                                             required
                                         />
@@ -618,7 +616,7 @@ const InstructorViewPage = () => {
                                             name="instructor"
                                             value={formData.instructor}
                                             onChange={handleInputChange}
-                                            className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 shadow-sm"
+                                            className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
                                             placeholder="Instructor name"
                                             required
                                         />
@@ -630,7 +628,7 @@ const InstructorViewPage = () => {
                                         name="course_description"
                                         value={formData.course_description}
                                         onChange={handleInputChange}
-                                        className="w-full p-2 border border-gray-100 rounded-lg h-32 focus:ring-2 focus:ring-indigo-500 shadow-sm"
+                                        className="w-full p-2 border border-gray-100 rounded-lg h-32 focus:ring-2 focus:ring-blue-500 shadow-sm"
                                         placeholder="Enter detailed course description"
                                         required
                                     ></textarea>
@@ -648,7 +646,7 @@ const InstructorViewPage = () => {
                                     </button>
                                     <button
                                         type="submit"
-                                        className="px-4 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:from-blue-700 hover:to-green-700 w-full sm:w-auto shadow-md"
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 w-full sm:w-auto shadow-md"
                                     >
                                         {formData.id ? 'Update Course' : 'Save Course'}
                                     </button>
@@ -898,7 +896,7 @@ const InstructorViewPage = () => {
                                             }
                                         }
                                     }}
-                                    className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 shadow-sm"
+                                    className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
                                     required
                                 >
                                     <option value="">Select a Course</option>
@@ -921,7 +919,7 @@ const InstructorViewPage = () => {
                                                         <input
                                                             type="radio"
                                                             name="courseType"
-                                                            className="mr-1 focus:ring-indigo-500"
+                                                            className="mr-1 focus:ring-blue-500"
                                                             checked={schedule.type === 'Live'}
                                                             onChange={() => setSchedule({ ...schedule, type: 'Live' })}
                                                         />
@@ -931,7 +929,7 @@ const InstructorViewPage = () => {
                                                         <input
                                                             type="radio"
                                                             name="courseType"
-                                                            className="mr-1 focus:ring-indigo-500"
+                                                            className="mr-1 focus:ring-blue-500"
                                                             checked={schedule.type === 'Self-paced'}
                                                             onChange={() => setSchedule({ ...schedule, type: 'Self-paced' })}
                                                         />
@@ -941,47 +939,43 @@ const InstructorViewPage = () => {
                                             </div>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
                                                 <div>
-                                                    <label className="block text-sm text-gray-700 mb-1">Start Date</label>
-                                                    <input
-                                                        type="date"
-                                                        name="startDate"
-                                                        value={schedule.startDate}
-                                                        onChange={handleInputChangeSchedule}
-                                                        className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 shadow-sm"
-                                                    />
+                                                    <label className="block text-sm text-gray-700 mb-1">Start Date</label>                                                        <input
+                                                            type="date"
+                                                            name="startDate"
+                                                            value={schedule.startDate}
+                                                            onChange={handleInputChangeSchedule}
+                                                            className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+                                                        />
                                                 </div>
                                                 <div>
-                                                    <label className="block text-sm text-gray-700 mb-1">End Date</label>
-                                                    <input
-                                                        type="date"
-                                                        name="endDate"
-                                                        value={schedule.endDate}
-                                                        onChange={handleInputChangeSchedule}
-                                                        className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 shadow-sm"
-                                                    />
+                                                    <label className="block text-sm text-gray-700 mb-1">End Date</label>                                                        <input
+                                                            type="date"
+                                                            name="endDate"
+                                                            value={schedule.endDate}
+                                                            onChange={handleInputChangeSchedule}
+                                                            className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+                                                        />
                                                 </div>
                                             </div>
                                             <div>
-                                                <label className="block text-sm text-gray-700 mb-1">Session Days & Time</label>
-                                                <input
-                                                    type="text"
-                                                    name="sessions"
-                                                    value={schedule.sessions}
-                                                    onChange={handleInputChangeSchedule}
-                                                    className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 shadow-sm"
-                                                    placeholder="e.g. Mon, Wed (7PM-9PM)"
-                                                />
+                                                <label className="block text-sm text-gray-700 mb-1">Session Days & Time</label>                                                    <input
+                                                        type="text"
+                                                        name="sessions"
+                                                        value={schedule.sessions}
+                                                        onChange={handleInputChangeSchedule}
+                                                        className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+                                                        placeholder="e.g. Mon, Wed (7PM-9PM)"
+                                                    />
                                             </div>
                                             <div>
-                                                <label className="block text-sm text-gray-700 mb-1">Duration</label>
-                                                <input
-                                                    type="text"
-                                                    name="duration"
-                                                    value={schedule.duration}
-                                                    onChange={handleInputChangeSchedule}
-                                                    className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 shadow-sm"
-                                                    placeholder="e.g. 3 Months"
-                                                />
+                                                <label className="block text-sm text-gray-700 mb-1">Duration</label>                                                    <input
+                                                        type="text"
+                                                        name="duration"
+                                                        value={schedule.duration}
+                                                        onChange={handleInputChangeSchedule}
+                                                        className="w-full p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
+                                                        placeholder="e.g. 3 Months"
+                                                    />
                                             </div>
                                         </div>
                                     </div>
@@ -995,12 +989,12 @@ const InstructorViewPage = () => {
                                                         type="text"
                                                         value={prereqInput}
                                                         onChange={(e) => setPrereqInput(e.target.value)}
-                                                        className="flex-1 p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-indigo-500 shadow-sm"
+                                                        className="flex-1 p-2 border border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm"
                                                         placeholder="e.g. Basic Programming"
                                                     />
                                                     <button
                                                         type="button"
-                                                        className="p-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:from-blue-700 hover:to-green-700 w-full sm:w-auto shadow-md"
+                                                        className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 w-full sm:w-auto shadow-md"
                                                         onClick={handleAddPrerequisite}
                                                     >
                                                         Add
@@ -1041,7 +1035,7 @@ const InstructorViewPage = () => {
                                     <button
                                         type="button"
                                         onClick={handleSaveSettings}
-                                        className="px-4 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:from-blue-700 hover:to-green-700 w-full sm:w-auto shadow-md"
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 w-full sm:w-auto shadow-md"
                                     >
                                         Save Settings
                                     </button>

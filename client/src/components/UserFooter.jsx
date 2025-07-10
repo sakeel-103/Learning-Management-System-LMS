@@ -17,6 +17,9 @@ function UserFooter() {
                     <Link to="/Components/contact-us-page" className="text-white text-base font-bold hover:text-blue-600 hover:underline">
                         Contact
                     </Link>
+                    <Link to="/terms" className="text-white text-base font-bold hover:text-blue-600 hover:underline">
+                        Terms of Service
+                    </Link>
                     <Link to="/privacy" className="text-white text-base font-bold hover:text-blue-600 hover:underline">
                         Privacy Policy
                     </Link>
