@@ -30,6 +30,23 @@ const InstructorViewPage = () => {
     const [error, setError] = useState(null);
     const [prereqInput, setPrereqInput] = useState('');
     const [fileUploadProgress, setFileUploadProgress] = useState({});
+    const [pendingMaterials, setPendingMaterials] = useState([]); // {file, materialType, ext}
+
+    // Fetch all materials for all courses and group by course id
+    const fetchAllMaterials = async () => {
+        try {
+            const allMaterials = await fetchWithAuth('course_class/materials/');
+            // Group by course id
+            const grouped = {};
+            (Array.isArray(allMaterials.results) ? allMaterials.results : allMaterials).forEach(mat => {
+                if (!grouped[mat.course]) grouped[mat.course] = [];
+                grouped[mat.course].push(mat);
+            });
+            setMaterials(grouped);
+        } catch (err) {
+            setError('Failed to fetch materials: ' + (err?.message || ''));
+        }
+    };
     const navigate = useNavigate();
 
     const categories = [
@@ -141,27 +158,10 @@ const InstructorViewPage = () => {
     }, []);
 
     useEffect(() => {
-        const fetchMaterials = async () => {
-            if (!courses.length) return;
-
-            try {
-                const materialPromises = courses.map((course) =>
-                    fetchWithAuth(`courses/${course.id}/materials/`)
-                );
-                const materialData = await Promise.all(materialPromises);
-
-                const materialMap = materialData.reduce((acc, data, index) => {
-                    acc[courses[index].id] = data;
-                    return acc;
-                }, {});
-
-                setMaterials(materialMap);
-            } catch (err) {
-                console.error('Failed to fetch materials:', err);
-            }
-        };
-
-        fetchMaterials();
+        if (courses.length) {
+            fetchAllMaterials();
+        }
+        // eslint-disable-next-line
     }, [courses]);
 
     const handleInputChange = (e) => {
@@ -237,7 +237,7 @@ const InstructorViewPage = () => {
         }
     };
 
-    const handleFileUpload = async (e, type) => {
+    const handleFileUpload = (e, type) => {
         if (!selectedCourseId) {
             setError('Please select a course first');
             return;
@@ -246,43 +246,78 @@ const InstructorViewPage = () => {
         const file = e.target.files[0];
         if (!file) return;
 
+        // Map file extension to backend material_type
+        let materialType = type;
+        const ext = file.name.split('.').pop().toLowerCase();
+        if (["txt", "doc", "docx"].includes(ext)) {
+            materialType = 'note';
+        } else if (["ppt", "pptx"].includes(ext)) {
+            materialType = 'presentation';
+        } else if (ext === "pdf") {
+            materialType = 'pdf';
+        } else if (["mp4", "mov"].includes(ext)) {
+            materialType = 'video';
+        }
+
+        // Only allow backend-supported types
+        const allowedTypes = ['video', 'pdf', 'presentation', 'note'];
+        if (!allowedTypes.includes(materialType)) {
+            setError('Unsupported file type.');
+            return;
+        }
+
+        // Add to pendingMaterials for later upload
+        setPendingMaterials(prev => [...prev, { file, materialType, ext }]);
+    };
+    // Upload all pending materials when Save is clicked
+    const handleUploadPendingMaterials = async () => {
+        if (!selectedCourseId) {
+            setError('Please select a course first');
+            return;
+        }
+        if (pendingMaterials.length === 0) {
+            setError('No files selected to upload.');
+            return;
+        }
+        setLoading(true);
+        setError(null);
         try {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('type', type);
+            for (const mat of pendingMaterials) {
+                const formData = new FormData();
+                formData.append('file', mat.file);
+                formData.append('material_type', mat.materialType);
+                formData.append('course', selectedCourseId);
+                formData.append('name', mat.file.name);
 
-            setFileUploadProgress(prev => ({ ...prev, [type]: 0 }));
+                const token = localStorage.getItem('ACCESS_TOKEN');
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', `http://127.0.0.1:8000/api/v1/course_class/materials/`);
+                xhr.setRequestHeader('Authorization', `Token ${token}`);
 
-            const xhr = new XMLHttpRequest();
-            xhr.upload.addEventListener('progress', (event) => {
-                if (event.lengthComputable) {
-                    const progress = Math.round((event.loaded / event.total) * 100);
-                    setFileUploadProgress(prev => ({ ...prev, [type]: progress }));
-                }
-            });
-
-            const token = localStorage.getItem('ACCESS_TOKEN');
-            xhr.open('POST', `http://127.0.0.1:8000/api/v1/courses/${selectedCourseId}/upload_materials/`); // Update if you change upload endpoint
-            xhr.setRequestHeader('Authorization', `Token ${token}`);
-
-            xhr.onload = async () => {
-                if (xhr.status === 200) {
-                    const materialsData = await fetchWithAuth(`courses/${selectedCourseId}/materials/`); // Update if you change materials endpoint
-                    setMaterials((prev) => ({ ...prev, [selectedCourseId]: materialsData }));
-                } else {
-                    const errorData = JSON.parse(xhr.responseText);
-                    throw new Error(errorData.detail || errorData.message || 'Upload failed');
-                }
-            };
-
-            xhr.onerror = () => {
-                throw new Error('Network error during upload');
-            };
-
-            xhr.send(formData);
+                await new Promise((resolve, reject) => {
+                    xhr.onload = async () => {
+                        if (xhr.status === 201 || xhr.status === 200) {
+                            resolve();
+                        } else {
+                            let errorData;
+                            try { errorData = JSON.parse(xhr.responseText); } catch { errorData = { detail: xhr.responseText }; }
+                            setError(errorData.detail || errorData.message || 'Upload failed');
+                            reject(errorData);
+                        }
+                    };
+                    xhr.onerror = () => {
+                        setError('Network error during upload');
+                        reject('Network error');
+                    };
+                    xhr.send(formData);
+                });
+            }
+            setPendingMaterials([]);
+            await fetchAllMaterials();
         } catch (err) {
-            console.error('Failed to upload material:', err);
-            setError(err.message);
+            // Error already set
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -647,6 +682,37 @@ const InstructorViewPage = () => {
                             </div>
 
                             {/* Always visible upload boxes */}
+                            {/* Pending files preview before upload */}
+                            {pendingMaterials.length > 0 && (
+        <div className="mb-4">
+            <h4 className="font-medium text-gray-700 mb-2">Files to be uploaded (Preview):</h4>
+            <ul className="list-disc pl-5 space-y-1">
+                {pendingMaterials.map((mat, idx) => (
+                    <li key={idx} className="flex items-center gap-2">
+                        <span>{mat.file.name}</span>
+                        <span className="text-xs text-gray-500">({mat.materialType})</span>
+                        {/* Preview for supported types */}
+                        {mat.materialType === 'video' ? (
+                            <video src={URL.createObjectURL(mat.file)} controls className="w-32 h-16 rounded bg-black" />
+                        ) : mat.materialType === 'pdf' ? (
+                            <iframe src={URL.createObjectURL(mat.file)} title={mat.file.name} className="w-32 h-16 rounded bg-gray-100" />
+                        ) : mat.materialType === 'note' ? (
+                            <iframe src={URL.createObjectURL(mat.file)} title={mat.file.name} className="w-32 h-16 rounded bg-gray-100" />
+                        ) : (
+                            <span className="text-gray-400 ml-2">No preview</span>
+                        )}
+                        <button
+                            className="ml-2 text-red-500 hover:text-red-700"
+                            onClick={() => setPendingMaterials(pendingMaterials.filter((_, i) => i !== idx))}
+                            title="Remove file"
+                        >
+                            Remove
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+                            )}
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                                 {/* Video Upload Box */}
                                 <div className={`border-2 border-dashed ${selectedCourseId ? 'border-blue-400' : 'border-gray-300'} rounded-lg p-4 hover:border-blue-400 transition-colors`}>
@@ -725,19 +791,82 @@ const InstructorViewPage = () => {
                                 </div>
                             </div>
 
+
+                            {/* Display uploaded materials by type (video, pdf, txt, docs, pptx) with delete option */}
+                            {selectedCourseId && materials[selectedCourseId] && materials[selectedCourseId].length > 0 && (() => {
+                              // Find the selected course object
+                              const selectedCourse = courses.find(c => c.id.toString() === selectedCourseId.toString());
+                              if (!selectedCourse) return null;
+
+                              // Only show materials for the selected course
+                              const courseMaterials = materials[selectedCourseId];
+
+                              // Handler to delete a material and refresh all materials
+                              const handleDeleteMaterial = async (mat) => {
+                                if (!window.confirm(`Are you sure you want to delete this ${mat.material_type.toUpperCase()}?`)) return;
+                                try {
+                                  await fetchWithAuth(`course_class/materials/${mat.id}/`, { method: 'DELETE' });
+                                  await fetchAllMaterials();
+                                } catch (err) {
+                                  setError(`Failed to delete ${mat.material_type}: ` + (err?.message || ''));
+                                }
+                              };
+
+                              return (
+                                <div className="mt-8 space-y-10">
+                                  {/* All Materials Combined */}
+                                  <div>
+                                    <h3 className="text-lg font-semibold mb-2">All Uploaded Materials</h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                      {courseMaterials.map(mat => (
+                                        <div key={mat.id} className="border rounded-lg p-4 bg-white shadow relative">
+                                          <h4 className="font-medium mb-2">{mat.name}</h4>
+                                          {/* Preview by type */}
+                                          {mat.material_type === 'video' ? (
+                                            <video src={mat.file} controls className="w-full h-48 rounded mb-2 bg-black" />
+                                          ) : mat.material_type === 'pdf' ? (
+                                            <iframe src={mat.file} title={mat.name} className="w-full h-48 rounded mb-2 bg-gray-100" />
+                                          ) : mat.material_type === 'text' ? (
+                                            <iframe src={mat.file} title={mat.name} className="w-full h-48 rounded mb-2 bg-gray-100" />
+                                          ) : (
+                                            <div className="w-full h-48 rounded mb-2 bg-gray-100 flex items-center justify-center">
+                                              <span className="text-gray-500">Preview not available</span>
+                                            </div>
+                                          )}
+                                          <div className="text-xs text-gray-500">
+                                            Uploaded: {new Date(mat.uploaded_at).toLocaleString()}
+                                          </div>
+                                          <a
+                                            href={mat.file}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-blue-600 hover:underline text-sm"
+                                          >
+                                            Download {mat.material_type.toUpperCase()}
+                                          </a>
+                                          <button
+                                            title={`Delete ${mat.material_type.toUpperCase()}`}
+                                            className="absolute top-2 right-2 p-1 bg-red-100 hover:bg-red-200 rounded-full text-red-600"
+                                            onClick={() => handleDeleteMaterial(mat)}
+                                          >
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                          </button>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })()}
+
                             {/* Save button - always visible */}
                             <div className="flex justify-end">
                                 <button
-                                    className={`px-6 py-2 rounded-lg shadow-md ${selectedCourseId ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
-                                    onClick={() => {
-                                        if (!selectedCourseId) {
-                                            alert('Please select a course first');
-                                            return;
-                                        }
-                                        // Save functionality here
-                                        alert('Materials saved successfully!');
-                                    }}
-                                    disabled={!selectedCourseId}
+                                    className={`px-6 py-2 rounded-lg shadow-md ${selectedCourseId && pendingMaterials.length > 0 ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+                                    onClick={handleUploadPendingMaterials}
+                                    disabled={!selectedCourseId || pendingMaterials.length === 0}
                                 >
                                     Save
                                 </button>
@@ -910,6 +1039,7 @@ const InstructorViewPage = () => {
                             {selectedCourseId && (
                                 <div className="flex justify-end mt-6">
                                     <button
+                                        type="button"
                                         onClick={handleSaveSettings}
                                         className="px-4 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:from-blue-700 hover:to-green-700 w-full sm:w-auto shadow-md"
                                     >

@@ -1,27 +1,13 @@
 from rest_framework import serializers
-from .models import Course, VideoMaterial, PDFMaterial, PresentationMaterial, NoteMaterial
+from .models import Course, CourseMaterial
 
 
 
-# Separate serializers for each material type
-class VideoMaterialSerializer(serializers.ModelSerializer):
+
+# Unified serializer for all course materials
+class CourseMaterialSerializer(serializers.ModelSerializer):
     class Meta:
-        model = VideoMaterial
-        fields = '__all__'
-
-class PDFMaterialSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PDFMaterial
-        fields = '__all__'
-
-class PresentationMaterialSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PresentationMaterial
-        fields = '__all__'
-
-class NoteMaterialSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = NoteMaterial
+        model = CourseMaterial
         fields = '__all__'
 
 class CourseSerializer(serializers.ModelSerializer):

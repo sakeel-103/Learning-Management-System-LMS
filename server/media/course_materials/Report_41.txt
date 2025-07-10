@@ -1,0 +1,5 @@
+{
+  "filename": "MY PHOTO.JPG",
+  "prediction": "Real",
+  "confidence": 1
+}
