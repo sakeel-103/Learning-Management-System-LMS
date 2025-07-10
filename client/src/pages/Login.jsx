@@ -32,6 +32,7 @@ function Login() {
       setIsLoading(false);
       return;
     }
+    localStorage.setItem("user", JSON.stringify({ email: formData.email }));
     const decoded = jwtDecode(localStorage.getItem('ACCESS_TOKEN'))
     if (decoded?.role == '3') {
       navigate('/admin/dashboard')
