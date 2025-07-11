@@ -239,14 +239,14 @@ export default function DynamicQuizPage() {
         {/* Progress Bar */}
         <div className="mb-6">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-lg font-semibold text-blue-600">
+            <span className="text-lg font-semibold text-gray-700">
               Question {current + 1} of {quiz.questions.length}
             </span>
             <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-lg font-semibold">
               Time Left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, "0")}
             </span>
           </div>
-          <div className="w-full bg-blue-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 rounded-full h-2">
             <div
               className="bg-blue-500 h-2 rounded-full transition-all"
               style={{
@@ -257,8 +257,8 @@ export default function DynamicQuizPage() {
         </div>
 
         {/* Question Card */}
-        <div className="mb-8 p-6 bg-blue-50 rounded-xl shadow flex flex-col gap-4">
-          <h3 className="font-bold text-xl text-blue-700 mb-2">
+        <div className="mb-8 p-6 bg-gray-50 rounded-xl shadow flex flex-col gap-4">
+          <h3 className="font-bold text-xl text-gray-800 mb-2">
             Q{current + 1}. {quiz.questions[current].question_text}
           </h3>
           <div className="space-y-3">
@@ -269,7 +269,7 @@ export default function DynamicQuizPage() {
                   ${
                     answers[quiz.questions[current].id] === c.id
                       ? "bg-blue-100 border-blue-400"
-                      : "bg-white border-blue-200 hover:border-blue-300"
+                      : "bg-white border-gray-300 hover:border-blue-300"
                   }
                 `}
               >
@@ -283,7 +283,7 @@ export default function DynamicQuizPage() {
                   }
                   className="form-radio h-5 w-5 text-blue-600"
                 />
-                <span className="text-blue-600">{c.choice_text}</span>
+                <span className="text-gray-700">{c.choice_text}</span>
               </label>
             ))}
           </div>
@@ -294,7 +294,7 @@ export default function DynamicQuizPage() {
           <button
             onClick={() => setCurrent((c) => Math.max(0, c - 1))}
             disabled={current === 0}
-            className="px-6 py-2 bg-blue-100 text-blue-600 rounded-lg font-semibold shadow disabled:opacity-50"
+            className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg font-semibold shadow disabled:opacity-50"
           >
             Previous
           </button>
