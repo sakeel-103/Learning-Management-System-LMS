@@ -24,7 +24,7 @@ export default function QuizResultPage() {
             Authorization: `Bearer ${token}`,
           },
         });
-
+      
         if (!res.ok) throw new Error("Failed to fetch result");
         const data = await res.json();
         setResult(data);
@@ -66,7 +66,7 @@ export default function QuizResultPage() {
               Score: <span className="font-bold">{result.correct_answers}/{result.total_questions}</span>
             </div>
             <div className={`px-4 py-2 rounded-lg font-semibold text-lg shadow ${result.is_passed ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-              {result.is_passed ? "Passed 🎉" : "Failed"}
+          {result.is_passed ? "Passed 🎉" : "Failed"}
             </div>
           </div>
         </div>
@@ -77,32 +77,32 @@ export default function QuizResultPage() {
               <div className="flex-1">
                 <div className="font-semibold mb-2 text-lg text-gray-800">
                   Q{startIdx + idx + 1}. {fb.question_text}
-                </div>
+      </div>
                 <div className="mb-1">
                   <span className="font-medium text-gray-700">Your Answer: </span>
                   <span className={fb.is_correct ? "text-green-600 font-semibold" : "text-red-600 font-semibold"}>
                     {fb.user_answer || "No answer"}
-                  </span>
-                </div>
+              </span>
+            </div>
                 <div className="mb-1">
                   <span className="font-medium text-gray-700">Correct Answer: </span>
                   <span className="text-green-700 font-semibold">{fb.correct_answer}</span>
                 </div>
               </div>
               <div className="flex flex-col items-center min-w-[100px]">
-                {fb.is_correct ? (
+              {fb.is_correct ? (
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full font-bold text-base">
                     <CheckCircle className="w-5 h-5" /> Correct
                   </span>
-                ) : (
+              ) : (
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-red-100 text-red-700 rounded-full font-bold text-base">
                     <XCircle className="w-5 h-5" /> Incorrect
                   </span>
-                )}
-              </div>
+              )}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>
         {/* Pagination controls */}
         {totalPages > 1 && (
           <div className="flex justify-center items-center gap-4 mt-8">
@@ -125,12 +125,12 @@ export default function QuizResultPage() {
             </button>
           </div>
         )}
-        <button
+      <button
           className="mt-10 w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-lg shadow transition"
-          onClick={() => navigate("/courses/AssesmentPage")}
-        >
-          Back to Assessments
-        </button>
+        onClick={() => navigate("/courses/AssesmentPage")}
+      >
+        Back to Assessments
+      </button>
       </div>
     </div>
   );

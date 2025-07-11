@@ -74,13 +74,13 @@ export default function DynamicQuizPage() {
     }, 1000);
     return () => clearInterval(timer);
   }, [timeLeft]);
-  
+
   const handleSubmit = async () => {
-  const allAnswered = quiz.questions.every(q => answers[q.id]);
-  if (!allAnswered) {
-    alert("Please answer all questions before submitting the quiz.");
-    return;
-  }
+    const allAnswered = quiz.questions.every(q => answers[q.id]);
+    if (!allAnswered) {
+      alert("Please answer all questions before submitting the quiz.");
+      return;
+    }
 
   const token = localStorage.getItem("ACCESS_TOKEN");
 
@@ -167,7 +167,7 @@ export default function DynamicQuizPage() {
 //         responses,
 //       }),
 //     });
-
+       
 //     const data = await res.json();
 //     if (!res.ok) {
 //       alert(data.message || "Failed to submit quiz.");
@@ -260,7 +260,7 @@ export default function DynamicQuizPage() {
         <div className="mb-8 p-6 bg-gray-50 rounded-xl shadow flex flex-col gap-4">
           <h3 className="font-bold text-xl text-gray-800 mb-2">
             Q{current + 1}. {quiz.questions[current].question_text}
-          </h3>
+            </h3>
           <div className="space-y-3">
             {quiz.questions[current].choices.map((c) => (
               <label
@@ -291,29 +291,29 @@ export default function DynamicQuizPage() {
 
         {/* Navigation Buttons */}
         <div className="flex justify-between mt-6">
-          <button
-            onClick={() => setCurrent((c) => Math.max(0, c - 1))}
-            disabled={current === 0}
+            <button
+              onClick={() => setCurrent((c) => Math.max(0, c - 1))}
+              disabled={current === 0}
             className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg font-semibold shadow disabled:opacity-50"
-          >
-            Previous
-          </button>
-          {current < quiz.questions.length - 1 ? (
-            <button
-              onClick={() => setCurrent((c) => c + 1)}
+            >
+              Previous
+            </button>
+            {current < quiz.questions.length - 1 ? (
+              <button
+                onClick={() => setCurrent((c) => c + 1)}
               className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow"
-            >
-              Next
-            </button>
-          ) : (
-            <button
-              onClick={handleSubmit}
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
               className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold shadow"
-            >
-              Submit Quiz
-            </button>
-          )}
-        </div>
+              >
+                Submit Quiz
+              </button>
+            )}
+          </div>
       </div>
     </div>
   );

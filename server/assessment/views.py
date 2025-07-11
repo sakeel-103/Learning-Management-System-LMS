@@ -652,13 +652,12 @@ from .serializers import AssignmentSubmissionSerializer
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser, FormParser])
 def student_upload_assignment(request, assignment_id):
-    """
-    Student uploads an assignment file for a specific assignment.
-    """
     user = request.user
-    assignment = Assignment.objects.get(id=assignment_id)
+    try:
+        assignment = Assignment.objects.get(id=assignment_id)
+    except Assignment.DoesNotExist:
+        return Response({'error': 'Assignment not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-    # Check if already submitted
     if AssignmentSubmission.objects.filter(user=user, assignment=assignment).exists():
         return Response({'error': 'Assignment already submitted.'}, status=status.HTTP_400_BAD_REQUEST)
 
