@@ -18,6 +18,8 @@
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.509.0",
     "prop-types": "^15.8.1",
+    "qrcode": "^1.5.4",
+    "qrcode.react": "^4.2.0",
     "react": "^19.1.0",
     "react-countup": "^6.5.3",
     "react-dom": "^19.1.0",

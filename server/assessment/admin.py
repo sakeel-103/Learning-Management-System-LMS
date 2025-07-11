@@ -70,7 +70,7 @@ class AssignmentSubmissionAdmin(admin.ModelAdmin):
     list_filter = ('assignment', 'user', 'is_late', 'status')
     search_fields = ('user__email', 'assignment__title')
     readonly_fields = ('submitted_at',)
-
+    
     def file_link(self, obj):
         if obj.submission_file:
             return format_html('<a href="{}" target="_blank">Download</a>', obj.submission_file.url)

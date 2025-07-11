@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import HandleDownloadCertificate from "../AssessmentCourses/HandleCertificate";
+
 import UserNavbar from "../../components/UserNavbar";
 import html2canvas from "html2canvas";
-import CertificateTemplate from "./CertificateTemplate"; // Adjust path if needed
+
 import jsPDF from "jspdf";
+import { jwtDecode } from "jwt-decode";
 
 const API_BASE = "http://127.0.0.1:8000/api/v1";
 const API="http://127.0.0.1:8000/api";
@@ -66,6 +67,27 @@ const AssessmentPage = () => {
         }
     }, [selectedCourse]);
 
+    useEffect(() => {
+        const fetchSubmissions = async () => {
+            const token = localStorage.getItem('ACCESS_TOKEN');
+            if (!token) return;
+            const res = await fetch(`${API_BASE}/assessment/assignments/view_assignment_submissions/`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const submissions = await res.json();
+                const submittedIds = {};
+                submissions.forEach(submission => {
+                    submittedIds[String(submission.assignment)] = true;
+                });
+                setSubmittedAssignments(submittedIds);
+            }
+        };
+        fetchSubmissions();
+     
+      
+    }, []);
+
     const handleCourseSelect = (course) => {
         setSelectedCourse(course);
         setIsSidebarOpen(false);
@@ -118,67 +140,116 @@ const AssessmentPage = () => {
             format: [900, 650],
         });
 
-        // Gold border
+        // Blue border
+        doc.setDrawColor("#1e293b");
+        doc.setLineWidth(8);
+        doc.rect(10, 10, 880, 630);
+
+        // Gold accent corners
         doc.setDrawColor("#FFD700");
         doc.setLineWidth(6);
-        doc.rect(20, 20, 860, 610);
+        doc.line(10, 10, 80, 10);
+        doc.line(10, 10, 10, 80);
+        doc.line(890, 10, 820, 10);
+        doc.line(890, 10, 890, 80);
+        doc.line(10, 640, 10, 570);
+        doc.line(10, 640, 80, 640);
+        doc.line(890, 640, 820, 640);
+        doc.line(890, 640, 890, 570);
 
-        // Header bar
-        doc.setFillColor("#1e293b");
-        doc.rect(20, 20, 860, 70, "F");
-
-        // Company/Logo
-        doc.setFont("times", "bold");
-        doc.setTextColor("#FFD700");
-        doc.setFontSize(36);
-        doc.text("TRACKACADEMY", 450, 70, { align: "center" });
-
-        // Certificate Title
-        doc.setFontSize(34);
+        // Company/Logo (top left)
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(24);
         doc.setTextColor("#1e293b");
-        doc.setFont("times", "bold");
-        doc.text("Certificate of Completion", 450, 160, { align: "center" });
+        doc.text("TrackAcademy", 40, 60);
 
-        // Subtitle
-        doc.setFont("times", "normal");
-        doc.setFontSize(18);
+        // CERTIFICATE OF COMPLETION
+        doc.setFont("times", "bold");
+        doc.setFontSize(36);
         doc.setTextColor("#22223b");
-        doc.text("This is to certify that", 450, 210, { align: "center" });
+        doc.text("CERTIFICATE OF", 450, 120, { align: "center" });
+        doc.text("COMPLETION", 450, 170, { align: "center" });
 
-        // Student Name
-        doc.setFont("times", "bold");
+        // Student Name (script font)
+        doc.setFont("times", "italic");
         doc.setFontSize(32);
-        doc.setTextColor("#111827");
-        doc.text(studentName.replace(/[^a-zA-Z0-9 ]/g, '').toUpperCase(), 450, 260, { align: "center" });
+        doc.setTextColor("#2563eb");
+        doc.text(studentName.replace(/[^a-zA-Z0-9 ]/g, ''), 450, 230, { align: "center" });
 
-        // For successfully completing...
-        doc.setFont("times", "normal");
-        doc.setFontSize(18);
+        // Completion statement
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(16);
         doc.setTextColor("#22223b");
-        doc.text("has successfully completed the course", 450, 300, { align: "center" });
+        doc.text(
+            "has successfully completed the online course:",
+            450,
+            260,
+            { align: "center" }
+        );
 
         // Course Title
         doc.setFont("times", "bold");
-        doc.setFontSize(26);
-        doc.setTextColor("#2563eb");
-        doc.text(courseTitle.toUpperCase(), 450, 340, { align: "center" });
+        doc.setFontSize(22);
+        doc.setTextColor("#1e293b");
+        doc.text(courseTitle.toUpperCase(), 450, 295, { align: "center" });
 
-        // Date and Signature lines
-        doc.setFont("times", "normal");
-        doc.setFontSize(16);
-        doc.setTextColor("#22223b");
-        doc.line(120, 520, 320, 520);
-        doc.text("Date", 220, 540, { align: "center" });
-        doc.line(580, 520, 780, 520);
-        doc.text("Signature", 680, 540, { align: "center" });
+        // Description
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(13);
+        doc.setTextColor("#444");
+        doc.text(
+            "This professional has demonstrated initiative and a commitment to deepening their skills and advancing their career. Well done!",
+            450,
+            330,
+            { align: "center", maxWidth: 700 }
+        );
 
-        // Today's date
+        // Date and signature
+        doc.setFont("helvetica", "normal");
         doc.setFontSize(14);
-        doc.text(dateStr, 220, 560, { align: "center" });
+        doc.setTextColor("#22223b");
+        doc.text(`Date: ${dateStr}`, 120, 570);
+        doc.text("CEO, TrackAcademy", 700, 570);
+        doc.setFontSize(12);
+        doc.text("(Signature)", 700, 590);
+
+        // Badge (top right)
+        doc.setDrawColor("#FFD700");
+        doc.setFillColor("#FFD700");
+        doc.circle(820, 70, 45, "FD");
+        doc.setDrawColor("#1e293b");
+        doc.setFillColor("#fff");
+        doc.circle(820, 70, 35, "FD");
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(28);
+        doc.setTextColor("#1e293b");
+        doc.text("DE", 820, 80, { align: "center" });
 
         // Save PDF
         doc.save(`Certificate_${courseTitle.replace(/\s+/g, "_")}.pdf`);
     };
+
+    const token = localStorage.getItem('ACCESS_TOKEN');
+    if (!token) {
+      alert("You are not logged in. Please log in again.");
+      navigate("/login");
+      return;
+    }
+    try {
+      const decoded = jwtDecode(token);
+      const now = Date.now() / 1000;
+      if (decoded.exp < now) {
+        alert("Session expired, please log in again.");
+        localStorage.clear();
+        navigate("/login");
+        return;
+      }
+    } catch (e) {
+      alert("Invalid session, please log in again.");
+      localStorage.clear();
+      navigate("/login");
+      return;
+    }
 
     return (
         <>
@@ -317,7 +388,8 @@ const AssessmentPage = () => {
                                             ) : (
                                                 <ul className="space-y-2">
                                                     {assignments.map((assignment) => {
-                                                        const isSubmitted = submittedAssignments[assignment.id];
+                                                        const isSubmitted = submittedAssignments[String(assignment.id)];
+                                                        console.log(`Assignment: ${assignment.id}, isSubmitted: ${isSubmitted}`);
                                                         return (
                                                             <li key={assignment.id}>
                                                                 <div className="flex flex-col sm:flex-row sm:items-start justify-between bg-white rounded-lg px-4 py-2 shadow-sm border border-green-100 hover:shadow-md transition">
@@ -332,15 +404,34 @@ const AssessmentPage = () => {
                                                                             const formData = new FormData();
                                                                             formData.append("submission_file", fileInput.files[0]);
                                                                             const token = localStorage.getItem('ACCESS_TOKEN');
+                                                                            if (!token) {
+                                                                                alert("You are not logged in. Please log in again.");
+                                                                                navigate("/login");
+                                                                                return;
+                                                                            }
                                                                             try {
+                                                                                const decoded = jwtDecode(token);
+                                                                                const now = Date.now() / 1000;
+                                                                                if (decoded.exp < now) {
+                                                                                    alert("Session expired, please log in again.");
+                                                                                    localStorage.clear();
+                                                                                    navigate("/login");
+                                                                                    return;
+                                                                                }
                                                                                 const res = await fetch(
                                                                                     `http://127.0.0.1:8000/api/v1/assessment/assignments/${assignment.id}/student_upload/`,
                                                                                     {
                                                                                         method: "POST",
-                                                                                        headers: token ? { Authorization: `Bearer ${token}` } : {},
+                                                                                        headers: { Authorization: `Bearer ${token}` },
                                                                                         body: formData,
                                                                                     }
                                                                                 );
+                                                                                if (res.status === 401) {
+                                                                                    alert("Session expired, please log in again.");
+                                                                                    localStorage.clear();
+                                                                                    navigate("/login");
+                                                                                    return;
+                                                                                }
                                                                                 if (res.ok) {
                                                                                     setSubmittedAssignments((prev) => ({
                                                                                         ...prev,
@@ -438,3 +529,4 @@ const AssessmentPage = () => {
 };
 
 export default AssessmentPage;
+
