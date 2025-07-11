@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'
 import { toast } from 'react-toastify';
 
@@ -31,6 +31,8 @@ const InstructorViewPage = () => {
     const [prereqInput, setPrereqInput] = useState('');
     const [fileUploadProgress, setFileUploadProgress] = useState({});
     const [pendingMaterials, setPendingMaterials] = useState([]); // {file, materialType, ext}
+    const location = useLocation();
+    const exploreHandledRef = useRef(false);
 
     // Fetch all materials for all courses and group by course id
     const fetchAllMaterials = async () => {
@@ -163,6 +165,28 @@ const InstructorViewPage = () => {
         }
         // eslint-disable-next-line
     }, [courses]);
+
+    useEffect(() => {
+        // Debug: log navigation state and data
+        console.log('ExploreCourse Debug:', {
+            locationState: location.state,
+            coursesLength: courses.length,
+            materialsKeys: Object.keys(materials),
+            exploreHandled: exploreHandledRef.current
+        });
+        // If navigated with a courseId (from Explore Course), select that course and show materials
+        if (
+            location.state &&
+            location.state.courseId &&
+            courses.length > 0 &&
+            materials &&
+            !exploreHandledRef.current
+        ) {
+            setSelectedCourseId(location.state.courseId.toString());
+            setActiveTab('upload');
+            exploreHandledRef.current = true;
+        }
+    }, [location.state, courses, materials]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -493,6 +517,20 @@ const InstructorViewPage = () => {
                                                     <svg className="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                     </svg>
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedCourseId(course.id.toString());
+                                                        setActiveTab('upload');
+                                                    }}
+                                                    className="p-2 text-green-600 hover:bg-green-100 rounded"
+                                                    aria-label={`Explore ${course.title}`}
+                                                    title="Explore Course Materials"
+                                                >
+                                                    <svg className="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                                    </svg>
+                                                    Explore
                                                 </button>
                                             </div>
                                         </div>
