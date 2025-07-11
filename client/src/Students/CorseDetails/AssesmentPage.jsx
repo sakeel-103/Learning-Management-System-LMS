@@ -5,6 +5,7 @@ import UserNavbar from "../../components/UserNavbar";
 import html2canvas from "html2canvas";
 import CertificateTemplate from "./CertificateTemplate"; // Adjust path if needed
 import jsPDF from "jspdf";
+import { jwtDecode } from "jwt-decode";
 
 const API_BASE = "http://127.0.0.1:8000/api/v1";
 const API="http://127.0.0.1:8000/api";
@@ -65,6 +66,27 @@ const AssessmentPage = () => {
             setAssignments([]);
         }
     }, [selectedCourse]);
+
+    useEffect(() => {
+        const fetchSubmissions = async () => {
+            const token = localStorage.getItem('ACCESS_TOKEN');
+            if (!token) return;
+            const res = await fetch(`${API_BASE}/assessment/assignments/view_assignment_submissions/`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const submissions = await res.json();
+                const submittedIds = {};
+                submissions.forEach(submission => {
+                    submittedIds[String(submission.assignment)] = true;
+                });
+                setSubmittedAssignments(submittedIds);
+            }
+        };
+        fetchSubmissions();
+     
+      
+    }, []);
 
     const handleCourseSelect = (course) => {
         setSelectedCourse(course);
@@ -179,6 +201,28 @@ const AssessmentPage = () => {
         // Save PDF
         doc.save(`Certificate_${courseTitle.replace(/\s+/g, "_")}.pdf`);
     };
+
+    const token = localStorage.getItem('ACCESS_TOKEN');
+    if (!token) {
+      alert("You are not logged in. Please log in again.");
+      navigate("/login");
+      return;
+    }
+    try {
+      const decoded = jwtDecode(token);
+      const now = Date.now() / 1000;
+      if (decoded.exp < now) {
+        alert("Session expired, please log in again.");
+        localStorage.clear();
+        navigate("/login");
+        return;
+      }
+    } catch (e) {
+      alert("Invalid session, please log in again.");
+      localStorage.clear();
+      navigate("/login");
+      return;
+    }
 
     return (
         <>
@@ -317,7 +361,8 @@ const AssessmentPage = () => {
                                             ) : (
                                                 <ul className="space-y-2">
                                                     {assignments.map((assignment) => {
-                                                        const isSubmitted = submittedAssignments[assignment.id];
+                                                        const isSubmitted = submittedAssignments[String(assignment.id)];
+                                                        console.log(`Assignment: ${assignment.id}, isSubmitted: ${isSubmitted}`);
                                                         return (
                                                             <li key={assignment.id}>
                                                                 <div className="flex flex-col sm:flex-row sm:items-start justify-between bg-white rounded-lg px-4 py-2 shadow-sm border border-green-100 hover:shadow-md transition">
@@ -332,15 +377,34 @@ const AssessmentPage = () => {
                                                                             const formData = new FormData();
                                                                             formData.append("submission_file", fileInput.files[0]);
                                                                             const token = localStorage.getItem('ACCESS_TOKEN');
+                                                                            if (!token) {
+                                                                                alert("You are not logged in. Please log in again.");
+                                                                                navigate("/login");
+                                                                                return;
+                                                                            }
                                                                             try {
+                                                                                const decoded = jwtDecode(token);
+                                                                                const now = Date.now() / 1000;
+                                                                                if (decoded.exp < now) {
+                                                                                    alert("Session expired, please log in again.");
+                                                                                    localStorage.clear();
+                                                                                    navigate("/login");
+                                                                                    return;
+                                                                                }
                                                                                 const res = await fetch(
                                                                                     `http://127.0.0.1:8000/api/v1/assessment/assignments/${assignment.id}/student_upload/`,
                                                                                     {
                                                                                         method: "POST",
-                                                                                        headers: token ? { Authorization: `Bearer ${token}` } : {},
+                                                                                        headers: { Authorization: `Bearer ${token}` },
                                                                                         body: formData,
                                                                                     }
                                                                                 );
+                                                                                if (res.status === 401) {
+                                                                                    alert("Session expired, please log in again.");
+                                                                                    localStorage.clear();
+                                                                                    navigate("/login");
+                                                                                    return;
+                                                                                }
                                                                                 if (res.ok) {
                                                                                     setSubmittedAssignments((prev) => ({
                                                                                         ...prev,
