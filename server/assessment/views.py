@@ -46,6 +46,7 @@ class QuizViewSet(viewsets.ModelViewSet):
             data = request.data
             attempt_id = data.get('attempt_id')
             responses = data.get('responses', [])
+            # is_time_expired = data.get('is_time_expired', False)  # No longer needed for grading
 
             # Handle anonymous user
             user = request.user if request.user.is_authenticated else None
@@ -58,32 +59,38 @@ class QuizViewSet(viewsets.ModelViewSet):
             total_points = 0
             earned_points = 0
 
-            for response_data in responses:
-                question_id = response_data['question_id']
-                selected_choice_ids = response_data.get('selected_choice_ids', [])
+            # Create a map of answered questions for quick lookup
+            answered_questions = {resp['question_id']: resp.get('selected_choice_ids', []) for resp in responses}
 
-                try:
-                    question = Question.objects.get(id=question_id, quiz=quiz)
-                except Question.DoesNotExist:
-                    continue
-
+            # Process ALL questions in the quiz, not just answered ones
+            all_questions = quiz.questions.all()
+            
+            for question in all_questions:
+                question_id = str(question.id)
+                selected_choice_ids = answered_questions.get(question_id, [])
+                
+                # Create response for every question
                 response = QuizResponse.objects.create(
                     attempt=attempt,
                     question=question
                 )
 
                 if question.question_type == 'mcq':
-                    # ✅ FIX: Ensure selected_choice_ids are integers
-                    correct_choices = set(str(x) for x in question.choices.filter(is_correct=True).values_list('id', flat=True))
-                    selected_choices = set(str(x) for x in selected_choice_ids)
+                    if selected_choice_ids:  # Question was answered
+                        correct_choices = set(str(x) for x in question.choices.filter(is_correct=True).values_list('id', flat=True))
+                        selected_choices = set(str(x) for x in selected_choice_ids)
 
-                    response.selected_choices.set(selected_choice_ids)
+                        response.selected_choices.set(selected_choice_ids)
 
-                    if correct_choices == selected_choices:
-                        response.is_correct = True
-                        response.points_earned = question.points
-                        earned_points += question.points
-                    else:
+                        if correct_choices == selected_choices:
+                            response.is_correct = True
+                            response.points_earned = question.points
+                            earned_points += question.points
+                        else:
+                            response.is_correct = False
+                            response.points_earned = 0
+                    else:  # Question was not answered
+                        response.selected_choices.clear()
                         response.is_correct = False
                         response.points_earned = 0
 
@@ -106,11 +113,17 @@ class QuizViewSet(viewsets.ModelViewSet):
                 correct_choices = question.choices.filter(is_correct=True)
                 correct_text = [c.choice_text for c in correct_choices]
                 selected_text = [c.choice_text for c in response.selected_choices.all()]
+                
+                was_answered = len(selected_text) > 0
+                user_answer_text = ", ".join(selected_text) if was_answered else "No answer"
+                is_correct_for_feedback = response.is_correct
+                
                 feedback.append({
                     "question_text": question.question_text,
-                    "user_answer": ", ".join(selected_text),
+                    "user_answer": user_answer_text,
                     "correct_answer": ", ".join(correct_text),
-                    "is_correct": response.is_correct
+                    "is_correct": is_correct_for_feedback,
+                    "was_answered": was_answered
                 })
 
             return Response({
