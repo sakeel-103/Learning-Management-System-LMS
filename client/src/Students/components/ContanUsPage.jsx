@@ -90,7 +90,7 @@ const ContactUsPage = () => {
                         <div className="flex flex-col mb-3 md:mb-4">
                             <span className="text-sm md:text-base font-medium text-blue-600 mb-1 md:mb-2">Office Location</span>
                             <span className="text-sm sm:text-base md:text-lg text-blue-700">
-                                Design Esthetics, 1st Floor, FF1, Business Point Building, Brigade Rd, near Brigade Towers, Shanthala Nagar, Ashok Nagar, Bengaluru, Karnataka 560025
+                                2nd Floor, Sri Rama Bldg, 15/6, G 6th St, Halasuru, Cambridge Layout, Bengaluru, Karnataka 560008
                             </span>
                         </div>
                     </div>

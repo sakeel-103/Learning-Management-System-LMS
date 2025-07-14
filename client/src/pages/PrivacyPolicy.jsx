@@ -140,7 +140,11 @@ const PrivacyPolicy = () => {
         </div>
         
         <div className="text-center mt-6 text-sm text-blue-600">
-          Last Updated: July 10, 2025
+          Last Updated: {new Date().toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          })}
         </div>
       </div>
     </div>
