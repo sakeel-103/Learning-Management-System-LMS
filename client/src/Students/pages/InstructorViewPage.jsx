@@ -82,7 +82,7 @@ const InstructorViewPage = () => {
 
             const headers = {
                 ...options.headers,
-                'Authorization': `Token ${token}`,
+                'Authorization': `Bearer ${token}`,
             };
 
             if (!(options.body instanceof FormData)) {
@@ -316,7 +316,7 @@ const InstructorViewPage = () => {
                 const token = localStorage.getItem('ACCESS_TOKEN');
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', `http://127.0.0.1:8000/api/v1/course_class/materials/`);
-                xhr.setRequestHeader('Authorization', `Token ${token}`);
+                xhr.setRequestHeader('Authorization', `Bearer ${token}`);
 
                 await new Promise((resolve, reject) => {
                     xhr.onload = async () => {
