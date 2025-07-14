@@ -127,6 +127,7 @@ export default function DynamicQuizPage() {
           quiz_id: quizId,
           attempt_id: attemptId,
           responses,
+          is_time_expired: autoSubmit, // Send flag indicating if time expired
         }),
       });
 
