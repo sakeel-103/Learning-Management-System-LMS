@@ -32,6 +32,37 @@ const InstructorViewPage = () => {
     const [fileUploadProgress, setFileUploadProgress] = useState({});
     const [pendingMaterials, setPendingMaterials] = useState([]); // {file, materialType, ext}
 
+    // Add state for quizzes and questions for dropdowns
+    const [quizzes, setQuizzes] = useState([]);
+    const [questions, setQuestions] = useState([]);
+
+    // Add state for quizzes, questions, choices, and assignments for management
+    const [allQuizzes, setAllQuizzes] = useState([]);
+    const [allQuestions, setAllQuestions] = useState([]);
+    const [allChoices, setAllChoices] = useState([]);
+    const [allAssignments, setAllAssignments] = useState([]);
+
+    // Add state for editing
+    const [editItem, setEditItem] = useState(null); // {type, data}
+
+    // Fetch quizzes and questions for dropdowns
+    const fetchQuizzes = async () => {
+        try {
+            const data = await fetchWithAuth('assessment/quizzes/');
+            setQuizzes(Array.isArray(data) ? data : (data.results || []));
+        } catch (err) {
+            setQuizzes([]);
+        }
+    };
+    const fetchQuestions = async () => {
+        try {
+            const data = await fetchWithAuth('assessment/questions/');
+            setQuestions(Array.isArray(data) ? data : (data.results || []));
+        } catch (err) {
+            setQuestions([]);
+        }
+    };
+
     // Fetch all materials for all courses and group by course id
     const fetchAllMaterials = async () => {
         try {
@@ -74,65 +105,33 @@ const InstructorViewPage = () => {
         setError(null);
         try {
             const token = localStorage.getItem('ACCESS_TOKEN');
-            if (!token) {
-                throw new Error('No authentication token found');
-            }
+            if (!token) throw new Error('No authentication token found');
 
             const headers = {
                 ...options.headers,
-                'Authorization': `Token ${token}`,
+                'Authorization': `Bearer ${token}`,
             };
 
             if (!(options.body instanceof FormData)) {
                 headers['Content-Type'] = 'application/json';
             }
             const fullUrl = url.startsWith('http') ? url : `http://127.0.0.1:8000/api/v1/${url.replace(/^\/+/, '')}`;
-            console.log('[fetchWithAuth] URL:', fullUrl, 'Method:', options.method || 'GET');
-            if (options.body && typeof options.body === 'string') {
-                try { console.log('[fetchWithAuth] Body:', JSON.parse(options.body)); } catch { console.log('[fetchWithAuth] Body:', options.body); }
+            const response = await fetch(fullUrl, { ...options, headers, credentials: 'include' });
+
+            // If DELETE or 204 No Content, just return null
+            if (response.status === 204 || options.method === 'DELETE') {
+                return null;
             }
 
-            const response = await fetch(fullUrl, {
-                ...options,
-                headers,
-                credentials: 'include'
-            });
-            console.log('[fetchWithAuth] Response status:', response.status, response.statusText);
+            const text = await response.text();
+            const data = text ? JSON.parse(text) : null;
 
             if (!response.ok) {
-                let errorData;
-                try {
-                    errorData = await response.json();
-                } catch (e) {
-                    errorData = await response.text();
-                    try {
-                        // Try to parse as JSON if possible
-                        errorData = JSON.parse(errorData);
-                    } catch {
-                        // If not JSON, use status text
-                        errorData = { detail: response.statusText };
-                    }
-                }
-                console.error('[fetchWithAuth] Error response:', errorData);
-                throw new Error(
-                    errorData.detail ||
-                    errorData.message ||
-                    errorData.non_field_errors?.[0] ||
-                    (typeof errorData === 'string' ? errorData : 'Request failed')
-                );
+                throw new Error(data?.detail || data?.message || 'Request failed');
             }
-
-            return response.status === 204 ? null : await response.json();
+            return data;
         } catch (err) {
             setError(err.message);
-
-            // Auto-redirect if unauthorized
-            if (err.message.includes('Unauthorized') || err.message.includes('ACCESS_TOKEN')) {
-                localStorage.removeItem('ACCESS_TOKEN');
-                localStorage.removeItem('REFRESH_TOKEN');
-                window.location.href = '/login';
-            }
-
             throw err;
         } finally {
             setLoading(false);
@@ -163,6 +162,23 @@ const InstructorViewPage = () => {
         }
         // eslint-disable-next-line
     }, [courses]);
+
+    useEffect(() => {
+        if (activeTab === 'assessment') {
+            fetchQuizzes();
+            fetchQuestions();
+        }
+    }, [activeTab]);
+
+    // Fetch all data when tab is active
+    useEffect(() => {
+        if (activeTab === 'manage') {
+            fetchWithAuth('assessment/quizzes/').then(setAllQuizzes).catch(() => setAllQuizzes([]));
+            fetchWithAuth('assessment/questions/').then(setAllQuestions).catch(() => setAllQuestions([]));
+            fetchWithAuth('assessment/choices/').then(setAllChoices).catch(() => setAllChoices([]));
+            fetchWithAuth('assessment/assignments/').then(setAllAssignments).catch(() => setAllAssignments([]));
+        }
+    }, [activeTab]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -351,6 +367,92 @@ const InstructorViewPage = () => {
         }
     };
 
+    // Add state for forms
+    const [quizForm, setQuizForm] = useState({ title: '', description: '', course: '', start_time: '', end_time: '' });
+    const [assignmentForm, setAssignmentForm] = useState({ title: '', description: '', course: '', assignment_file: null });
+    const [questionForm, setQuestionForm] = useState({ quiz: '', question_text: '', question_type: 'mcq', points: 1 });
+    const [choiceForm, setChoiceForm] = useState({ question: '', choice_text: '', is_correct: false });
+
+    // Delete handler
+    const handleDelete = async (type, id) => {
+        try {
+            await fetchWithAuth(`assessment/${type}/${id}/`, { method: 'DELETE' });
+            // Refresh after delete
+            if (type === 'quizzes') fetchWithAuth('assessment/quizzes/').then(setAllQuizzes);
+            if (type === 'questions') fetchWithAuth('assessment/questions/').then(setAllQuestions);
+            if (type === 'choices') fetchWithAuth('assessment/choices/').then(setAllChoices);
+            if (type === 'assignments') fetchWithAuth('assessment/assignments/').then(setAllAssignments);
+        } catch (err) {
+            if (err.message.includes('No Quiz matches')) {
+                alert('This quiz was already deleted or does not exist.');
+            } else {
+                alert('Failed to delete. ' + err.message);
+            }
+        }
+    };
+
+    // For quizzes
+    const handleEditQuiz = async (id) => {
+        try {
+            const data = await fetchWithAuth(`assessment/quizzes/${id}/`);
+            setEditItem({ type: 'quiz', data });
+        } catch (err) {
+            console.error('Failed to fetch quiz for editing:', err);
+        }
+    };
+
+    // For questions
+    const handleEditQuestion = async (id) => {
+        try {
+            const data = await fetchWithAuth(`assessment/questions/${id}/`);
+            setEditItem({ type: 'question', data });
+        } catch (err) {
+            console.error('Failed to fetch question for editing:', err);
+        }
+    };
+
+    // For choices
+    const handleEditChoice = async (id) => {
+        try {
+            const data = await fetchWithAuth(`assessment/choices/${id}/`);
+            setEditItem({ type: 'choice', data });
+        } catch (err) {
+            console.error('Failed to fetch choice for editing:', err);
+        }
+    };
+
+    // For assignments
+    const handleEditAssignment = async (id) => {
+        try {
+            const data = await fetchWithAuth(`assessment/assignments/${id}/`);
+            setEditItem({ type: 'assignment', data });
+        } catch (err) {
+            console.error('Failed to fetch assignment for editing:', err);
+        }
+    };
+
+    // Helper to convert local datetime-local string to UTC ISO string
+    const toUTCISOString = (localDateTimeStr) => {
+        if (!localDateTimeStr) return '';
+        const local = new Date(localDateTimeStr);
+        return local.toISOString();
+    };
+
+    const [showQuizSelect, setShowQuizSelect] = useState(false);
+    const [selectedQuiz, setSelectedQuiz] = useState(null);
+
+    const handleCreateQuestions = () => {
+      setShowQuizSelect(true);
+    };
+
+    const handleQuizSelect = (quiz) => {
+      setSelectedQuiz(quiz);
+      setShowQuizSelect(false);
+      // Now show the AddQuestionForm for this quiz
+    };
+
+    const [selectedQuizForQuestion, setSelectedQuizForQuestion] = useState(null);
+
     return (
         <div className="min-h-screen bg-gray-50 text-gray-800 pt-16 w-full overflow-x-hidden">
             {loading && (
@@ -427,6 +529,8 @@ const InstructorViewPage = () => {
                             { tab: 'create', label: 'Create/Edit' },
                             { tab: 'upload', label: 'Upload Materials' },
                             { tab: 'schedule', label: 'Schedule & Prerequisites' },
+                            { tab: 'assessment', label: 'Assessment Tools' },
+                            { tab: 'manage', label: 'Manage Assessment' },
                         ].map(({ tab, label }) => (
                             <button
                                 key={tab}
@@ -452,6 +556,16 @@ const InstructorViewPage = () => {
                                 {tab === 'schedule' && (
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                )}
+                                {tab === 'assessment' && (
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 7h6m-3-7v3m0 0H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V9a2 2 0 00-2-2h-3" />
+                                    </svg>
+                                )}
+                                {tab === 'manage' && (
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                     </svg>
                                 )}
                                 {label}
@@ -1043,10 +1157,502 @@ const InstructorViewPage = () => {
                             )}
                         </div>
                     )}
+                    {activeTab === 'assessment' && (
+                        <div className="py-4">
+                            <h3 className="text-lg font-medium mb-4 text-gray-800">Assessment Tools</h3>
+                            <div className="py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                                {/* Quiz Creation Card */}
+                                <div className="bg-white rounded-xl shadow-lg p-6 border border-blue-100">
+                                    <h3 className="text-xl font-bold mb-4 text-blue-700">Create Quiz</h3>
+                                    <form onSubmit={async (e) => {
+                                        e.preventDefault();
+                                        if (!quizForm.title || !quizForm.description || !quizForm.course || !quizForm.start_time || !quizForm.end_time) {
+                                            toast.error('All fields are required.');
+                                            return;
+                                        }
+                                        await fetchWithAuth('assessment/quizzes/', {
+                                            method: 'POST',
+                                            body: JSON.stringify({
+                                                ...quizForm,
+                                                course: quizForm.course,
+                                                start_time: toUTCISOString(quizForm.start_time),
+                                                end_time: toUTCISOString(quizForm.end_time),
+                                            }),
+                                        });
+                                        setQuizForm({ title: '', description: '', course: '', start_time: '', end_time: '' });
+                                        toast.success('Quiz created!');
+                                        fetchQuizzes();
+                                        window.dispatchEvent(new CustomEvent('assessment-data-created', { detail: { courseId: quizForm.course } }));
+                                    }}>
+                                        <input type="text" placeholder="Title" value={quizForm.title} onChange={e => setQuizForm(f => ({ ...f, title: e.target.value }))} className="border p-2 mb-2 w-full rounded" required />
+                                        <input type="text" placeholder="Description" value={quizForm.description} onChange={e => setQuizForm(f => ({ ...f, description: e.target.value }))} className="border p-2 mb-2 w-full rounded" required />
+                                        <select value={quizForm.course} onChange={e => setQuizForm(f => ({ ...f, course: e.target.value }))} className="border p-2 mb-2 w-full rounded" required>
+                                            <option value="">Select Course</option>
+                                            {courses.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
+                                        </select>
+                                        <div className="mb-2">
+                                            <label className="block mb-1 font-medium">Start Time *</label>
+                                            <input
+                                                type="datetime-local"
+                                                value={quizForm.start_time}
+                                                onChange={e => setQuizForm(f => ({ ...f, start_time: e.target.value }))}
+                                                className="border p-2 w-full rounded"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-2">
+                                            <label className="block mb-1 font-medium">End Time *</label>
+                                            <input
+                                                type="datetime-local"
+                                                value={quizForm.end_time}
+                                                onChange={e => setQuizForm(f => ({ ...f, end_time: e.target.value }))}
+                                                className="border p-2 w-full rounded"
+                                                required
+                                            />
+                                        </div>
+                                        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded w-full">Create Quiz</button>
+                                    </form>
+                                </div>
+                                {/* Assignment Creation Card */}
+                                <div className="bg-white rounded-xl shadow-lg p-6 border border-green-100 mb-8">
+                                    <h3 className="text-xl font-bold mb-4 text-green-700">Create Assignment</h3>
+                                    <form onSubmit={async (e) => {
+                                        e.preventDefault();
+                                        if (!assignmentForm.title || !assignmentForm.description || !assignmentForm.assignment_type || !assignmentForm.due_date || !assignmentForm.max_points) {
+                                            toast.error('All fields are required.');
+                                            return;
+                                        }
+                                        const formData = new FormData();
+                                        formData.append('title', assignmentForm.title);
+                                        formData.append('description', assignmentForm.description);
+                                        formData.append('assignment_type', assignmentForm.assignment_type);
+                                        formData.append('due_date', assignmentForm.due_date);
+                                        formData.append('max_points', assignmentForm.max_points);
+                                        formData.append('course', assignmentForm.course);
+                                        if (assignmentForm.assignment_file) formData.append('assignment_file', assignmentForm.assignment_file);
+
+                                        await fetchWithAuth('assessment/assignments/', {
+                                            method: 'POST',
+                                            body: formData,
+                                            headers: {},
+                                        });
+                                        setAssignmentForm({ title: '', description: '', assignment_type: '', due_date: '', max_points: '', assignment_file: null, course: '' });
+                                        toast.success('Assignment created!');
+                                        window.dispatchEvent(new CustomEvent('assessment-data-created'));
+                                    }}>
+                                        <div className="mb-4">
+                                            <label className="block mb-1 font-medium">Title *</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Assignment Title"
+                                                value={assignmentForm.title}
+                                                onChange={e => setAssignmentForm(f => ({ ...f, title: e.target.value }))}
+                                                className="border p-2 mb-2 w-full rounded"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block mb-1 font-medium">Description *</label>
+                                            <textarea
+                                                placeholder="Assignment Description"
+                                                value={assignmentForm.description}
+                                                onChange={e => setAssignmentForm(f => ({ ...f, description: e.target.value }))}
+                                                className="border p-2 mb-2 w-full rounded"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block mb-1 font-medium">Assignment Type *</label>
+                                            <select
+                                                value={assignmentForm.assignment_type}
+                                                onChange={e => setAssignmentForm(f => ({ ...f, assignment_type: e.target.value }))}
+                                                className="border p-2 mb-2 w-full rounded"
+                                                required
+                                            >
+                                                <option value="">Select Type</option>
+                                                <option value="individual">Individual</option>
+                                                <option value="group">Group</option>
+                                                <option value="peer_review">Peer Review</option>
+                                            </select>
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block mb-1 font-medium">Due Date *</label>
+                                            <input
+                                                type="datetime-local"
+                                                value={assignmentForm.due_date}
+                                                onChange={e => setAssignmentForm(f => ({ ...f, due_date: e.target.value }))}
+                                                className="border p-2 mb-2 w-full rounded"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block mb-1 font-medium">Max Points *</label>
+                                            <input
+                                                type="number"
+                                                value={assignmentForm.max_points}
+                                                onChange={e => setAssignmentForm(f => ({ ...f, max_points: e.target.value }))}
+                                                className="border p-2 mb-2 w-full rounded"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block mb-1 font-medium">File (optional)</label>
+                                            <input
+                                                type="file"
+                                                onChange={e => setAssignmentForm(f => ({ ...f, assignment_file: e.target.files[0] }))}
+                                                className="border p-2 mb-2 w-full rounded"
+                                            />
+                                        </div>
+                                        <div className="mb-4">
+                                          <label className="block mb-1 font-medium">Course *</label>
+                                          <select
+                                            value={assignmentForm.course}
+                                            onChange={e => setAssignmentForm(f => ({ ...f, course: e.target.value }))}
+                                            className="border p-2 mb-2 w-full rounded"
+                                            required
+                                          >
+                                            <option value="">Select Course</option>
+                                            {courses.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
+                                          </select>
+                                        </div>
+                                        <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded w-full">
+                                            Create Assignment
+                                        </button>
+                                    </form>
+                                </div>
+                                {/* Question Creation Card (REPLACED) */}
+                                <div className="bg-white rounded-xl shadow-lg p-6 border border-purple-100">
+                                    <h3 className="text-xl font-bold mb-4 text-purple-700">Create Question (with Choices)</h3>
+                                    <CreateQuestionWithChoices quizzes={quizzes} onCreated={fetchQuestions} fetchWithAuth={fetchWithAuth} />
+                                </div>
+                                {/* Choice Creation Card */}
+                               
+                            </div>
+                        </div>
+                    )}
+                    {activeTab === 'manage' && (
+                        <div className="py-4">
+                            <h3 className="text-lg font-medium mb-4 text-gray-800">Manage Assessment</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="bg-white rounded-xl shadow-lg p-6 border border-blue-100">
+                                    <h4 className="font-medium mb-2 text-blue-700">Quizzes</h4>
+                                    <ul className="space-y-2">
+                                        {allQuizzes.map(q => (
+                                            <li key={q.id} className="flex items-center justify-between bg-blue-50 p-2 rounded-lg">
+                                                <span>{q.title}</span>
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        onClick={() => handleDelete('quizzes', q.id)}
+                                                        className="p-1 text-red-600 hover:bg-red-100 rounded-full"
+                                                        title="Delete Quiz"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleEditQuiz(q.id)}
+                                                        className="p-1 text-blue-600 hover:bg-blue-100 rounded-full"
+                                                        title="Edit Quiz"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div className="bg-white rounded-xl shadow-lg p-6 border border-green-100">
+                                    <h4 className="font-medium mb-2 text-green-700">Questions</h4>
+                                    <ul className="space-y-2">
+                                        {allQuestions.map(q => (
+                                            <li key={q.id} className="flex items-center justify-between bg-green-50 p-2 rounded-lg">
+                                                <span>{q.question_text}</span>
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        onClick={() => handleDelete('questions', q.id)}
+                                                        className="p-1 text-red-600 hover:bg-red-100 rounded-full"
+                                                        title="Delete Question"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleEditQuestion(q.id)}
+                                                        className="p-1 text-blue-600 hover:bg-blue-100 rounded-full"
+                                                        title="Edit Question"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div className="bg-white rounded-xl shadow-lg p-6 border border-purple-100">
+                                    <h4 className="font-medium mb-2 text-purple-700">Choices</h4>
+                                    <ul className="space-y-2">
+                                        {allChoices.map(c => (
+                                            <li key={c.id} className="flex items-center justify-between bg-purple-50 p-2 rounded-lg">
+                                                <span>{c.choice_text}</span>
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        onClick={() => handleDelete('choices', c.id)}
+                                                        className="p-1 text-red-600 hover:bg-red-100 rounded-full"
+                                                        title="Delete Choice"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleEditChoice(c.id)}
+                                                        className="p-1 text-blue-600 hover:bg-blue-100 rounded-full"
+                                                        title="Edit Choice"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div className="bg-white rounded-xl shadow-lg p-6 border border-yellow-100">
+                                    <h4 className="font-medium mb-2 text-yellow-700">Assignments</h4>
+                                    <div className="bg-white rounded-2xl shadow p-8 border border-gray-100 max-w-4xl mx-auto mt-8">
+                                      <h2 className="text-xl font-bold mb-6 text-gray-900">Existing Assignments</h2>
+                                      <ul className="space-y-4">
+                                        {allAssignments.length === 0 && (
+                                          <li className="text-gray-500">No assignments found.</li>
+                                        )}
+                                        {allAssignments.map(a => (
+                                          <li key={a.id} className="flex flex-col md:flex-row md:items-center md:justify-between bg-yellow-50 p-6 rounded-xl border border-yellow-200">
+                                            <div>
+                                              <div className="font-semibold text-lg text-gray-900">{a.title}</div>
+                                              <div className="text-gray-600 text-sm">{a.description}</div>
+                                              <div className="text-gray-500 text-xs mt-1">
+                                                {a.due_date && <>Due: {new Date(a.due_date).toLocaleDateString()} {new Date(a.due_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</>}
+                                              </div>
+                                            </div>
+                                            <div className="flex gap-6 mt-4 md:mt-0">
+                                              <button
+                                                onClick={() => handleEditAssignment(a.id)}
+                                                className="text-blue-600 hover:underline font-medium"
+                                              >
+                                                Edit
+                                              </button>
+                                              <button
+                                                onClick={() => handleDelete('assignments', a.id)}
+                                                className="text-red-600 hover:underline font-medium"
+                                              >
+                                                Delete
+                                              </button>
+                                            </div>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
+            {editItem && (
+  <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">
+      <h3 className="text-lg font-bold mb-4">Edit {editItem.type.charAt(0).toUpperCase() + editItem.type.slice(1)}</h3>
+      <form onSubmit={async (e) => {
+        e.preventDefault();
+        // Collect updated fields from form inputs
+        const updated = {
+          ...editItem.data,
+          course_id: editItem.data.course_id || editItem.data.course, // use the correct field
+          due_date: editItem.data.due_date || "2024-12-31", // set a valid date
+          // ...other fields...
+        };
+        const typeToEndpoint = {
+          quiz: 'quizzes',
+          question: 'questions',
+          choice: 'choices',
+          assignment: 'assignments',
+        };
+        await fetchWithAuth(`assessment/${typeToEndpoint[editItem.type]}/${editItem.data.id}/`, {
+          method: 'PATCH',
+          body: JSON.stringify(updated),
+        });
+        // No need to call .json() again!
+        setEditItem(null);
+        // Refresh lists
+        if (editItem.type === 'quiz') fetchWithAuth('assessment/quizzes/').then(setAllQuizzes);
+        if (editItem.type === 'question') fetchWithAuth('assessment/questions/').then(setAllQuestions);
+        // ...same for choices and assignments
+      }}>
+        {/* Render form fields based on editItem.type and editItem.data */}
+        <input
+          type="text"
+          value={editItem.data.title || editItem.data.question_text || ''}
+          onChange={e => setEditItem({
+            ...editItem,
+            data: { ...editItem.data, title: e.target.value, question_text: e.target.value }
+          })}
+          className="border p-2 mb-2 w-full rounded"
+        />
+        {/* Add more fields as needed */}
+        <div className="flex gap-2 justify-end">
+          <button type="button" onClick={() => setEditItem(null)} className="px-4 py-2 bg-gray-200 rounded">Cancel</button>
+          <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
         </div>
     );
 };
+
+function CreateQuestionWithChoices({ quizzes, onCreated, fetchWithAuth }) {
+    const [quizId, setQuizId] = useState("");
+    const [questionText, setQuestionText] = useState("");
+    const [choices, setChoices] = useState([{ text: "" }, { text: "" }]);
+    const [correctIndex, setCorrectIndex] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const handleChoiceChange = (idx, value) => {
+        const updated = [...choices];
+        updated[idx].text = value;
+        setChoices(updated);
+    };
+
+    const handleAddChoice = () => setChoices([...choices, { text: "" }]);
+
+    const handleRemoveChoice = (idx) => {
+        if (choices.length > 2) {
+            setChoices(choices.filter((_, i) => i !== idx));
+            if (correctIndex === idx) setCorrectIndex(null);
+            else if (correctIndex > idx) setCorrectIndex(correctIndex - 1);
+        }
+    };
+
+    const handleCorrectChange = (idx) => setCorrectIndex(idx);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!quizId || !questionText || choices.some(c => !c.text) || correctIndex === null) {
+            alert("Please fill all fields and select the correct answer.");
+            return;
+        }
+        setLoading(true);
+        try {
+            // 1. Create the question
+            const questionRes = await fetchWithAuth('assessment/questions/', {
+                method: 'POST',
+                body: JSON.stringify({
+                    quiz: quizId,
+                    question_text: questionText,
+                    question_type: 'mcq',
+                    points: 1,
+                }),
+            });
+            const question = questionRes && questionRes.id ? questionRes : (questionRes.results ? questionRes.results[0] : null);
+            if (!question || !question.id) throw new Error("Failed to create question");
+
+            // 2. Create all choices
+            for (let i = 0; i < choices.length; i++) {
+                await fetchWithAuth('assessment/choices/', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        question: question.id,
+                        choice_text: choices[i].text,
+                        is_correct: i === correctIndex,
+                    }),
+                });
+            }
+            setQuizId("");
+            setQuestionText("");
+            setChoices([{ text: "" }, { text: "" }]);
+            setCorrectIndex(null);
+            if (onCreated) onCreated();
+            alert("Question and choices created!");
+        } catch (err) {
+            alert("Error: " + err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow mb-6">
+            <div className="mb-2">
+                <label className="font-semibold">Quiz</label>
+                <select value={quizId} onChange={e => setQuizId(e.target.value)} className="border p-2 mb-2 w-full rounded" required>
+                    <option value="">Select Quiz</option>
+                    {quizzes.map(q => <option key={q.id} value={q.id}>{q.title}</option>)}
+                </select>
+            </div>
+            <div className="mb-2">
+                <label className="font-semibold">Question</label>
+                <input
+                    type="text"
+                    className="w-full border rounded p-2 mt-1"
+                    value={questionText}
+                    onChange={(e) => setQuestionText(e.target.value)}
+                    required
+                />
+            </div>
+            <div>
+                <label className="font-semibold">Choices</label>
+                {choices.map((choice, idx) => (
+                    <div key={idx} className="flex items-center mb-2">
+                        <input
+                            type="radio"
+                            name="correct"
+                            checked={correctIndex === idx}
+                            onChange={() => handleCorrectChange(idx)}
+                            className="mr-2 accent-green-500"
+                        />
+                        <input
+                            type="text"
+                            className="border rounded p-2 flex-1"
+                            value={choice.text}
+                            onChange={e => handleChoiceChange(idx, e.target.value)}
+                            required
+                        />
+                        {choices.length > 2 && (
+                            <button
+                                type="button"
+                                onClick={() => handleRemoveChoice(idx)}
+                                className="ml-2 text-red-500"
+                            >
+                                &#10005;
+                            </button>
+                        )}
+                    </div>
+                ))}
+                <button
+                    type="button"
+                    onClick={handleAddChoice}
+                    className="text-blue-500 mt-2"
+                >
+                    + Add Choice
+                </button>
+            </div>
+            <button
+                type="submit"
+                className="mt-4 bg-purple-600 text-white px-4 py-2 rounded"
+                disabled={loading}
+            >
+                {loading ? "Saving..." : "Save Question"}
+            </button>
+        </form>
+    );
+}
 
 export default InstructorViewPage;

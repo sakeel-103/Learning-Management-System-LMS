@@ -13,10 +13,7 @@ import InstructorDashboard from './Instructors/components/InstructorDashboard'
 import StudentDashboard from './Students/components/StudentDashboard'
 import './index.css'
 import CoursePage from './Students/pages/CoursePage';
-import DSAPage from './Students/CorseDetails/dsaPage'
-import MLAndDS from './Students/CorseDetails/MLAndDS'
-import BackendWithJava from './Students/CorseDetails/BackendWithJava'
-import DataStructuresAlgorithm from './Students/CorseDetails/DataStructureAlgorithm'
+
 import ScrollToTop from './components/ScrollToTop';
 import JavaScriptPage from './Students/DevelopmentAndDS/JavaScriptPage'
 import BackendPage from './Students/DevelopmentAndDS/BackendPage'
@@ -35,12 +32,7 @@ import NaturalLanguage from './Students/AI&ML/NaturalLanguage'
 import ComputerVision from './Students/AI&ML/ComputerVission'
 import ArtificialIntelligence from './Students/AI&ML/ArtificialIntelligence'
 import AssessmentPage from './Students/CorseDetails/AssesmentPage'
-// import HtmlQuestionsPage from './Students/AssessmentCourses/HTMLQuationsPage'
-// import DSAQuestionsPage from './Students/AssessmentCourses/DSAQuestionsPage'
-// import WebQuestionsPage from './Students/AssessmentCourses/WebQuestionsPage'
-// import ArtificialMachineQuestions from './Students/AssessmentCourses/ArtificialMachineQuestions'
-// import JavaQuestionsPage from './Students/AssessmentCourses/JavaQuestionsPage'
-// import PythonQuestionsPage from './Students/AssessmentCourses/PythonQuestionsPage'
+
 import ContactUsPage from './Students/components/ContanUsPage'
 import CertificationPage from './Students/components/CertificationPage'
 import CourseFrontPage from './Students/pages/CourseFrontPage'
@@ -48,7 +40,7 @@ import PaymentPage from './Students/pages/PaymentPage';
 import InstructorViewPage from './Students/pages/InstructorViewPage';
 import VerifyEmail from './pages/VerifyEmail'
 import InstructorAccess from './Admin/components/InstructorAccess'
-import HandleDownloadCertificate from './Students/AssessmentCourses/HandleCertificate'
+
 import QuizResultPage from './Students/CorseDetails/QuizResultPage'
 import DynamicQuizPage from './Students/AssessmentCourses/DynamicQuizPage'
 import TermsOfService from './pages/TermsOfService'
@@ -77,10 +69,7 @@ function App() {
         <Route path="/courses" element={<CoursePage />} />
         <Route path="/InstructorViewPage" element={<InstructorViewPage />} />
         <Route path="/course_front_page" element={<CourseFrontPage />} />
-        <Route path="/courses/dsa-to-development" element={<DSAPage />} />
-        <Route path="/courses/machine-learning" element={<MLAndDS />} />
-        <Route path="/courses/backend-with-java" element={<BackendWithJava />} />
-        <Route path="/courses/data-structure-algorithms" element={<DataStructuresAlgorithm />} />
+     
         <Route path="/courses/AssesmentPage" element={<AssessmentPage />} />
         <Route path="/dvelopmentAndDS/javascriptPage" element={<JavaScriptPage />} />
         <Route path="/dvelopmentAndDS/backendPage" element={<BackendPage />} />
@@ -106,8 +95,7 @@ function App() {
 
         {/* Assessment Pages */}
         <Route path="/AssessmentCourses/:quizId/start" element={<DynamicQuizPage />} />
-        <Route path="/Certi" element={<HandleDownloadCertificate/>}/>
-       
+     
         <Route path="/students/CorseDetails/QuizResultPage/:attemptId" element={<QuizResultPage />} />
       </Routes>
 

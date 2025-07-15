@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 const API_BASE = "http://127.0.0.1:8000/api/v1/assessment";
 
 export default function DynamicQuizPage() {
@@ -13,6 +13,7 @@ export default function DynamicQuizPage() {
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
   const [attemptId, setAttemptId] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
@@ -47,6 +48,16 @@ export default function DynamicQuizPage() {
         setTimeLeft(timeLeftInSeconds);
 
         // --- Always start a new attempt and set attemptId ---
+        const token = localStorage.getItem("ACCESS_TOKEN");
+        if (!token) {
+          alert("Please login first!");
+          navigate("/login");
+          return;
+        }
+
+        // Debug: log token and headers
+        console.log("Using token:", token);
+
         const resStart = await fetch(`${API_BASE}/quizzes/${quizId}/start/`, {
           method: "POST",
           headers: {
@@ -54,6 +65,12 @@ export default function DynamicQuizPage() {
             Authorization: `Bearer ${token}`,
           }
         });
+        if (resStart.status === 401) {
+          alert("Session expired or unauthorized. Please log in again.");
+          localStorage.clear();
+          navigate("/login");
+          return;
+        }
         const dataStart = await resStart.json();
         if (!resStart.ok) throw new Error(dataStart.message || "Failed to start attempt");
         setAttemptId(dataStart.attempt_id);
@@ -66,165 +83,85 @@ export default function DynamicQuizPage() {
     fetchQuiz();
   }, [quizId, navigate]);
 
-  // Timer countdown
+  // Timer countdown and auto-submit
   useEffect(() => {
-    if (timeLeft === null || timeLeft <= 0) return;
-    const timer = setInterval(() => {
-      setTimeLeft((t) => t - 1);
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [timeLeft]);
+    if (timeLeft === null) return;
+    if (timeLeft <= 0 && !submitting) {
+      handleSubmit(true); // Auto-submit when timer hits 0
+      return;
+    }
+    if (timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((t) => t - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [timeLeft, submitting]);
 
-  const handleSubmit = async () => {
-    const allAnswered = quiz.questions.every(q => answers[q.id]);
-    if (!allAnswered) {
-      alert("Please answer all questions before submitting the quiz.");
+  const handleSubmit = async (autoSubmit = false) => {
+    if (submitting) return; // Prevent double submit
+    setSubmitting(true);
+    if (!quiz) {
+      setSubmitting(false);
       return;
     }
 
-  const token = localStorage.getItem("ACCESS_TOKEN");
+    const token = localStorage.getItem("ACCESS_TOKEN");
 
-  // ✅ Check if token is expired
-  try {
-    const decoded = jwtDecode(token);
-    const now = Date.now() / 1000;
-    if (decoded.exp < now) {
-      alert("Session expired. Please log in again.");
+    // ✅ Check if token is expired
+    try {
+      const decoded = jwtDecode(token);
+      const now = Date.now() / 1000;
+      if (decoded.exp < now) {
+        alert("Session expired. Please log in again.");
+        localStorage.clear();
+        navigate("/login");
+        setSubmitting(false);
+        return;
+      }
+    } catch (e) {
+      alert("Invalid session. Please log in again.");
       localStorage.clear();
-      navigate("/login");  // or your login route
-      return;
-    }
-  } catch (e) {
-    alert("Invalid session. Please log in again.");
-    localStorage.clear();
-    navigate("/login");
-    return;
-  }
-
-  try {
-    const responses = quiz.questions.map((q) => ({
-      question_id: q.id,
-      selected_choice_ids: [answers[q.id]], // This must be a UUID!
-    }));
-
-    console.log("Submitting payload:", {
-      quiz_id: quizId,
-      attempt_id: attemptId,
-      responses,
-    });
-
-    const res = await fetch(`${API_BASE}/quizzes/${quizId}/submit_attempt/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        quiz_id: quizId,
-        attempt_id: attemptId, // always use the current attemptId
-        responses,
-      }),
-    });
-
-    const data = await res.json();
-    console.log("Quiz submit response:", data);
-
-    if (!res.ok) {
-      alert(data.message || "Failed to submit quiz.");
+      navigate("/login");
+      setSubmitting(false);
       return;
     }
 
-    localStorage.removeItem(`quiz-${quizId}-startTime`);
-    navigate(`/students/CorseDetails/QuizResultPage/${attemptId}`);
-  } catch (err) {
-    alert("Error submitting quiz. Check console.");
-    console.error(err);
-  }
-};
-  
-  
-  
-// const handleSubmit = async () => {
-//   const allAnswered = quiz.questions.every(q => answers[q.id]);
-//   if (!allAnswered) {
-//     alert("Please answer all questions before submitting the quiz.");
-//     return;
-//   }
-
-//   try {
-//     const responses = quiz.questions.map(q => ({
-//       question_id: q.id,
-//       selected_choice_ids: [answers[q.id]]
-//     }));
-
-//     const res = await fetch(`${API_BASE}/quizzes/${quizId}/submit_attempt/`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         quiz_id: quizId,
-//         responses,
-//       }),
-//     });
-       
-//     const data = await res.json();
-//     if (!res.ok) {
-//       alert(data.message || "Failed to submit quiz.");
-//       return;
-//     }
-
-//     // Clear timer
-//     localStorage.removeItem(`quiz-${quizId}-startTime`);
-
-//     // Navigate to result page
-//     navigate(`/students/CorseDetails/QuizResultPage/${data.attempt_id}`);
-//   } catch (err) {
-//     alert("Error submitting quiz. Please try again.");
-//   }
-// };
-  // const handleSubmit = async () => {
-  //   const allAnswered = quiz.questions.every((q) => answers[q.id]);
-  //   if (!allAnswered) {
-  //     alert("Please answer all questions before submitting the quiz.");
-  //     return;
-  //   }
-
-  //   alert("Quiz submitted!");
-  //   localStorage.removeItem(`quiz-${quizId}-startTime`); // Clear persisted timer
-  //   navigate("/courses/AssesmentPage");
-
-    // --- Optional: Enable this if you're submitting to the backend ---
-    /*
     try {
       const responses = quiz.questions.map((q) => ({
         question_id: q.id,
-        selected_choice_ids: [answers[q.id]],
+        selected_choice_ids: answers[q.id] ? [answers[q.id]] : [], // empty array if not answered
       }));
 
       const res = await fetch(`${API_BASE}/quizzes/${quizId}/submit_attempt/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           quiz_id: quizId,
+          attempt_id: attemptId,
           responses,
+          is_time_expired: autoSubmit, // Send flag indicating if time expired
         }),
       });
 
       const data = await res.json();
       if (!res.ok) {
         alert(data.message || "Failed to submit quiz.");
+        setSubmitting(false);
         return;
       }
-      setResult(data);
-      navigate(`/students/CorseDetails/QuizResultPage/${data.attempt_id}`);
+
+      localStorage.removeItem(`quiz-${quizId}-startTime`);
+      navigate(`/students/CorseDetails/QuizResultPage/${attemptId}`);
     } catch (err) {
-      alert("Failed to submit quiz.");
+      alert("Error submitting quiz. Check console.");
+      console.error(err);
+      setSubmitting(false);
     }
-    */
-  // };
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-600">{error}</div>;
@@ -293,7 +230,7 @@ export default function DynamicQuizPage() {
         <div className="flex justify-between mt-6">
             <button
               onClick={() => setCurrent((c) => Math.max(0, c - 1))}
-              disabled={current === 0}
+              disabled={current === 0 || submitting}
             className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg font-semibold shadow disabled:opacity-50"
             >
               Previous
@@ -301,16 +238,18 @@ export default function DynamicQuizPage() {
             {current < quiz.questions.length - 1 ? (
               <button
                 onClick={() => setCurrent((c) => c + 1)}
+                disabled={submitting}
               className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow"
               >
                 Next
               </button>
             ) : (
               <button
-                onClick={handleSubmit}
+                onClick={() => handleSubmit(false)}
+                disabled={submitting}
               className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold shadow"
               >
-                Submit Quiz
+                {submitting ? "Submitting..." : "Submit Quiz"}
               </button>
             )}
           </div>
