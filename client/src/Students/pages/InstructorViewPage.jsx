@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'
 import { toast } from 'react-toastify';
 
@@ -110,8 +110,10 @@ const InstructorViewPage = () => {
             const headers = {
                 ...options.headers,
                 'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`,
             };
 
+            // Only set Content-Type for JSON data, not for FormData
             if (!(options.body instanceof FormData)) {
                 headers['Content-Type'] = 'application/json';
             }
@@ -305,33 +307,19 @@ const InstructorViewPage = () => {
                 formData.append('course', selectedCourseId);
                 formData.append('name', mat.file.name);
 
-                const token = localStorage.getItem('ACCESS_TOKEN');
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', `http://127.0.0.1:8000/api/v1/course_class/materials/`);
-                xhr.setRequestHeader('Authorization', `Token ${token}`);
-
-                await new Promise((resolve, reject) => {
-                    xhr.onload = async () => {
-                        if (xhr.status === 201 || xhr.status === 200) {
-                            resolve();
-                        } else {
-                            let errorData;
-                            try { errorData = JSON.parse(xhr.responseText); } catch { errorData = { detail: xhr.responseText }; }
-                            setError(errorData.detail || errorData.message || 'Upload failed');
-                            reject(errorData);
-                        }
-                    };
-                    xhr.onerror = () => {
-                        setError('Network error during upload');
-                        reject('Network error');
-                    };
-                    xhr.send(formData);
+                // Use fetchWithAuth for proper authentication handling
+                await fetchWithAuth('course_class/materials/', {
+                    method: 'POST',
+                    body: formData,
+                    // Don't set Content-Type header for FormData - let browser set it with boundary
                 });
             }
             setPendingMaterials([]);
             await fetchAllMaterials();
+            toast.success('Files uploaded successfully!');
         } catch (err) {
-            // Error already set
+            console.error('Upload failed:', err);
+            setError('Upload failed: ' + (err?.message || 'Unknown error'));
         } finally {
             setLoading(false);
         }
@@ -607,6 +595,20 @@ const InstructorViewPage = () => {
                                                     <svg className="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                     </svg>
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedCourseId(course.id.toString());
+                                                        setActiveTab('upload');
+                                                    }}
+                                                    className="p-2 text-green-600 hover:bg-green-100 rounded"
+                                                    aria-label={`Explore ${course.title}`}
+                                                    title="Explore Course Materials"
+                                                >
+                                                    <svg className="w-4 sm:w-5 h-4 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                                    </svg>
+                                                    Explore
                                                 </button>
                                             </div>
                                         </div>
@@ -935,11 +937,11 @@ const InstructorViewPage = () => {
                                           <h4 className="font-medium mb-2">{mat.name}</h4>
                                           {/* Preview by type */}
                                           {mat.material_type === 'video' ? (
-                                            <video src={mat.file} controls className="w-full h-48 rounded mb-2 bg-black" />
+                                            <video src={mat.file_url || mat.file} controls className="w-full h-48 rounded mb-2 bg-black" />
                                           ) : mat.material_type === 'pdf' ? (
-                                            <iframe src={mat.file} title={mat.name} className="w-full h-48 rounded mb-2 bg-gray-100" />
-                                          ) : mat.material_type === 'text' ? (
-                                            <iframe src={mat.file} title={mat.name} className="w-full h-48 rounded mb-2 bg-gray-100" />
+                                            <iframe src={mat.file_url || mat.file} title={mat.name} className="w-full h-48 rounded mb-2 bg-gray-100" />
+                                          ) : mat.material_type === 'note' ? (
+                                            <iframe src={mat.file_url || mat.file} title={mat.name} className="w-full h-48 rounded mb-2 bg-gray-100" />
                                           ) : (
                                             <div className="w-full h-48 rounded mb-2 bg-gray-100 flex items-center justify-center">
                                               <span className="text-gray-500">Preview not available</span>
@@ -949,7 +951,7 @@ const InstructorViewPage = () => {
                                             Uploaded: {new Date(mat.uploaded_at).toLocaleString()}
                                           </div>
                                           <a
-                                            href={mat.file}
+                                            href={mat.file_url || mat.file}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-blue-600 hover:underline text-sm"

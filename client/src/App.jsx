@@ -45,6 +45,7 @@ import QuizResultPage from './Students/CorseDetails/QuizResultPage'
 import DynamicQuizPage from './Students/AssessmentCourses/DynamicQuizPage'
 import TermsOfService from './pages/TermsOfService'
 import PrivacyPolicy from './pages/PrivacyPolicy'
+// import StudentDashboard from './Students/components/StudentDashboard'
 
 function App() {
   return (
@@ -66,6 +67,7 @@ function App() {
         <Route path='/admin/instructor-access' element={<InstructorAccess />} />
         <Route path="/instructor/dashboard" element={<InstructorDashboard />} />
         <Route path="/student/dashboard" element={<StudentDashboard />} />
+       {/* <Route path="/student/studentdashboard" element={<StudentDashboard />} /> */}
         <Route path="/courses" element={<CoursePage />} />
         <Route path="/InstructorViewPage" element={<InstructorViewPage />} />
         <Route path="/course_front_page" element={<CourseFrontPage />} />

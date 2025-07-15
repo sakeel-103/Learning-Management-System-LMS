@@ -9,6 +9,15 @@ class Course(models.Model):
     instructor = models.CharField(max_length=100)
     course_description = models.TextField()
     prerequisites = models.JSONField(default=list, blank=True, null=True)
+    
+    # Schedule-related fields
+    schedule_type = models.CharField(max_length=20, choices=[
+        ('Live', 'Live'),
+        ('Self-paced', 'Self-paced'),
+    ], default='Self-paced', blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    sessions = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.title

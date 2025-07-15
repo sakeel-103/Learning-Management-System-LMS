@@ -151,43 +151,10 @@ const CourseCard = ({ course, section }) => {
 
                 <button
                     onClick={() => {
-                        if (section === 'top-picks') {
-                            if (course.id === '1') {
-                                console.log('Navigating to DSA Page for Top Picks');
-                                navigate('/courses/dsa-to-development');
-                            } else if (course.id === '2') {
-                                console.log('Navigating to Java Backend Development Page for Top Picks');
-                                navigate('/courses/backend-with-java');
-                            } else if (course.id === '3') {
-                                console.log('Navigating to Machine Learning & Data Science Page for Top Picks');
-                                navigate('/courses/machine-learning');
-                            } else if (course.id === '4') {
-                                console.log('Navigating to Data Structures Self-Paced Page for Top Picks');
-                                navigate('/courses/data-structure-algorithms');
-                            }
-                        } else if (section === 'live-classes') {
-                            if (course.id === '1') {
-                                console.log('Navigating to DSA Page for Top Picks');
-                                navigate('/courses/dsa-to-development');
-                            } else if (course.id === '2') {
-                                console.log('Navigating to Java Backend Development Page for Live Classes');
-                                navigate('/courses/backend-with-java');
-                            } else if (course.id === '3') {
-                                console.log('Navigating to Machine Learning & Data Science Page for Live Classes');
-                                navigate('/courses/machine-learning');
-                            }
-                        } else if (section === 'self-paced') {
-                            if (course.id === '4') {
-                                console.log('Navigating to Data Structures Self-Paced Page for Self-paced Learning');
-                                navigate('/courses/data-structure-algorithms');
-                            }
-                        } else {
-                            console.log(`Navigating to default course page: /course/${course.id}`);
-                            navigate(`/course/${course.id}`);
-                        }
+                        navigate('/instructor/materials', { state: { courseId: course.id } });
                     }}
                     className="w-full bg-blue-600 text-white py-1.5 rounded-lg font-medium hover:bg-blue-700 transition-all duration-200 shadow-sm"
-                    aria-label={`Enroll in ${course.title}`}
+                    aria-label={`Explore ${course.title}`}
                 >
                     Explore Course
                 </button>

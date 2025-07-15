@@ -87,8 +87,8 @@ class QuizViewSet(viewsets.ModelViewSet):
                             response.points_earned = question.points
                             earned_points += question.points
                         else:
-                                response.is_correct = False
-                                response.points_earned = 0
+                            response.is_correct = False
+                            response.points_earned = 0
                     else:  # Question was not answered
                         response.selected_choices.clear()
                         response.is_correct = False
