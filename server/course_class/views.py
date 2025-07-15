@@ -68,6 +68,12 @@ class CourseMaterialViewSet(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser)
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+    
+    def get_serializer_context(self):
+        """Add request to serializer context for building absolute URLs"""
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
 
     def create(self, request, *args, **kwargs) -> Response:
         if not is_instructor(request.user):

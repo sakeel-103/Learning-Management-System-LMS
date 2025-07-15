@@ -4,9 +4,20 @@ from .models import Course, CourseMaterial
 
 # Unified serializer for all course materials
 class CourseMaterialSerializer(serializers.ModelSerializer):
+    file_url = serializers.SerializerMethodField()
+    
     class Meta:
         model = CourseMaterial
         fields = '__all__'
+    
+    def get_file_url(self, obj):
+        """Return the full URL for the file"""
+        if obj.file:
+            request = self.context.get('request')
+            if request is not None:
+                return request.build_absolute_uri(obj.file.url)
+            return obj.file.url
+        return None
 
 class CourseSerializer(serializers.ModelSerializer):
     # Computed fields for frontend compatibility

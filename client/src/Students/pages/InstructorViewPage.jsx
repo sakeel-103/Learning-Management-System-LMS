@@ -85,6 +85,7 @@ const InstructorViewPage = () => {
                 'Authorization': `Bearer ${token}`,
             };
 
+            // Only set Content-Type for JSON data, not for FormData
             if (!(options.body instanceof FormData)) {
                 headers['Content-Type'] = 'application/json';
             }
@@ -313,33 +314,19 @@ const InstructorViewPage = () => {
                 formData.append('course', selectedCourseId);
                 formData.append('name', mat.file.name);
 
-                const token = localStorage.getItem('ACCESS_TOKEN');
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', `http://127.0.0.1:8000/api/v1/course_class/materials/`);
-                xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-
-                await new Promise((resolve, reject) => {
-                    xhr.onload = async () => {
-                        if (xhr.status === 201 || xhr.status === 200) {
-                            resolve();
-                        } else {
-                            let errorData;
-                            try { errorData = JSON.parse(xhr.responseText); } catch { errorData = { detail: xhr.responseText }; }
-                            setError(errorData.detail || errorData.message || 'Upload failed');
-                            reject(errorData);
-                        }
-                    };
-                    xhr.onerror = () => {
-                        setError('Network error during upload');
-                        reject('Network error');
-                    };
-                    xhr.send(formData);
+                // Use fetchWithAuth for proper authentication handling
+                await fetchWithAuth('course_class/materials/', {
+                    method: 'POST',
+                    body: formData,
+                    // Don't set Content-Type header for FormData - let browser set it with boundary
                 });
             }
             setPendingMaterials([]);
             await fetchAllMaterials();
+            toast.success('Files uploaded successfully!');
         } catch (err) {
-            // Error already set
+            console.error('Upload failed:', err);
+            setError('Upload failed: ' + (err?.message || 'Unknown error'));
         } finally {
             setLoading(false);
         }
@@ -859,11 +846,11 @@ const InstructorViewPage = () => {
                                           <h4 className="font-medium mb-2">{mat.name}</h4>
                                           {/* Preview by type */}
                                           {mat.material_type === 'video' ? (
-                                            <video src={mat.file} controls className="w-full h-48 rounded mb-2 bg-black" />
+                                            <video src={mat.file_url || mat.file} controls className="w-full h-48 rounded mb-2 bg-black" />
                                           ) : mat.material_type === 'pdf' ? (
-                                            <iframe src={mat.file} title={mat.name} className="w-full h-48 rounded mb-2 bg-gray-100" />
-                                          ) : mat.material_type === 'text' ? (
-                                            <iframe src={mat.file} title={mat.name} className="w-full h-48 rounded mb-2 bg-gray-100" />
+                                            <iframe src={mat.file_url || mat.file} title={mat.name} className="w-full h-48 rounded mb-2 bg-gray-100" />
+                                          ) : mat.material_type === 'note' ? (
+                                            <iframe src={mat.file_url || mat.file} title={mat.name} className="w-full h-48 rounded mb-2 bg-gray-100" />
                                           ) : (
                                             <div className="w-full h-48 rounded mb-2 bg-gray-100 flex items-center justify-center">
                                               <span className="text-gray-500">Preview not available</span>
@@ -873,7 +860,7 @@ const InstructorViewPage = () => {
                                             Uploaded: {new Date(mat.uploaded_at).toLocaleString()}
                                           </div>
                                           <a
-                                            href={mat.file}
+                                            href={mat.file_url || mat.file}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-blue-600 hover:underline text-sm"
