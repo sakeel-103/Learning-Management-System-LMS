@@ -150,7 +150,6 @@ class QuizViewSet(viewsets.ModelViewSet):
     
     @action(detail=True, methods=['post'], url_path='start')
     def start(self, request, pk=None):
-        """Start or Retry a quiz attempt"""
         quiz = self.get_object()
         user = request.user
 
@@ -158,20 +157,20 @@ class QuizViewSet(viewsets.ModelViewSet):
             return Response({'error': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)
 
         # Check if user already has a completed attempt
-        existing_attempt = QuizAttempt.objects.filter(user=user, quiz=quiz).first()
+        existing_attempt = QuizAttempt.objects.filter(user=user, quiz=quiz, completed_at__isnull=False).first()
 
         if existing_attempt:
-            if existing_attempt.completed_at:
-                # Delete old attempt and create new
-                existing_attempt.delete()
-            else:
-                # Resume the attempt if not completed
-                return Response({
-                    'attempt_id': existing_attempt.id,
-                    'quiz_id': str(quiz.id),
-                    'time_remaining': quiz.time_limit * 60,
-                    'message': 'Resuming existing attempt'
-                })
+            return Response({'error': 'Quiz already submitted'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # If there is an incomplete attempt, resume it
+        incomplete_attempt = QuizAttempt.objects.filter(user=user, quiz=quiz, completed_at__isnull=True).first()
+        if incomplete_attempt:
+            return Response({
+                'attempt_id': incomplete_attempt.id,
+                'quiz_id': str(quiz.id),
+                'time_remaining': quiz.time_limit * 60,
+                'message': 'Resuming existing attempt'
+            })
 
         # Create fresh attempt
         attempt = QuizAttempt.objects.create(user=user, quiz=quiz)
@@ -210,7 +209,7 @@ class AssignmentViewSet(viewsets.ModelViewSet):
     permission_classes = []  # Allow public access
 
     def get_queryset(self):
-        queryset = Assignment.objects.filter(is_active=True)
+        queryset = super().get_queryset()
         course_id = self.request.query_params.get('course')
         if course_id:
             queryset = queryset.filter(course__id=course_id)
