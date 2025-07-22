@@ -932,7 +932,7 @@ const InstructorViewPage = () => {
                                 const watchedSeconds = event.target.currentTime;
                                 const videoDuration = event.target.duration;
                               
-                                if (Math.floor(watchedSeconds) % 5 !==0) return;
+                                if (Math.floor(watchedSeconds) % 2 !==0) return;
                                 axios.post(
                                     'http://localhost:8000/api/v1/progress/update/',
                                     {
