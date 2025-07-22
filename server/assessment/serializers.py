@@ -4,9 +4,7 @@ from .models import (
     Quiz, Question, Choice, Assignment, Exam, QuizAttempt, 
     QuizResponse, AssignmentSubmission, ExamAttempt, Certificate
 )
-from course_class.models import Course
 from course_class.serializers import CourseSerializer
-import uuid
 
 User = get_user_model()
 
@@ -28,59 +26,27 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = '__all__'
 
-class FlexibleCourseField(serializers.Field):
-    def to_internal_value(self, data):
-        # Accept both int and UUID
-        try:
-            # Try UUID
-            course = Course.objects.get(id=uuid.UUID(str(data)))
-        except (ValueError, Course.DoesNotExist):
-            try:
-                # Try integer PK
-                course = Course.objects.get(pk=int(data))
-            except (ValueError, Course.DoesNotExist):
-                raise serializers.ValidationError("Course must be a valid UUID or integer ID of an existing course.")
-        return course
-
-    def to_representation(self, value):
-        return str(value.id)  # Always output as UUID string
-
 class QuizSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True, read_only=True)
-    course = FlexibleCourseField()
-    course_detail = CourseSerializer(source='course', read_only=True)
-    start_time = serializers.DateTimeField(required=False, allow_null=True)
-    end_time = serializers.DateTimeField(required=False, allow_null=True)
+    course = CourseSerializer(read_only=True)
+    course_id = serializers.UUIDField(write_only=True)
     
     class Meta:
         model = Quiz
         fields = [
-            'id', 'title', 'description', 'course', 'course_detail', 'quiz_type',
+            'id', 'title', 'description', 'course', 'course_id', 'quiz_type', 
             'time_limit', 'passing_score', 'is_active', 'questions', 
-            'start_time', 'end_time',
             'created_at', 'updated_at'
         ]
 
-    def create(self, validated_data):
-        course = validated_data.pop('course')
-        quiz = Quiz.objects.create(course=course, **validated_data)
-        return quiz
-
-    def update(self, instance, validated_data):
-        if 'course' in validated_data:
-            instance.course = validated_data.pop('course')
-        return super().update(instance, validated_data)
-
 class AssignmentSerializer(serializers.ModelSerializer):
+    course = CourseSerializer(read_only=True)
+    course_id = serializers.UUIDField(write_only=True)
     assignment_file = serializers.FileField(use_url=True, required=False)
     
     class Meta:
         model = Assignment
-        fields = [
-            'id', 'title', 'description', 'assignment_type',
-            'due_date', 'max_points', 'instructions',
-            'is_active', 'created_at', 'updated_at', 'assignment_file', 'course'
-        ]
+        fields ='__all__'
 
 class ExamSerializer(serializers.ModelSerializer):
     course = CourseSerializer(read_only=True)

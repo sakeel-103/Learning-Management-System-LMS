@@ -23,7 +23,6 @@ const AssessmentPage = () => {
     const [submittingAssignmentId, setSubmittingAssignmentId] = useState(null);
     const [submittedAssignments, setSubmittedAssignments] = useState({});
     const certificateRef = useRef();
-    const [attemptedQuizzes, setAttemptedQuizzes] = useState({});
 
     // Fetch courses on mount
     useEffect(() => {
@@ -89,27 +88,6 @@ const AssessmentPage = () => {
       
     }, []);
 
-    useEffect(() => {
-        const fetchAttempted = async () => {
-            const token = localStorage.getItem('ACCESS_TOKEN');
-            if (!token || !quizzes.length) return;
-            const attempted = {};
-            for (const quiz of quizzes) {
-                try {
-                    const res = await fetch(`${API_BASE}/assessment/quizzes/${quiz.id}/attempt-status/`, {
-                        headers: { Authorization: `Bearer ${token}` }
-                    });
-                    if (res.ok) {
-                        const data = await res.json();
-                        attempted[quiz.id] = data.attempted;
-                    }
-                } catch {}
-            }
-            setAttemptedQuizzes(attempted);
-        };
-        fetchAttempted();
-    }, [quizzes]);
-
     const handleCourseSelect = (course) => {
         setSelectedCourse(course);
         setIsSidebarOpen(false);
@@ -132,14 +110,9 @@ const AssessmentPage = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ quiz_id: quizId })
             });
-            const data = await res.json();
-            if (!res.ok) {
-                if (data.error && data.error.includes("already submitted")) {
-                    alert("You have already submitted this quiz.");
-                    return;
-                }
-                throw new Error(data.error || "Failed to start quiz");
-            }
+            if (!res.ok) throw new Error("Failed to start quiz");
+            // Optionally, you can use the returned attempt_id for analytics or state
+            await res.json();
             navigate(`/AssessmentCourses/${quizId}`);
         } catch (err) {
             setQuizError(err.message);
@@ -256,19 +229,7 @@ const AssessmentPage = () => {
         doc.save(`Certificate_${courseTitle.replace(/\s+/g, "_")}.pdf`);
     };
 
-    // Instructor check
-    let isInstructor = false;
     const token = localStorage.getItem('ACCESS_TOKEN');
-    if (token) {
-        try {
-            const decoded = jwtDecode(token);
-            // Accept both 'role' and 'user_type' for compatibility
-            isInstructor = decoded.role === '2' || decoded.user_type === 2 || decoded.user_type === '2';
-        } catch (e) {
-            isInstructor = false;
-        }
-    }
-
     if (!token) {
       alert("You are not logged in. Please log in again.");
       navigate("/login");
@@ -398,56 +359,19 @@ const AssessmentPage = () => {
                                                 <p className="text-gray-600">No quizzes available for this course.</p>
                                             ) : (
                                                 <ul className="space-y-2">
-                                                    {(Array.isArray(quizzes) ? quizzes : []).map((quiz) => {
-                                                        const now = new Date();
-                                                        const start = quiz.start_time ? new Date(quiz.start_time) : null;
-                                                        const end = quiz.end_time ? new Date(quiz.end_time) : null;
-                                                        let canStart = false;
-                                                        if (start && end) {
-                                                            canStart = now >= start && now < end;
-                                                        } else if (start) {
-                                                            canStart = now >= start;
-                                                        } else if (end) {
-                                                            canStart = now < end;
-                                                        } else {
-                                                            canStart = true;
-                                                        }
-                                                        const isAttempted = attemptedQuizzes[quiz.id];
-
-                                                        return (
-                                                            <li key={quiz.id} className="flex flex-col sm:flex-row sm:items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm border border-blue-100 hover:shadow-md transition">
-                                                                <div className="flex-1">
-                                                                    <span className="font-medium text-gray-800 block">{quiz.title}</span>
-                                                                    <div className="text-xs text-gray-500 mt-1">
-                                                                        {quiz.start_time && (
-                                                                            <div className="font-bold text-blue-700">Start time: {new Date(quiz.start_time).toLocaleString()}</div>
-                                                                        )}
-                                                                        {quiz.end_time && (
-                                                                            <div className="font-bold text-red-700">End time: {new Date(quiz.end_time).toLocaleString()}</div>
-                                                                        )}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-2 sm:mt-0">
-                                                                    {isAttempted ? (
-                                                                        <button
-                                                                            className="ml-4 px-4 py-1 rounded font-semibold shadow min-w-[110px] text-center bg-gray-400 text-white cursor-not-allowed"
-                                                                            disabled
-                                                                        >
-                                                                            Submitted
-                                                                        </button>
-                                                                    ) : (
-                                                                        <button
-                                                                            className="ml-4 px-4 py-1 rounded font-semibold shadow min-w-[110px] text-center bg-blue-600 text-white hover:bg-blue-700 transition"
-                                                                            onClick={() => navigate(`/AssessmentCourses/${quiz.id}/start`)}
-                                                                        >
-                                                                            Start Quiz
-                                                                        </button>
-                                                                    )}
-                                                                    {quizError && loadingQuizId === quiz.id && <p className="text-red-500 text-sm mt-2">{quizError}</p>}
-                                                                </div>
-                                                            </li>
-                                                        );
-                                                    })}
+                                                    {(Array.isArray(quizzes) ? quizzes : []).map((quiz) => (
+                                                        <li key={quiz.id} className="flex items-center justify-between bg-white rounded-lg px-4 py-2 shadow-sm border border-blue-100 hover:shadow-md transition">
+                                                            <span className="font-medium text-gray-800">{quiz.title}</span>
+                                                            <button
+                                                                className="ml-4 px-4 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition font-semibold shadow"
+                                                                onClick={() => navigate(`/AssessmentCourses/${quiz.id}/start`)}
+                                                                disabled={loadingQuizId === quiz.id}
+                                                            >
+                                                                Start Quiz
+                                                            </button>
+                                                            {quizError && loadingQuizId === quiz.id && <p className="text-red-500 text-sm mt-2">{quizError}</p>}
+                                                        </li>
+                                                    ))}
                                                 </ul>
                                             )}
                                         </div>
@@ -586,17 +510,6 @@ const AssessmentPage = () => {
                                             {certificateError && <p className="text-red-500 mt-2">{certificateError}</p>}
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        )}
-                        {isInstructor && selectedCourse && (
-                            <div className="bg-yellow-50 border border-yellow-300 rounded-xl p-6 my-8 shadow">
-                                <h3 className="text-lg font-bold text-yellow-800 mb-2">Instructor Tools</h3>
-                                <p className="text-yellow-700 mb-2">You are an instructor. Here you can add new quizzes and assignments for this course.</p>
-                                {/* TODO: Add forms/components for creating quizzes and assignments here */}
-                                <div className="flex gap-4">
-                                    <button className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600">Create Quiz</button>
-                                    <button className="px-4 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600">Create Assignment</button>
                                 </div>
                             </div>
                         )}

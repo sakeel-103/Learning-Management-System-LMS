@@ -28,8 +28,6 @@ class Quiz(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    start_time = models.DateTimeField(null=True, blank=True)
-    end_time = models.DateTimeField(null=True, blank=True)
     
     class Meta:
         ordering = ['-created_at']
@@ -83,11 +81,12 @@ class Assignment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=200)
     description = models.TextField()
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='assignments', null=True, blank=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='assignments')
     assignment_type = models.CharField(max_length=20, choices=ASSIGNMENT_TYPES, default='individual')
     due_date = models.DateTimeField()
     max_points = models.IntegerField(default=100)
     instructions = models.TextField(blank=True)
+    rubric = models.JSONField(default=dict, blank=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -97,7 +96,7 @@ class Assignment(models.Model):
         ordering = ['-created_at']
     
     def __str__(self):
-        return f"{self.title} - {self.course.title if self.course else 'No Course'}"
+        return f"{self.title} - {self.course.title}"
 
 class Exam(models.Model):
     EXAM_TYPES = [
