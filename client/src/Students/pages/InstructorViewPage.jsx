@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode'
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import NotificationBell from '../../components/NotificationBell';
+import jsPDF from "jspdf";
 
 
 const InstructorViewPage = () => {
@@ -441,6 +442,116 @@ const InstructorViewPage = () => {
     };
 
     const [selectedQuizForQuestion, setSelectedQuizForQuestion] = useState(null);
+
+    // Certificate download handler (copied and adapted from AssessmentPage)
+    const handleDownloadCertificate = () => {
+        if (!selectedCourseId) return;
+        const selectedCourse = courses.find(c => c.id.toString() === selectedCourseId.toString());
+        if (!selectedCourse) return;
+
+        // Get user email from localStorage
+        let user = JSON.parse(localStorage.getItem("user"));
+        let studentEmail = user?.email || "student@example.com";
+        let studentName = studentEmail.split("@")[0];
+
+        const courseTitle = selectedCourse.title || "Course Title";
+        const today = new Date();
+        const dateStr = today.toLocaleDateString();
+
+        const doc = new jsPDF({
+            orientation: "landscape",
+            unit: "pt",
+            format: [900, 650],
+        });
+
+        // Blue border
+        doc.setDrawColor("#1e293b");
+        doc.setLineWidth(8);
+        doc.rect(10, 10, 880, 630);
+
+        // Gold accent corners
+        doc.setDrawColor("#FFD700");
+        doc.setLineWidth(6);
+        doc.line(10, 10, 80, 10);
+        doc.line(10, 10, 10, 80);
+        doc.line(890, 10, 820, 10);
+        doc.line(890, 10, 890, 80);
+        doc.line(10, 640, 10, 570);
+        doc.line(10, 640, 80, 640);
+        doc.line(890, 640, 820, 640);
+        doc.line(890, 640, 890, 570);
+
+        // Company/Logo (top left)
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(24);
+        doc.setTextColor("#1e293b");
+        doc.text("TrackAcademy", 40, 60);
+
+        // CERTIFICATE OF COMPLETION
+        doc.setFont("times", "bold");
+        doc.setFontSize(36);
+        doc.setTextColor("#22223b");
+        doc.text("CERTIFICATE OF", 450, 120, { align: "center" });
+        doc.text("COMPLETION", 450, 170, { align: "center" });
+
+        // Student Name (script font)
+        doc.setFont("times", "italic");
+        doc.setFontSize(32);
+        doc.setTextColor("#2563eb");
+        doc.text(studentName.replace(/[^a-zA-Z0-9 ]/g, ''), 450, 230, { align: "center" });
+
+        // Completion statement
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(16);
+        doc.setTextColor("#22223b");
+        doc.text(
+            "has successfully completed the online course:",
+            450,
+            260,
+            { align: "center" }
+        );
+
+        // Course Title
+        doc.setFont("times", "bold");
+        doc.setFontSize(22);
+        doc.setTextColor("#1e293b");
+        doc.text(courseTitle.toUpperCase(), 450, 295, { align: "center" });
+
+        // Description
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(13);
+        doc.setTextColor("#444");
+        doc.text(
+            "This professional has demonstrated initiative and a commitment to deepening their skills and advancing their career. Well done!",
+            450,
+            330,
+            { align: "center", maxWidth: 700 }
+        );
+
+        // Date and signature
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(14);
+        doc.setTextColor("#22223b");
+        doc.text(`Date: ${dateStr}`, 120, 570);
+        doc.text("CEO, TrackAcademy", 700, 570);
+        doc.setFontSize(12);
+        doc.text("(Signature)", 700, 590);
+
+        // Badge (top right)
+        doc.setDrawColor("#FFD700");
+        doc.setFillColor("#FFD700");
+        doc.circle(820, 70, 45, "FD");
+        doc.setDrawColor("#1e293b");
+        doc.setFillColor("#fff");
+        doc.circle(820, 70, 35, "FD");
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(28);
+        doc.setTextColor("#1e293b");
+        doc.text("DE", 820, 80, { align: "center" });
+
+        // Save PDF
+        doc.save(`Certificate_${courseTitle.replace(/\s+/g, "_")}.pdf`);
+    };
 
     return (
         <div className="min-h-screen bg-gray-50 text-gray-800 pt-16 w-full overflow-x-hidden">
@@ -1013,6 +1124,26 @@ const InstructorViewPage = () => {
                                     Save
                                 </button>
                             </div>
+                            {/* Place this after the uploaded materials section, before the Save button */}
+                            {selectedCourseId && materials[selectedCourseId] && (() => {
+                                // Only consider video materials
+                                const videos = materials[selectedCourseId].filter(mat => mat.material_type === 'video');
+                                // If there are no videos, do not show the button
+                                if (videos.length === 0) return null;
+                                // Check if all videos are 100% completed
+                                const allCompleted = videos.every(mat => mat.progress_percent >= 100);
+                                return (
+                                    <div className="flex justify-center mt-8">
+                                        <button
+                                            className={`px-6 py-2 rounded-lg shadow-md font-semibold transition-all ${allCompleted ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+                                            onClick={handleDownloadCertificate}
+                                            disabled={!allCompleted}
+                                        >
+                                            Download Certificate
+                                        </button>
+                                    </div>
+                                );
+                            })()}
                         </div>
                     )}
                     {activeTab === 'schedule' && (
