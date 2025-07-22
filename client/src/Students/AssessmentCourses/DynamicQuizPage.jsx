@@ -48,6 +48,16 @@ export default function DynamicQuizPage() {
         setTimeLeft(timeLeftInSeconds);
 
         // --- Always start a new attempt and set attemptId ---
+        const token = localStorage.getItem("ACCESS_TOKEN");
+        if (!token) {
+          alert("Please login first!");
+          navigate("/login");
+          return;
+        }
+
+        // Debug: log token and headers
+        console.log("Using token:", token);
+
         const resStart = await fetch(`${API_BASE}/quizzes/${quizId}/start/`, {
           method: "POST",
           headers: {
@@ -55,6 +65,12 @@ export default function DynamicQuizPage() {
             Authorization: `Bearer ${token}`,
           }
         });
+        if (resStart.status === 401) {
+          alert("Session expired or unauthorized. Please log in again.");
+          localStorage.clear();
+          navigate("/login");
+          return;
+        }
         const dataStart = await resStart.json();
         if (!resStart.ok) throw new Error(dataStart.message || "Failed to start attempt");
         setAttemptId(dataStart.attempt_id);
