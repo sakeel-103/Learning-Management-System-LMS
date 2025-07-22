@@ -8,3 +8,7 @@ psycopg2-binary
 dj-database-url
 django-extensions
 qrcode
+axios
+moment
+@mui/material
+@mui/icons-material
