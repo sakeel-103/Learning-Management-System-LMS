@@ -1331,19 +1331,23 @@ const InstructorViewPage = () => {
                                             toast.error('All fields are required.');
                                             return;
                                         }
-                                        await fetchWithAuth('assessment/quizzes/', {
-                                            method: 'POST',
-                                            body: JSON.stringify({
-                                                ...quizForm,
-                                                course: quizForm.course,
-                                                start_time: toUTCISOString(quizForm.start_time),
-                                                end_time: toUTCISOString(quizForm.end_time),
-                                            }),
-                                        });
-                                        setQuizForm({ title: '', description: '', course: '', start_time: '', end_time: '' });
-                                        toast.success('Quiz created!');
-                                        fetchQuizzes();
-                                        window.dispatchEvent(new CustomEvent('assessment-data-created', { detail: { courseId: quizForm.course } }));
+                                        try {
+                                            await fetchWithAuth('assessment/quizzes/', {
+                                                method: 'POST',
+                                                body: JSON.stringify({
+                                                    ...quizForm,
+                                                    course: quizForm.course,
+                                                    start_time: toUTCISOString(quizForm.start_time),
+                                                    end_time: toUTCISOString(quizForm.end_time),
+                                                }),
+                                            });
+                                            setQuizForm({ title: '', description: '', course: '', start_time: '', end_time: '' });
+                                            toast.success('Quiz created!');
+                                            fetchQuizzes();
+                                            window.dispatchEvent(new CustomEvent('assessment-data-created', { detail: { courseId: quizForm.course } }));
+                                        } catch (err) {
+                                            toast.error(err?.message || 'Failed to create quiz.');
+                                        }
                                     }}>
                                         <input type="text" placeholder="Title" value={quizForm.title} onChange={e => setQuizForm(f => ({ ...f, title: e.target.value }))} className="border p-2 mb-2 w-full rounded" required />
                                         <input type="text" placeholder="Description" value={quizForm.description} onChange={e => setQuizForm(f => ({ ...f, description: e.target.value }))} className="border p-2 mb-2 w-full rounded" required />
