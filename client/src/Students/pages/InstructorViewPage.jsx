@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'
 import { toast } from 'react-toastify';
+import axios from 'axios';
+import NotificationBell from '../../components/NotificationBell'; // adjust path
+
 
 
 const InstructorViewPage = () => {
@@ -387,9 +390,11 @@ const InstructorViewPage = () => {
                 <div className="relative max-w-7xl mx-auto w-full">
                     <div className="flex flex-col items-center gap-6">
                         <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
-                            <span className="text-gray-800">
-                                Course Management Dashboard
-                            </span>
+                            <div className="flex justify-between items-center">
+                                <h1 className="text-3xl font-bold text-black">Course Management Dashboard</h1>
+                                <NotificationBell userRole="admin" />
+                            </div>
+                            
                         </h1>
                     </div>
                     <p className="text-sm sm:text-md mt-3 text-gray-600 max-w-2xl mx-auto">
@@ -835,6 +840,28 @@ const InstructorViewPage = () => {
                                 }
                               };
 
+                              const handleTimeUpdate = (event, material) => {
+                                const watchedSeconds = event.target.currentTime;
+                                const videoDuration = event.target.duration;
+
+                                if (Math.floor(watchedSeconds) % 5 !==0) return;
+                                axios.post(
+                                    'http://localhost:8000/api/v1/progress/update/',
+                                    {
+                                        video: material.id,
+                                        watched_seconds: watchedSeconds,
+                                        video_duration: videoDuration
+                                    },
+                                    {
+                                        headers: {
+                                        Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`,
+                                        "Content-Type": "application/json"
+                                        },
+                                    }
+                                ).catch((err) => console.error("Progress update failed:", err));
+                              };
+
+
                               return (
                                 <div className="mt-8 space-y-10">
                                   {/* All Materials Combined */}
@@ -846,7 +873,7 @@ const InstructorViewPage = () => {
                                           <h4 className="font-medium mb-2">{mat.name}</h4>
                                           {/* Preview by type */}
                                           {mat.material_type === 'video' ? (
-                                            <video src={mat.file_url || mat.file} controls className="w-full h-48 rounded mb-2 bg-black" />
+                                            <video src={mat.file_url || mat.file} controls className="w-full h-48 rounded mb-2 bg-black" onTimeUpdate={(e) => handleTimeUpdate(e, mat)} />
                                           ) : mat.material_type === 'pdf' ? (
                                             <iframe src={mat.file_url || mat.file} title={mat.name} className="w-full h-48 rounded mb-2 bg-gray-100" />
                                           ) : mat.material_type === 'note' ? (
@@ -856,8 +883,15 @@ const InstructorViewPage = () => {
                                               <span className="text-gray-500">Preview not available</span>
                                             </div>
                                           )}
-                                          <div className="text-xs text-gray-500">
-                                            Uploaded: {new Date(mat.uploaded_at).toLocaleString()}
+                                          <div className="flex justify-between items-center mt-2 text-sm">
+                                            <div className="text-gray-500">
+                                                Uploaded: {new Date(mat.uploaded_at).toLocaleString()}
+                                            </div>
+                                            {mat.material_type === 'video' && mat.progress_percent !== undefined && (
+                                            <div className="text-green-600 font-medium">
+                                                {mat.progress_percent}% Completed
+                                            </div>
+                                            )}
                                           </div>
                                           <a
                                             href={mat.file_url || mat.file}

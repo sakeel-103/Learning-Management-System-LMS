@@ -1,10 +1,21 @@
+from django.core.mail import send_mail
+from django.conf import settings
 from .models import Notification
-from .tasks import send_email_notification
 
-def notify_user(user, message, email_subject=None, email_message=None):
-    #In-App Notifications
-    Notification.objects.create(user=user, message=message)
+def notify(user, title, message, link=None):
+    # In-app notification
+    Notification.objects.create(
+        recipient=user,
+        title=title,
+        message=message,
+        link=link
+    )
 
-    #Email Notification
-    if email_subject and email_message:
-        send_email_notification.delay(email_subject, email_message, [user.email])
+    # Email notification
+    send_mail(
+        subject=title,
+        message=message + (f"\nLink: {link}" if link else ""),
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[user.email],
+        fail_silently=True
+    )

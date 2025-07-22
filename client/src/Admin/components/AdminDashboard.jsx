@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import NotificationBell from '../../components/NotificationBell'; // adjust path
 
 function AdminDashboard() {
   const [user, setUser] = useState('');
@@ -17,55 +18,66 @@ function AdminDashboard() {
   useEffect(() => {
     const token = localStorage.getItem('ACCESS_TOKEN');
     if (!token) {
-
-      navigate('/login')
-    }
-    if (token) {
+      navigate('/login');
+    } else {
       const decoded = jwtDecode(token);
-      if (decoded.role != '3') {
-        navigate('/login')
+      if (decoded.role !== '3') {
+        navigate('/login');
       }
-      setUser(decoded.email)
+      setUser(decoded.email);
     }
   }, [navigate]);
 
   return (
-    <div className="min-h-screen mt-9 bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-100">
+      {/* Top Header Bar with Notification Bell */}
+      <div className="bg-white shadow flex justify-between items-center px-6 py-4">
+        <h1 className="text-2xl font-bold text-gray-800">Trackademy Admin Panel</h1>
+        <div className="flex items-center space-x-4">
+          <span className="text-sm text-gray-600">{user}</span>
+          <NotificationBell userRole="admin" />
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="mt-4 py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="bg-white overflow-hidden shadow-lg rounded-lg mb-8">
           <div className="bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-8">
-            <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
+            <div className="flex justify-between items-center">
+              <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
+              <NotificationBell userRole="admin" />
+            </div>
             <p className="mt-2 text-indigo-100">Welcome back, {user || 'Administrator'}</p>
           </div>
-          
+
           <div className="px-6 py-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Stats Cards */}
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg shadow">
                 <h2 className="text-xl font-semibold text-blue-800">Students</h2>
                 <p className="text-3xl font-bold text-blue-600 mt-2">{stats.totalStudents}</p>
                 <p className="text-sm text-blue-500 mt-1">+{stats.recentJoins} new this week</p>
               </div>
-              
+
               <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg shadow">
                 <h2 className="text-xl font-semibold text-green-800">Instructors</h2>
                 <p className="text-3xl font-bold text-green-600 mt-2">{stats.totalInstructors}</p>
                 <p className="text-sm text-green-500 mt-1">{stats.pendingApprovals} pending approvals</p>
               </div>
-              
+
               <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg shadow">
                 <h2 className="text-xl font-semibold text-purple-800">Courses</h2>
                 <p className="text-3xl font-bold text-purple-600 mt-2">{stats.totalCourses}</p>
                 <p className="text-sm text-purple-500 mt-1">Across all categories</p>
               </div>
             </div>
-            
+
             <div className="mt-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">Quick Actions</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button 
-                onClick={() => navigate('/admin/instructor-access')}
-                className="flex items-center justify-center py-3 px-4 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition-colors">
+                <button
+                  onClick={() => navigate('/admin/instructor-access')}
+                  className="flex items-center justify-center py-3 px-4 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition-colors"
+                >
                   Approve Instructor Requests
                 </button>
                 <button className="flex items-center justify-center py-3 px-4 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition-colors">
@@ -81,8 +93,9 @@ function AdminDashboard() {
             </div>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Recent Activities */}
           <div className="bg-white overflow-hidden shadow-lg rounded-lg">
             <div className="px-6 py-5 border-b border-gray-200">
               <h2 className="text-xl font-semibold text-gray-800">Recent Activities</h2>
@@ -119,7 +132,8 @@ function AdminDashboard() {
               </ul>
             </div>
           </div>
-          
+
+          {/* System Notifications */}
           <div className="bg-white overflow-hidden shadow-lg rounded-lg">
             <div className="px-6 py-5 border-b border-gray-200">
               <h2 className="text-xl font-semibold text-gray-800">System Notifications</h2>

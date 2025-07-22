@@ -1,6 +1,7 @@
 import { jwtDecode } from 'jwt-decode';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import NotificationBell from '../../components/NotificationBell';
 
 function InstructorDashboard() {
   const [user, setUser] = useState('');
@@ -34,7 +35,10 @@ function InstructorDashboard() {
       <div className="max-w-7xl mx-auto">
         <div className="bg-white overflow-hidden shadow-lg rounded-lg mb-8">
           <div className="bg-gradient-to-r from-teal-600 to-blue-600 px-6 py-8">
-            <h1 className="text-3xl font-bold text-white">Instructor Dashboard</h1>
+            <div className="flex justify-between items-center">
+              <h1 className="text-3xl font-bold text-white">Instructor Dashboard</h1>
+              <NotificationBell userRole="instructor" />
+            </div>
             <p className="mt-2 text-blue-100">Welcome back, {user || 'Instructor'}</p>
           </div>
 

@@ -1,7 +1,6 @@
-from rest_framework.routers import DefaultRouter
-from .views import ProgressViewSet
+from django.urls import path
+from .views import UpdateVideoProgressView
 
-router = DefaultRouter()
-router.register(r'', ProgressViewSet, basename='progress')
-
-urlpatterns = router.urls
+urlpatterns = [
+    path('update/', UpdateVideoProgressView.as_view(), name='update-video-progress'),
+]

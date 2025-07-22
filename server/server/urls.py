@@ -24,12 +24,13 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/accounts/', include('accounts.urls')),
-    path('api/progress/', include('progress.urls')),
+    path('api/v1/progress/', include('progress.urls')),
     path('api/v1/course_class/',include('course_class.urls')),
     path('api/subscribe/', include('subscription.urls')),
     path('api/contact/', include('contact_form.urls')),
     path('api/certification/', include('certification.urls')),
     path('api/v1/assessment/', include('assessment.urls')),
+    path('api/notification/', include('notifications.urls')),
 ]
 
 # Serve media files in development
