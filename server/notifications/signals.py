@@ -76,31 +76,6 @@ def notify_students_on_assignment_creation(sender, instance, created, **kwargs):
     except Exception as e:
         print("Assignment Notification Error:", e)
 
-@receiver(post_save, sender=AssignmentSubmission)
-def notify_instructor_on_assignment_submission(sender, instance, created, **kwargs):
-    if created:
-        course = instance.assignment.course
-        instructor_email = course.instructor
-        try:
-            instructor = User.objects.get(email=instructor_email)
-            notify(
-                user=instructor,
-                title="Assignment Submitted",
-                message=f"{instance.user.email} has submitted '{instance.assignment.title}'.",
-                link=f"/assignments/{instance.assignment.id}/submissions"
-            )
-        except User.DoesNotExist:
-            pass
-
-@receiver(post_save, sender=Certificate)
-def notify_student_on_certificate_issue(sender, instance, created, **kwargs):
-    if created:
-        notify(
-            user=instance.user,
-            title="Certificate Issued",
-            message=f"You've received a certificate for {instance.course.title}.",
-            link=f"/certificates/{instance.id}"
-        )
 
 @receiver(post_save, sender=Quiz)
 def notify_students_on_quiz_creation(sender, instance, created, **kwargs):
