@@ -2,7 +2,7 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from accounts.models import User
 from course_class.models import Course, CourseMaterial
-from assessment.models import AssignmentSubmission, Certificate, QuizAttempt, Assignment
+from assessment.models import AssignmentSubmission, Certificate, QuizAttempt, Assignment, Quiz
 from .utils import notify
 from progress.models import VideoProgress
 from django.db.models import F
@@ -101,6 +101,23 @@ def notify_student_on_certificate_issue(sender, instance, created, **kwargs):
             message=f"You've received a certificate for {instance.course.title}.",
             link=f"/certificates/{instance.id}"
         )
+
+@receiver(post_save, sender=Quiz)
+def notify_students_on_quiz_creation(sender, instance, created, **kwargs):
+    if not created:
+        return
+    course = instance.course
+    try:
+        students = User.objects.filter(user_type=User.STUDENT)
+        for student in students:
+            notify(
+                user=student,
+                title="New Quiz Posted",
+                message=f"A new quiz '{instance.title}' has been added in course '{course.title}'",
+                link=f"/courses/{course.id}/assignments"
+            )
+    except Exception as e:
+        print("Assignment Notification Error:", e)
 
 @receiver(post_save, sender=QuizAttempt)
 def notify_student_on_quiz_pass(sender, instance, **kwargs):

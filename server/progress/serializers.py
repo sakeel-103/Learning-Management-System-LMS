@@ -31,7 +31,7 @@ class CourseMaterialWithProgressSerializer(CourseMaterialSerializer):
     def get_progress_percent(self, obj):
         user = self.context['request'].user
         if not user.is_authenticated or str(user.user_type) != '1':
-            return 0
+            return None
         try:
             progress = VideoProgress.objects.get(student=user, video=obj)
             if progress.video_duration <= 0:
